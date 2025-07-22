@@ -1,0 +1,21 @@
+$schema: .guides/schema/persona.schema.json
+apiVersion: guided-engineering/v1
+type: personaList
+version: 1
+
+personas:
+  - id: <PersonaId>
+    title: <Persona Title>
+    description: |
+      Describe what this persona is responsible for, how it contributes to the system,
+      and what kind of prompts it is expected to execute or maintain.
+    stack:
+      - <technologyOne>
+      - <technologyTwo>
+    responsibilities:
+      - <responsibilityOne>
+      - <responsibilityTwo>
+    role: <macroRole>
+    principles:
+      - <principleOne>
+      - <principleTwo>

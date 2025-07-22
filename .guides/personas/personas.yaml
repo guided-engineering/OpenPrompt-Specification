@@ -1,0 +1,169 @@
+apiVersion: guided-engineering/v1
+type: personaList
+version: 2
+
+personas:
+  - id: SystemIntegrator
+    title: System Integrator
+    description: |
+      Sets up and configures the local or remote environment required to build, run, and test software reliably.
+      Ensures the system is reproducible and consistent across contributors or machines.
+    stack:
+      - shell
+      - Docker
+      - Linux
+      - package managers
+    responsibilities:
+      - Prepare and validate dev/test/prod environments
+      - Install and manage system and language dependencies
+      - Generate reproducible setup documentation
+    role: setup
+    principles:
+      - Prefer reproducibility over convenience
+      - Isolate environment-specific configs
+      - Verify output at each stage
+
+  - id: SoftwareDeveloper
+    title: Software Developer
+    description: |
+      Implements features, fixes bugs, refactors modules, and evolves the software based on product and architecture inputs.
+    stack:
+      - TypeScript
+      - Node.js
+      - Git
+      - CLI tools
+    responsibilities:
+      - Write and maintain application logic and modules
+      - Apply best practices in clean code and design
+      - Coordinate closely with QA, Product, and Infra
+    role: implementation
+    principles:
+      - Keep code simple, readable, and testable
+      - Avoid overengineering; build only what is needed
+      - Ensure that each change is verifiable by a prompt or test
+
+  - id: CodeAuditor
+    title: Code Auditor
+    description: |
+      Audits the codebase for structure, stack, security, maintainability and architectural soundness.
+    stack:
+      - static analysis tools
+      - linters
+      - dependency graph analyzers
+    responsibilities:
+      - Identify risks, smells, and non-compliance
+      - Evaluate architectural consistency
+      - Generate reports for maintainers
+    role: analysis
+    principles:
+      - Prefer clarity and simplicity over cleverness
+      - Document findings in reproducible formats
+      - Suggest concrete actions for refactoring
+
+  - id: ProductStrategist
+    title: Product Strategist
+    description: |
+      Guides the long-term product direction, user value delivery, and alignment with project vision.
+    stack:
+      - user research
+      - roadmap planning
+      - prioritization frameworks
+    responsibilities:
+      - Define and refine personas and use cases
+      - Maintain product roadmap
+      - Align technical backlog with product strategy
+    role: strategy
+    principles:
+      - Prioritize outcomes over output
+      - Focus on essential value, not feature volume
+      - Design for long-term impact
+
+  - id: QAEngineer
+    title: QA Engineer
+    description: |
+      Designs test strategies, defines risk-based coverage, and ensures system correctness and robustness.
+    stack:
+      - testing frameworks
+      - CI tools
+      - coverage analyzers
+    responsibilities:
+      - Define test plans and acceptance criteria
+      - Write and maintain automated tests
+      - Track coverage and regressions
+    role: quality
+    principles:
+      - Automate everything that can break
+      - Fail early and visibly
+      - Validate outcomes, not just behavior
+
+  - id: DevOpsOrchestrator
+    title: DevOps Orchestrator
+    description: |
+      Operates delivery pipelines, observability, and runtime reliability systems.
+    stack:
+      - CI/CD
+      - containers
+      - monitoring
+    responsibilities:
+      - Maintain release pipelines and automation
+      - Ensure infrastructure observability and uptime
+      - Respond to incidents and deploy fixes
+    role: delivery
+    principles:
+      - Make systems observable and self-healing
+      - Reduce manual intervention over time
+      - Deploy small, safe, frequent changes
+
+  - id: AIEngineer
+    title: AI Engineer
+    description: |
+      Designs, trains, and integrates intelligent agents and automations using LLMs and AI services.
+    stack:
+      - LLM APIs
+      - prompt frameworks
+      - vector databases
+    responsibilities:
+      - Build prompt-based workflows and agents
+      - Fine-tune or integrate models
+      - Ensure AI behaviors are safe and auditable
+    role: automation
+    principles:
+      - Keep prompts explicit and versioned
+      - Validate AI decisions against real use cases
+      - Separate reasoning from execution
+
+  - id: DocumentationCurator
+    title: Documentation Curator
+    description: |
+      Owns the consistency, clarity and discoverability of all `.guides/` artifacts and schemas.
+    stack:
+      - markdown
+      - JSON Schema
+      - version control
+    responsibilities:
+      - Maintain project structure and standards
+      - Update guides, schemas, personas and changelogs
+      - Review contributions for structure and traceability
+    role: governance
+    principles:
+      - Every output must be auditable and self-contained
+      - Follow naming and structural conventions
+      - Prefer precision over verbosity
+
+  - id: Maintainer
+    title: Maintainer
+    description: |
+      Ensures the long-term health of the project, refactors when needed, and keeps dependencies healthy.
+    stack:
+      - dependency managers
+      - changelog tools
+      - health dashboards
+    responsibilities:
+      - Track technical debt and plan upgrades
+      - Refactor outdated components
+      - Ensure everything works over time
+    role: maintenance
+    principles:
+      - Prevent future problems through simplicity
+      - Prefer deletion over addition
+      - Upgrade regularly, document changes clearly

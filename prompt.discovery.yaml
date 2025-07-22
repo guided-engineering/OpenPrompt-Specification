@@ -1,0 +1,120 @@
+$schema: .guides/schemas/prompt.schema.json
+apiVersion: guided-engineering/v1
+id: discovery.project-name.assessment
+title: Perform Full Technical Assessment for project-name
+persona: CodeAuditor
+category: analysis
+difficulty: hard
+
+context: |
+  This prompt conducts a full technical assessment of the target project.
+  It includes evaluating structure, product scope, architecture, stack, domain entities, testing approach,
+  operational risks, and outputs everything to the structured folders under `.guides/`.
+
+dependencies:
+  - Full access to the source code
+  - Knowledge of Guided Engineering documentation standards
+
+steps:
+  # 🟦 BASE + PRODUCT
+  - id: documentProjectStructure
+    title: Document the overall project structure
+    actions:
+      - Describe the folder structure and purpose of each top-level directory
+      - Identify workspaces, modules, and project boundaries
+    output: .guides/base/project.structure.md
+
+  - id: summarizeProductScope
+    title: Summarize the product scope and audience
+    actions:
+      - Identify main features, user types, and goals of the system
+      - Summarize the target use cases and project mission
+    output: .guides/product/product.requirements.md
+
+  - id: listProductPersonas
+    title: List product-facing personas
+    actions:
+      - Describe user personas or external roles that interact with the system
+      - Include needs, goals, and pain points per persona
+    output: .guides/product/product.personas.md
+
+  # 🟧 ARCHITECTURE
+  - id: analyzeArchitectureContext
+    title: Analyze architecture boundaries and contexts
+    actions:
+      - Identify architectural layers, services, or bounded contexts
+      - Map data and control flow across components
+    output: .guides/architecture/architecture.contexts.md
+
+  - id: analyzeEntities
+    title: Document core domain entities and relationships
+    actions:
+      - Identify key types, schemas, and how they interact
+      - Describe how domain rules are encoded
+    output: .guides/architecture/architecture.entities.md
+
+  - id: documentArchitectureStack
+    title: Document architecture and tech stack
+    actions:
+      - List languages, runtimes, frameworks, and infrastructure
+      - Describe how components interact
+    output: .guides/architecture/architecture.stack.md
+
+  - id: listPlugins
+    title: Describe plugins or extensibility mechanisms
+    actions:
+      - Identify plugin points, strategies, or injected services
+      - Describe how to extend the system
+    output: .guides/architecture/architecture.plugins.md
+
+  # 🟨 TESTING
+  - id: analyzeTestStrategy
+    title: Describe test strategy and tools
+    actions:
+      - Identify what types of tests exist and where they are applied
+      - Document tooling and levels of automation
+    output: .guides/testing/testing.strategy.md
+
+  - id: identifyTestingRisks
+    title: Highlight test coverage risks and blind spots
+    actions:
+      - Identify modules without tests
+      - Suggest priorities for increasing coverage
+    output: .guides/testing/testing.risks.md
+
+  # 🟥 OPERATION
+  - id: assessOperationalRisks
+    title: Document operational and maintenance risks
+    actions:
+      - Identify code or design elements that make the system fragile or costly to maintain
+      - List known incident types or areas of instability
+    output: .guides/operation/troubleshooting.md
+
+  - id: summarizeChangeLog
+    title: Create or update project changelog
+    actions:
+      - Summarize key versions and changes from version control history
+      - Highlight architectural or structural refactors
+    output: .guides/operation/changelog.md
+
+  # 🟩 SUMMARY
+  - id: writeAssessmentSummary
+    title: Write global assessment summary
+    actions:
+      - Link and summarize all outputs from the assessment
+      - Highlight main strengths, weaknesses, and next steps
+    output: .guides/assessment/assessment.summary.md
+
+output: .guides/assessment/
+
+tags:
+  - assessment
+  - product
+  - architecture
+  - testing
+  - structure
+  - risks
+  - documentation
+
+createdBy: guided-engineering
+version: 1

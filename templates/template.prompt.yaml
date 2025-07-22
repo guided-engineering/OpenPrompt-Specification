@@ -1,0 +1,36 @@
+$schema: .guides/schema/prompt.schema.json
+apiVersion: guided-engineering/v1
+id: <yourPromptId>
+title: <Your Prompt Title>
+persona: <ValidPersonaId> # e.g., SoftwareDeveloper
+category: <promptCategory> # e.g., implementation
+difficulty: medium
+
+context: |
+  Describe the purpose, intent and constraints of the prompt.
+  Mention what it aims to generate or validate, and under what conditions it should be used.
+
+dependencies:
+  - <dependencyOne>
+  - <dependencyTwo>
+
+steps:
+  - id: <stepOneId>
+    title: <Step Title>
+    actions:
+      - <Describe the first action using imperative natural language>
+      - <Optional second action in the same format>
+
+  - id: <stepTwoId>
+    title: <Next Step Title>
+    actions:
+      - <Describe another imperative action>
+
+output: .guides/output/<output-file>.md
+
+tags:
+  - <tagOne>
+  - <tagTwo>
+
+createdBy: guided-engineering
+version: 1

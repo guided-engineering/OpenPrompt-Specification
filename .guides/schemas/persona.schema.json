@@ -1,0 +1,64 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Guided Engineering Persona Schema",
+  "type": "object",
+  "required": ["apiVersion", "type", "version", "personas"],
+  "properties": {
+    "apiVersion": {
+      "type": "string",
+      "const": "guided-engineering/v1"
+    },
+    "type": {
+      "type": "string",
+      "const": "personaList"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "personas": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "description",
+          "stack",
+          "responsibilities",
+          "role",
+          "principles"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-zA-Z][a-zA-Z0-9]*$"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "stack": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "responsibilities": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "role": {
+            "type": "string"
+          },
+          "principles": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

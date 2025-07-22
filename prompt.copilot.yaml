@@ -1,0 +1,47 @@
+$schema: .guides/schemas/prompt.schema.json
+apiVersion: guided-engineering/v1
+id: copilot.instructions.generate
+title: Generate Copilot Instructions from Guided Engineering SDLC
+persona: systemIntegrator
+category: operation
+difficulty: intermediate
+context: |
+  We want to create a `.github/copilot-instructions.md` file to guide GitHub Copilot's behavior in this repository.
+  The instructions should reflect the standards, conventions, and folder structure described in `.guides/`, especially the SDLC practices.
+  The goal is to help Copilot provide context-aware and structure-aligned suggestions during development.
+dependencies:
+  - .guides/architecture/
+  - .guides/assessment/
+  - .guides/prompts/
+  - .guides/schema/prompt.schema.json
+output:
+  - .github/copilot-instructions.md
+steps:
+  - id: extractStandards
+    description: Extract key principles and conventions from `.guides/`
+    actions:
+      - Summarize folder structure and roles (e.g., `.guides/architecture`, `.guides/prompts`)
+      - Extract standards for prompt validation, persona mapping, and code location
+
+  - id: defineInstructions
+    description: Write clear, concise instructions for Copilot based on project conventions
+    actions:
+      - Specify that `.guides/` contains all documentation, specs and prompts
+      - Enforce use of TypeScript with strict mode, ESLint, Prettier
+      - Require storing code in `src/`, data in `data/`, config in `config/`
+      - Mention prompt schema validation and worklog usage
+
+  - id: createCopilotFile
+    description: Output Copilot instructions into `.github/copilot-instructions.md`
+    actions:
+      - Write markdown instructions as a list of concise behavioral guidelines
+      - Ensure clarity, brevity, and alignment with project principles
+
+tags:
+  - copilot
+  - instructions
+  - automation
+  - documentation
+  - github
+created_by: guided.engineering
+version: 1
