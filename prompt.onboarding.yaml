@@ -4,38 +4,59 @@ id: base.onboarding.generate
 title: Generate Onboarding Guide for New Developers
 persona: Documentation Specialist
 context: |
-  The project already has a structured `.guides/` folder containing documentation about the product, architecture, assessments, setup, testing, personas, and more.
-  This prompt should generate a comprehensive and welcoming `onboarding.md` file for new developers.
-  It should include a table of contents, practical instructions, context, architecture, personas, prompt usage, setup, contribution guidelines, glossary, and a list of actual contributors based on Git history.
+  The project includes a structured `.guides/` folder with documentation about the product, architecture, setup, testing, personas, prompts, and assessments.
+  This prompt should generate a complete onboarding guide (`onboarding.md`) aimed at helping new developers understand and start contributing to the project effectively.
+  The output must be written in Brazilian Portuguese, using clear, welcoming, and technically accurate language.
+  Use all relevant `.guides/*` content and Git commit history to construct the guide.
 category: base
 difficulty: intermediate
 language: english
 dependencies:
-  - All available `.guides/*` documentation
-  - Git commit logs (via `git log --format='%aN <%aE>' | sort -u`)
-output:
-  - .guides/base/onboarding.md
+  - .guides/base/
+  - .guides/architecture/
+  - .guides/product/
+  - .guides/testing/
+  - .guides/assessment/
+  - .guides/personas/
+  - .guides/prompts/
+  - Git commit logs via `git log --format='%aN <%aE>' | sort -u`
 steps:
-  - Analyze all `.guides/*` content to extract relevant onboarding information.
-  - Start with a warm welcome and summarize the mission, vision, and current status of the project.
-  - Add a structured table of contents with internal links for easy navigation.
-  - Describe the folder structure and purpose of each key `.guides/` category.
-  - Explain the overall architecture and stack with summaries or diagrams.
-  - Include setup instructions for local development and environment prerequisites.
-  - Present defined personas, roles, and how they interact.
-  - Explain the structure and purpose of the prompt system used in the project.
-  - Document testing strategy, tooling, and how to run tests locally.
-  - List active workflows (CI/CD, lint, automation) and key commands.
-  - Highlight known limitations, open issues, or pending tasks.
-  - Provide contribution guidelines including branching, commits, PRs, and code quality.
-  - Define internal communication practices and where to ask for help.
-  - Include a glossary of terms, acronyms, and important concepts.
-  - At the end, generate a section called "Project Contributors" with a list of unique authors from the Git log, showing names and emails.
+  - id: extract-knowledge
+    title: Extract documentation insights
+    actions:
+      - Read and integrate relevant content from `.guides/*`.
+      - Summarize the purpose, architecture, and design decisions of the project.
+
+  - id: structure-guide
+    title: Structure and write onboarding guide
+    actions:
+      - Write a welcoming introduction with project vision and mission.
+      - Create a table of contents with anchor links.
+      - Describe the `.guides/` folder and the role of each section.
+      - Summarize the system’s architecture and technology stack.
+      - Provide local setup and development instructions.
+      - Describe personas and their responsibilities.
+      - Explain how to use the prompt system.
+      - Document testing strategy and how to run tests.
+      - Highlight automations (CI/CD, lint, validations).
+      - List pending issues, TODOs, and decisions.
+      - Provide contribution guidelines (branches, commits, PRs).
+      - Include glossary of key terms and acronyms.
+      - Append a section with contributors based on Git history.
+output:
+  - file: .guides/base/onboarding.md
+    language: portuguese
+    rules:
+      - Use a clear, welcoming, and professional tone for new developers.
+      - Organize content in logical chapters with anchor-linked table of contents.
+      - Base all content on `.guides/*` documentation and Git logs.
+      - Keep structure lean and skimmable, but comprehensive.
+      - End the file with a "Contribuidores do Projeto" section with author names and emails.
 tags:
   - onboarding
   - documentation
   - developer-experience
   - knowledge-transfer
   - contributors
-created_by: guided-engineering
+createdBy: guided-engineering
 version: 1
