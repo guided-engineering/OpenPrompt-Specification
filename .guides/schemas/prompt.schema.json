@@ -48,6 +48,9 @@
       "type": "string",
       "enum": ["easy", "medium", "hard"]
     },
+    "language": {
+      "type": "string"
+    },
     "context": {
       "type": "string"
     },
@@ -85,7 +88,20 @@
       }
     },
     "output": {
-      "type": "string"
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["file"],
+        "properties": {
+          "file": { "type": "string" },
+          "language": { "type": "string" },
+          "rules": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "additionalProperties": false
+      }
     },
     "tags": {
       "type": "array",
