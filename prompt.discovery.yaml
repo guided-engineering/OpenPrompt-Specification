@@ -1,142 +1,223 @@
 $schema: .guides/schema/prompt.schema.json
-apiVersion: ops/v1
-id: discovery.project-name.assessment
-title: Perform Full Technical Assessment for project-name
-persona: CodeAuditor
-category: analysis
+apiVersion: guided-engineering/v1
+id: setup.and.assess.project
+title: Setup Canonical .guides Structure and Run Technical Assessment
+persona: DocumentationEngineer
+category: base
 difficulty: hard
-
+workspace: ./
 context: |
-  This prompt conducts a full technical assessment of the target project.
-  It includes evaluating structure, product scope, architecture, stack, domain entities, testing approach,
-  operational risks, and outputs everything to the structured folders under `.guides/`.
+  This prompt performs two main actions:
+  
+  1. Creates the canonical `.guides/` folder structure defined by Guided Engineering.
+     It initializes all required folders and files (even empty) to ensure consistency and traceability.
+  
+  2. Executes a full technical assessment of the project, analyzing structure, product scope, architecture,
+     stack, entities, testing strategy, and operational risks, and writes the outputs to the corresponding `.guides/` folders.
 
 dependencies:
   - Full access to the source code
+  - File system access to `.guides/`
   - Knowledge of Guided Engineering documentation standards
 
 steps:
-  # ⬛ SYSTEM CONTEXT
+
+  # STEP 1 – SETUP BASE STRUCTURE
+  - id: create-guides-folders
+    title: Create documentation folders
+    actions:
+      - Create the following folders:
+        * .guides/base/
+        * .guides/product/
+        * .guides/architecture/
+        * .guides/architecture/adr/
+        * .guides/assessment/
+        * .guides/testing/
+        * .guides/operation/
+        * .guides/personas/
+        * .guides/prompts/
+        * .guides/schema/
+        * .guides/context/
+        * .guides/tmp/
+
+  - id: create-canonical-files
+    title: Create canonical empty files with boilerplate
+    actions:
+      - Create the following files (with headers or TODOs):
+
+        # base/
+        - .guides/base/project.structure.md
+        - .guides/base/setup.instructions.md
+        - .guides/base/structure.md
+
+        # product/
+        - .guides/product/prd.md
+        - .guides/product/roadmap.md
+        - .guides/product/personas.md
+
+        # architecture/
+        - .guides/architecture/stack.md
+        - .guides/architecture/rules.md
+        - .guides/architecture/context.md
+        - .guides/architecture/entities.md
+        - .guides/architecture/guides.md
+        - .guides/architecture/guardrails.md
+        - .guides/architecture/plugins.md
+
+        # assessment/
+        - .guides/assessment/summary.md
+        - .guides/assessment/structure.md
+        - .guides/assessment/stack.md
+        - .guides/assessment/entities.md
+        - .guides/assessment/plugins.md
+        - .guides/assessment/risks.md
+        - .guides/assessment/personas.md
+
+        # testing/
+        - .guides/testing/strategy.md
+        - .guides/testing/playbook.md
+        - .guides/testing/coverage.md
+        - .guides/testing/risks.md
+
+        # operation/
+        - .guides/operation/worklog.md
+        - .guides/operation/changelog.md
+        - .guides/operation/troubleshooting.md
+        - .guides/operation/faq.md
+
+        # personas/
+        - .guides/personas/personas.yml
+        - .guides/personas/template.persona.yml
+
+        # prompts/
+        - .guides/prompts/template.prompt.yml
+
+        # schema/
+        - .guides/schema/prompt.schema.json
+        - .guides/schema/persona.schema.json
+
+        # context/
+        - .guides/context/local.md
+        - .guides/context/env.md
+
+  - id: write-reference-structure
+    title: Write `.guides/base/structure.md` with canonical list
+    actions:
+      - Document all folders and expected files
+      - Include table with purpose and naming rules
+    output: .guides/base/structure.md
+
+  # STEP 2 – FULL TECHNICAL ASSESSMENT
+
   - id: detectDeveloperEnvironment
     title: Detect and document developer environment
     actions:
-      - Identify the operating system, shell, terminal, and package manager used
-      - Detect versions of Node, Python, Git, Docker, and other relevant tools
-      - Detect system architecture and CPU info
-      - Save results for later use in prompts that involve command execution
+      - Identify the OS, shell, terminal, package manager, Node, Python, Git, Docker, etc.
+      - Save results for prompts that require command execution
     output: .guides/tmp/system.context.md
 
-  # 🟦 BASE + PRODUCT
   - id: documentProjectStructure
     title: Document the overall project structure
     actions:
-      - Describe the folder structure and purpose of each top-level directory
-      - Identify workspaces, modules, and project boundaries
+      - Describe folder structure, modules, workspaces
     output: .guides/base/project.structure.md
 
   - id: summarizeProductScope
     title: Summarize the product scope and audience
     actions:
-      - Identify main features, user types, and goals of the system
-      - Summarize the target use cases and project mission
-    output: .guides/product/product.requirements.md
+      - Summarize features, users, use cases, goals
+    output: .guides/product/prd.md
 
   - id: listProductPersonas
     title: List product-facing personas
     actions:
-      - Describe user personas or external roles that interact with the system
-      - Include needs, goals, and pain points per persona
-    output: .guides/product/product.personas.md
+      - Describe user personas and their needs
+    output: .guides/product/personas.md
 
-  # 🟧 ARCHITECTURE
   - id: analyzeArchitectureContext
     title: Analyze architecture boundaries and contexts
     actions:
-      - Identify architectural layers, services, or bounded contexts
-      - Map data and control flow across components
-    output: .guides/architecture/architecture.contexts.md
+      - Identify layers, bounded contexts, data/control flow
+    output: .guides/architecture/context.md
 
   - id: analyzeEntities
     title: Document core domain entities and relationships
     actions:
-      - Identify key types, schemas, and how they interact
-      - Describe how domain rules are encoded
-    output: .guides/architecture/architecture.entities.md
+      - Identify key schemas, rules, relationships
+    output: .guides/architecture/entities.md
 
   - id: documentArchitectureStack
     title: Document architecture and tech stack
     actions:
-      - List languages, runtimes, frameworks, and infrastructure
-      - Describe how components interact
-    output: .guides/architecture/architecture.stack.md
+      - List languages, frameworks, runtimes, infra
+    output: .guides/architecture/stack.md
 
   - id: listPlugins
     title: Describe plugins or extensibility mechanisms
     actions:
-      - Identify plugin points, strategies, or injected services
-      - Describe how to extend the system
-    output: .guides/architecture/architecture.plugins.md
+      - Identify plugin points and strategies
+    output: .guides/architecture/plugins.md
 
-  # 🟨 TESTING
   - id: analyzeTestStrategy
     title: Describe test strategy and tools
     actions:
-      - Identify what types of tests exist and where they are applied
-      - Document tooling and levels of automation
-    output: .guides/testing/testing.strategy.md
+      - List types of tests, tools, automation
+    output: .guides/testing/strategy.md
 
   - id: identifyTestingRisks
-    title: Highlight test coverage risks and blind spots
+    title: Highlight test coverage risks
     actions:
-      - Identify modules without tests
-      - Suggest priorities for increasing coverage
-    output: .guides/testing/testing.risks.md
+      - Identify gaps and modules without tests
+    output: .guides/testing/risks.md
 
-  # 🟥 OPERATION
   - id: assessOperationalRisks
     title: Document operational and maintenance risks
     actions:
-      - Identify code or design elements that make the system fragile or costly to maintain
-      - List known incident types or areas of instability
+      - Identify fragile areas, instability, incident history
     output: .guides/operation/troubleshooting.md
 
   - id: summarizeChangeLog
-    title: Create or update project changelog
+    title: Create or update changelog
     actions:
-      - Summarize key versions and changes from version control history
-      - Highlight architectural or structural refactors
+      - Summarize version history and major changes
     output: .guides/operation/changelog.md
 
-  # 🟫 GUARDRAILS
   - id: defineEngineeringGuardrails
-    title: Define technical guardrails and engineering principles
+    title: Define technical guardrails
     actions:
-      - Extract existing conventions, standards, and non-negotiables used in the codebase
-      - Identify implicit or explicit engineering principles being followed
-      - Recommend guardrails to enforce quality, consistency, and maintainability
-      - Categorize them into: code, architecture, testing, documentation, and operations
-    output: .guides/architecture/architecture.guardrails.md
+      - Extract rules and conventions from code
+      - Categorize guardrails by domain
+    output: .guides/architecture/guardrails.md
 
-  # 🟩 SUMMARY
   - id: writeAssessmentSummary
     title: Write global assessment summary
     actions:
-      - Link and summarize all outputs from the assessment
-      - Highlight main strengths, weaknesses, and next steps
-    output: .guides/assessment/assessment.summary.md
+      - Summarize strengths, weaknesses, outputs, next steps
+    output: .guides/assessment/summary.md
+
+  - id: register-worklog
+    title: Register structure and assessment in worklog
+    actions:
+      - Append worklog entry describing all actions executed
+    output: .guides/operation/worklog.md
 
 output:
-  - file: .guides/assessment/
+  - file: .guides/base/structure.md
     language: markdown
+  - file: .guides/operation/worklog.md
+    language: markdown
+    rules:
+      - Must follow `.guides/template.worklog.md`
 
 tags:
-  - assessment
-  - product
-  - architecture
-  - testing
+  - setup
   - structure
-  - risks
   - documentation
+  - assessment
+  - architecture
+  - product
+  - testing
+  - guardrails
 
-createdBy: guided-engineering
-version: 1
+createdBy: user
+version: 3
