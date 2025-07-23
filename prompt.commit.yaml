@@ -1,0 +1,98 @@
+$schema: .guides/schemas/prompt.schema.json
+$schema: ../schema/prompt.schema.json
+apiVersion: ops/v1
+id: operation.commit-analyze-and-apply
+title: Analyze Pending Changes, Generate and Apply Conventional Commit
+persona: SystemIntegrator
+category: operation
+difficulty: easy
+
+context: |
+  This prompt scans the current Git working directory for uncommitted changes,
+  analyzes the intent based on the files modified, generates a semantic commit
+  message following the Conventional Commits specification, applies the commit,
+  and records the action in a `.guides/operation/worklog`.
+
+  The message format must follow:
+  <type>(scope): short summary
+
+  Where:
+  - type = feat | fix | docs | refactor | chore | test | ci | perf
+  - scope = logical area changed (e.g., cli, web, schema, prompts, docs)
+  - summary = what was changed, in plain language (max 72 characters)
+
+  This prompt ensures traceability by creating a worklog, and avoids blind commits
+  by only proceeding if changes are detected and grouped semantically.
+
+dependencies: []
+
+output:
+  - file: .git/COMMIT_EDITMSG
+    language: text
+    rules:
+      - Must follow conventional commit format
+      - Must contain only a single line summary
+  - file: .guides/operation/worklog.commit.md
+    language: markdown
+    rules:
+      - Must describe what files were staged and committed
+      - Must include commit message used
+      - Must list prompt ID (if applicable)
+      - Must justify the type and scope selection based on file changes
+
+steps:
+  - id: check-for-changes
+    title: Detect pending Git changes
+    actions:
+      - Run `git status --porcelain`
+      - If no changes found, abort prompt with message: "No staged or modified files to commit."
+
+  - id: group-files-by-scope
+    title: Group changed files into logical scopes
+    actions:
+      - Categorize changes by directory (e.g., src/commands → cli, src/web → web, .guides/prompts → prompts)
+      - If multiple scopes found, default to `multi` or dominant folder
+
+  - id: determine-commit-type
+    title: Infer commit type based on change content
+    actions:
+      - Analyze file types and patterns:
+        - New features → feat
+        - Bug fixes → fix
+        - Markdown/docs → docs
+        - Prompt updates → chore or docs
+        - Refactoring (no behavior change) → refactor
+
+  - id: generate-message
+    title: Generate conventional commit message
+    actions:
+      - Build the message as `<type>(<scope>): <summary>`
+      - Ensure it's ≤ 72 characters
+      - Save to `.git/COMMIT_EDITMSG`
+
+  - id: apply-commit
+    title: Stage and commit all changes
+    actions:
+      - Run `git add -A`
+      - Run `git commit -F .git/COMMIT_EDITMSG`
+
+  - id: write-worklog
+    title: Log commit reasoning and traceability
+    actions:
+      - Write `.guides/operation/worklog.commit.md` with:
+        - Commit message used
+        - Files affected
+        - Type and scope selected
+        - Why this message format was chosen
+        - Link to prompt ID if applicable
+
+tags:
+  - commit
+  - git
+  - automation
+  - conventional-commits
+  - traceability
+  - operation
+
+createdBy: user
+version: 1
