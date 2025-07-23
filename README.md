@@ -114,8 +114,8 @@ These tools serve as assistants - never as replacements for engineering judgment
 
 ## 🧩 Example Prompts
 
-- `prompt.discovery.yml`: Full technical assessment of a project.
-
+- `prompt.discovery.yml`: Full technical assessment of a project (first prompt).
+- `prompt.onboarding.yaml`: Generate a complete onboarding file for engineers.
 ---
 
 ## 📌 Contributors
