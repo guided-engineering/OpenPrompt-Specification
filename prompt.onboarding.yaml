@@ -2,7 +2,7 @@ $schema: .guides/schemas/prompt.schema.json
 apiVersion: ops/v1
 id: base.onboarding.generate
 title: Generate Onboarding Guide for New Developers
-persona: Documentation Specialist
+persona: DocumentationEngineer
 context: |
   The project includes a structured `.guides/` folder with documentation about the product, architecture, setup, testing, personas, prompts, and assessments.
   This prompt should generate a complete onboarding guide (`onboarding.md`) aimed at helping new developers understand and start contributing to the project effectively.
