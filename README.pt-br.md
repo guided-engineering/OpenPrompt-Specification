@@ -1,6 +1,6 @@
 # Guided Engineering
 
-**Guided Engineering** é um sistema estruturado, rastreável e executável para gerenciar todo o ciclo de vida de desenvolvimento de software (SDLC) por meio de *prompts* modulares, agentes inteligentes e documentação reprodutível.
+~~Vibe Coding~~ -> **Guided Engineering** é um sistema estruturado, rastreável e executável para gerenciar todo o ciclo de vida de desenvolvimento de software (SDLC) por meio de *prompts* modulares, agentes inteligentes e documentação reprodutível.
 
 Este projeto utiliza prompts YAML versionados, validação por schema, personas especializadas e saídas categorizadas para habilitar a colaboração humano–máquina com alta observabilidade, reprodutibilidade e complexidade mínima.
 
