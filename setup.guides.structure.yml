@@ -1,0 +1,121 @@
+$schema: .guides/schema/prompt.schema.json
+apiVersion: guided-engineering/v1
+id: setup.guides.structure
+title: Create Canonical .guides Documentation Structure
+persona: DocumentationEngineer
+category: base
+difficulty: easy
+workspace: ./
+context: |
+  This prompt initializes a complete `.guides/` folder structure according to the Guided Engineering specification.
+  It creates all canonical folders and files (even empty ones) to ensure consistency, discoverability, and traceability
+  across documentation, prompts, personas, and schemas.
+
+dependencies:
+  - File system access
+  - Canonical file list from Guided Engineering documentation
+
+steps:
+  - id: create-guides-folders
+    title: Create documentation folders
+    actions:
+      - Create the following folders:
+        * .guides/base/
+        * .guides/product/
+        * .guides/architecture/
+        * .guides/architecture/adr/
+        * .guides/assessment/
+        * .guides/testing/
+        * .guides/operation/
+        * .guides/personas/
+        * .guides/prompts/
+        * .guides/schema/
+        * .guides/context/
+
+  - id: create-canonical-files
+    title: Create canonical empty files with boilerplate
+    actions:
+      - Create the following files (with title header or TODOs):
+
+        # base/
+        - .guides/base/project.structure.md
+        - .guides/base/setup.instructions.md
+        - .guides/base/structure.md
+
+        # product/
+        - .guides/product/prd.md
+        - .guides/product/roadmap.md
+        - .guides/product/personas.md
+
+        # architecture/
+        - .guides/architecture/stack.md
+        - .guides/architecture/rules.md
+        - .guides/architecture/context.md
+        - .guides/architecture/entities.md
+        - .guides/architecture/guides.md
+
+        # assessment/
+        - .guides/assessment/summary.md
+        - .guides/assessment/structure.md
+        - .guides/assessment/stack.md
+        - .guides/assessment/entities.md
+        - .guides/assessment/plugins.md
+        - .guides/assessment/risks.md
+        - .guides/assessment/personas.md
+
+        # testing/
+        - .guides/testing/strategy.md
+        - .guides/testing/playbook.md
+        - .guides/testing/coverage.md
+        - .guides/testing/risks.md
+
+        # operation/
+        - .guides/operation/worklog.md
+        - .guides/operation/changelog.md
+        - .guides/operation/troubleshooting.md
+        - .guides/operation/faq.md
+
+        # personas/
+        - .guides/personas/personas.yml
+        - .guides/personas/template.persona.yml
+
+        # prompts/
+        - .guides/prompts/template.prompt.yml
+
+        # schema/
+        - .guides/schema/prompt.schema.json
+        - .guides/schema/persona.schema.json
+
+        # context/
+        - .guides/context/local.md
+        - .guides/context/env.md
+
+  - id: write-reference-structure
+    title: Write `.guides/base/structure.md` with canonical list
+    actions:
+      - Document all folders and expected files
+      - Include table with purpose and naming rules
+    output: .guides/base/structure.md
+
+  - id: register-in-worklog
+    title: Register structure setup in worklog
+    actions:
+      - Append worklog entry describing structure initialization
+    output: .guides/operation/worklog.md
+
+output:
+  - file: .guides/base/structure.md
+    language: markdown
+  - file: .guides/operation/worklog.md
+    language: markdown
+    rules:
+      - Must follow `.guides/template.worklog.md`
+
+tags:
+  - setup
+  - structure
+  - canonical
+  - documentation
+
+createdBy: user
+version: 2
