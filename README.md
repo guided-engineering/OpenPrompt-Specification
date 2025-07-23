@@ -23,7 +23,7 @@ Key aspects:
 
 ---
 
-## 🧭 The Practice (Human-led Coordination)
+## 🧭 The Practice (Human-led)
 
 At its core, Guided Engineering is a **human-led practice** that organizes the SDLC using guided steps and structured decision-making.
 
