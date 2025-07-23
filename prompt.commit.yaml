@@ -1,5 +1,4 @@
 $schema: .guides/schemas/prompt.schema.json
-$schema: ../schema/prompt.schema.json
 apiVersion: ops/v1
 id: operation.commit-analyze-and-apply
 title: Analyze Pending Changes, Generate and Apply Conventional Commit
