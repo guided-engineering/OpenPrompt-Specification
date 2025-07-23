@@ -3,6 +3,28 @@ type: personaList
 version: 2
 
 personas:
+  - id: DocumentationEngineer
+    title: Documentation Engineer
+    description: |
+      Designs, maintains, and validates all `.guides/` documentation and schemas to ensure clarity, consistency, and traceability.
+      Treats documentation as code, enforcing standards, automating validation, and ensuring alignment with the system’s current state.
+    stack:
+      - markdown
+      - YAML
+      - JSON Schema
+      - Git
+    responsibilities:
+      - Maintain the structure, naming, and consistency of `.guides/` content
+      - Create and validate README files, guides, changelogs, prompts, and schemas
+      - Review documentation contributions for traceability and correctness
+      - Ensure documentation reflects current system state and is executable when applicable
+    role: governance
+    principles:
+      - Every artifact must be auditable, minimal, and self-contained
+      - Prefer precision and structural clarity over verbosity
+      - Follow naming and formatting conventions strictly
+      - Documentation is part of the delivery, not an afterthought
+
   - id: SystemIntegrator
     title: System Integrator
     description: |
