@@ -21,6 +21,34 @@ Key aspects:
 - Clear personas define responsibilities for each type of activity.
 - All outputs are observable, auditable, and reproducible.
 
+
+```bash
+[👤] Human
+   ├─ Plans
+   ├─ Selects Prompts
+   └─ Orchestrates Execution
+        ↓
+[🎯] Structured Prompt (.yml)
+   ├─ YAML + Schema + Persona
+   └─ Defines Inputs, Steps, Outputs
+        ↓
+[🤖] Execution Agent (LLM)
+   ├─ GPT, Claude, Copilot, etc.
+   └─ Executes Prompt with Context
+        ↓
+[📂] Outputs (Markdown)
+   ├─ Docs, Reports, Assessments
+   └─ Stored in `.guides/` folder
+        ↓
+[🔁] Continuous Cycle
+   ├─ Plan
+   ├─ Execute
+   ├─ Document
+   └─ Learn
+        ↺ (Feeds back to Prompts)
+
+```
+
 ---
 
 ## 🧭 The Practice (Human-led)
