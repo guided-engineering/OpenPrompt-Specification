@@ -9,6 +9,50 @@ This project uses versioned YAML prompts, schema validation, personas, and categ
 
 ---
 
+## ❓ Why Guided Engineering?
+
+Because modern software is too complex to be left to chance.
+
+Teams face:
+
+* Fragmented tools and chaotic handoffs.
+* Hidden knowledge and undocumented decisions.
+* Low reproducibility and onboarding friction.
+* Over-reliance on opaque automation.
+
+**Guided Engineering** addresses these pain points by:
+
+* Treating **engineering as a traceable process**, not an ad-hoc craft.
+* Shifting from unstructured communication to **structured execution**.
+* Giving engineers **control over AI** through validated, readable prompts.
+* Creating a long-term **memory** of why, how, and by whom something was done.
+
+It allows teams to **move fast without losing context**, and **automate without losing control**.
+
+> It's not just about doing things faster. It's about doing them *understandably*.
+
+---
+
+## 🚫 What Guided Engineering *is not*
+
+To avoid confusion, it’s important to be clear on what this practice **does not aim to be**:
+
+| ❌ Not This                     | ✅ But Instead                                     |
+| ------------------------------ | ------------------------------------------------- |
+| A no-code tool                 | A human-led system for *codifying intent*         |
+| A replacement for engineers    | A **framework for engineers to lead AI**          |
+| An automation-first approach   | An **explainability-first** methodology           |
+| A documentation generator      | A **documentation-first** execution model         |
+| A black-box assistant          | A **white-box process** with full visibility      |
+| A generic AI prompt collection | A **validated, version-controlled** prompt system |
+| DevOps boilerplate factory     | A **customizable, observable** execution flow     |
+| Magic AI glue                  | A **disciplined orchestration of agents**         |
+
+**Guided Engineering is not about replacing expertise** — it's about structuring it.
+
+It's not automation **for its own sake**, but rather **augmentation with purpose**.
+
+
 ## 👨‍🏫 What is Guided Engineering?
 
 Guided Engineering is not just a tool, it's a **practice**.
