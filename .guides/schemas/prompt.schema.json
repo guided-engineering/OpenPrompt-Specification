@@ -41,6 +41,11 @@
         "Maintainer"
       ]
     },
+    "workspace": {
+      "type": "string",
+      "description": "Project directory where this prompt should be executed (relative to repository root)",
+      "pattern": "^\\./.*$"
+    }
     "category": {
       "type": "string"
     },
