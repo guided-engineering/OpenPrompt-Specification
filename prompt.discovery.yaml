@@ -1,4 +1,4 @@
-$schema: .guides/schemas/prompt.schema.json
+$schema: .guides/schema/prompt.schema.json
 apiVersion: ops/v1
 id: discovery.project-name.assessment
 title: Perform Full Technical Assessment for project-name
@@ -16,6 +16,16 @@ dependencies:
   - Knowledge of Guided Engineering documentation standards
 
 steps:
+  # ⬛ SYSTEM CONTEXT
+  - id: detectDeveloperEnvironment
+    title: Detect and document developer environment
+    actions:
+      - Identify the operating system, shell, terminal, and package manager used
+      - Detect versions of Node, Python, Git, Docker, and other relevant tools
+      - Detect system architecture and CPU info
+      - Save results for later use in prompts that involve command execution
+    output: .guides/tmp/system.context.md
+
   # 🟦 BASE + PRODUCT
   - id: documentProjectStructure
     title: Document the overall project structure
@@ -96,16 +106,16 @@ steps:
       - Summarize key versions and changes from version control history
       - Highlight architectural or structural refactors
     output: .guides/operation/changelog.md
-    
-# 🟫 GUARDRAILS
-- id: defineEngineeringGuardrails
-  title: Define technical guardrails and engineering principles
-  actions:
-    - Extract existing conventions, standards, and non-negotiables used in the codebase
-    - Identify implicit or explicit engineering principles being followed
-    - Recommend guardrails to enforce quality, consistency, and maintainability
-    - Categorize them into: code, architecture, testing, documentation, and operations
-  output: .guides/architecture/architecture.guardrails.md
+
+  # 🟫 GUARDRAILS
+  - id: defineEngineeringGuardrails
+    title: Define technical guardrails and engineering principles
+    actions:
+      - Extract existing conventions, standards, and non-negotiables used in the codebase
+      - Identify implicit or explicit engineering principles being followed
+      - Recommend guardrails to enforce quality, consistency, and maintainability
+      - Categorize them into: code, architecture, testing, documentation, and operations
+    output: .guides/architecture/architecture.guardrails.md
 
   # 🟩 SUMMARY
   - id: writeAssessmentSummary
@@ -115,7 +125,9 @@ steps:
       - Highlight main strengths, weaknesses, and next steps
     output: .guides/assessment/assessment.summary.md
 
-output: .guides/assessment/
+output:
+  - file: .guides/assessment/
+    language: markdown
 
 tags:
   - assessment
