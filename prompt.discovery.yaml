@@ -96,6 +96,16 @@ steps:
       - Summarize key versions and changes from version control history
       - Highlight architectural or structural refactors
     output: .guides/operation/changelog.md
+    
+# 🟫 GUARDRAILS
+- id: defineEngineeringGuardrails
+  title: Define technical guardrails and engineering principles
+  actions:
+    - Extract existing conventions, standards, and non-negotiables used in the codebase
+    - Identify implicit or explicit engineering principles being followed
+    - Recommend guardrails to enforce quality, consistency, and maintainability
+    - Categorize them into: code, architecture, testing, documentation, and operations
+  output: .guides/architecture/architecture.guardrails.md
 
   # 🟩 SUMMARY
   - id: writeAssessmentSummary
