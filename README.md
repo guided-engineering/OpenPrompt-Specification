@@ -1,5 +1,6 @@
 # Guided Engineering
 
+OpenPrompt-Specification 
 Version: 0.1.0
 
 ~~Vibe Coding~~ -> **Guided Engineering** is a structured, traceable, and executable system for managing the entire software development lifecycle (SDLC) through modular prompts, intelligent agents, and reproducible documentation.
