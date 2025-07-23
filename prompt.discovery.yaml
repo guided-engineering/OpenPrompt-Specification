@@ -1,5 +1,5 @@
 $schema: .guides/schemas/prompt.schema.json
-apiVersion: guided-engineering/v1
+apiVersion: ops/v1
 id: discovery.project-name.assessment
 title: Perform Full Technical Assessment for project-name
 persona: CodeAuditor
