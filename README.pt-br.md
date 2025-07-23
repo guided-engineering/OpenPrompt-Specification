@@ -112,8 +112,6 @@ Essas ferramentas são assistentes - nunca substitutos do julgamento do engenhei
 ## 🧩 Exemplos de Prompts
 
 - `prompt.discovery.yml`: Assessment técnico completo de um repositório.
-- `setup.onionos.environment.yml`: Setup e execução local do projeto.
-- `testing.strategy.unified.yml`: Estratégia unificada de testes.
 
 ---
 
