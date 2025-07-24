@@ -1,0 +1,124 @@
+$schema: .guides/schema/prompt.schema.json
+apiVersion: guided-engineering/v1
+id: execution.guided-cli.phase1-kanban
+title: Execute Phase 1 Kanban with Technical Validation and Consistent UX
+persona: SoftwareDeveloper
+category: implementation
+difficulty: hard
+workspace: ./cli
+
+context: |
+  This prompt executes the tasks defined in `.guides/product/kanban.phase1.md`, completing Phase 1 of the Guided CLI.
+  Each execution follows a strict cycle with validation against the project documentation, architecture, stack, and UX rules.
+
+   CLI stack and constraints (defined in `.guides/architecture/stack.md`):
+    - Language: TypeScript
+    - Tools: pnpm, oclif, LangChain, Vitest, ESLint, Prettier
+    - Terminal UI: ink, cli-progress, tty-table
+    - Config: stored in `~/.guided/config.json` (user level)
+  
+   UX Principles (from `.guides/architecture/rules.md`):
+    - Minimalism and clarity over decoration
+    - Consistent, accessible terminal interfaces
+    - No usage of `chalk` or color-only indicators
+
+   Expected documentation sources:
+    - Product: `.guides/product/spec.md`, `roadmap.md`, `milestones.discovery.md`
+    - Architecture: `.guides/architecture/*.md`
+    - Assessment: `.guides/assessment/*.md`
+    - Tasks: `.guides/product/kanban.phase1.md`
+
+dependencies:
+  - Fully populated `.guides/` structure
+  - ESLint, Vitest, Prettier, and stack libraries installed
+  - Access to LangChain and CLI prompt files
+
+steps:
+  - id: validate-environment
+    title: Validate stack and required tools
+    actions:
+      - Check presence of:
+        * Node.js >= 18
+        * pnpm
+        * oclif
+        * langchain
+        * eslint, prettier, vitest
+        * ink, cli-progress, tty-table
+      - Fail with instructions if any required tool is missing
+
+  - id: load-next-task
+    title: Load the next task from Kanban
+    actions:
+      - Read `.guides/product/kanban.phase1.md`
+      - Select the first task in `Backlog`
+      - Extract task metadata: ID, milestone, expected file/output
+
+  - id: understand-task
+    title: Analyze task context and intention
+    actions:
+      - Cross-reference `.guides/product/milestones.discovery.md`
+      - Locate related prompt ID or CLI command
+      - Summarize user goal, input, and output for confirmation
+
+  - id: verify-against-guides
+    title: Validate technical and UX alignment
+    actions:
+      - Read:
+        * `.guides/architecture/stack.md`
+        * `.guides/architecture/rules.md`
+        * `.guides/product/spec.md`
+        * `.guides/assessment/summary.md`
+      - Check that the task:
+        * Uses only allowed tools and libraries
+        * Follows UX/UI and terminal design principles
+        * Produces expected output defined in the roadmap/spec
+      - If conflicts are found, stop and flag inconsistencies
+
+  - id: execute-task
+    title: Perform task execution
+    actions:
+      - Run prompt or CLI command as required
+      - Create or modify files per description
+
+  - id: validate-and-correct
+    title: Lint, test and fix issues
+    actions:
+      - Run `pnpm lint`, `pnpm format`, `pnpm test`
+      - Apply fixes if needed and revalidate
+
+  - id: update-documentation
+    title: Update kanban and logs
+    actions:
+      - Move task to `Done` in `kanban.phase1.md`
+      - Log to `.guides/operation/worklog.md` using `template.worklog.md`
+      - Update any referenced `.guides/` files if impacted
+
+  - id: prompt-to-continue
+    title: Ask if next task should be executed
+    actions:
+      - Prompt:
+        > Task "{title}" complete. Do you want to continue to the next one?
+      - If confirmed, return to `load-next-task`
+      - Else, finish gracefully
+
+output:
+  - file: .guides/operation/worklog.md
+    language: markdown
+    rules:
+      - Log task title, ID, milestone, execution result, and files changed
+
+  - file: .guides/product/kanban.phase1.md
+    language: markdown
+    rules:
+      - Move task to Done, preserving metadata
+
+tags:
+  - execution
+  - guided-cli
+  - ux
+  - architecture
+  - product
+  - validation
+  - stack
+
+version: 2
