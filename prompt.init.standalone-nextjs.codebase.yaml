@@ -1,0 +1,150 @@
+$schema: .guides/schema/prompt.schema.json
+apiVersion: ops/v1
+id: init.standalone-nextjs.codebase
+title: Initialize Standalone Next.js Project with Full Modern Tooling
+persona: ProjectBootstrapper
+category: implementation
+difficulty: medium
+workspace: ./
+context: |
+  This prompt initializes a production-ready standalone Next.js 15 project using:
+
+  - TypeScript + Node.js 22
+  - PNPM 10
+  - Tailwind CSS 4 + ShadCN UI
+  - ESLint 9 with Flat Config + Prettier
+  - Git + Husky 9 + Commitlint + Commitizen
+  - release-it with changelog automation
+
+  The goal is to bootstrap a modern, maintainable, and standardized web project with conventional commits and CI-friendly tooling.
+
+  Developers will use:
+  - `pnpm commit` for structured commits via Commitizen
+  - `pnpm release` to create versioned releases with changelog and Git tags
+
+personaDetails:
+  id: ProjectBootstrapper
+  name: Project Bootstrapper
+  description: |
+    Specialist responsible for initializing new projects with best practices, automation, and robust tooling.
+    Ensures all tools, configurations, and conventions are implemented for a modern web development stack.
+    Proficient in scripting, automation, developer experience, and CI/CD setup.
+
+dependencies:
+  - Node.js 22
+  - PNPM 10
+  - Git initialized (required before Husky setup)
+  - Internet access to install dependencies
+
+output:
+  - file: ./package.json
+    language: json
+    rules:
+      - Must include all scripts and devDependencies for the described stack
+  - file: ./eslint.config.js
+    language: js
+    rules:
+      - Must use ESLint Flat Config for version 9
+      - Must remove any `.eslintrc*` files or `eslintConfig` in package.json
+  - file: ./tailwind.config.ts
+    language: ts
+  - file: ./postcss.config.js
+    language: js
+  - file: ./.prettierrc
+    language: json
+  - file: ./commitlint.config.js
+    language: js
+  - file: ./release.config.js
+    language: js
+  - file: .husky/pre-commit
+    language: bash
+  - file: .husky/commit-msg
+    language: bash
+
+steps:
+  - id: scaffold-nextjs
+    title: Create Next.js 15 project
+    actions:
+      - Run: pnpm create next-app@latest . --ts --eslint --tailwind --app --src-dir --import-alias "@/*"
+      - Remove unnecessary boilerplate files and any default .eslintrc*
+
+  - id: configure-eslint
+    title: Set up ESLint 9 flat config
+    actions:
+      - Create `eslint.config.js` using:
+          * `@eslint/js`
+          * `@typescript-eslint/eslint-plugin` and parser
+          * `eslint-plugin-tailwindcss`
+          * `eslint-plugin-prettier`
+          * `eslint-config-prettier`
+      - Ensure no `.eslintrc.*` or `eslintConfig` in package.json
+
+  - id: configure-tailwind
+    title: Setup Tailwind CSS 4 and PostCSS
+    actions:
+      - Create `tailwind.config.ts` with `darkMode: 'class'` and proper `content` paths
+      - Create `postcss.config.js` with `tailwindcss` and `autoprefixer`
+
+  - id: init-shadcn
+    title: Initialize ShadCN UI system
+    actions:
+      - Run: pnpm dlx shadcn@latest init
+      - Select Tailwind CSS and set app directory
+
+  - id: setup-prettier
+    title: Configure Prettier and plugin
+    actions:
+      - Install: `prettier`, `prettier-plugin-tailwindcss`
+      - Create `.prettierrc` enabling Tailwind class sorting
+
+  - id: setup-git-and-husky
+    title: Initialize Git and setup Husky 9
+    actions:
+      - Run: git init (if not already initialized)
+      - Run: pnpm dlx husky-init && pnpm install
+      - Overwrite `.husky/pre-commit` with:
+          * `pnpm lint && pnpm format`
+      - Create `.husky/commit-msg` with:
+          * `pnpm exec commitlint --edit "$1"`
+
+  - id: setup-commitizen
+    title: Enable Conventional Commits via Commitizen
+    actions:
+      - Install: `commitizen`, `@commitlint/cli`, `@commitlint/config-conventional`
+      - Create `commitlint.config.js` extending `@commitlint/config-conventional`
+      - Add to `package.json`:
+          * `"commit": "cz"`
+          * `"config.commitizen.path": "cz-conventional-changelog"`
+
+  - id: setup-release-it
+    title: Configure automated release with changelog
+    actions:
+      - Install: `release-it` and `@release-it/conventional-changelog`
+      - Create `release.config.js` with:
+          * `plugins: ["@release-it/conventional-changelog"]`
+          * Git tagging and changelog generation enabled
+      - Add to `package.json`:
+          * `"release": "release-it"`
+
+  - id: validate-setup
+    title: Run final validations
+    actions:
+      - Run: pnpm lint
+      - Run: pnpm format
+      - Run: pnpm dev
+
+tags:
+  - nextjs
+  - typescript
+  - pnpm
+  - tailwind
+  - shadcn
+  - eslint
+  - prettier
+  - husky
+  - commitizen
+  - release-it
+  - bootstrap
+
+createdBy: user
+version: 1.0.0
