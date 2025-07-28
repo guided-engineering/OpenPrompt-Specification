@@ -1,7 +1,7 @@
-$schema: .guides/schema/prompt.schema.json
+$schema: .guided/schema/prompt.schema.json
 apiVersion: guided-engineering/v1
 id: setup.and.assess.project
-title: Setup Canonical .guides Structure and Run Technical Assessment
+title: Setup Canonical .guided Structure and Run Technical Assessment
 persona: DocumentationEngineer
 category: base
 difficulty: hard
@@ -9,36 +9,36 @@ workspace: ./
 context: |
   This prompt performs two main actions:
   
-  1. Creates the canonical `.guides/` folder structure defined by Guided Engineering.
+  1. Creates the canonical `.guided/` folder structure defined by Guided Engineering.
      It initializes all required folders and files (even empty) to ensure consistency and traceability.
   
   2. Executes a full technical assessment of the project, analyzing structure, product scope, architecture,
-     stack, entities, testing strategy, and operational risks, and writes the outputs to the corresponding `.guides/` folders.
+     stack, entities, testing strategy, and operational risks, and writes the outputs to the corresponding `.guided/` folders.
 
 dependencies:
   - Full access to the source code
-  - File system access to `.guides/`
+  - File system access to `.guided/`
   - Knowledge of Guided Engineering documentation standards
 
 steps:
 
   # STEP 1 – SETUP BASE STRUCTURE
-  - id: create-guides-folders
+  - id: create-guided-folders
     title: Create documentation folders
     actions:
       - Create the following folders:
-        * .guides/base/
-        * .guides/product/
-        * .guides/architecture/
-        * .guides/architecture/adr/
-        * .guides/assessment/
-        * .guides/testing/
-        * .guides/operation/
-        * .guides/personas/
-        * .guides/prompts/
-        * .guides/schema/
-        * .guides/context/
-        * .guides/tmp/
+        * .guided/base/
+        * .guided/product/
+        * .guided/architecture/
+        * .guided/architecture/adr/
+        * .guided/assessment/
+        * .guided/testing/
+        * .guided/operation/
+        * .guided/personas/
+        * .guided/prompts/
+        * .guided/schema/
+        * .guided/context/
+        * .guided/tmp/
 
   - id: create-canonical-files
     title: Create canonical empty files with boilerplate
@@ -46,66 +46,66 @@ steps:
       - Create the following files (with headers or TODOs):
 
         # base/
-        - .guides/base/project.structure.md
-        - .guides/base/setup.instructions.md
-        - .guides/base/structure.md
+        - .guided/base/project.structure.md
+        - .guided/base/setup.instructions.md
+        - .guided/base/structure.md
 
         # product/
-        - .guides/product/prd.md
-        - .guides/product/roadmap.md
-        - .guides/product/personas.md
+        - .guided/product/prd.md
+        - .guided/product/roadmap.md
+        - .guided/product/personas.md
 
         # architecture/
-        - .guides/architecture/stack.md
-        - .guides/architecture/rules.md
-        - .guides/architecture/context.md
-        - .guides/architecture/entities.md
-        - .guides/architecture/guides.md
-        - .guides/architecture/guardrails.md
-        - .guides/architecture/plugins.md
+        - .guided/architecture/stack.md
+        - .guided/architecture/rules.md
+        - .guided/architecture/context.md
+        - .guided/architecture/entities.md
+        - .guided/architecture/guided.md
+        - .guided/architecture/guardrails.md
+        - .guided/architecture/plugins.md
 
         # assessment/
-        - .guides/assessment/summary.md
-        - .guides/assessment/structure.md
-        - .guides/assessment/stack.md
-        - .guides/assessment/entities.md
-        - .guides/assessment/plugins.md
-        - .guides/assessment/risks.md
-        - .guides/assessment/personas.md
+        - .guided/assessment/summary.md
+        - .guided/assessment/structure.md
+        - .guided/assessment/stack.md
+        - .guided/assessment/entities.md
+        - .guided/assessment/plugins.md
+        - .guided/assessment/risks.md
+        - .guided/assessment/personas.md
 
         # testing/
-        - .guides/testing/strategy.md
-        - .guides/testing/playbook.md
-        - .guides/testing/coverage.md
-        - .guides/testing/risks.md
+        - .guided/testing/strategy.md
+        - .guided/testing/playbook.md
+        - .guided/testing/coverage.md
+        - .guided/testing/risks.md
 
         # operation/
-        - .guides/operation/worklog.md
-        - .guides/operation/changelog.md
-        - .guides/operation/troubleshooting.md
-        - .guides/operation/faq.md
+        - .guided/operation/worklog.md
+        - .guided/operation/changelog.md
+        - .guided/operation/troubleshooting.md
+        - .guided/operation/faq.md
 
         # personas/
-        - .guides/personas/personas.yml
-        - .guides/personas/template.persona.yml
+        - .guided/personas/personas.yml
+        - .guided/personas/template.persona.yml
 
         # prompts/
-        - .guides/prompts/template.prompt.yml
+        - .guided/prompts/template.prompt.yml
 
         # schema/
-        - .guides/schema/prompt.schema.json
-        - .guides/schema/persona.schema.json
+        - .guided/schema/prompt.schema.json
+        - .guided/schema/persona.schema.json
 
         # context/
-        - .guides/context/local.md
-        - .guides/context/env.md
+        - .guided/context/local.md
+        - .guided/context/env.md
 
   - id: write-reference-structure
-    title: Write `.guides/base/structure.md` with canonical list
+    title: Write `.guided/base/structure.md` with canonical list
     actions:
       - Document all folders and expected files
       - Include table with purpose and naming rules
-    output: .guides/base/structure.md
+    output: .guided/base/structure.md
 
   # STEP 2 – FULL TECHNICAL ASSESSMENT
 
@@ -114,100 +114,100 @@ steps:
     actions:
       - Identify the OS, shell, terminal, package manager, Node, Python, Git, Docker, etc.
       - Save results for prompts that require command execution
-    output: .guides/tmp/system.context.md
+    output: .guided/tmp/system.context.md
 
   - id: documentProjectStructure
     title: Document the overall project structure
     actions:
       - Describe folder structure, modules, workspaces
-    output: .guides/base/project.structure.md
+    output: .guided/base/project.structure.md
 
   - id: summarizeProductScope
     title: Summarize the product scope and audience
     actions:
       - Summarize features, users, use cases, goals
-    output: .guides/product/prd.md
+    output: .guided/product/prd.md
 
   - id: listProductPersonas
     title: List product-facing personas
     actions:
       - Describe user personas and their needs
-    output: .guides/product/personas.md
+    output: .guided/product/personas.md
 
   - id: analyzeArchitectureContext
     title: Analyze architecture boundaries and contexts
     actions:
       - Identify layers, bounded contexts, data/control flow
-    output: .guides/architecture/context.md
+    output: .guided/architecture/context.md
 
   - id: analyzeEntities
     title: Document core domain entities and relationships
     actions:
       - Identify key schemas, rules, relationships
-    output: .guides/architecture/entities.md
+    output: .guided/architecture/entities.md
 
   - id: documentArchitectureStack
     title: Document architecture and tech stack
     actions:
       - List languages, frameworks, runtimes, infra
-    output: .guides/architecture/stack.md
+    output: .guided/architecture/stack.md
 
   - id: listPlugins
     title: Describe plugins or extensibility mechanisms
     actions:
       - Identify plugin points and strategies
-    output: .guides/architecture/plugins.md
+    output: .guided/architecture/plugins.md
 
   - id: analyzeTestStrategy
     title: Describe test strategy and tools
     actions:
       - List types of tests, tools, automation
-    output: .guides/testing/strategy.md
+    output: .guided/testing/strategy.md
 
   - id: identifyTestingRisks
     title: Highlight test coverage risks
     actions:
       - Identify gaps and modules without tests
-    output: .guides/testing/risks.md
+    output: .guided/testing/risks.md
 
   - id: assessOperationalRisks
     title: Document operational and maintenance risks
     actions:
       - Identify fragile areas, instability, incident history
-    output: .guides/operation/troubleshooting.md
+    output: .guided/operation/troubleshooting.md
 
   - id: summarizeChangeLog
     title: Create or update changelog
     actions:
       - Summarize version history and major changes
-    output: .guides/operation/changelog.md
+    output: .guided/operation/changelog.md
 
   - id: defineEngineeringGuardrails
     title: Define technical guardrails
     actions:
       - Extract rules and conventions from code
       - Categorize guardrails by domain
-    output: .guides/architecture/guardrails.md
+    output: .guided/architecture/guardrails.md
 
   - id: writeAssessmentSummary
     title: Write global assessment summary
     actions:
       - Summarize strengths, weaknesses, outputs, next steps
-    output: .guides/assessment/summary.md
+    output: .guided/assessment/summary.md
 
   - id: register-worklog
     title: Register structure and assessment in worklog
     actions:
       - Append worklog entry describing all actions executed
-    output: .guides/operation/worklog.md
+    output: .guided/operation/worklog.md
 
 output:
-  - file: .guides/base/structure.md
+  - file: .guided/base/structure.md
     language: markdown
-  - file: .guides/operation/worklog.md
+  - file: .guided/operation/worklog.md
     language: markdown
     rules:
-      - Must follow `.guides/template.worklog.md`
+      - Must follow `.guided/template.worklog.md`
 
 tags:
   - setup
@@ -220,4 +220,4 @@ tags:
   - guardrails
 
 createdBy: user
-version: 3
+version: 4
