@@ -1,47 +1,116 @@
-$schema: .guides/schemas/prompt.schema.json
+$schema: .guided/schema/prompt.schema.json
 apiVersion: ops/v1
-id: copilot.instructions.generate
-title: Generate Copilot Instructions from Guided Engineering SDLC
-persona: systemIntegrator
-category: operation
-difficulty: intermediate
+id: generate.ide.llm.instructions
+title: Analyze Project and Generate IDE/LLM Instruction Files
+persona: CodeAuditor
+category: analysis
+difficulty: hard
+workspace: ./
 context: |
-  We want to create a `.github/copilot-instructions.md` file to guide GitHub Copilot's behavior in this repository.
-  The instructions should reflect the standards, conventions, and folder structure described in `.guides/`, especially the SDLC practices.
-  The goal is to help Copilot provide context-aware and structure-aligned suggestions during development.
+  The objective of this prompt is to analyze the entire project, including documentation, codebase, configuration, and Guided Engineering standards in `.guided/`.
+  The result should be the generation of ALL relevant instruction files that can improve IDE and AI assistant integration (GitHub Copilot, Claude, Windsurf, Continue, and others).
+  Each file must provide precise, context-aware guidelines to guide code suggestions and developer behavior, strictly reflecting the standards, conventions, folder structure, and technical decisions present in the project.
+
+  The output must ensure:
+    - No redundant or conflicting information between files.
+    - Each instruction file matches the expected format and conventions for its tool.
+    - All files must reflect current stack, code organization, naming standards, and documentation practices.
+    - Use English as the default language.
+
 dependencies:
-  - .guides/architecture/
-  - .guides/assessment/
-  - .guides/prompts/
-  - .guides/schema/prompt.schema.json
+  - Full access to the source code and all folders
+  - Full access to `.guided/` documentation and schemas
+  - Knowledge of best practices for each target tool (Copilot, Claude, Windsurf, Continue, IDEs)
+  - Knowledge of markdown and yaml syntax
+
 output:
-  - .github/copilot-instructions.md
+  - file: .github/copilot-instructions.md
+    language: markdown
+    rules:
+      - Must follow GitHub Copilot's official documentation for instructions
+      - List project structure, standards, forbidden practices, language requirements
+  - file: claude-project.md
+    language: markdown
+    rules:
+      - Provide Anthropic Claude with clear, high-level project standards and context
+      - Focus on what makes this repo unique for code suggestions
+  - file: .windsurf/windsurf.yaml
+    language: yaml
+    rules:
+      - Follow Windsurf's format for project guidelines and code structure
+      - Include relevant tags, instructions, and team/project context
+  - file: .continue/continue.yaml
+    language: yaml
+    rules:
+      - Specify custom prompt instructions, code style, and automation guidance for the Continue extension
+  - file: .github/CONTRIBUTING.md
+    language: markdown
+    rules:
+      - Summarize contribution rules, branch naming, code style, commit conventions, CI requirements
+  - file: README.md
+    language: markdown
+    rules:
+      - Present a summary of project purpose, stack, folder structure, and any important AI/IDE instructions for onboarding
+
 steps:
-  - id: extractStandards
-    description: Extract key principles and conventions from `.guides/`
+  - id: analyzeProject
+    title: Analyze project structure, documentation, and codebase
     actions:
-      - Summarize folder structure and roles (e.g., `.guides/architecture`, `.guides/prompts`)
-      - Extract standards for prompt validation, persona mapping, and code location
+      - Read all relevant folders (src/, config/, data/, .guided/, .github/, etc)
+      - Extract conventions, standards, and special practices
 
-  - id: defineInstructions
-    description: Write clear, concise instructions for Copilot based on project conventions
+  - id: synthesizeInstructions
+    title: Synthesize context-aware instructions for each supported tool
     actions:
-      - Specify that `.guides/` contains all documentation, specs and prompts
-      - Enforce use of TypeScript with strict mode, ESLint, Prettier
-      - Require storing code in `src/`, data in `data/`, config in `config/`
-      - Mention prompt schema validation and worklog usage
+      - Map which standards and practices should be included in each instruction file
+      - Avoid redundancy or contradiction
 
-  - id: createCopilotFile
-    description: Output Copilot instructions into `.github/copilot-instructions.md`
+  - id: generateCopilotInstructions
+    title: Generate `.github/copilot-instructions.md`
     actions:
-      - Write markdown instructions as a list of concise behavioral guidelines
-      - Ensure clarity, brevity, and alignment with project principles
+      - Write Copilot instructions reflecting project standards, folder structure, language, forbidden patterns, and code style
+
+  - id: generateClaudeInstructions
+    title: Generate `claude-project.md`
+    actions:
+      - Write Claude instructions summarizing unique project practices, code style, stack, and important folders/files
+
+  - id: generateWindsurfInstructions
+    title: Generate `.windsurf/windsurf.yaml`
+    actions:
+      - Write Windsurf configuration YAML, describing stack, conventions, and tags relevant to Windsurf's suggestions
+
+  - id: generateContinueInstructions
+    title: Generate `.continue/continue.yaml`
+    actions:
+      - Write Continue extension instructions, listing prompt engineering and automation rules
+
+  - id: generateContributing
+    title: Generate `.github/CONTRIBUTING.md`
+    actions:
+      - Summarize how to contribute, code/commit style, branch rules, CI, and references to `.guided/` documentation
+
+  - id: updateReadme
+    title: Update `README.md` with project overview and pointers to LLM/IDE instructions
+    actions:
+      - Present a high-level overview, main stack, conventions, and onboarding for developers (human and AI)
+
+  - id: validateOutputs
+    title: Validate all generated files
+    actions:
+      - Check that each file meets expected format for its respective tool
+      - Ensure no duplication or contradiction
+      - Confirm that all standards, folder conventions, and language requirements are covered
 
 tags:
+  - ide
   - copilot
-  - instructions
+  - claude
+  - windsurf
+  - continue
   - automation
+  - onboarding
   - documentation
-  - github
-created_by: guided.engineering
+
+createdBy: user
 version: 1
