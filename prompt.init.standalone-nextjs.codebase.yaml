@@ -1,26 +1,23 @@
 $schema: .guides/schema/prompt.schema.json
 apiVersion: ops/v1
 id: init.standalone-nextjs.codebase
-title: Initialize Standalone Next.js Project with Full Modern Tooling
+title: Initialize Standalone Next.js Project (pt-BR default, PNPM, CLI-first, i18n)
 persona: ProjectBootstrapper
 category: implementation
 difficulty: medium
 workspace: ./
 context: |
-  This prompt initializes a production-ready standalone Next.js 15 project using:
+  Initialize a production-ready Next.js 15 project with a modern stack, enforcing PNPM, full ESLint+Prettier, Tailwind 4, shadcn/ui, automated commits/releases, and internationalization with pt-BR as default.
 
-  - TypeScript + Node.js 22
-  - PNPM 10
-  - Tailwind CSS 4 + ShadCN UI
-  - ESLint 9 with Flat Config + Prettier
-  - Git + Husky 9 + Commitlint + Commitizen
-  - release-it with changelog automation
+  **Explicit CLI commands for required scaffolding and initial config:**
+  1. Scaffold the project: `pnpm create next-app@latest . --ts --eslint --tailwind --app --src-dir --import-alias "@/*"`
+  2. Initialize Husky: `pnpm dlx husky-init && pnpm install`
+  3. Initialize shadcn/ui: `pnpm dlx shadcn@latest init`
+  4. (Optional) Initialize Commitizen: `npx commitizen init cz-conventional-changelog --save-dev --save-exact`
 
-  The goal is to bootstrap a modern, maintainable, and standardized web project with conventional commits and CI-friendly tooling.
+  All other dependencies and configurations should be added and edited manually (pnpm add / config files).
 
-  Developers will use:
-  - `pnpm commit` for structured commits via Commitizen
-  - `pnpm release` to create versioned releases with changelog and Git tags
+  i18n is enabled via next-intl with pt-BR as defaultLocale, and 'en', 'es' as additional supported locales.
 
 personaDetails:
   id: ProjectBootstrapper
@@ -32,15 +29,17 @@ personaDetails:
 
 dependencies:
   - Node.js 22
-  - PNPM 10
-  - Git initialized (required before Husky setup)
-  - Internet access to install dependencies
+  - PNPM 10 (enforced)
+  - Git initialized (required before Husky)
+  - Internet access
 
 output:
   - file: ./package.json
     language: json
     rules:
-      - Must include all scripts and devDependencies for the described stack
+      - Must include scripts and devDependencies for the stack
+      - Must set `"engines": { "pnpm": ">=10.0.0" }`
+      - Must include `packageManager` field for PNPM
   - file: ./eslint.config.js
     language: js
     rules:
@@ -56,75 +55,73 @@ output:
     language: js
   - file: ./release.config.js
     language: js
+    rules:
+      - Must configure release-it with `@release-it/conventional-changelog`
+      - Must include scripts for versioning and changelog
   - file: .husky/pre-commit
     language: bash
   - file: .husky/commit-msg
     language: bash
+  - file: ./i18n/config.ts
+    language: ts
+    rules:
+      - Must setup next-intl with 'pt-BR' as defaultLocale and ['pt-BR', 'en', 'es'] as supportedLocales
+      - Must be ready to add more languages easily
+  - file: ./i18n/messages/pt-BR.json
+    language: json
+    rules:
+      - Must include at least one sample key (e.g., "hello": "Olá")
+  - file: ./i18n/messages/en.json
+    language: json
+    rules:
+      - Must include at least one sample key (e.g., "hello": "Hello")
+  - file: ./i18n/messages/es.json
+    language: json
+    rules:
+      - Must include at least one sample key (e.g., "hello": "Hola")
 
 steps:
   - id: scaffold-nextjs
-    title: Create Next.js 15 project
+    title: Scaffold Next.js 15 project via CLI
     actions:
       - Run: pnpm create next-app@latest . --ts --eslint --tailwind --app --src-dir --import-alias "@/*"
       - Remove unnecessary boilerplate files and any default .eslintrc*
+      - Add `engines.pnpm` and `packageManager` fields to package.json
 
-  - id: configure-eslint
-    title: Set up ESLint 9 flat config
+  - id: init-husky
+    title: Initialize Husky via CLI
     actions:
-      - Create `eslint.config.js` using:
-          * `@eslint/js`
-          * `@typescript-eslint/eslint-plugin` and parser
-          * `eslint-plugin-tailwindcss`
-          * `eslint-plugin-prettier`
-          * `eslint-config-prettier`
-      - Ensure no `.eslintrc.*` or `eslintConfig` in package.json
-
-  - id: configure-tailwind
-    title: Setup Tailwind CSS 4 and PostCSS
-    actions:
-      - Create `tailwind.config.ts` with `darkMode: 'class'` and proper `content` paths
-      - Create `postcss.config.js` with `tailwindcss` and `autoprefixer`
+      - Run: pnpm dlx husky-init && pnpm install
+      - Overwrite `.husky/pre-commit` with: `pnpm lint && pnpm format`
+      - Create `.husky/commit-msg` with: `pnpm exec commitlint --edit "$1"`
 
   - id: init-shadcn
-    title: Initialize ShadCN UI system
+    title: Initialize shadcn/ui via CLI
     actions:
       - Run: pnpm dlx shadcn@latest init
       - Select Tailwind CSS and set app directory
 
-  - id: setup-prettier
-    title: Configure Prettier and plugin
+  - id: init-commitizen
+    title: (Optional) Initialize Commitizen via CLI
     actions:
-      - Install: `prettier`, `prettier-plugin-tailwindcss`
-      - Create `.prettierrc` enabling Tailwind class sorting
+      - Run: npx commitizen init cz-conventional-changelog --save-dev --save-exact
+      - Or configure manually in package.json
 
-  - id: setup-git-and-husky
-    title: Initialize Git and setup Husky 9
+  - id: install-deps
+    title: Install and configure remaining dependencies manually
     actions:
-      - Run: git init (if not already initialized)
-      - Run: pnpm dlx husky-init && pnpm install
-      - Overwrite `.husky/pre-commit` with:
-          * `pnpm lint && pnpm format`
-      - Create `.husky/commit-msg` with:
-          * `pnpm exec commitlint --edit "$1"`
+      - Install all required packages (pnpm add/pnpm add -D)
+      - Configure: eslint.config.js, tailwind.config.ts, postcss.config.js, .prettierrc, commitlint.config.js, release.config.js, i18n/config.ts, i18n/messages/*.json
 
-  - id: setup-commitizen
-    title: Enable Conventional Commits via Commitizen
+  - id: setup-i18n
+    title: Configure next-intl i18n with pt-BR, en, es
     actions:
-      - Install: `commitizen`, `@commitlint/cli`, `@commitlint/config-conventional`
-      - Create `commitlint.config.js` extending `@commitlint/config-conventional`
-      - Add to `package.json`:
-          * `"commit": "cz"`
-          * `"config.commitizen.path": "cz-conventional-changelog"`
-
-  - id: setup-release-it
-    title: Configure automated release with changelog
-    actions:
-      - Install: `release-it` and `@release-it/conventional-changelog`
-      - Create `release.config.js` with:
-          * `plugins: ["@release-it/conventional-changelog"]`
-          * Git tagging and changelog generation enabled
-      - Add to `package.json`:
-          * `"release": "release-it"`
+      - Create `i18n/config.ts` with:
+          * `defaultLocale: 'pt-BR'`
+          * `locales: ['pt-BR', 'en', 'es']`
+      - Create translation files with sample keys
+      - Configure `_app.tsx` to use next-intl provider
+      - Document how to add new languages
 
   - id: validate-setup
     title: Run final validations
@@ -144,7 +141,8 @@ tags:
   - husky
   - commitizen
   - release-it
+  - i18n
   - bootstrap
 
 createdBy: user
-version: 1.0.0
+version: 1.3.0
