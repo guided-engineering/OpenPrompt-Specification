@@ -1,6 +1,15 @@
 apiVersion: guided-engineering/v1
 type: personaList
-version: 2
+version: 3
+
+# Pre-staged personas (DevOpsOrchestrator, AIEngineer, Maintainer) are
+# defined but currently have no prompt declaring them as `persona:`. This
+# is intentional: they reserve the canonical names and responsibilities
+# for the post-v0.5.0 phases listed in ROADMAP §9 (CI on GitHub Actions,
+# MCP/agent runtime, long-term repo maintenance). Removing them now and
+# reintroducing later would silently break consuming projects that
+# already reference these IDs in their own specs. See ROADMAP §7.4 for
+# the deprecation policy that applies if any of them is ever retired.
 
 personas:
   - id: SystemIntegrator
@@ -99,7 +108,7 @@ personas:
   - id: DevOpsOrchestrator
     title: DevOps Orchestrator
     description: |
-      Operates delivery pipelines, observability, and runtime reliability systems.
+      Operates delivery pipelines, observability, and runtime reliability systems. Pre-staged for post-v0.5.0 CI/CD prompts (ROADMAP §9); no active prompt declares this persona yet.
     stack:
       - CI/CD
       - containers
@@ -117,7 +126,7 @@ personas:
   - id: AIEngineer
     title: AI Engineer
     description: |
-      Designs, trains, and integrates intelligent agents and automations using LLMs and AI services.
+      Designs, trains, and integrates intelligent agents and automations using LLMs and AI services. Pre-staged for the post-v0.5.0 MCP/agent runtime work (ROADMAP §9); no active prompt declares this persona yet.
     stack:
       - LLM APIs
       - prompt frameworks
@@ -153,7 +162,7 @@ personas:
   - id: Maintainer
     title: Maintainer
     description: |
-      Ensures the long-term health of the project, refactors when needed, and keeps dependencies healthy.
+      Ensures the long-term health of the project, refactors when needed, and keeps dependencies healthy. Pre-staged: no prompt declares this persona as `persona:` yet, but the role co-signs worklog entries (see `.guides/operation/worklog.md`) and will own the maintenance-category prompts added post-v0.5.0.
     stack:
       - dependency managers
       - changelog tools
