@@ -29,7 +29,7 @@ All documentation, specs, and prompts live under `.guides/`:
 - `.guides/testing/` — test strategy and playbooks.
 - `.guides/prompts/` — executable YAML prompts.
 - `.guides/personas/` — persona definitions (`personas.yaml`).
-- `.guides/schemas/` — validation schemas (`prompt.schema.json`, `persona.schema.json`, and the SDD schemas added in Phase 3).
+- `.guides/schemas/` — validation schemas: `prompt.schema.v2.json` (canonical), `prompt.schema.json` (v1, deprecated), `persona.schema.json`, and the SDD artifact schemas (`spec`, `requirement`, `acceptance-criterion`, `adr`, `traceability`, `test-cases`).
 
 ### Code Organization
 
@@ -39,7 +39,7 @@ All documentation, specs, and prompts live under `.guides/`:
 
 ### Prompt Development
 
-- All prompts must validate against `.guides/schemas/prompt.schema.json` (v1) or `.guides/schemas/prompt.schema.v2.json` (v2 lands in Phase 3 of the roadmap).
+- All prompts must validate against `.guides/schemas/prompt.schema.v2.json` (canonical since Phase 3). `prompt.schema.json` (v1) is retained for backward compatibility during the v0.x window and should not be the target of new prompts.
 - **Required fields:** `apiVersion`, `id`, `title`, `persona`, `category`, `difficulty`, `context`, `steps`, `output`, `version`.
 - **`apiVersion`** is locked at `guided-engineering/v1` for every YAML in the repo.
 - **`version`** is an integer ≥ 1; bump on substantive change, never use SemVer strings.

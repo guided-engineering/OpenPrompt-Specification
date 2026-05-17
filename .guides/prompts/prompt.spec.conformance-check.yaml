@@ -42,7 +42,7 @@ output:
       - MUST list every requirement and classify it as `satisfied | partially-satisfied | not-satisfied`
       - For every classification, MUST provide evidence (file paths, test IDs, commit SHAs, CI run URL)
       - MUST list every `not-satisfied` and `partially-satisfied` requirement as a numbered gap with a remediation owner (spec amendment vs implementation fix)
-      - MUST end with a single overall verdict (`PASS` / `PASS-WITH-GAPS` / `FAIL`) and a rationale paragraph
+      - MUST end with a single overall verdict (`PASS` / `PASS-WITH-GAPS` / `FAIL` / `DEMO`) and a rationale paragraph. Use `DEMO` only when the spec exists for methodology demonstration without a backing implementation (e.g., reference examples in spec-first framework repositories); the report MUST then state explicitly which artifacts a consuming project would attach to produce a real `PASS | PASS-WITH-GAPS | FAIL` verdict
       - MUST be signed by the executing persona and timestamped (ISO 8601)
   - file: .guides/operation/worklog.md
     language: markdown
@@ -86,6 +86,7 @@ steps:
       - 'On `PASS`: recommend advancing the spec to `status: implemented` (if not already) and leave a closing worklog entry'
       - 'On `PASS-WITH-GAPS`: keep the spec at `status: implemented`; open follow-up worklog items per gap'
       - 'On `FAIL`: recommend a status rollback (e.g., back to `approved` if the spec is wrong, or stay at `implemented` with blocking gaps if the code is wrong); escalate to the spec author or implementation persona'
+      - 'On `DEMO`: no status transition; record the demonstration boundary in the worklog and link the spec from a README/methodology doc so future readers understand the verdict is methodological, not operational'
 
   - id: log
     title: Append worklog entry

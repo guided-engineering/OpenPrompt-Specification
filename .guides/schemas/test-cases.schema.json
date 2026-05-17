@@ -1,0 +1,86 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Guided Engineering Test Cases Schema",
+  "description": "Collection of concrete test cases derived from a spec's acceptance criteria. Authored via prompt.test-cases.from-spec.yaml.",
+  "type": "object",
+  "required": [
+    "apiVersion",
+    "specId",
+    "specVersion",
+    "testCases"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "apiVersion": {
+      "type": "string",
+      "const": "guided-engineering/v1"
+    },
+    "specId": {
+      "type": "string",
+      "pattern": "^[a-z0-9._-]+$",
+      "description": "The spec these test cases verify."
+    },
+    "specVersion": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "The specVersion these test cases were derived against. Bump if the spec changes."
+    },
+    "testCases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "testCaseId",
+          "acceptanceCriterionId",
+          "kind",
+          "given",
+          "when",
+          "then"
+        ],
+        "properties": {
+          "testCaseId": {
+            "type": "string",
+            "pattern": "^[a-z0-9._-]+$"
+          },
+          "acceptanceCriterionId": {
+            "type": "string",
+            "pattern": "^[a-z0-9._-]+$",
+            "description": "The acceptance criterion this test case verifies."
+          },
+          "kind": {
+            "type": "string",
+            "enum": ["unit", "integration", "e2e", "property", "manual"]
+          },
+          "given": {
+            "type": "string",
+            "description": "Pre-condition mirrored from the acceptance criterion."
+          },
+          "when": {
+            "type": "string",
+            "description": "Action mirrored from the acceptance criterion."
+          },
+          "then": {
+            "type": "string",
+            "description": "Outcome mirrored from the acceptance criterion."
+          },
+          "inputs": {
+            "description": "Concrete input values used by this test case. Free-form object — shape depends on the feature under test.",
+            "type": ["object", "array", "string", "null"]
+          },
+          "expectedOutputs": {
+            "description": "Concrete expected outputs. Free-form object — shape depends on the feature under test.",
+            "type": ["object", "array", "string", "null"]
+          },
+          "notes": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

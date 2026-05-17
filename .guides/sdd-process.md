@@ -40,7 +40,7 @@ Six stages, each owned by a persona and producing a versioned artifact under `.g
 
 **Outputs.** `.guides/specs/spec.<feature-id>.yaml` validating against [`.guides/schemas/spec.schema.json`](./schemas/spec.schema.json).
 
-**Prompt (planned, Phase 4).** `prompt.spec.author.yaml`.
+**Prompt.** `prompt.spec.author.yaml`.
 
 **Definition of done.**
 - `specId`, `specVersion`, `businessContext`, `requirements[]`, `acceptanceCriteria[]`, `owners[]`, `status: draft` populated.
@@ -57,7 +57,7 @@ Six stages, each owned by a persona and producing a versioned artifact under `.g
 
 **Outputs.** A validation report appended to `.guides/operation/spec-validation.<specId>.md`. Spec `status` advances `draft → in-review → approved`.
 
-**Prompt (planned, Phase 4).** `prompt.spec.validate.yaml`.
+**Prompt.** `prompt.spec.validate.yaml`.
 
 **Definition of done.**
 - Lint clean: no missing required fields, no ambiguous "should/may" language without a corresponding non-functional requirement.
@@ -74,7 +74,7 @@ Six stages, each owned by a persona and producing a versioned artifact under `.g
 
 **Outputs.** One or more ADRs under `.guides/architecture/adr/NNNN-<short-title>.md` validating against [`.guides/schemas/adr.schema.json`](./schemas/adr.schema.json).
 
-**Prompt (planned, Phase 4).** `prompt.adr.author.yaml`.
+**Prompt.** `prompt.adr.author.yaml`.
 
 **Definition of done.**
 - ADR `status` is `proposed` or `accepted`.
@@ -87,7 +87,7 @@ Six stages, each owned by a persona and producing a versioned artifact under `.g
 
 **Goal.** Build the feature against the spec, test cases derived from acceptance criteria, and the design ADRs.
 
-**Inputs.** Approved spec; ADRs; test cases from `prompt.test-cases.from-spec.yaml` (Phase 4).
+**Inputs.** Approved spec; ADRs; test cases from `prompt.test-cases.from-spec.yaml`.
 
 **Outputs.** Source code under the project tree; tests; a worklog entry under `.guides/operation/worklog.md` referencing `specId` and the `requirementIds` covered.
 
@@ -108,11 +108,24 @@ Six stages, each owned by a persona and producing a versioned artifact under `.g
 
 **Outputs.** `.guides/operation/conformance.<specId>.md` listing satisfied requirements, gaps, and deviations.
 
-**Prompt (planned, Phase 4).** `prompt.spec.conformance-check.yaml`.
+**Prompt.** `prompt.spec.conformance-check.yaml`.
 
 **Definition of done.**
 - Every requirement is marked `satisfied`, `partially-satisfied`, or `not-satisfied` with evidence (file paths, test IDs, commit SHAs).
 - Gaps escalate back to stage 1 (spec amendment) or stage 4 (implementation fix); the loop closes when no `not-satisfied` items remain.
+
+### Conform → Evolve transition playbook
+
+`prompt.spec.conformance-check.yaml` produces one of four verdicts. The transition out of stage 5 depends on which:
+
+| Verdict | What it means | Required action | Who acts | Where it lands |
+|---|---|---|---|---|
+| `PASS` | Every requirement is `satisfied` with evidence. | Advance the spec to `status: implemented` (if not already). Close the loop. | `Maintainer` updates `status`; `QAEngineer` archives the matrix at its current `version`. | `.guides/specs/spec.<id>.yaml` + closing entry in `.guides/operation/worklog.md`. |
+| `PASS-WITH-GAPS` | Some requirements are `partially-satisfied`; no `not-satisfied`. | Spec stays at `status: implemented`. Open one follow-up worklog item per gap with an owner and a target date. Re-run the conformance check after each gap closes; bump the matrix `version`. | `CodeAuditor` writes the gap list; `Maintainer` assigns owners; `QAEngineer` re-runs the matrix. | Per-gap entries in `.guides/operation/worklog.md`; matrix updates in `.guides/traceability/`. |
+| `FAIL` | One or more requirements are `not-satisfied`. | Triage each `not-satisfied` requirement: **(a)** if the spec is wrong, the spec author rolls `status` back to `approved`, amends the spec, and the loop restarts at stage 2; **(b)** if the implementation is wrong, the implementer fixes the code, attaches new evidence to the matrix, and the auditor re-runs Conform. | `ProductStrategist` decides spec vs implementation; the relevant author drives the fix; `CodeAuditor` re-verifies. | Amended spec or new commits in the source tree; a re-emitted conformance report supersedes the failing one (link via `supersededBy`). |
+| `DEMO` | The spec exists for methodology demonstration; no backing implementation. | No `status` transition. Record the demonstration boundary in the worklog and link the spec from the README/methodology doc so future readers understand the verdict is methodological. | `Maintainer` + `DocumentationCurator` co-sign the worklog entry. | This is the verdict the `example.user-login` reference example uses (see `.guides/operation/conformance.example.user-login.md`). |
+
+The loop is closed only on `PASS`. Every other verdict produces an artifact (worklog entry, amended spec, new conformance report) that re-enters one of the earlier stages.
 
 ---
 
@@ -208,3 +221,4 @@ The example is intentionally narrow (one capability, three failure modes, two no
 - Manual validation: `VALIDATION.md` (how to validate every YAML locally).
 - Personas: `.guides/personas/personas.yaml` (canonical list of who owns what).
 - Schemas: `.guides/schemas/` (the validation contracts).
+- Retrofit guide: [`.guides/base/retrofit-sdd-guide.md`](./base/retrofit-sdd-guide.md) (how to adopt SDD in a project that already has working code, ambiguous specs, and scattered ADRs).

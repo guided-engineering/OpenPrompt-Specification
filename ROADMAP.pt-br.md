@@ -7,7 +7,7 @@
 | Versão atual | `0.1.0` |
 | Versão alvo | `0.5.0` |
 | Janela alvo | Q2–Q3 2026 (≈10 semanas) |
-| Status | Phase 5 — Reference Example (em execução) |
+| Status | Phase 5 concluída — v0.5.0 entregue; Phase 6 polish (v0.5.1) em andamento |
 | Escopo | Spec-first apenas (specs + validação + traceability) |
 | Fora de escopo | CLI, MCP/agents, portal, CI — ver §9 |
 | Idioma | Inglês primário; este arquivo é o mirror pt-BR autorado na Phase 5 |
@@ -252,6 +252,30 @@ npx ajv-cli@latest validate \
 
 Schemas são draft-07; qualquer validador conforme funciona.
 
+### 7.4 Política de deprecação (prompts, personas, schemas)
+
+Nada que sai neste repo recebe breaking-edit no lugar. Deprecação é uma operação versionada e rastreável:
+
+**Prompts.** Use o vocabulário SDD já em `prompt.schema.v2.json`:
+- Setar o objeto opcional `deprecation` (`{at, reason}`) no prompt que está sendo retirado.
+- Setar `supersededBy: <new-prompt-id>` se houver substituto. Se o prompt está sendo removido sem substituto, omitir `supersededBy` e deixar `reason` carregar o rationale.
+- Bump da `version` integer do prompt no commit de deprecação.
+- Abrir entrada de worklog registrando a deprecação, o rationale, e (se aplicável) o caminho de migração para projetos consumidores.
+- Não deletar o arquivo durante a janela v0.x — manter para backward compatibility e deixar o bloco `deprecation` avisar leitores futuros.
+
+**Personas.** Personas estão listadas uma vez em `.guides/personas/personas.yaml` e referenciadas por enum em `prompt.schema.json`, `prompt.schema.v2.json` e `spec.schema.json`. Para retirar uma persona:
+- Confirmar que nenhum prompt ativo declara como `persona:` e nenhum spec ativo lista em `owners[]`. Migrar antes se houver.
+- Marcar a persona como deprecated em `personas.yaml` com comentário nomeando o substituto (mirror do padrão de prompt: `# deprecated <ISO timestamp>; superseded by <PersonaId>`).
+- Remover o ID da persona do enum nos três schemas no mesmo commit.
+- Atualizar `.github/copilot-instructions.md` para que as sugestões parem de oferecer o ID retirado.
+- Abrir entrada de worklog registrando a mudança e o rationale.
+
+**Schemas.** Schemas evoluem via arquivos paralelos (`prompt.schema.json` → `prompt.schema.v2.json`), não in-place. O arquivo v1 ganha uma nota de deprecação no `description` root-level; ambos os arquivos coexistem durante a janela v0.x. A transição v0 → v1.0 (fora de escopo deste roadmap) é o ponto em que arquivos deprecated são removidos.
+
+**Specs e ADRs.** Use o valor `status: deprecated` mais `supersededBy: <new-id>`. O arquivo antigo permanece; leitores seguem a cadeia de supersessão.
+
+O princípio: toda deprecação tem timestamp ISO, rationale registrado, ponteiro `supersededBy` quando aplicável, e entrada de worklog. Nada desaparece silenciosamente.
+
 ---
 
 ## 8. Princípios fora-do-roadmap (a lista "não")
@@ -290,3 +314,4 @@ Estes guardam o escopo spec-first da v0.5.0 e previnem scope creep nos tópicos 
 | 2026-05-17 | 0.5 | Phase 3 executada. 5 schemas SDD novos + `prompt.schema.v2.json` como superset estrito do v1. v1 marcado deprecated. README, sdd-process e VALIDATION promovem v2 como canônico. | Maintainer (via Guided Engineering) |
 | 2026-05-17 | 0.6 | Phase 4 executada. 7 prompts SDD + 5 templates novos + 3 templates upgrade. `persona.schema.json` agora aceita `$schema` no root (backward-compatible). | Maintainer (via Guided Engineering) |
 | 2026-05-17 | 0.7 | Phase 5 executada. Mirror pt-BR autorado. Exemplo de referência `example.user-login` completo (spec, validação, ADR 0001, test cases, matriz, conformance). Primeira entrada real de worklog com sign-off duplo. Tag `v0.5.0` cortada. | Maintainer (via Guided Engineering) |
+| 2026-05-17 | 0.8 | Phase 6 (v0.5.1) polish em resposta a uma auditoria profunda pós-v0.5.0 (três Explore agents em paralelo cobrindo integridade de schemas, link/cross-reference, e coerência narrativa/metodológica). Dez commits em um único PR: (1) migrados os 8 prompts Phase 0-era para `prompt.schema.v2.json`; (2) versão dos READMEs EN+pt-BR atualizada de 0.1.0 para 0.5.0 + aviso sobre verdict DEMO no exemplo; (3) removida linguagem stale "planned, Phase 4" do sdd-process.md e linha "v2 lands in Phase 3" do copilot-instructions; (4) adicionado `test-cases.schema.json` (último artefato SDD sem schema) com validação do exemplo; (5) formalizado DEMO como quarto verdict de conformance em `prompt.spec.conformance-check.yaml`, fechando o contract widening que o worklog Phase 5 sinalizou; (6) adicionado playbook de transição Conform → Evolve no §5 do sdd-process.md com ações explícitas por verdict; (7) adicionado §7.4 política de deprecação no ROADMAP (EN+pt-BR) cobrindo prompts, personas, schemas, specs, e ADRs; (8) documentadas as três personas pre-staged (DevOpsOrchestrator, AIEngineer, Maintainer) com comentários de intenção em personas.yaml; (9) introduzido `worklog.schema.json` e retrofit da entrada existente do worklog com bloco YAML front-matter (padrão híbrido estilo ADR); (10) autorado `.guides/base/retrofit-sdd-guide.md` para times adotando SDD em codebase existente. Sem breaking changes; todos os artefatos existentes continuam validando. | Maintainer (via Guided Engineering) |
