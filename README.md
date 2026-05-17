@@ -215,8 +215,15 @@ This project is maintained using the `Guided Engineering` model itself - all cha
 - Methodology: [`.guides/sdd-process.md`](./.guides/sdd-process.md)
 - Roadmap to v0.5.0: [`ROADMAP.md`](./ROADMAP.md)
 - Manual validation protocol: [`VALIDATION.md`](./VALIDATION.md)
-- Prompt schema: [`.guides/schemas/prompt.schema.json`](./.guides/schemas/prompt.schema.json)
+- Prompt schema (canonical, SDD-aware): [`.guides/schemas/prompt.schema.v2.json`](./.guides/schemas/prompt.schema.v2.json)
+- Prompt schema v1 (deprecated): [`.guides/schemas/prompt.schema.json`](./.guides/schemas/prompt.schema.json)
 - Persona schema: [`.guides/schemas/persona.schema.json`](./.guides/schemas/persona.schema.json)
+- SDD artifact schemas:
+  - [`.guides/schemas/spec.schema.json`](./.guides/schemas/spec.schema.json)
+  - [`.guides/schemas/requirement.schema.json`](./.guides/schemas/requirement.schema.json)
+  - [`.guides/schemas/acceptance-criterion.schema.json`](./.guides/schemas/acceptance-criterion.schema.json)
+  - [`.guides/schemas/adr.schema.json`](./.guides/schemas/adr.schema.json)
+  - [`.guides/schemas/traceability.schema.json`](./.guides/schemas/traceability.schema.json)
 - Persona list: [`.guides/personas/personas.yaml`](./.guides/personas/personas.yaml)
 - Templates:
   - [`templates/template.prompt.yaml`](./templates/template.prompt.yaml)

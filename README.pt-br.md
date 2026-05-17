@@ -219,8 +219,16 @@ Este projeto é mantido usando o próprio modelo de `Guided Engineering` — tod
 * Metodologia: [`.guides/sdd-process.md`](./.guides/sdd-process.md)
 * Roadmap até v0.5.0: [`ROADMAP.md`](./ROADMAP.md)
 * Protocolo de validação manual: [`VALIDATION.md`](./VALIDATION.md)
-* Schema de prompt: [`.guides/schemas/prompt.schema.json`](./.guides/schemas/prompt.schema.json)
+* Schema de prompt (canônico, SDD-aware): [`.guides/schemas/prompt.schema.v2.json`](./.guides/schemas/prompt.schema.v2.json)
+* Schema de prompt v1 (deprecated): [`.guides/schemas/prompt.schema.json`](./.guides/schemas/prompt.schema.json)
 * Schema de persona: [`.guides/schemas/persona.schema.json`](./.guides/schemas/persona.schema.json)
+* Schemas de artefatos SDD:
+
+  * [`.guides/schemas/spec.schema.json`](./.guides/schemas/spec.schema.json)
+  * [`.guides/schemas/requirement.schema.json`](./.guides/schemas/requirement.schema.json)
+  * [`.guides/schemas/acceptance-criterion.schema.json`](./.guides/schemas/acceptance-criterion.schema.json)
+  * [`.guides/schemas/adr.schema.json`](./.guides/schemas/adr.schema.json)
+  * [`.guides/schemas/traceability.schema.json`](./.guides/schemas/traceability.schema.json)
 * Lista de personas: [`.guides/personas/personas.yaml`](./.guides/personas/personas.yaml)
 * Templates:
 
