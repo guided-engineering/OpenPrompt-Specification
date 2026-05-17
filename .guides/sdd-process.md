@@ -114,6 +114,19 @@ Six stages, each owned by a persona and producing a versioned artifact under `.g
 - Every requirement is marked `satisfied`, `partially-satisfied`, or `not-satisfied` with evidence (file paths, test IDs, commit SHAs).
 - Gaps escalate back to stage 1 (spec amendment) or stage 4 (implementation fix); the loop closes when no `not-satisfied` items remain.
 
+### Conform → Evolve transition playbook
+
+`prompt.spec.conformance-check.yaml` produces one of four verdicts. The transition out of stage 5 depends on which:
+
+| Verdict | What it means | Required action | Who acts | Where it lands |
+|---|---|---|---|---|
+| `PASS` | Every requirement is `satisfied` with evidence. | Advance the spec to `status: implemented` (if not already). Close the loop. | `Maintainer` updates `status`; `QAEngineer` archives the matrix at its current `version`. | `.guides/specs/spec.<id>.yaml` + closing entry in `.guides/operation/worklog.md`. |
+| `PASS-WITH-GAPS` | Some requirements are `partially-satisfied`; no `not-satisfied`. | Spec stays at `status: implemented`. Open one follow-up worklog item per gap with an owner and a target date. Re-run the conformance check after each gap closes; bump the matrix `version`. | `CodeAuditor` writes the gap list; `Maintainer` assigns owners; `QAEngineer` re-runs the matrix. | Per-gap entries in `.guides/operation/worklog.md`; matrix updates in `.guides/traceability/`. |
+| `FAIL` | One or more requirements are `not-satisfied`. | Triage each `not-satisfied` requirement: **(a)** if the spec is wrong, the spec author rolls `status` back to `approved`, amends the spec, and the loop restarts at stage 2; **(b)** if the implementation is wrong, the implementer fixes the code, attaches new evidence to the matrix, and the auditor re-runs Conform. | `ProductStrategist` decides spec vs implementation; the relevant author drives the fix; `CodeAuditor` re-verifies. | Amended spec or new commits in the source tree; a re-emitted conformance report supersedes the failing one (link via `supersededBy`). |
+| `DEMO` | The spec exists for methodology demonstration; no backing implementation. | No `status` transition. Record the demonstration boundary in the worklog and link the spec from the README/methodology doc so future readers understand the verdict is methodological. | `Maintainer` + `DocumentationCurator` co-sign the worklog entry. | This is the verdict the `example.user-login` reference example uses (see `.guides/operation/conformance.example.user-login.md`). |
+
+The loop is closed only on `PASS`. Every other verdict produces an artifact (worklog entry, amended spec, new conformance report) that re-enters one of the earlier stages.
+
 ---
 
 ## 6. Evolve — `Maintainer`
