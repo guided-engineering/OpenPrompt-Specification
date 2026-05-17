@@ -201,7 +201,23 @@ All prompts live under [`.guides/prompts/`](./.guides/prompts/):
 - `prompt.commit.yaml` — analyse pending changes and apply a Conventional Commit.
 - `prompt.web.generate-page.yaml` — generate a localized Next.js page with i18n + tests + worklog.
 
-The SDD prompts (`prompt.spec.author.yaml`, `prompt.spec.validate.yaml`, `prompt.adr.author.yaml`, ...) land in Phase 4 of the roadmap.
+SDD prompts (`prompt.spec.author.yaml`, `prompt.spec.validate.yaml`, `prompt.adr.author.yaml`, `prompt.requirement.traceability.yaml`, `prompt.acceptance-criteria.author.yaml`, `prompt.test-cases.from-spec.yaml`, `prompt.spec.conformance-check.yaml`) operationalize the methodology.
+
+## 🧪 Reference Example
+
+The canonical illustration of the full SDD loop lives at [`.guides/specs/spec.example.user-login.yaml`](./.guides/specs/spec.example.user-login.yaml). It exercises every stage end-to-end:
+
+| Stage | Artifact |
+|---|---|
+| 1. Spec | [`.guides/specs/spec.example.user-login.yaml`](./.guides/specs/spec.example.user-login.yaml) |
+| 2. Validate | [`.guides/operation/spec-validation.example.user-login.md`](./.guides/operation/spec-validation.example.user-login.md) |
+| 3. Design | [`.guides/architecture/adr/0001-choose-spec-format.md`](./.guides/architecture/adr/0001-choose-spec-format.md) |
+| 4. Test cases | [`.guides/testing/test-cases.example.user-login.yaml`](./.guides/testing/test-cases.example.user-login.yaml) |
+| Cross-cutting | [`.guides/traceability/matrix.example.user-login.yaml`](./.guides/traceability/matrix.example.user-login.yaml) |
+| 5. Conform | [`.guides/operation/conformance.example.user-login.md`](./.guides/operation/conformance.example.user-login.md) |
+| Audit | [`.guides/operation/worklog.md`](./.guides/operation/worklog.md) |
+
+Copy the spec into your own `.guides/specs/` folder, adapt the IDs, and follow the prompts top to bottom.
 ---
 
 ## 📌 Contributors

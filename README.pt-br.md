@@ -204,7 +204,23 @@ Todos os prompts vivem em [`.guides/prompts/`](./.guides/prompts/):
 * `prompt.commit.yaml` — analisa mudanças pendentes e aplica um Conventional Commit.
 * `prompt.web.generate-page.yaml` — gera uma página Next.js localizada com i18n + testes + worklog.
 
-Os prompts SDD (`prompt.spec.author.yaml`, `prompt.spec.validate.yaml`, `prompt.adr.author.yaml`, ...) chegam na Phase 4 do roadmap.
+Os prompts SDD (`prompt.spec.author.yaml`, `prompt.spec.validate.yaml`, `prompt.adr.author.yaml`, `prompt.requirement.traceability.yaml`, `prompt.acceptance-criteria.author.yaml`, `prompt.test-cases.from-spec.yaml`, `prompt.spec.conformance-check.yaml`) operacionalizam a metodologia.
+
+## 🧪 Exemplo de Referência
+
+A ilustração canônica do loop SDD completo está em [`.guides/specs/spec.example.user-login.yaml`](./.guides/specs/spec.example.user-login.yaml). Ela exercita todos os estágios end-to-end:
+
+| Estágio | Artefato |
+|---|---|
+| 1. Spec | [`.guides/specs/spec.example.user-login.yaml`](./.guides/specs/spec.example.user-login.yaml) |
+| 2. Validate | [`.guides/operation/spec-validation.example.user-login.md`](./.guides/operation/spec-validation.example.user-login.md) |
+| 3. Design | [`.guides/architecture/adr/0001-choose-spec-format.md`](./.guides/architecture/adr/0001-choose-spec-format.md) |
+| 4. Test cases | [`.guides/testing/test-cases.example.user-login.yaml`](./.guides/testing/test-cases.example.user-login.yaml) |
+| Cross-cutting | [`.guides/traceability/matrix.example.user-login.yaml`](./.guides/traceability/matrix.example.user-login.yaml) |
+| 5. Conform | [`.guides/operation/conformance.example.user-login.md`](./.guides/operation/conformance.example.user-login.md) |
+| Auditoria | [`.guides/operation/worklog.md`](./.guides/operation/worklog.md) |
+
+Copie a spec para a sua própria pasta `.guides/specs/`, adapte os IDs e siga os prompts de cima para baixo.
 
 ---
 

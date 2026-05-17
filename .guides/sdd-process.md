@@ -184,6 +184,24 @@ The SDD lifecycle maps 1:1 to folders under `.guides/`:
 
 ---
 
+## Canonical reference example
+
+The full SDD loop is illustrated end-to-end by [`example.user-login`](./specs/spec.example.user-login.yaml). Every stage in the lifecycle above has a corresponding artifact:
+
+| Stage | Artifact |
+|---|---|
+| 1. Spec | [`specs/spec.example.user-login.yaml`](./specs/spec.example.user-login.yaml) |
+| 2. Validate | [`operation/spec-validation.example.user-login.md`](./operation/spec-validation.example.user-login.md) |
+| 3. Design | [`architecture/adr/0001-choose-spec-format.md`](./architecture/adr/0001-choose-spec-format.md) |
+| 4. Test cases | [`testing/test-cases.example.user-login.yaml`](./testing/test-cases.example.user-login.yaml) |
+| Cross-cutting | [`traceability/matrix.example.user-login.yaml`](./traceability/matrix.example.user-login.yaml) |
+| 5. Conform | [`operation/conformance.example.user-login.md`](./operation/conformance.example.user-login.md) |
+| Audit | [`operation/worklog.md`](./operation/worklog.md) |
+
+The example is intentionally narrow (one capability, three failure modes, two non-functional requirements) so the entire loop fits in one reading session. Consuming projects copy the spec, adapt the IDs, and follow the prompts top to bottom.
+
+---
+
 ## Pointers
 
 - Roadmap: `ROADMAP.md` (this file is the methodology; the roadmap is the delivery plan).
