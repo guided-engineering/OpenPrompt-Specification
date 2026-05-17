@@ -1,4 +1,4 @@
-$schema: .guides/schemas/prompt.schema.json
+$schema: .guides/schemas/prompt.schema.v2.json
 apiVersion: guided-engineering/v1
 id: generate.ide.llm.instructions
 title: Analyze Project and Generate IDE/LLM Instruction Files

@@ -1,4 +1,4 @@
-$schema: .guides/schemas/prompt.schema.json
+$schema: .guides/schemas/prompt.schema.v2.json
 apiVersion: guided-engineering/v1
 id: init.standalone-nextjs.codebase
 title: Initialize Standalone Next.js Project (pt-BR default, PNPM, CLI-first, i18n)

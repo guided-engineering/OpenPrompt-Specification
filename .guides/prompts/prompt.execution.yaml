@@ -1,4 +1,4 @@
-$schema: .guides/schemas/prompt.schema.json
+$schema: .guides/schemas/prompt.schema.v2.json
 apiVersion: guided-engineering/v1
 id: execution.guided-cli.phase1-kanban
 title: Execute Phase 1 Kanban with Technical Validation and Consistent UX

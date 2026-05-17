@@ -1,4 +1,4 @@
-$schema: .guides/schemas/prompt.schema.json
+$schema: .guides/schemas/prompt.schema.v2.json
 apiVersion: guided-engineering/v1
 id: web.generate-page
 title: Generate localized page with layout, metadata, and translation files

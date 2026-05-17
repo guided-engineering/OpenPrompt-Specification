@@ -1,4 +1,4 @@
-$schema: .guides/schemas/prompt.schema.json
+$schema: .guides/schemas/prompt.schema.v2.json
 apiVersion: guided-engineering/v1
 id: setup.and.assess.project
 title: Setup Canonical .guided Structure and Run Technical Assessment
