@@ -1,4 +1,4 @@
-$schema: .guides/schema/prompt.schema.json
+$schema: .guides/schemas/prompt.schema.json
 apiVersion: guided-engineering/v1
 id: execution.guided-cli.phase1-kanban
 title: Execute Phase 1 Kanban with Technical Validation and Consistent UX
@@ -15,7 +15,7 @@ context: |
     - Language: TypeScript
     - Tools: pnpm, oclif, LangChain, Vitest, ESLint, Prettier
     - Terminal UI: ink, cli-progress, tty-table
-    - Config: stored in `~/.guided/config.json` (user level)
+    - Config: stored in `~/.guides/config.json` (user level)
   
    UX Principles (from `.guides/architecture/rules.md`):
     - Minimalism and clarity over decoration

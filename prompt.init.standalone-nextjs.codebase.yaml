@@ -1,5 +1,5 @@
-$schema: .guides/schema/prompt.schema.json
-apiVersion: ops/v1
+$schema: .guides/schemas/prompt.schema.json
+apiVersion: guided-engineering/v1
 id: init.standalone-nextjs.codebase
 title: Initialize Standalone Next.js Project (pt-BR default, PNPM, CLI-first, i18n)
 persona: ProjectBootstrapper
@@ -145,4 +145,4 @@ tags:
   - bootstrap
 
 createdBy: user
-version: 1.3.0
+version: 1

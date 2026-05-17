@@ -1,4 +1,4 @@
-$schema: .guides/schema/prompt.schema.json
+$schema: .guides/schemas/prompt.schema.json
 apiVersion: guided-engineering/v1
 id: setup.guides.structure
 title: Create Canonical .guides Documentation Structure
@@ -29,7 +29,7 @@ steps:
         * .guides/operation/
         * .guides/personas/
         * .guides/prompts/
-        * .guides/schema/
+        * .guides/schemas/
         * .guides/context/
 
   - id: create-canonical-files
@@ -83,8 +83,8 @@ steps:
         - .guides/prompts/template.prompt.yml
 
         # schema/
-        - .guides/schema/prompt.schema.json
-        - .guides/schema/persona.schema.json
+        - .guides/schemas/prompt.schema.json
+        - .guides/schemas/persona.schema.json
 
         # context/
         - .guides/context/local.md
