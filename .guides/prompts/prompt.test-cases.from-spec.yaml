@@ -1,0 +1,95 @@
+$schema: .guides/schemas/prompt.schema.v2.json
+apiVersion: guided-engineering/v1
+id: test-cases.from-spec
+title: Derive concrete test cases from a spec's acceptance criteria
+persona: QAEngineer
+category: testing
+difficulty: medium
+workspace: ./
+
+context: |
+  Cross-cutting prompt for stage 4 of the SDD lifecycle. Given a spec
+  at `status: approved`, derive concrete test cases (one or more per
+  acceptance criterion) ready to be implemented in the target stack.
+
+  This prompt emits test-case descriptors as YAML alongside the spec,
+  not runnable test code. Turning the descriptors into runnable tests
+  is the implementation persona's job and depends on the project stack.
+
+businessContext: |
+  Test cases written downstream of acceptance criteria are the contract
+  that proves the spec was honored. Generating them mechanically from
+  AC eliminates the "tester guesses what the spec meant" failure mode
+  and makes test coverage gaps visible at PR time.
+
+riskLevel: low
+
+dependencies:
+  - 'A spec at `.guides/specs/spec.<specId>.yaml` at `status: approved` or later'
+  - "`.guides/schemas/acceptance-criterion.schema.json` (read; ACs are the input)"
+  - "`.guides/testing/` is writable"
+
+output:
+  - file: .guides/testing/test-cases.<specId>.yaml
+    language: yaml
+    rules:
+      - "MUST be a YAML mapping with `specId`, `specVersion`, `apiVersion: guided-engineering/v1`, and `testCases[]`"
+      - Each test case MUST have a stable `testCaseId` (pattern `^[a-z0-9._-]+$`)
+      - Each test case MUST reference the `acceptanceCriterionId` it verifies
+      - Each test case MUST state `given`, `when`, `then` (mirrored from the AC) plus a concrete `inputs` block and an `expectedOutputs` block
+      - 'Each test case MUST be tagged with a `kind` (unit | integration | e2e | property | manual)'
+      - SHOULD include edge cases and explicitly negative test cases
+      - MUST NOT include implementation-level details (no framework names, no file paths to source code)
+  - file: .guides/operation/worklog.md
+    language: markdown
+    rules:
+      - Append a worklog entry naming the `specId`, the number of test cases derived, the persona, and the ISO timestamp
+
+steps:
+  - id: load-spec-acs
+    title: Load the spec and its acceptance criteria
+    actions:
+      - Read `.guides/specs/spec.<specId>.yaml`
+      - Extract `acceptanceCriteria[]` and the requirements they verify
+      - 'Confirm the spec is at `status: approved` or later; warn if `draft`/`in-review` (test cases will likely change)'
+
+  - id: derive-happy-path
+    title: Derive happy-path test cases
+    actions:
+      - For each acceptance criterion, derive one happy-path test case using the AC's Given/When/Then as the skeleton
+      - Convert `dataExamples[]` into concrete `inputs` and `expectedOutputs`
+      - Assign a stable `testCaseId` per case
+
+  - id: derive-edge-and-negative
+    title: Derive edge and negative test cases
+    actions:
+      - For each AC that involves bounded inputs (numeric ranges, length limits, enums, dates), derive at least one boundary case and one out-of-range case
+      - For each AC that involves authentication or authorization, derive at least one unauthorized case
+      - For each AC that involves persistence, derive at least one idempotency case
+
+  - id: tag-by-kind
+    title: Tag every test case by kind
+    actions:
+      - 'Assign a `kind` to each test case: unit | integration | e2e | property | manual'
+      - Prefer the cheapest kind that still verifies the AC
+
+  - id: emit-and-validate
+    title: Emit the test-cases file and self-check
+    actions:
+      - Write `.guides/testing/test-cases.<specId>.yaml`
+      - Confirm every `acceptanceCriterionId` from the spec is referenced by at least one test case
+      - Flag ACs with no test case as a traceability gap (feed into `prompt.requirement.traceability.yaml`)
+
+  - id: log
+    title: Append worklog entry
+    actions:
+      - Write a worklog entry naming the `specId`, number of test cases derived, persona, and ISO timestamp
+
+tags:
+  - sdd
+  - testing
+  - test-cases
+  - qa
+
+createdBy: guided-engineering
+version: 1

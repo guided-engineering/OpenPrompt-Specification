@@ -1,0 +1,103 @@
+$schema: .guides/schemas/prompt.schema.v2.json
+apiVersion: guided-engineering/v1
+id: requirement.traceability
+title: Build or update the SDD traceability matrix for a spec
+persona: QAEngineer
+category: analysis
+difficulty: medium
+workspace: ./
+
+context: |
+  Cross-cutting prompt that maintains the traceability matrix at
+  `.guides/traceability/matrix.<specId>.yaml`. The matrix links every
+  requirement in a spec to its acceptance criteria, test cases, commits,
+  and evidence artifacts. It is the single artifact a conformance check
+  reads to answer "is this requirement satisfied, and how do I know?".
+
+  Run this prompt at three moments: when a spec is approved (to seed the
+  matrix), when implementation lands (to attach test IDs and commit
+  SHAs), and during the Conform stage (to verify evidence exists).
+
+businessContext: |
+  Without a traceability matrix, every conformance check becomes a
+  manual archaeology project across PRs and test reports. The matrix
+  collapses that effort into one file and turns evidence into a
+  first-class deliverable.
+
+riskLevel: medium
+
+dependencies:
+  - 'A spec at `.guides/specs/spec.<specId>.yaml` (preferably at `status: approved` or later)'
+  - "`.guides/schemas/traceability.schema.json` (validation target)"
+  - Git history (commits) and test artifacts (test IDs, CI runs)
+  - "`.guides/traceability/` is writable"
+
+output:
+  - file: .guides/traceability/matrix.<specId>.yaml
+    language: yaml
+    rules:
+      - MUST validate against `.guides/schemas/traceability.schema.json`
+      - MUST include one `entries[]` row per requirement in the spec
+      - Each row's `requirementId` MUST exist in the spec's `requirements[]`
+      - Each row's `acceptanceCriterionIds[]` MUST reference AC IDs that exist in the spec
+      - "`commits[]` MUST contain commit SHAs (short or full) that touched files implementing the requirement"
+      - "`evidence[]` MUST contain file paths or URLs to concrete artifacts (test output, CI run, report)"
+      - 'Bump `version` by 1 on every substantive change'
+  - file: .guides/operation/worklog.md
+    language: markdown
+    rules:
+      - Append a worklog entry naming the `matrixId`, the `version`, what changed (seed/update/verify), the persona, and the ISO timestamp
+
+steps:
+  - id: load-spec
+    title: Load the target spec
+    actions:
+      - Read `.guides/specs/spec.<specId>.yaml`
+      - 'Confirm the spec is at `status: approved` or later (warn if `draft` — the matrix will go stale)'
+      - Extract `requirements[]` and `acceptanceCriteria[]` for cross-checking
+
+  - id: seed-or-load-matrix
+    title: Seed a new matrix or load the existing one
+    actions:
+      - If `.guides/traceability/matrix.<specId>.yaml` does not exist, create the skeleton with one entry per requirement (no commits/evidence yet)
+      - If it exists, load it and validate against the current schema before editing
+
+  - id: attach-test-cases
+    title: Attach test case IDs to each AC
+    actions:
+      - For each acceptance criterion, identify the test case(s) that verify it (search the project's test files; use a deterministic naming convention if available)
+      - Record the `testCaseIds[]` on the matching entry
+      - Flag ACs with no test case as a gap to escalate
+
+  - id: attach-commits
+    title: Attach commits that implemented each requirement
+    actions:
+      - Use `git log --grep` and file path heuristics to find commits touching the relevant files
+      - Record short SHAs in `commits[]` for each requirement
+      - Prefer signed/merged commits over WIP commits
+
+  - id: attach-evidence
+    title: Attach evidence artifacts
+    actions:
+      - For each requirement, list at least one concrete artifact proving it works (test output file, CI run URL, screenshot path, conformance report)
+      - Use repo-relative paths or stable URLs
+
+  - id: validate-and-bump
+    title: Validate the matrix and bump version
+    actions:
+      - Validate the file against `.guides/schemas/traceability.schema.json`
+      - 'Bump the matrix `version` by 1 if any entry changed; leave unchanged if this run was a pure verification with no edits'
+
+  - id: log
+    title: Append worklog entry
+    actions:
+      - Write a worklog entry naming the `matrixId`, the new `version`, the operation type (seed/update/verify), the persona, and the ISO timestamp
+
+tags:
+  - sdd
+  - traceability
+  - matrix
+  - qa
+
+createdBy: guided-engineering
+version: 1
