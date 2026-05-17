@@ -2,7 +2,7 @@ $schema: .guides/schemas/prompt.schema.json
 apiVersion: guided-engineering/v1
 id: setup.and.assess.project
 title: Setup Canonical .guided Structure and Run Technical Assessment
-persona: DocumentationEngineer
+persona: DocumentationCurator
 category: base
 difficulty: hard
 workspace: ./
