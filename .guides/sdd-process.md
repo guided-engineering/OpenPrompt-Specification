@@ -40,7 +40,7 @@ Six stages, each owned by a persona and producing a versioned artifact under `.g
 
 **Outputs.** `.guides/specs/spec.<feature-id>.yaml` validating against [`.guides/schemas/spec.schema.json`](./schemas/spec.schema.json).
 
-**Prompt (planned, Phase 4).** `prompt.spec.author.yaml`.
+**Prompt.** `prompt.spec.author.yaml`.
 
 **Definition of done.**
 - `specId`, `specVersion`, `businessContext`, `requirements[]`, `acceptanceCriteria[]`, `owners[]`, `status: draft` populated.
@@ -57,7 +57,7 @@ Six stages, each owned by a persona and producing a versioned artifact under `.g
 
 **Outputs.** A validation report appended to `.guides/operation/spec-validation.<specId>.md`. Spec `status` advances `draft → in-review → approved`.
 
-**Prompt (planned, Phase 4).** `prompt.spec.validate.yaml`.
+**Prompt.** `prompt.spec.validate.yaml`.
 
 **Definition of done.**
 - Lint clean: no missing required fields, no ambiguous "should/may" language without a corresponding non-functional requirement.
@@ -74,7 +74,7 @@ Six stages, each owned by a persona and producing a versioned artifact under `.g
 
 **Outputs.** One or more ADRs under `.guides/architecture/adr/NNNN-<short-title>.md` validating against [`.guides/schemas/adr.schema.json`](./schemas/adr.schema.json).
 
-**Prompt (planned, Phase 4).** `prompt.adr.author.yaml`.
+**Prompt.** `prompt.adr.author.yaml`.
 
 **Definition of done.**
 - ADR `status` is `proposed` or `accepted`.
@@ -87,7 +87,7 @@ Six stages, each owned by a persona and producing a versioned artifact under `.g
 
 **Goal.** Build the feature against the spec, test cases derived from acceptance criteria, and the design ADRs.
 
-**Inputs.** Approved spec; ADRs; test cases from `prompt.test-cases.from-spec.yaml` (Phase 4).
+**Inputs.** Approved spec; ADRs; test cases from `prompt.test-cases.from-spec.yaml`.
 
 **Outputs.** Source code under the project tree; tests; a worklog entry under `.guides/operation/worklog.md` referencing `specId` and the `requirementIds` covered.
 
@@ -108,7 +108,7 @@ Six stages, each owned by a persona and producing a versioned artifact under `.g
 
 **Outputs.** `.guides/operation/conformance.<specId>.md` listing satisfied requirements, gaps, and deviations.
 
-**Prompt (planned, Phase 4).** `prompt.spec.conformance-check.yaml`.
+**Prompt.** `prompt.spec.conformance-check.yaml`.
 
 **Definition of done.**
 - Every requirement is marked `satisfied`, `partially-satisfied`, or `not-satisfied` with evidence (file paths, test IDs, commit SHAs).
