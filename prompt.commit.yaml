@@ -44,7 +44,7 @@ steps:
     title: Detect pending Git changes
     actions:
       - Run `git status --porcelain`
-      - If no changes found, abort prompt with message: "No staged or modified files to commit."
+      - 'If no changes found, abort prompt with message: "No staged or modified files to commit."'
 
   - id: group-files-by-scope
     title: Group changed files into logical scopes
@@ -55,17 +55,18 @@ steps:
   - id: determine-commit-type
     title: Infer commit type based on change content
     actions:
-      - Analyze file types and patterns:
-        - New features → feat
-        - Bug fixes → fix
-        - Markdown/docs → docs
-        - Prompt updates → chore or docs
-        - Refactoring (no behavior change) → refactor
+      - |
+        Analyze file types and patterns:
+          - New features → feat
+          - Bug fixes → fix
+          - Markdown/docs → docs
+          - Prompt updates → chore or docs
+          - Refactoring (no behavior change) → refactor
 
   - id: generate-message
     title: Generate conventional commit message
     actions:
-      - Build the message as `<type>(<scope>): <summary>`
+      - 'Build the message as `<type>(<scope>): <summary>`'
       - Ensure it's ≤ 72 characters
       - Save to `.git/COMMIT_EDITMSG`
 
@@ -78,12 +79,13 @@ steps:
   - id: write-worklog
     title: Log commit reasoning and traceability
     actions:
-      - Write `.guides/operation/worklog.commit.md` with:
-        - Commit message used
-        - Files affected
-        - Type and scope selected
-        - Why this message format was chosen
-        - Link to prompt ID if applicable
+      - |
+        Write `.guides/operation/worklog.commit.md` with:
+          - Commit message used
+          - Files affected
+          - Type and scope selected
+          - Why this message format was chosen
+          - Link to prompt ID if applicable
 
 tags:
   - commit

@@ -2,7 +2,7 @@ $schema: .guides/schemas/prompt.schema.json
 apiVersion: guided-engineering/v1
 id: init.standalone-nextjs.codebase
 title: Initialize Standalone Next.js Project (pt-BR default, PNPM, CLI-first, i18n)
-persona: ProjectBootstrapper
+persona: SystemIntegrator
 category: implementation
 difficulty: medium
 workspace: ./
@@ -19,14 +19,6 @@ context: |
 
   i18n is enabled via next-intl with pt-BR as defaultLocale, and 'en', 'es' as additional supported locales.
 
-personaDetails:
-  id: ProjectBootstrapper
-  name: Project Bootstrapper
-  description: |
-    Specialist responsible for initializing new projects with best practices, automation, and robust tooling.
-    Ensures all tools, configurations, and conventions are implemented for a modern web development stack.
-    Proficient in scripting, automation, developer experience, and CI/CD setup.
-
 dependencies:
   - Node.js 22
   - PNPM 10 (enforced)
@@ -38,7 +30,7 @@ output:
     language: json
     rules:
       - Must include scripts and devDependencies for the stack
-      - Must set `"engines": { "pnpm": ">=10.0.0" }`
+      - 'Must set `"engines": { "pnpm": ">=10.0.0" }`'
       - Must include `packageManager` field for PNPM
   - file: ./eslint.config.js
     language: js
@@ -70,55 +62,56 @@ output:
   - file: ./i18n/messages/pt-BR.json
     language: json
     rules:
-      - Must include at least one sample key (e.g., "hello": "Olá")
+      - 'Must include at least one sample key (e.g., "hello": "Olá")'
   - file: ./i18n/messages/en.json
     language: json
     rules:
-      - Must include at least one sample key (e.g., "hello": "Hello")
+      - 'Must include at least one sample key (e.g., "hello": "Hello")'
   - file: ./i18n/messages/es.json
     language: json
     rules:
-      - Must include at least one sample key (e.g., "hello": "Hola")
+      - 'Must include at least one sample key (e.g., "hello": "Hola")'
 
 steps:
   - id: scaffold-nextjs
     title: Scaffold Next.js 15 project via CLI
     actions:
-      - Run: pnpm create next-app@latest . --ts --eslint --tailwind --app --src-dir --import-alias "@/*"
-      - Remove unnecessary boilerplate files and any default .eslintrc*
-      - Add `engines.pnpm` and `packageManager` fields to package.json
+      - 'Run: `pnpm create next-app@latest . --ts --eslint --tailwind --app --src-dir --import-alias "@/*"`'
+      - Remove unnecessary boilerplate files and any default `.eslintrc*`
+      - Add `engines.pnpm` and `packageManager` fields to `package.json`
 
   - id: init-husky
     title: Initialize Husky via CLI
     actions:
-      - Run: pnpm dlx husky-init && pnpm install
-      - Overwrite `.husky/pre-commit` with: `pnpm lint && pnpm format`
-      - Create `.husky/commit-msg` with: `pnpm exec commitlint --edit "$1"`
+      - 'Run: `pnpm dlx husky-init && pnpm install`'
+      - 'Overwrite `.husky/pre-commit` with: `pnpm lint && pnpm format`'
+      - 'Create `.husky/commit-msg` with: `pnpm exec commitlint --edit "$1"`'
 
   - id: init-shadcn
     title: Initialize shadcn/ui via CLI
     actions:
-      - Run: pnpm dlx shadcn@latest init
+      - 'Run: `pnpm dlx shadcn@latest init`'
       - Select Tailwind CSS and set app directory
 
   - id: init-commitizen
     title: (Optional) Initialize Commitizen via CLI
     actions:
-      - Run: npx commitizen init cz-conventional-changelog --save-dev --save-exact
-      - Or configure manually in package.json
+      - 'Run: `npx commitizen init cz-conventional-changelog --save-dev --save-exact`'
+      - Or configure manually in `package.json`
 
   - id: install-deps
     title: Install and configure remaining dependencies manually
     actions:
-      - Install all required packages (pnpm add/pnpm add -D)
-      - Configure: eslint.config.js, tailwind.config.ts, postcss.config.js, .prettierrc, commitlint.config.js, release.config.js, i18n/config.ts, i18n/messages/*.json
+      - Install all required packages (`pnpm add` / `pnpm add -D`)
+      - 'Configure: eslint.config.js, tailwind.config.ts, postcss.config.js, .prettierrc, commitlint.config.js, release.config.js, i18n/config.ts, i18n/messages/*.json'
 
   - id: setup-i18n
     title: Configure next-intl i18n with pt-BR, en, es
     actions:
-      - Create `i18n/config.ts` with:
-          * `defaultLocale: 'pt-BR'`
-          * `locales: ['pt-BR', 'en', 'es']`
+      - |
+        Create `i18n/config.ts` with:
+          - `defaultLocale: 'pt-BR'`
+          - `locales: ['pt-BR', 'en', 'es']`
       - Create translation files with sample keys
       - Configure `_app.tsx` to use next-intl provider
       - Document how to add new languages
@@ -126,9 +119,9 @@ steps:
   - id: validate-setup
     title: Run final validations
     actions:
-      - Run: pnpm lint
-      - Run: pnpm format
-      - Run: pnpm dev
+      - 'Run: `pnpm lint`'
+      - 'Run: `pnpm format`'
+      - 'Run: `pnpm dev`'
 
 tags:
   - nextjs

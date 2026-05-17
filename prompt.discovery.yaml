@@ -26,24 +26,26 @@ steps:
   - id: create-guided-folders
     title: Create documentation folders
     actions:
-      - Create the following folders:
-        * .guides/base/
-        * .guides/product/
-        * .guides/architecture/
-        * .guides/architecture/adr/
-        * .guides/assessment/
-        * .guides/testing/
-        * .guides/operation/
-        * .guides/personas/
-        * .guides/prompts/
-        * .guides/schemas/
-        * .guides/context/
-        * .guides/tmp/
+      - |
+        Create the following folders:
+          - .guides/base/
+          - .guides/product/
+          - .guides/architecture/
+          - .guides/architecture/adr/
+          - .guides/assessment/
+          - .guides/testing/
+          - .guides/operation/
+          - .guides/personas/
+          - .guides/prompts/
+          - .guides/schemas/
+          - .guides/context/
+          - .guides/tmp/
 
   - id: create-canonical-files
     title: Create canonical empty files with boilerplate
     actions:
-      - Create the following files (with headers or TODOs):
+      - |
+        Create the following files (with headers or TODOs):
 
         # base/
         - .guides/base/project.structure.md

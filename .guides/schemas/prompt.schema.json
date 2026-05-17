@@ -15,6 +15,10 @@
     "version"
   ],
   "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Reference to the JSON Schema file used to validate this prompt"
+    },
     "apiVersion": {
       "type": "string",
       "const": "guided-engineering/v1"

@@ -37,13 +37,14 @@ steps:
   - id: validate-environment
     title: Validate stack and required tools
     actions:
-      - Check presence of:
-        * Node.js >= 18
-        * pnpm
-        * oclif
-        * langchain
-        * eslint, prettier, vitest
-        * ink, cli-progress, tty-table
+      - |
+        Check presence of:
+          - Node.js >= 18
+          - pnpm
+          - oclif
+          - langchain
+          - eslint, prettier, vitest
+          - ink, cli-progress, tty-table
       - Fail with instructions if any required tool is missing
 
   - id: load-next-task
@@ -51,7 +52,7 @@ steps:
     actions:
       - Read `.guides/product/kanban.phase1.md`
       - Select the first task in `Backlog`
-      - Extract task metadata: ID, milestone, expected file/output
+      - 'Extract task metadata: ID, milestone, expected file/output'
 
   - id: understand-task
     title: Analyze task context and intention
@@ -63,15 +64,17 @@ steps:
   - id: verify-against-guides
     title: Validate technical and UX alignment
     actions:
-      - Read:
-        * `.guides/architecture/stack.md`
-        * `.guides/architecture/rules.md`
-        * `.guides/product/spec.md`
-        * `.guides/assessment/summary.md`
-      - Check that the task:
-        * Uses only allowed tools and libraries
-        * Follows UX/UI and terminal design principles
-        * Produces expected output defined in the roadmap/spec
+      - |
+        Read:
+          - `.guides/architecture/stack.md`
+          - `.guides/architecture/rules.md`
+          - `.guides/product/spec.md`
+          - `.guides/assessment/summary.md`
+      - |
+        Check that the task:
+          - Uses only allowed tools and libraries
+          - Follows UX/UI and terminal design principles
+          - Produces expected output defined in the roadmap/spec
       - If conflicts are found, stop and flag inconsistencies
 
   - id: execute-task
@@ -96,8 +99,10 @@ steps:
   - id: prompt-to-continue
     title: Ask if next task should be executed
     actions:
-      - Prompt:
-        > Task "{title}" complete. Do you want to continue to the next one?
+      - |
+        Prompt the user with:
+
+            Task "{title}" complete. Do you want to continue to the next one?
       - If confirmed, return to `load-next-task`
       - Else, finish gracefully
 
