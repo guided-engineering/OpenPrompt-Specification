@@ -10,7 +10,7 @@ There is no CI yet (see ROADMAP §9); contributors are expected to run the comma
 npx --yes ajv-cli@5 --version
 
 # Validate every prompt in the repo
-for f in prompt.*.yaml setup.guides.structure.yml; do
+for f in .guides/prompts/*.yaml; do
   npx --yes ajv-cli@5 validate \
     -s .guides/schemas/prompt.schema.json \
     -d "$f" \
@@ -32,14 +32,14 @@ Every command must report `valid`. A non-zero exit means the file does not confo
 
 | File | Schema | Notes |
 |---|---|---|
-| `prompt.commit.yaml` | `.guides/schemas/prompt.schema.json` | |
-| `prompt.copilot.yaml` | `.guides/schemas/prompt.schema.json` | |
-| `prompt.discovery.yaml` | `.guides/schemas/prompt.schema.json` | |
-| `prompt.execution.yaml` | `.guides/schemas/prompt.schema.json` | |
-| `prompt.init.standalone-nextjs.codebase.yaml` | `.guides/schemas/prompt.schema.json` | |
-| `prompt.onboarding.yaml` | `.guides/schemas/prompt.schema.json` | |
-| `prompt.web.generate-page.yaml` | `.guides/schemas/prompt.schema.json` | |
-| `setup.guides.structure.yml` | `.guides/schemas/prompt.schema.json` | Phase 1 will rename to `.yaml` and move under `.guides/prompts/`. |
+| `.guides/prompts/prompt.commit.yaml` | `.guides/schemas/prompt.schema.json` | |
+| `.guides/prompts/prompt.copilot.yaml` | `.guides/schemas/prompt.schema.json` | |
+| `.guides/prompts/prompt.discovery.yaml` | `.guides/schemas/prompt.schema.json` | |
+| `.guides/prompts/prompt.execution.yaml` | `.guides/schemas/prompt.schema.json` | |
+| `.guides/prompts/prompt.init.standalone-nextjs.codebase.yaml` | `.guides/schemas/prompt.schema.json` | |
+| `.guides/prompts/prompt.onboarding.yaml` | `.guides/schemas/prompt.schema.json` | |
+| `.guides/prompts/prompt.setup.guides.structure.yaml` | `.guides/schemas/prompt.schema.json` | Renamed and moved in Phase 1; was `setup.guides.structure.yml` at repo root. |
+| `.guides/prompts/prompt.web.generate-page.yaml` | `.guides/schemas/prompt.schema.json` | |
 | `.guides/personas/personas.yaml` | `.guides/schemas/persona.schema.json` | |
 | `templates/template.prompt.yaml` | `.guides/schemas/prompt.schema.json` | Template uses `<placeholder>` values; not expected to validate as-is. Skip until Phase 4 upgrade. |
 | `templates/template.persona.yaml` | `.guides/schemas/persona.schema.json` | Same caveat as above. |
@@ -79,16 +79,8 @@ from jsonschema import Draft7Validator
 schema = json.load(open('.guides/schemas/prompt.schema.json'))
 v = Draft7Validator(schema)
 
-files = [
-    'prompt.commit.yaml',
-    'prompt.copilot.yaml',
-    'prompt.discovery.yaml',
-    'prompt.execution.yaml',
-    'prompt.init.standalone-nextjs.codebase.yaml',
-    'prompt.onboarding.yaml',
-    'prompt.web.generate-page.yaml',
-    'setup.guides.structure.yml',
-]
+import glob
+files = sorted(glob.glob('.guides/prompts/*.yaml'))
 
 failed = False
 for f in files:

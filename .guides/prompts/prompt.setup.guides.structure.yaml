@@ -31,6 +31,8 @@ steps:
           - .guides/personas/
           - .guides/prompts/
           - .guides/schemas/
+          - .guides/specs/
+          - .guides/traceability/
           - .guides/context/
 
   - id: create-canonical-files

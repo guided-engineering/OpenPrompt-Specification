@@ -7,7 +7,7 @@
 | Current version | `0.1.0` |
 | Target version | `0.5.0` |
 | Target window | Q2–Q3 2026 (≈10 weeks) |
-| Status | Phase 0 — Stabilization (complete) |
+| Status | Phase 1 — Canonical Structure Materialization (complete) |
 | Scope | Spec-first only (specs + validation + traceability) |
 | Out of scope | CLI, MCP/agents, portal, CI — see §9 |
 | Language | English primary; `ROADMAP.pt-br.md` mirror authored in Phase 5 |
@@ -169,10 +169,10 @@ Each phase block follows the same structure: **Goal · Scope · Deliverables · 
   - `.guides/traceability/` *(new — matrices home)*
 
 **Acceptance criteria.**
-- [ ] `ls /home/user/OpenPrompt-Specification/prompt.*.yaml 2>/dev/null` returns nothing.
-- [ ] `ls /home/user/OpenPrompt-Specification/.guides/prompts/*.yaml | wc -l` ≥ 8.
-- [ ] All 9 canonical folders exist (with `.gitkeep` where empty).
-- [ ] `grep -rn "\.guided/" .` still 0.
+- [x] `ls /home/user/OpenPrompt-Specification/prompt.*.yaml 2>/dev/null` returns nothing.
+- [x] `ls /home/user/OpenPrompt-Specification/.guides/prompts/*.yaml | wc -l` ≥ 8.
+- [x] All 9 canonical folders exist (with `.gitkeep` where empty).
+- [x] `grep -rn "\.guided/" .` still 0 (excluding `ROADMAP.md` and `VALIDATION.md` documentation references).
 
 **Risks & mitigations.**
 - Moving prompts may break any external tooling that hard-codes their paths → search GitHub for known consumers before merge; add a note in README mapping old → new paths.
@@ -445,3 +445,4 @@ These guard the spec-first scope of v0.5.0 and prevent scope creep into the topi
 |---|---|---|---|
 | 2026-05-17 | 0.1 | Initial draft authored. Captures stabilization debt, SDD gaps, 6-phase plan to v0.5.0. | Maintainer (via Guided Engineering) |
 | 2026-05-17 | 0.2 | Phase 0 executed. Refined Phase 0 deliverables/ACs to reflect five additional findings surfaced during execution: schema rejected `$schema` property (added); `version: 1.3.0`/`1.5.0` string violations (converted to integers); `difficulty` missing on web prompt (added); `setup.guides.structure.yml` also affected by persona/schema-path issues; latent YAML parse errors required block-scalar refactor of multi-bullet actions across four prompts. ACs marked complete; status moved to "Phase 0 complete". | Maintainer (via Guided Engineering) |
+| 2026-05-17 | 0.3 | Phase 1 executed. Moved all 7 prompts + `setup.guides.structure.yml` (renamed to `prompt.setup.guides.structure.yaml`) into `.guides/prompts/`. Created 9 canonical folders with `.gitkeep` placeholders, including the new SDD homes `.guides/specs/` and `.guides/traceability/`. Updated `prompt.setup.guides.structure.yaml` to also create those two new folders. `VALIDATION.md` paths updated. All ACs met. | Maintainer (via Guided Engineering) |
