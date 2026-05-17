@@ -1,11 +1,15 @@
 # Guided Engineering (PT-BR)
 
-OpenPrompt-Specification
-Versão: 0.1.0
+*Um framework de Spec-Driven Development (SDD).*
 
-~~Vibe Coding~~ → **Guided Engineering** é um sistema estruturado, rastreável e executável para gerenciar todo o ciclo de vida do desenvolvimento de software (SDLC) por meio de prompts modulares, agentes inteligentes e documentação reprodutível.
+OpenPrompt-Specification
+Versão: 0.1.0 — veja [`ROADMAP.md`](./ROADMAP.md) para o caminho até v0.5.0.
+
+~~Vibe Coding~~ → **Guided Engineering** é um framework estruturado, rastreável e executável para **Spec-Driven Development**: especificações versionadas guiam todo artefato a jusante (código, testes, ADRs, worklogs) por meio de prompts modulares, personas e documentação reprodutível.
 
 Este projeto utiliza prompts YAML versionados, validação por schema, personas e saídas categorizadas para viabilizar a colaboração humano–máquina com alta observabilidade, reprodutibilidade e complexidade mínima.
+
+> **Marca:** Guided Engineering. **Metodologia:** SDD. Veja [`.guides/sdd-process.md`](./.guides/sdd-process.md) para o ciclo de vida.
 
 ---
 
@@ -115,8 +119,9 @@ Guided Engineering depende de artefatos versionados e estruturados para guiar a 
 
 ### Principais tipos de artefatos:
 
-* **YAML** prompts (`*.yml`): Definem intenção, contexto, persona e etapas de execução.
-* Documentação **Markdown** (`*.md`): Capturam saídas estruturadas, decisões, playbooks.
+* **YAML** prompts (`*.yaml`): Definem intenção, contexto, persona e etapas de execução.
+* **YAML** specs (`*.yaml` em `.guides/specs/`): Fonte única e versionada de verdade para cada feature.
+* Documentação **Markdown** (`*.md`): Capturam saídas estruturadas, decisões, playbooks, ADRs.
 * Schemas **JSON** (`*.json`): Impõem estrutura, consistência e validação.
 
 Todos são armazenados em uma pasta canônica `.guides/`, categorizados por função.
@@ -151,17 +156,20 @@ Essas ferramentas atuam como assistentes – **nunca substitutos do julgamento d
 
 ## 📁 Estrutura do Projeto (`.guides/`)
 
-| Pasta           | Propósito                                                |
-| --------------- | -------------------------------------------------------- |
-| `base/`         | Estrutura do projeto e guias de setup                    |
-| `product/`      | Requisitos de produto, roadmap, personas de usuário      |
-| `assessment/`   | Avaliações completas de código, stack, riscos            |
-| `architecture/` | Camadas de arquitetura, regras, plugins                  |
-| `testing/`      | Estratégias de teste, cobertura, documentação de riscos  |
-| `operation/`    | Worklogs, changelogs, troubleshooting, FAQ               |
-| `prompts/`      | Prompts executáveis YAML por categoria e persona         |
-| `personas/`     | Papéis responsáveis pelos prompts (ex: Dev, QA, Auditor) |
-| `schema/`       | Schemas JSON para validar prompts e personas             |
+| Pasta               | Propósito                                                                  |
+| ------------------- | -------------------------------------------------------------------------- |
+| `base/`             | Estrutura do projeto e guias de setup                                      |
+| `product/`          | Requisitos de produto, roadmap, personas de usuário                        |
+| `specs/`            | **Specs SDD** — fonte única versionada de verdade por feature              |
+| `traceability/`     | **Matrizes SDD** — requirement ↔ spec ↔ test ↔ commit ↔ evidence          |
+| `assessment/`       | Avaliações completas de código, stack, riscos                              |
+| `architecture/`     | Camadas de arquitetura, regras, plugins                                    |
+| `architecture/adr/` | Architecture Decision Records (ADRs)                                       |
+| `testing/`          | Estratégias de teste, cobertura, documentação de riscos                    |
+| `operation/`        | Worklogs, changelogs, relatórios de validação/conformância, FAQ            |
+| `prompts/`          | Prompts executáveis YAML por categoria e persona                           |
+| `personas/`         | Papéis responsáveis pelos prompts (ex: Dev, QA, Architect, Auditor)        |
+| `schemas/`          | Schemas JSON para validar prompts, personas, specs, ADRs                   |
 
 ---
 
@@ -189,8 +197,14 @@ Essas ferramentas atuam como assistentes – **nunca substitutos do julgamento d
 
 ## 🧩 Exemplos de Prompts
 
-* `prompt.discovery.yml`: Avaliação técnica completa de um projeto (primeiro prompt).
-* `prompt.onboarding.yaml`: Gera um arquivo de onboarding completo para engenheiros.
+Todos os prompts vivem em [`.guides/prompts/`](./.guides/prompts/):
+
+* `prompt.discovery.yaml` — avaliação técnica completa de um projeto (primeiro prompt).
+* `prompt.onboarding.yaml` — gera um arquivo de onboarding completo para engenheiros.
+* `prompt.commit.yaml` — analisa mudanças pendentes e aplica um Conventional Commit.
+* `prompt.web.generate-page.yaml` — gera uma página Next.js localizada com i18n + testes + worklog.
+
+Os prompts SDD (`prompt.spec.author.yaml`, `prompt.spec.validate.yaml`, `prompt.adr.author.yaml`, ...) chegam na Phase 4 do roadmap.
 
 ---
 
@@ -202,12 +216,17 @@ Este projeto é mantido usando o próprio modelo de `Guided Engineering` — tod
 
 ## 📖 Recursos
 
-* Schema de prompt: `.guides/schema/prompt.schema.json`
-* Lista de personas: `.guides/personas/personas.yml`
+* Metodologia: [`.guides/sdd-process.md`](./.guides/sdd-process.md)
+* Roadmap até v0.5.0: [`ROADMAP.md`](./ROADMAP.md)
+* Protocolo de validação manual: [`VALIDATION.md`](./VALIDATION.md)
+* Schema de prompt: [`.guides/schemas/prompt.schema.json`](./.guides/schemas/prompt.schema.json)
+* Schema de persona: [`.guides/schemas/persona.schema.json`](./.guides/schemas/persona.schema.json)
+* Lista de personas: [`.guides/personas/personas.yaml`](./.guides/personas/personas.yaml)
 * Templates:
 
-  * `.guides/prompts/template.prompt.yml`
-  * `.guides/personas/template.persona.yml`
+  * [`templates/template.prompt.yaml`](./templates/template.prompt.yaml)
+  * [`templates/template.persona.yaml`](./templates/template.persona.yaml)
+  * [`templates/template.worklog.md`](./templates/template.worklog.md)
 
 ---
 
