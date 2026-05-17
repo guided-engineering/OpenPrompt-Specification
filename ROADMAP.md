@@ -7,7 +7,7 @@
 | Current version | `0.1.0` |
 | Target version | `0.5.0` |
 | Target window | Q2–Q3 2026 (≈10 weeks) |
-| Status | Phase 0 — Stabilization (not started) |
+| Status | Phase 0 — Stabilization (complete) |
 | Scope | Spec-first only (specs + validation + traceability) |
 | Out of scope | CLI, MCP/agents, portal, CI — see §9 |
 | Language | English primary; `ROADMAP.pt-br.md` mirror authored in Phase 5 |
@@ -116,24 +116,27 @@ Each phase block follows the same structure: **Goal · Scope · Deliverables · 
 - Out: any file moves (deferred to Phase 1), any new SDD vocabulary (deferred to Phase 3).
 
 **Deliverables.**
-- Edit `/home/user/OpenPrompt-Specification/.guides/schemas/prompt.schema.json` — fix invalid JSON (missing comma after `workspace` property).
+- Edit `/home/user/OpenPrompt-Specification/.guides/schemas/prompt.schema.json` — fix invalid JSON (missing comma after `workspace` property); allow `$schema` as a top-level property so prompts can declare their schema.
 - Edit `prompt.commit.yaml`, `prompt.copilot.yaml`, `prompt.init.standalone-nextjs.codebase.yaml`, `prompt.onboarding.yaml`, `prompt.web.generate-page.yaml` — set `apiVersion: guided-engineering/v1`.
 - Edit `prompt.copilot.yaml`, `prompt.discovery.yaml`, `prompt.web.generate-page.yaml` — fix `$schema` from `.guided/schema/` → `.guides/schemas/`.
-- Edit `prompt.execution.yaml`, `prompt.init.standalone-nextjs.codebase.yaml` — fix `$schema` from `.guides/schema/` → `.guides/schemas/`.
+- Edit `prompt.execution.yaml`, `prompt.init.standalone-nextjs.codebase.yaml`, `setup.guides.structure.yml`, `templates/template.prompt.yaml`, `templates/template.persona.yaml` — fix `$schema` from `.guides/schema/` → `.guides/schemas/`.
+- Replace remaining `.guided/` content references with `.guides/` across `prompt.discovery.yaml`, `prompt.copilot.yaml`, `prompt.execution.yaml`.
 - Edit `prompt.onboarding.yaml` — change `difficulty: intermediate` → `medium`.
-- Edit `prompt.init.standalone-nextjs.codebase.yaml` — drop `personaDetails`; set `persona: SystemIntegrator`.
-- **Rewrite `prompt.web.generate-page.yaml` end-to-end:** persona field must be a single ID (e.g., `SoftwareDeveloper`); remove `description`/`action`/`expectedOutcome` step keys (keep only schema-allowed `actions`, `output`, `timeout`, `retries`, `onFailure`, `if`); convert pipe-string `rules` into arrays of strings; fix `createBy` → `createdBy`.
-- Rename all `persona: DocumentationEngineer` → `DocumentationCurator` in `prompt.discovery.yaml`, `prompt.onboarding.yaml`, and any other occurrence.
+- Edit `prompt.init.standalone-nextjs.codebase.yaml` — drop `personaDetails`; set `persona: SystemIntegrator`; convert `version: 1.3.0` → `version: 1` (schema requires integer).
+- **Rewrite `prompt.web.generate-page.yaml` end-to-end:** persona field must be a single ID (`SoftwareDeveloper`); inline persona description moved into `context:`; **add missing required field `difficulty: hard`**; remove `description`/`action`/`expectedOutcome` step keys (keep only schema-allowed `actions`, `output`, `timeout`, `retries`, `onFailure`, `if`); convert pipe-string `rules` into arrays of strings; fix `createBy` → `createdBy`; convert `version: 1.5.0` → `version: 1` (schema requires integer).
+- Repair YAML parse errors uncovered by enabling validation: convert multi-bullet action bodies into block scalars (`|`) in `prompt.discovery.yaml`, `prompt.execution.yaml`, `prompt.commit.yaml`, `setup.guides.structure.yml`; quote actions/rules containing colons or nested double quotes; replace YAML-alias-triggering `* ` syntax with `-`.
+- Rename all `persona: DocumentationEngineer` → `DocumentationCurator` in `prompt.discovery.yaml`, `prompt.onboarding.yaml`, and `setup.guides.structure.yml`.
 - Edit `.guides/personas/personas.yaml` — remove `DocumentationEngineer` (the `DocumentationCurator` definition stays as canonical doc persona).
 - Create `/home/user/OpenPrompt-Specification/VALIDATION.md` — list every YAML in the repo with the local `ajv` command to validate it.
 
 **Acceptance criteria.**
-- [ ] `python -c "import json; json.load(open('.guides/schemas/prompt.schema.json'))"` returns 0.
-- [ ] `grep -rn "apiVersion: ops/v1" .` returns 0 hits.
-- [ ] `grep -rn "\.guided/" .` returns 0 hits.
-- [ ] `grep -rn "DocumentationEngineer" .` returns 0 hits.
-- [ ] Every `prompt.*.yaml` validates against `.guides/schemas/prompt.schema.json` using a vanilla JSON Schema validator (e.g., `ajv-cli`).
-- [ ] `VALIDATION.md` exists and is up to date.
+- [x] `python3 -c "import json; json.load(open('.guides/schemas/prompt.schema.json'))"` returns 0.
+- [x] `grep -rn "apiVersion: ops/v1" .` returns 0 hits.
+- [x] `grep -rn "\.guided/" .` (excluding `ROADMAP.md` historical references) returns 0 hits.
+- [x] `grep -rn "persona: DocumentationEngineer\|id: DocumentationEngineer" .` returns 0 hits. *(Refined from the original blanket grep, which conflicted with historical references in this file.)*
+- [x] Every `prompt.*.yaml` and `setup.guides.structure.yml` validates against `.guides/schemas/prompt.schema.json` using a JSON Schema validator (`ajv-cli` or `jsonschema`).
+- [x] `.guides/personas/personas.yaml` validates against `.guides/schemas/persona.schema.json`.
+- [x] `VALIDATION.md` exists and is up to date.
 
 **Risks & mitigations.**
 - Full rewrite of `prompt.web.generate-page.yaml` (414 lines) may take longer than estimated → time-box at 2 days; if overrun, split into a minimal-conformant version + a follow-up enhancement issue.
@@ -441,3 +444,4 @@ These guard the spec-first scope of v0.5.0 and prevent scope creep into the topi
 | Date | Version | Change | Author |
 |---|---|---|---|
 | 2026-05-17 | 0.1 | Initial draft authored. Captures stabilization debt, SDD gaps, 6-phase plan to v0.5.0. | Maintainer (via Guided Engineering) |
+| 2026-05-17 | 0.2 | Phase 0 executed. Refined Phase 0 deliverables/ACs to reflect five additional findings surfaced during execution: schema rejected `$schema` property (added); `version: 1.3.0`/`1.5.0` string violations (converted to integers); `difficulty` missing on web prompt (added); `setup.guides.structure.yml` also affected by persona/schema-path issues; latent YAML parse errors required block-scalar refactor of multi-bullet actions across four prompts. ACs marked complete; status moved to "Phase 0 complete". | Maintainer (via Guided Engineering) |
