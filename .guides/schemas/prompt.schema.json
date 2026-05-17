@@ -42,7 +42,8 @@
         "DevOpsOrchestrator",
         "AIEngineer",
         "DocumentationCurator",
-        "Maintainer"
+        "Maintainer",
+        "Architect"
       ]
     },
     "workspace": {
