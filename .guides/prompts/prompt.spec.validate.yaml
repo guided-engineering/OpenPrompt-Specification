@@ -1,0 +1,103 @@
+$schema: .guides/schemas/prompt.schema.v2.json
+apiVersion: guided-engineering/v1
+id: spec.validate
+title: Validate an SDD spec for completeness, ambiguity, and traceability hygiene
+persona: DocumentationCurator
+category: analysis
+difficulty: medium
+workspace: ./
+
+context: |
+  Stage 2 of the SDD lifecycle. Given a spec at `status: draft`, this
+  prompt produces a structured validation report and advances the spec
+  through `draft → in-review → approved` (or sends it back to the author
+  with a defect list).
+
+  The check is mechanical (schema + lint rules) plus editorial (ambiguity
+  detection, traceability hygiene). No implementation may begin before a
+  spec reaches `approved`.
+
+businessContext: |
+  Skipping validation lets ambiguous specs fan out into ambiguous code,
+  tests, and ADRs. Catching defects here is an order of magnitude cheaper
+  than catching them in conformance review.
+
+riskLevel: medium
+
+dependencies:
+  - A spec at `.guides/specs/spec.<specId>.yaml`
+  - "`.guides/schemas/spec.schema.json`, `.guides/schemas/requirement.schema.json`, `.guides/schemas/acceptance-criterion.schema.json`"
+  - "`.guides/operation/` writeable"
+  - "`VALIDATION.md` for the local validation command"
+
+output:
+  - file: .guides/operation/spec-validation.<specId>.md
+    language: markdown
+    rules:
+      - MUST list the spec under review with its `specId`, `specVersion`, and reviewed `status`
+      - MUST report schema validation result (pass/fail) with the validator command used
+      - MUST report a defect list grouped by category (missing-required, ambiguous-language, untestable-AC, traceability-gap, status-mismatch)
+      - MUST end with a recommended status transition (`stay-draft` / `move-to-in-review` / `move-to-approved` / `reject`) and a rationale
+      - MUST be signed by the executing persona and timestamped (ISO 8601)
+  - file: .guides/operation/worklog.md
+    language: markdown
+    rules:
+      - Append a worklog entry naming the `specId`, the recommended transition, the defect count, and the ISO timestamp
+
+steps:
+  - id: schema-validate
+    title: Run schema validation
+    actions:
+      - Validate the spec file against `.guides/schemas/spec.schema.json` with the requirement and acceptance-criterion schemas preloaded via `-r`
+      - If validation fails, capture the validator output verbatim in the report
+
+  - id: lint-required-fields
+    title: Lint required fields and basic shape
+    actions:
+      - Confirm every requirement has a non-empty `description`, a `type`, and a `priority`
+      - Confirm every `must` requirement has at least one acceptance criterion
+      - Confirm every acceptance criterion has `given`/`when`/`then` populated and not duplicated
+      - Confirm `owners` is non-empty and references existing persona IDs
+
+  - id: detect-ambiguity
+    title: Detect ambiguous or weasel language
+    actions:
+      - Flag occurrences of "should/may/might/usually/typically" outside of explicitly non-functional requirements
+      - Flag undefined acronyms and undefined user roles
+      - Flag acceptance criteria without concrete `dataExamples[]` when the input/output is non-trivial
+
+  - id: check-traceability
+    title: Check traceability hygiene
+    actions:
+      - For every requirement, confirm `acceptanceCriteriaIds[]` references existing AC IDs in this spec
+      - For every AC, confirm at least one requirement references it
+      - If `relatedSpecs[]` or `supersededBy` is set, confirm the target spec file exists
+
+  - id: editorial-review
+    title: Editorial pass for testability and audience
+    actions:
+      - Read each AC and ask "could a tester write a failing test from this without asking the author a question?" — flag any AC that requires clarification
+      - Flag requirements that solutionize (mention specific frameworks/libraries) instead of stating outcomes
+
+  - id: status-recommendation
+    title: Recommend the next status
+    actions:
+      - If schema validation failed or any blocker defect exists, recommend `stay-draft`
+      - If only editorial defects remain, recommend `move-to-in-review` with a punch list
+      - If no defects, recommend `move-to-approved`
+      - If the spec is fundamentally misaligned with prior specs or contradicts an active ADR, recommend `reject` and link the conflicting artifact
+
+  - id: emit-report-and-log
+    title: Write the validation report and worklog entry
+    actions:
+      - Write `.guides/operation/spec-validation.<specId>.md` with all sections populated
+      - Append a worklog entry under `.guides/operation/worklog.md` with the recommended transition, defect count, and ISO timestamp
+
+tags:
+  - sdd
+  - spec
+  - validation
+  - lint
+
+createdBy: guided-engineering
+version: 1
