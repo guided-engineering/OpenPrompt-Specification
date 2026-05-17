@@ -1,4 +1,4 @@
-$schema: .guides/schema/persona.schema.json
+$schema: .guides/schemas/persona.schema.json
 apiVersion: guided-engineering/v1
 type: personaList
 version: 1

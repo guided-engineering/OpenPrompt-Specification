@@ -1,15 +1,15 @@
 $schema: .guides/schemas/prompt.schema.json
-apiVersion: ops/v1
+apiVersion: guided-engineering/v1
 id: base.onboarding.generate
 title: Generate Onboarding Guide for New Developers
-persona: DocumentationEngineer
+persona: DocumentationCurator
 context: |
   The project includes a structured `.guides/` folder with documentation about the product, architecture, setup, testing, personas, prompts, and assessments.
   This prompt should generate a complete onboarding guide (`onboarding.md`) aimed at helping new developers understand and start contributing to the project effectively.
   The output must be written in Brazilian Portuguese, using clear, welcoming, and technically accurate language.
   Use all relevant `.guides/*` content and Git commit history to construct the guide.
 category: base
-difficulty: intermediate
+difficulty: medium
 language: english
 dependencies:
   - .guides/base/

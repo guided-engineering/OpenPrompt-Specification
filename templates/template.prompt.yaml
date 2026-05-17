@@ -1,4 +1,4 @@
-$schema: .guides/schema/prompt.schema.json
+$schema: .guides/schemas/prompt.schema.json
 apiVersion: guided-engineering/v1
 id: <yourPromptId>
 title: <Your Prompt Title>

@@ -1,8 +1,8 @@
-$schema: .guides/schema/prompt.schema.json
+$schema: .guides/schemas/prompt.schema.json
 apiVersion: guided-engineering/v1
 id: setup.guides.structure
 title: Create Canonical .guides Documentation Structure
-persona: DocumentationEngineer
+persona: DocumentationCurator
 category: base
 difficulty: easy
 workspace: ./
@@ -19,23 +19,27 @@ steps:
   - id: create-guides-folders
     title: Create documentation folders
     actions:
-      - Create the following folders:
-        * .guides/base/
-        * .guides/product/
-        * .guides/architecture/
-        * .guides/architecture/adr/
-        * .guides/assessment/
-        * .guides/testing/
-        * .guides/operation/
-        * .guides/personas/
-        * .guides/prompts/
-        * .guides/schema/
-        * .guides/context/
+      - |
+        Create the following folders:
+          - .guides/base/
+          - .guides/product/
+          - .guides/architecture/
+          - .guides/architecture/adr/
+          - .guides/assessment/
+          - .guides/testing/
+          - .guides/operation/
+          - .guides/personas/
+          - .guides/prompts/
+          - .guides/schemas/
+          - .guides/specs/
+          - .guides/traceability/
+          - .guides/context/
 
   - id: create-canonical-files
     title: Create canonical empty files with boilerplate
     actions:
-      - Create the following files (with title header or TODOs):
+      - |
+        Create the following files (with title header or TODOs):
 
         # base/
         - .guides/base/project.structure.md
@@ -83,8 +87,8 @@ steps:
         - .guides/prompts/template.prompt.yml
 
         # schema/
-        - .guides/schema/prompt.schema.json
-        - .guides/schema/persona.schema.json
+        - .guides/schemas/prompt.schema.json
+        - .guides/schemas/persona.schema.json
 
         # context/
         - .guides/context/local.md

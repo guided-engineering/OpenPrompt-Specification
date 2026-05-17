@@ -1,5 +1,5 @@
-$schema: .guided/schema/prompt.schema.json
-apiVersion: ops/v1
+$schema: .guides/schemas/prompt.schema.json
+apiVersion: guided-engineering/v1
 id: generate.ide.llm.instructions
 title: Analyze Project and Generate IDE/LLM Instruction Files
 persona: CodeAuditor
@@ -7,7 +7,7 @@ category: analysis
 difficulty: hard
 workspace: ./
 context: |
-  The objective of this prompt is to analyze the entire project, including documentation, codebase, configuration, and Guided Engineering standards in `.guided/`.
+  The objective of this prompt is to analyze the entire project, including documentation, codebase, configuration, and Guided Engineering standards in `.guides/`.
   The result should be the generation of ALL relevant instruction files that can improve IDE and AI assistant integration (GitHub Copilot, Claude, Windsurf, Continue, and others).
   Each file must provide precise, context-aware guidelines to guide code suggestions and developer behavior, strictly reflecting the standards, conventions, folder structure, and technical decisions present in the project.
 
@@ -19,7 +19,7 @@ context: |
 
 dependencies:
   - Full access to the source code and all folders
-  - Full access to `.guided/` documentation and schemas
+  - Full access to `.guides/` documentation and schemas
   - Knowledge of best practices for each target tool (Copilot, Claude, Windsurf, Continue, IDEs)
   - Knowledge of markdown and yaml syntax
 
@@ -56,7 +56,7 @@ steps:
   - id: analyzeProject
     title: Analyze project structure, documentation, and codebase
     actions:
-      - Read all relevant folders (src/, config/, data/, .guided/, .github/, etc)
+      - Read all relevant folders (src/, config/, data/, .guides/, .github/, etc)
       - Extract conventions, standards, and special practices
 
   - id: synthesizeInstructions
@@ -88,7 +88,7 @@ steps:
   - id: generateContributing
     title: Generate `.github/CONTRIBUTING.md`
     actions:
-      - Summarize how to contribute, code/commit style, branch rules, CI, and references to `.guided/` documentation
+      - Summarize how to contribute, code/commit style, branch rules, CI, and references to `.guides/` documentation
 
   - id: updateReadme
     title: Update `README.md` with project overview and pointers to LLM/IDE instructions

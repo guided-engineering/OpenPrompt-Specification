@@ -1,0 +1,350 @@
+$schema: .guides/schemas/prompt.schema.json
+apiVersion: guided-engineering/v1
+id: web.generate-page
+title: Generate localized page with layout, metadata, and translation files
+persona: SoftwareDeveloper
+category: implementation
+difficulty: hard
+workspace: ./
+
+context: |
+  Frontend-focused prompt that generates a complete, production-ready
+  localized page for a Next.js 15 + Tailwind v4 + shadcn/ui project,
+  including layout, metadata, i18n translations, E2E test, and worklog
+  entry.
+
+  EXECUTOR PROFILE (skills expected from the persona running this prompt):
+    - React 19+, Next.js 15+ App Router with TypeScript
+    - Tailwind CSS v4 + shadcn/ui component system
+    - Accessibility (WCAG 2.2 AA), semantic HTML
+    - Performance optimization (Lighthouse, Core Web Vitals)
+    - SEO fundamentals for SPAs and SSR/SSG
+    - i18n/l10n best practices with next-intl
+
+  PROJECT STACK:
+    - Next.js 15 App Router with TypeScript
+    - Tailwind CSS v4 with shadcn/ui component system
+    - Internationalization with `next-intl` and routing by locale: /[locale]/[route]
+    - Translation messages stored in `src/i18n/messages/*.json`
+    - Supported locales: pt-BR (default), en-US, es-ES
+
+  CRITICAL REQUIREMENTS - All new pages must:
+    - Be created in `src/app/[locale]/[routePath]/page.tsx`
+    - Use EXACT imports: `import { useTranslations } from 'next-intl'`
+    - Include JSDOC comments for all functions and components
+    - Follow shadcn/ui patterns: Card, Button, Input, etc.
+    - Support full i18n with namespace-based keys
+    - Pass TypeScript strict mode and ESLint checks
+
+  EXISTING PATTERNS TO FOLLOW:
+    - Page structure: export default function PageName() { const t = useTranslations('namespace'); }
+    - Component imports: import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+    - Layout patterns: Container > Card > Content hierarchy
+    - i18n keys: nested object structure with descriptive keys
+
+dependencies:
+  - Next.js 15 App Router project initialized
+  - next-intl installed and configured
+  - shadcn/ui components installed
+  - Playwright installed for E2E testing
+  - .guides/operation/ directory available for worklog
+
+output:
+  - file: src/app/[locale]/[routePath]/page.tsx
+    language: typescript
+    rules:
+      - MUST include JSDOC
+      - MUST use `useTranslations('namespace')` from `next-intl`
+      - MUST use TypeScript strict types and interfaces
+      - MUST follow shadcn/ui component patterns with proper imports
+      - Content structure - main container > Card wrapper > semantic HTML
+      - Error boundaries and loading states when applicable
+  - file: src/app/[locale]/[routePath]/layout.tsx
+    language: typescript
+    rules:
+      - Generate ONLY if withLayout=true
+      - MUST include children prop with ReactNode type
+      - MUST provide consistent layout wrapper structure
+      - Follow existing layout patterns in codebase
+  - file: src/i18n/messages/pt-BR.json
+    language: json
+    rules:
+      - Add nested namespace object with descriptive keys
+      - Use Brazilian Portuguese natural language
+      - Keys - title, description, actions, labels, messages
+  - file: src/i18n/messages/en-US.json
+    language: json
+    rules:
+      - Mirror pt-BR structure with English translations
+      - Use clear, professional English
+      - Maintain consistent terminology across pages
+  - file: src/i18n/messages/es-ES.json
+    language: json
+    rules:
+      - Mirror pt-BR structure with Spanish translations
+      - Use neutral Spanish (suitable for multiple regions)
+      - Professional tone and consistent terminology
+  - file: src/e2e/[routePath].spec.ts
+    language: typescript
+    rules:
+      - Use Playwright test framework
+      - Test page rendering and main title visibility
+      - Include basic accessibility checks
+      - Test locale switching functionality
+  - file: .guides/operation/worklog.md
+    language: markdown
+    rules:
+      - Append new entry with ISO timestamp
+      - Include route, namespace, files created, locale support
+
+steps:
+  - id: define-context
+    title: Validate project structure and constraints
+    actions:
+      - |
+        Verify these paths exist or can be created:
+          - src/app/[locale]/ directory structure
+          - src/i18n/messages/ with pt-BR.json, en-US.json, es-ES.json
+          - src/e2e/ for test files
+          - .guides/operation/worklog.md for tracking
+      - |
+        Confirm these dependencies are available:
+          - next-intl package and configuration
+          - shadcn/ui components installed
+          - Playwright for E2E testing
+      - Fail with a clear message if any prerequisite is missing.
+
+  - id: collect-input
+    title: Gather page requirements from the user
+    actions:
+      - 'Ask: "Qual a rota da página?" — format "/path/subpath" (kebab-case, must not conflict with existing routes). Examples: "/dashboard", "/relatorios/vendas".'
+      - 'Ask: "Qual tipo de página?" — one of: dashboard | listing | form | detail | custom.'
+      - 'Ask: "Qual o título principal da página?" — example: "Dashboard de Vendas".'
+      - 'Ask: "Descreva o propósito da página em uma frase." — example: "Exibir métricas de vendas e performance da equipe".'
+      - 'Ask: "Qual namespace i18n usar?" — format "section.page" (camelCase/dotNotation). Examples: "dashboard.overview", "reports.sales". Must not conflict with existing namespaces.'
+      - 'Ask: "Gerar layout.tsx personalizado? (true/false)" — default false.'
+      - 'Ask: "Gerar generateMetadata()? (true/false)" — default true.'
+      - 'Ask: "Componentes especiais necessários?" — e.g. DataTable, Charts, Forms, Dialogs.'
+
+  - id: scaffold-files
+    title: Create directory structure and placeholder files
+    actions:
+      - Create directory `src/app/[locale]/[extractedRoutePath]/`.
+      - Generate placeholder `page.tsx` with the basic skeleton.
+      - Generate placeholder `layout.tsx` if `withLayout=true`.
+      - Ensure parent directories exist; verify no file conflicts.
+
+  - id: generate-page
+    title: Generate complete page.tsx with the established patterns
+    actions:
+      - |
+        Generate page.tsx using this exact structure:
+
+        ```typescript
+        import { useTranslations } from 'next-intl'
+        import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+        // Additional shadcn/ui imports based on page type
+
+        export default function [PageName]() {
+          const t = useTranslations('[namespace]')
+
+          return (
+            <div className="container mx-auto py-6">
+              <div className="space-y-6">
+                <div>
+                  <h1 className="text-3xl font-bold tracking-tight">{t('title')}</h1>
+                  <p className="text-muted-foreground">{t('description')}</p>
+                </div>
+
+                {/* Page-specific content based on type */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>{t('content.title')}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    {/* Content implementation */}
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          )
+        }
+        ```
+      - |
+        Customize the content section based on pageType:
+          - dashboard: Multiple Cards with metrics/charts
+          - listing: DataTable with filters
+          - form: Form components with validation
+          - detail: Detailed view with sections
+          - custom: Based on user requirements
+
+  - id: generate-layout
+    title: Create layout.tsx if requested
+    if: withLayout == true
+    actions:
+      - |
+        Generate layout.tsx with this structure:
+
+        ```typescript
+        import { ReactNode } from 'react'
+
+        interface LayoutProps {
+          children: ReactNode
+        }
+
+        export default function [RouteName]Layout({ children }: LayoutProps) {
+          return (
+            <div className="min-h-screen bg-background">
+              {/* Optional: Breadcrumb or page header */}
+              <main>{children}</main>
+            </div>
+          )
+        }
+        ```
+
+  - id: generate-metadata
+    title: Add generateMetadata function with i18n support
+    if: withMetadata == true
+    actions:
+      - |
+        Add the following to page.tsx:
+
+        ```typescript
+        import { getTranslations } from 'next-intl/server'
+        import type { Metadata } from 'next'
+
+        export async function generateMetadata({
+          params: { locale }
+        }: {
+          params: { locale: string }
+        }): Promise<Metadata> {
+          const t = await getTranslations({ locale, namespace: '[namespace]' })
+
+          return {
+            title: t('metadata.title'),
+            description: t('metadata.description'),
+          }
+        }
+        ```
+      - Update i18n files to include `metadata.title` and `metadata.description` keys for every locale.
+
+  - id: update-i18n-jsons
+    title: Add comprehensive translation keys
+    actions:
+      - |
+        For each locale file, add the structured namespace. pt-BR.json template:
+
+        ```json
+        "[namespace]": {
+          "title": "[pageTitle in Portuguese]",
+          "description": "[purpose in Portuguese]",
+          "metadata": {
+            "title": "[SEO title in Portuguese]",
+            "description": "[SEO description in Portuguese]"
+          },
+          "content": {
+            "title": "[Content section title]",
+            "empty": "Nenhum dado encontrado",
+            "loading": "Carregando..."
+          },
+          "actions": {
+            "create": "Criar",
+            "edit": "Editar",
+            "delete": "Excluir",
+            "save": "Salvar"
+          }
+        }
+        ```
+      - Replicate the structure for en-US.json and es-ES.json with appropriate translations.
+      - Ensure all keys have values; no empty strings.
+
+  - id: generate-test
+    title: Create comprehensive E2E test
+    actions:
+      - |
+        Generate `src/e2e/[routePath].spec.ts`:
+
+        ```typescript
+        import { test, expect } from '@playwright/test'
+
+        test.describe('[PageTitle] Page', () => {
+          test('should render page correctly', async ({ page }) => {
+            await page.goto('/pt-BR/[routePath]')
+
+            // Check main title is visible
+            await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+
+            // Check page content loads
+            await expect(page.getByTestId('main-content')).toBeVisible()
+          })
+
+          test('should work in different locales', async ({ page }) => {
+            await page.goto('/pt-BR/[routePath]')
+            await expect(page.getByRole('heading')).toContainText('[expected Portuguese title]')
+
+            await page.goto('/en-US/[routePath]')
+            await expect(page.getByRole('heading')).toContainText('[expected English title]')
+          })
+        })
+        ```
+      - Add `data-testid` attributes to page components for reliable testing.
+
+  - id: validate-code
+    title: Run all quality checks
+    actions:
+      - 'Run: `pnpm format:check` — code formatting.'
+      - 'Run: `pnpm lint` — ESLint rules.'
+      - 'Run: `pnpm type-check` — TypeScript compilation.'
+      - 'Run: `pnpm test:e2e [routePath]` — E2E test execution.'
+      - On failure, display the specific error messages, suggest fixes, and re-run the checks.
+
+  - id: log-activity
+    title: Update worklog with detailed information
+    actions:
+      - |
+        Append the following block to `.guides/operation/worklog.md`:
+
+        ```markdown
+        ## [ISO_TIMESTAMP] - Page Generated: [routePath]
+
+        **Route:** `[routePath]`
+        **Title:** [pageTitle]
+        **Purpose:** [purpose]
+        **Type:** [pageType]
+        **Namespace:** `[namespace]`
+        **Layout Generated:** [withLayout]
+        **Metadata Generated:** [withMetadata]
+
+        **Files Created:**
+        - src/app/[locale]/[routePath]/page.tsx
+        - src/app/[locale]/[routePath]/layout.tsx (if applicable)
+        - src/e2e/[routePath].spec.ts
+
+        **Locales Updated:** pt-BR, en-US, es-ES
+        **Components Used:** [list of shadcn/ui components]
+        **Dependencies:** next-intl, shadcn/ui, playwright
+
+        **Next Steps:**
+        - [ ] Add to navigation menu
+        - [ ] Create related API endpoints
+        - [ ] Add additional tests if needed
+
+        ---
+        ```
+
+tags:
+  - nextjs
+  - app-router
+  - typescript
+  - tailwind-v4
+  - shadcn-ui
+  - next-intl
+  - i18n
+  - playwright
+  - e2e-testing
+  - layout
+  - metadata
+  - scaffold
+
+createdBy: guiofsaints
+version: 1
