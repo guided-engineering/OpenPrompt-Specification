@@ -1,0 +1,81 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Guided Engineering ADR Schema",
+  "description": "Architecture Decision Record. Captures a decision, its context, alternatives, and consequences.",
+  "type": "object",
+  "required": [
+    "apiVersion",
+    "adrId",
+    "title",
+    "status",
+    "date",
+    "context",
+    "decision",
+    "consequences"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "apiVersion": {
+      "type": "string",
+      "const": "guided-engineering/v1"
+    },
+    "adrId": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[a-z0-9-]+$",
+      "description": "Four-digit sequence + kebab-case slug (e.g., 0001-choose-spec-format)."
+    },
+    "title": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["proposed", "accepted", "rejected", "deprecated", "superseded"]
+    },
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "context": {
+      "type": "string",
+      "description": "Forces in play. Why a decision is needed."
+    },
+    "decision": {
+      "type": "string",
+      "description": "The decision taken, stated in active voice."
+    },
+    "consequences": {
+      "type": "string",
+      "description": "Resulting context after the decision. Trade-offs accepted."
+    },
+    "alternativesConsidered": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Other options weighed before deciding."
+    },
+    "supersededBy": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[a-z0-9-]+$",
+      "description": "If superseded, the adrId of the replacement."
+    },
+    "relatedAdrs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[0-9]{4}-[a-z0-9-]+$"
+      }
+    },
+    "relatedSpecs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9._-]+$"
+      },
+      "description": "specIds this ADR realizes or constrains."
+    }
+  },
+  "additionalProperties": false
+}

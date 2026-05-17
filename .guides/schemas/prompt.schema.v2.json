@@ -1,0 +1,242 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Guided Engineering Prompt Schema v2",
+  "description": "Strict superset of prompt.schema.json (v1). Adds the SDD vocabulary as optional fields so every v1-valid prompt also validates under v2.",
+  "type": "object",
+  "required": [
+    "apiVersion",
+    "id",
+    "title",
+    "persona",
+    "category",
+    "difficulty",
+    "context",
+    "steps",
+    "output",
+    "version"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Reference to the JSON Schema file used to validate this prompt"
+    },
+    "apiVersion": {
+      "type": "string",
+      "const": "guided-engineering/v1"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_.-]+$"
+    },
+    "title": {
+      "type": "string"
+    },
+    "persona": {
+      "type": "string",
+      "description": "Must match a valid persona id",
+      "enum": [
+        "SystemIntegrator",
+        "SoftwareDeveloper",
+        "CodeAuditor",
+        "ProductStrategist",
+        "QAEngineer",
+        "DevOpsOrchestrator",
+        "AIEngineer",
+        "DocumentationCurator",
+        "Maintainer",
+        "Architect"
+      ]
+    },
+    "workspace": {
+      "type": "string",
+      "description": "Project directory where this prompt should be executed (relative to repository root)",
+      "pattern": "^\\./.*$"
+    },
+    "category": {
+      "type": "string"
+    },
+    "difficulty": {
+      "type": "string",
+      "enum": ["easy", "medium", "hard"]
+    },
+    "language": {
+      "type": "string"
+    },
+    "context": {
+      "type": "string"
+    },
+    "dependencies": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "steps": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "actions"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-zA-Z0-9_.-]+$" },
+          "title": { "type": "string" },
+          "actions": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "description": "Action described in imperative natural language"
+            }
+          },
+          "output": { "type": "string" },
+          "timeout": { "type": "integer", "minimum": 1 },
+          "retries": { "type": "integer", "minimum": 0 },
+          "onFailure": {
+            "type": "string",
+            "enum": ["fail", "continue", "skip", "retry"]
+          },
+          "if": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "output": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["file"],
+        "properties": {
+          "file": { "type": "string" },
+          "language": { "type": "string" },
+          "rules": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "createdBy": {
+      "type": "string"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+
+    "specId": {
+      "type": "string",
+      "pattern": "^[a-z0-9._-]+$",
+      "description": "SDD traceability: the spec this prompt realizes or contributes to."
+    },
+    "specVersion": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "SDD traceability: the specVersion this prompt was authored against."
+    },
+    "parentPromptId": {
+      "type": "string",
+      "pattern": "^[a-z0-9_.-]+$",
+      "description": "SDD lineage: the prompt this one extends or specializes."
+    },
+    "requirementIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9._-]+$"
+      },
+      "description": "SDD traceability: requirementIds this prompt closes or contributes to."
+    },
+    "acceptanceCriteriaIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9._-]+$"
+      },
+      "description": "SDD traceability: acceptanceCriterionIds this prompt verifies."
+    },
+    "businessContext": {
+      "type": "string",
+      "description": "SDD context: business reason this prompt exists, beyond its technical context."
+    },
+    "riskLevel": {
+      "type": "string",
+      "enum": ["critical", "high", "medium", "low"],
+      "description": "SDD risk: blast radius of executing this prompt incorrectly."
+    },
+    "executedBy": {
+      "type": "string",
+      "description": "SDD audit: who or what executed this prompt (persona ID, agent name, CI run ID)."
+    },
+    "executedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "SDD audit: ISO 8601 timestamp when execution started."
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "description": "File path or URL to a concrete artifact (output file, test report, log)."
+      },
+      "description": "SDD audit: proof that execution produced what it claimed."
+    },
+    "approvals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["persona", "at"],
+        "properties": {
+          "persona": {
+            "type": "string",
+            "enum": [
+              "SystemIntegrator",
+              "SoftwareDeveloper",
+              "CodeAuditor",
+              "ProductStrategist",
+              "QAEngineer",
+              "DevOpsOrchestrator",
+              "AIEngineer",
+              "DocumentationCurator",
+              "Maintainer",
+              "Architect"
+            ]
+          },
+          "at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "signature": {
+            "type": "string",
+            "description": "Optional cryptographic signature or commit SHA proving the approval."
+          }
+        },
+        "additionalProperties": false
+      },
+      "description": "SDD governance: sign-offs required to merge changes that touch this prompt."
+    },
+    "deprecation": {
+      "type": "object",
+      "required": ["at", "reason"],
+      "properties": {
+        "at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "description": "SDD lifecycle: marks the prompt as deprecated and records when and why."
+    },
+    "supersededBy": {
+      "type": "string",
+      "pattern": "^[a-z0-9_.-]+$",
+      "description": "SDD lifecycle: the prompt ID that replaces this one."
+    }
+  },
+  "additionalProperties": false
+}

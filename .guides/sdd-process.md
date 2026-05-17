@@ -38,7 +38,7 @@ Six stages, each owned by a persona and producing a versioned artifact under `.g
 
 **Inputs.** Stakeholder context, existing related specs.
 
-**Outputs.** `.guides/specs/spec.<feature-id>.yaml` validating against `.guides/schemas/spec.schema.json` (introduced in Phase 3 of the roadmap).
+**Outputs.** `.guides/specs/spec.<feature-id>.yaml` validating against [`.guides/schemas/spec.schema.json`](./schemas/spec.schema.json).
 
 **Prompt (planned, Phase 4).** `prompt.spec.author.yaml`.
 
@@ -72,7 +72,7 @@ Six stages, each owned by a persona and producing a versioned artifact under `.g
 
 **Inputs.** Approved spec; current architecture state.
 
-**Outputs.** One or more ADRs under `.guides/architecture/adr/NNNN-<short-title>.md` validating against `.guides/schemas/adr.schema.json` (Phase 3).
+**Outputs.** One or more ADRs under `.guides/architecture/adr/NNNN-<short-title>.md` validating against [`.guides/schemas/adr.schema.json`](./schemas/adr.schema.json).
 
 **Prompt (planned, Phase 4).** `prompt.adr.author.yaml`.
 
@@ -150,7 +150,7 @@ It is built in stage 4 and updated whenever anything on the chain changes.
 - **`apiVersion`** is locked at `guided-engineering/v1` for every YAML in the repo. It does not bump for content changes.
 - **`version`** (integer) increments inside each artifact when its content changes substantively.
 - **`supersededBy`** is the safe deprecation mechanism: never breaking-edit a published artifact; ship a new one and point the old at it.
-- Schemas evolve via parallel files (`prompt.schema.json` → `prompt.schema.v2.json`, introduced in Phase 3), not in-place edits.
+- Schemas evolve via parallel files, not in-place edits. As of Phase 3, the canonical prompt schema is [`.guides/schemas/prompt.schema.v2.json`](./schemas/prompt.schema.v2.json), a strict superset of v1 that adds the SDD vocabulary (`specId`, `requirementIds`, `acceptanceCriteriaIds`, `evidence`, `approvals`, `supersededBy`, ...). The v1 file ([`.guides/schemas/prompt.schema.json`](./schemas/prompt.schema.json)) is retained for backward compatibility during the v0.x window.
 
 ---
 

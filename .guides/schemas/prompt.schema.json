@@ -1,6 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Guided Engineering Prompt Schema",
+  "description": "DEPRECATED — superseded by prompt.schema.v2.json which adds the SDD vocabulary (specId, requirementIds, acceptanceCriteriaIds, evidence, approvals, supersededBy, ...). This v1 file is retained for backward compatibility during the v0.x window; new prompts should target v2.",
   "type": "object",
   "required": [
     "apiVersion",

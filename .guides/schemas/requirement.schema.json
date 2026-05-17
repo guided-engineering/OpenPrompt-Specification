@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Guided Engineering Requirement Schema",
+  "description": "Atomic unit inside a spec. Functional or non-functional.",
+  "type": "object",
+  "required": [
+    "requirementId",
+    "type",
+    "priority",
+    "description"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "requirementId": {
+      "type": "string",
+      "pattern": "^[a-z0-9._-]+$",
+      "description": "Stable identifier. Lowercase letters, digits, dots, underscores, hyphens."
+    },
+    "type": {
+      "type": "string",
+      "enum": ["functional", "non-functional"]
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["must", "should", "could", "wont"],
+      "description": "MoSCoW priority. 'wont' = explicitly out of scope."
+    },
+    "description": {
+      "type": "string",
+      "description": "What the requirement states, in plain language."
+    },
+    "rationale": {
+      "type": "string",
+      "description": "Why this requirement exists. Helps prevent silent removal later."
+    },
+    "source": {
+      "type": "string",
+      "description": "Where the requirement comes from (stakeholder, PRD section, regulation, incident...)."
+    },
+    "acceptanceCriteriaIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9._-]+$"
+      },
+      "description": "IDs of acceptance criteria that verify this requirement."
+    }
+  },
+  "additionalProperties": false
+}

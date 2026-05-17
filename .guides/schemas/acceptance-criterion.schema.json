@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Guided Engineering Acceptance Criterion Schema",
+  "description": "Single Given/When/Then acceptance criterion. Verifiable condition for a requirement.",
+  "type": "object",
+  "required": [
+    "acceptanceCriterionId",
+    "given",
+    "when",
+    "then"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "acceptanceCriterionId": {
+      "type": "string",
+      "pattern": "^[a-z0-9._-]+$",
+      "description": "Stable identifier. Lowercase letters, digits, dots, underscores, hyphens."
+    },
+    "given": {
+      "type": "string",
+      "description": "Pre-condition or context. The state of the world before the action."
+    },
+    "when": {
+      "type": "string",
+      "description": "The action or event under test."
+    },
+    "then": {
+      "type": "string",
+      "description": "Expected outcome. Must be verifiable."
+    },
+    "dataExamples": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Concrete input/output examples that make the criterion unambiguous."
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}
