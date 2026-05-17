@@ -1,0 +1,15 @@
+$schema: ../.guides/schemas/acceptance-criterion.schema.json
+acceptanceCriterionId: ac.example.happy
+given: |
+  Pre-condition or system state. The state of the world before the
+  action. Stated as a fact, not as a step.
+when: |
+  The single, concrete action under test. One actor, one verb.
+then: |
+  The single, observable outcome. UI state, persisted data, emitted
+  event, returned value — pick one and state it precisely.
+dataExamples:
+  - 'input: <concrete value> -> output: <concrete value>'
+notes: |
+  Optional clarifications. Use when the AC depends on implicit context
+  that a tester from outside the team would not know.

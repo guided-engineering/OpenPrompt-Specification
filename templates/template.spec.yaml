@@ -1,0 +1,40 @@
+$schema: ../.guides/schemas/spec.schema.json
+apiVersion: guided-engineering/v1
+specId: example-feature
+specVersion: 1
+title: Example Feature Spec
+status: draft
+businessContext: |
+  Replace with the problem this spec solves, who it affects, and the
+  customer/user outcome it unlocks. Avoid solutioning — describe value,
+  not implementation.
+
+requirements:
+  - requirementId: req.example.001
+    type: functional
+    priority: must
+    description: A single, plainly stated requirement. Replace with yours.
+    rationale: Why this requirement exists (prevents silent removal later).
+    source: PRD section / ticket / stakeholder name
+    acceptanceCriteriaIds:
+      - ac.example.happy
+
+acceptanceCriteria:
+  - acceptanceCriterionId: ac.example.happy
+    given: A pre-condition or system state.
+    when: A single, concrete user or system action.
+    then: A single, observable outcome.
+    dataExamples:
+      - 'input: {field: "value"} -> output: {ok: true}'
+    notes: Optional clarifications for the tester.
+
+owners:
+  - ProductStrategist
+  - SoftwareDeveloper
+
+createdBy: ProductStrategist
+createdAt: '2026-05-17T19:30:00Z'
+riskLevel: medium
+tags:
+  - example
+  - template
