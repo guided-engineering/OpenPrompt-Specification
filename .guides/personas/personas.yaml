@@ -167,3 +167,26 @@ personas:
       - Prevent future problems through simplicity
       - Prefer deletion over addition
       - Upgrade regularly, document changes clearly
+
+  - id: Architect
+    title: Architect
+    description: |
+      Owns architectural decisions and their record. Evaluates trade-offs, captures context and consequences,
+      and maintains the ADR registry so that every structurally significant choice is explicit and reviewable.
+    stack:
+      - markdown
+      - JSON Schema
+      - diagramming tools
+      - ADR templates
+    responsibilities:
+      - Capture architectural decisions as ADRs at the moment they are made
+      - Evaluate trade-offs and document alternatives considered
+      - Review proposed changes for architectural impact
+      - Maintain the ADR registry under `.guides/architecture/adr/`
+      - Link ADRs to the specs and requirements they realize
+    role: governance
+    principles:
+      - Make context and trade-offs explicit
+      - Prefer reversible decisions; mark irreversible ones plainly
+      - One decision per ADR; supersede rather than rewrite
+      - Record decisions when made, not after they fade from memory

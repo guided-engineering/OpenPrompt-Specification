@@ -1,11 +1,15 @@
 # Guided Engineering
 
-OpenPrompt-Specification 
-Version: 0.1.0
+*A Spec-Driven Development (SDD) framework.*
 
-~~Vibe Coding~~ -> **Guided Engineering** is a structured, traceable, and executable system for managing the entire software development lifecycle (SDLC) through modular prompts, intelligent agents, and reproducible documentation.
+OpenPrompt-Specification
+Version: 0.1.0 — see [`ROADMAP.md`](./ROADMAP.md) for the path to v0.5.0.
+
+~~Vibe Coding~~ → **Guided Engineering** is a structured, traceable, and executable framework for **Spec-Driven Development**: versioned specifications drive every downstream artifact (code, tests, ADRs, worklogs) through modular prompts, personas, and reproducible documentation.
 
 This project uses versioned YAML prompts, schema validation, personas, and categorized outputs to enable human–machine collaboration with high observability, reproducibility, and minimal complexity.
+
+> **Brand:** Guided Engineering. **Methodology:** SDD. See [`.guides/sdd-process.md`](./.guides/sdd-process.md) for the lifecycle.
 
 ---
 
@@ -113,8 +117,9 @@ At its core, Guided Engineering is a **human-led practice** that organizes the S
 Guided Engineering relies on structured, versioned artefacts to guide execution and preserve traceability.
 
 ### Main artefact types:
-- **YAML** prompts (`*.yml`): Define intent, context, persona, and execution steps.
-- **Markdown** documentation (`*.md`): Capture structured outputs, decisions, playbooks.
+- **YAML** prompts (`*.yaml`): Define intent, context, persona, and execution steps.
+- **YAML** specs (`*.yaml` under `.guides/specs/`): Versioned source of truth for every feature.
+- **Markdown** documentation (`*.md`): Capture structured outputs, decisions, playbooks, ADRs.
 - **JSON** schemas (`*.json`): Enforce structure, consistency, and validation.
 
 Artefacts are stored in a canonical `.guides/` folder, categorized by function.
@@ -148,17 +153,20 @@ These tools serve as assistants - never as replacements for engineering judgment
 
 ## 📁 Project Structure (`.guides/`)
 
-| Folder          | Purpose                                                |
-| --------------- | ------------------------------------------------------ |
-| `base/`         | Project-level structure and setup guides               |
-| `product/`      | Product requirements, roadmap, user personas           |
-| `assessment/`   | Full assessments of codebase, stack, risks, entities   |
-| `architecture/` | Architectural layers, stack, rules, plugins            |
-| `testing/`      | Test strategies, coverage, risk documentation          |
-| `operation/`    | Worklogs, changelogs, troubleshooting, FAQ             |
-| `prompts/`      | Executable YAML prompts by category and persona        |
-| `personas/`     | Roles responsible for prompts (e.g., Dev, QA, Auditor) |
-| `schema/`       | JSON Schema files to validate prompts and personas     |
+| Folder              | Purpose                                                              |
+| ------------------- | -------------------------------------------------------------------- |
+| `base/`             | Project-level structure and setup guides                             |
+| `product/`          | Product requirements, roadmap, user personas                         |
+| `specs/`            | **SDD specs** — versioned source of truth for every feature          |
+| `traceability/`     | **SDD matrices** — requirement ↔ spec ↔ test ↔ commit ↔ evidence    |
+| `assessment/`       | Full assessments of codebase, stack, risks, entities                 |
+| `architecture/`     | Architectural layers, stack, rules, plugins                          |
+| `architecture/adr/` | Architecture Decision Records (ADRs)                                 |
+| `testing/`          | Test strategies, coverage, risk documentation                        |
+| `operation/`        | Worklogs, changelogs, validation reports, conformance reports, FAQ   |
+| `prompts/`          | Executable YAML prompts by category and persona                      |
+| `personas/`         | Roles responsible for prompts (e.g., Dev, QA, Architect, Auditor)    |
+| `schemas/`          | JSON Schema files to validate prompts, personas, specs, ADRs         |
 
 ---
 
@@ -186,8 +194,30 @@ These tools serve as assistants - never as replacements for engineering judgment
 
 ## 🧩 Example Prompts
 
-- `prompt.discovery.yml`: Full technical assessment of a project (first prompt).
-- `prompt.onboarding.yaml`: Generate a complete onboarding file for engineers.
+All prompts live under [`.guides/prompts/`](./.guides/prompts/):
+
+- `prompt.discovery.yaml` — full technical assessment of a project (first prompt).
+- `prompt.onboarding.yaml` — generate a complete onboarding file for engineers.
+- `prompt.commit.yaml` — analyse pending changes and apply a Conventional Commit.
+- `prompt.web.generate-page.yaml` — generate a localized Next.js page with i18n + tests + worklog.
+
+SDD prompts (`prompt.spec.author.yaml`, `prompt.spec.validate.yaml`, `prompt.adr.author.yaml`, `prompt.requirement.traceability.yaml`, `prompt.acceptance-criteria.author.yaml`, `prompt.test-cases.from-spec.yaml`, `prompt.spec.conformance-check.yaml`) operationalize the methodology.
+
+## 🧪 Reference Example
+
+The canonical illustration of the full SDD loop lives at [`.guides/specs/spec.example.user-login.yaml`](./.guides/specs/spec.example.user-login.yaml). It exercises every stage end-to-end:
+
+| Stage | Artifact |
+|---|---|
+| 1. Spec | [`.guides/specs/spec.example.user-login.yaml`](./.guides/specs/spec.example.user-login.yaml) |
+| 2. Validate | [`.guides/operation/spec-validation.example.user-login.md`](./.guides/operation/spec-validation.example.user-login.md) |
+| 3. Design | [`.guides/architecture/adr/0001-choose-spec-format.md`](./.guides/architecture/adr/0001-choose-spec-format.md) |
+| 4. Test cases | [`.guides/testing/test-cases.example.user-login.yaml`](./.guides/testing/test-cases.example.user-login.yaml) |
+| Cross-cutting | [`.guides/traceability/matrix.example.user-login.yaml`](./.guides/traceability/matrix.example.user-login.yaml) |
+| 5. Conform | [`.guides/operation/conformance.example.user-login.md`](./.guides/operation/conformance.example.user-login.md) |
+| Audit | [`.guides/operation/worklog.md`](./.guides/operation/worklog.md) |
+
+Copy the spec into your own `.guides/specs/` folder, adapt the IDs, and follow the prompts top to bottom.
 ---
 
 ## 📌 Contributors
@@ -198,11 +228,23 @@ This project is maintained using the `Guided Engineering` model itself - all cha
 
 ## 📖 Resources
 
-- Prompt schema: `.guides/schema/prompt.schema.json`
-- Persona list: `.guides/personas/personas.yml`
+- Methodology: [`.guides/sdd-process.md`](./.guides/sdd-process.md)
+- Roadmap to v0.5.0: [`ROADMAP.md`](./ROADMAP.md)
+- Manual validation protocol: [`VALIDATION.md`](./VALIDATION.md)
+- Prompt schema (canonical, SDD-aware): [`.guides/schemas/prompt.schema.v2.json`](./.guides/schemas/prompt.schema.v2.json)
+- Prompt schema v1 (deprecated): [`.guides/schemas/prompt.schema.json`](./.guides/schemas/prompt.schema.json)
+- Persona schema: [`.guides/schemas/persona.schema.json`](./.guides/schemas/persona.schema.json)
+- SDD artifact schemas:
+  - [`.guides/schemas/spec.schema.json`](./.guides/schemas/spec.schema.json)
+  - [`.guides/schemas/requirement.schema.json`](./.guides/schemas/requirement.schema.json)
+  - [`.guides/schemas/acceptance-criterion.schema.json`](./.guides/schemas/acceptance-criterion.schema.json)
+  - [`.guides/schemas/adr.schema.json`](./.guides/schemas/adr.schema.json)
+  - [`.guides/schemas/traceability.schema.json`](./.guides/schemas/traceability.schema.json)
+- Persona list: [`.guides/personas/personas.yaml`](./.guides/personas/personas.yaml)
 - Templates:
-  - `.guides/prompts/template.prompt.yml`
-  - `.guides/personas/template.persona.yml`
+  - [`templates/template.prompt.yaml`](./templates/template.prompt.yaml)
+  - [`templates/template.persona.yaml`](./templates/template.persona.yaml)
+  - [`templates/template.worklog.md`](./templates/template.worklog.md)
 
 ---
 

@@ -1,0 +1,99 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Guided Engineering Spec Schema",
+  "description": "Versioned, schema-validated description of a feature/capability. Source of truth for all downstream artifacts.",
+  "type": "object",
+  "required": [
+    "apiVersion",
+    "specId",
+    "specVersion",
+    "title",
+    "status",
+    "businessContext",
+    "requirements",
+    "acceptanceCriteria",
+    "owners",
+    "createdBy",
+    "createdAt"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "apiVersion": {
+      "type": "string",
+      "const": "guided-engineering/v1"
+    },
+    "specId": {
+      "type": "string",
+      "pattern": "^[a-z0-9._-]+$"
+    },
+    "specVersion": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "title": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "in-review", "approved", "implemented", "deprecated"]
+    },
+    "businessContext": {
+      "type": "string",
+      "description": "Why this spec exists. The problem being solved and the value delivered."
+    },
+    "requirements": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "./requirement.schema.json"
+      }
+    },
+    "acceptanceCriteria": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "./acceptance-criterion.schema.json"
+      }
+    },
+    "owners": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      },
+      "description": "Persona IDs accountable for this spec."
+    },
+    "createdBy": {
+      "type": "string"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "riskLevel": {
+      "type": "string",
+      "enum": ["critical", "high", "medium", "low"]
+    },
+    "relatedSpecs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9._-]+$"
+      }
+    },
+    "supersededBy": {
+      "type": "string",
+      "pattern": "^[a-z0-9._-]+$",
+      "description": "If this spec is deprecated, the specId of the replacement."
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}

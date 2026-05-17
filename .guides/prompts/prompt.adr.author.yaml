@@ -1,0 +1,107 @@
+$schema: .guides/schemas/prompt.schema.v2.json
+apiVersion: guided-engineering/v1
+id: adr.author
+title: Author an Architecture Decision Record from a captured decision moment
+persona: Architect
+category: design
+difficulty: medium
+workspace: ./
+
+context: |
+  Stage 3 of the SDD lifecycle. Captures an architectural decision the
+  moment it is made, as an ADR under `.guides/architecture/adr/`. ADRs
+  are intentionally cheap to write (a few hundred words) and immutable
+  once `accepted`; later decisions supersede them rather than rewrite
+  them.
+
+  An ADR is required for any decision with structural blast radius:
+  tech stack changes, data model shifts, public API contracts, security
+  posture changes, cross-cutting framework choices.
+
+businessContext: |
+  Decisions made implicitly during implementation become tribal
+  knowledge that decays with the team. An ADR captured at decision time
+  costs minutes; reconstructing it three months later costs days and
+  often produces a confused approximation. The "alternatives considered"
+  block is the part most often skipped and most often needed during
+  retros.
+
+riskLevel: medium
+
+dependencies:
+  - The decision moment (a meeting note, a PR discussion, a Slack thread)
+  - "`.guides/schemas/adr.schema.json` (validation target)"
+  - "`.guides/architecture/adr/` (writable; existing ADRs determine the next numeric prefix)"
+  - The related `specId` and `requirementIds`, if the decision realizes a spec
+
+output:
+  - file: .guides/architecture/adr/<NNNN>-<short-title>.md
+    language: markdown
+    rules:
+      - File name MUST match the pattern `^[0-9]{4}-[a-z0-9-]+\.md$`
+      - File MUST start with a YAML front-matter block validating against `.guides/schemas/adr.schema.json`
+      - "Front-matter MUST include `adrId`, `apiVersion: guided-engineering/v1`, `title`, `status` (`proposed` or `accepted` for a fresh ADR), `date` (ISO 8601 date), `context`, `decision`, `consequences`"
+      - The Markdown body below the front-matter MUST contain the same `context`, `decision`, `consequences`, and `alternativesConsidered` sections in prose form (the YAML is the contract; the prose is the readable record)
+      - MUST list `alternativesConsidered[]` with at least one alternative
+      - SHOULD link the `relatedSpecs[]` and the `requirementIds` (if any) this decision realizes
+      - 'If superseding an earlier ADR, MUST set `supersededBy` on the old one and `status: superseded` on it'
+  - file: .guides/operation/worklog.md
+    language: markdown
+    rules:
+      - Append a worklog entry naming the new `adrId`, the decision in one sentence, the persona, and the ISO timestamp
+
+steps:
+  - id: identify-decision
+    title: Identify and frame the decision
+    actions:
+      - State the decision in one sentence in active voice ("We will use X for Y because Z")
+      - Identify the forces in play (constraints, deadlines, regulatory, performance, cost, team skill)
+      - Confirm the decision has structural blast radius — if it is reversible inside a single PR, an ADR is usually overkill
+
+  - id: enumerate-alternatives
+    title: Enumerate alternatives considered
+    actions:
+      - List at least one credible alternative (often "do nothing" or "use the existing approach")
+      - For each alternative, state in one sentence why it was rejected (cost, complexity, performance, risk)
+
+  - id: state-consequences
+    title: State consequences explicitly
+    actions:
+      - List what becomes easier and what becomes harder as a result of this decision
+      - Flag reversibility — note any downstream artifacts that lock in once this ADR is `accepted`
+      - List the migration cost if the decision is later superseded
+
+  - id: assign-id-and-numbering
+    title: Assign the next ADR ID
+    actions:
+      - List existing files in `.guides/architecture/adr/` and pick the next sequential 4-digit prefix
+      - Compose the `adrId` as `NNNN-<short-kebab-title>` (e.g., `0007-adopt-edge-runtime`)
+      - The file name matches `adrId` plus `.md`
+
+  - id: emit-adr
+    title: Emit the ADR file
+    actions:
+      - Write the file with a YAML front-matter block followed by Markdown body
+      - 'Set `status: proposed` if the decision still needs sign-off; `accepted` if it is being recorded after the fact'
+      - Validate the front-matter block against `.guides/schemas/adr.schema.json`
+
+  - id: cross-link
+    title: Cross-link related artifacts
+    actions:
+      - 'If superseding an earlier ADR, edit the old ADR to set `status: superseded` and `supersededBy: <new-adrId>`'
+      - Add the new `adrId` to the `relatedAdrs[]` of any ADR it interacts with
+      - Reference the new `adrId` from the relevant spec's `tags` or in a comment near the affected requirement
+
+  - id: log
+    title: Append worklog entry
+    actions:
+      - Write a worklog entry under `.guides/operation/worklog.md` naming the new `adrId`, the decision, the persona, and the ISO timestamp
+
+tags:
+  - sdd
+  - adr
+  - architecture
+  - governance
+
+createdBy: guided-engineering
+version: 1

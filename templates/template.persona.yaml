@@ -1,21 +1,26 @@
-$schema: .guides/schemas/persona.schema.json
+$schema: ../.guides/schemas/persona.schema.json
 apiVersion: guided-engineering/v1
 type: personaList
 version: 1
 
 personas:
-  - id: <PersonaId>
-    title: <Persona Title>
+  - id: ExamplePersona
+    title: Example Persona
     description: |
-      Describe what this persona is responsible for, how it contributes to the system,
-      and what kind of prompts it is expected to execute or maintain.
+      Realistic, schema-valid example. Replace every field with the
+      definition of the persona you are adding. A persona answers
+      three questions: what it owns, what stack it operates with, and
+      what principles it never compromises.
     stack:
-      - <technologyOne>
-      - <technologyTwo>
+      - markdown
+      - YAML
+      - JSON Schema
     responsibilities:
-      - <responsibilityOne>
-      - <responsibilityTwo>
-    role: <macroRole>
+      - State, in one verb-led sentence, the first concrete thing this persona does
+      - State the second concrete responsibility
+      - State the third concrete responsibility
+    role: governance
     principles:
-      - <principleOne>
-      - <principleTwo>
+      - Make context explicit before producing artifacts
+      - Prefer reversible actions; flag irreversible ones plainly
+      - Every output must be auditable from outside the team

@@ -1,0 +1,102 @@
+$schema: .guides/schemas/prompt.schema.v2.json
+apiVersion: guided-engineering/v1
+id: spec.conformance-check
+title: Compare an implementation to its spec and emit a conformance gap report
+persona: CodeAuditor
+category: analysis
+difficulty: hard
+workspace: ./
+
+context: |
+  Stage 5 of the SDD lifecycle. Independently verifies that the
+  implementation actually realizes the spec it claims to. Reads the
+  spec, the traceability matrix, the test cases, and the implementation
+  artifacts, and produces a structured gap report.
+
+  Conformance is binary per requirement: `satisfied`, `partially-satisfied`,
+  or `not-satisfied`, each with evidence (file paths, test IDs, commit
+  SHAs). Gaps escalate back to stage 1 (spec amendment) or stage 4
+  (implementation fix); the loop closes when no `not-satisfied` items
+  remain.
+
+businessContext: |
+  Without an independent conformance check, the team implementing the
+  spec also reports it complete — closing the loop on themselves. This
+  prompt forces a separate auditor pass that reads only the
+  spec/matrix/tests and asks "where is the proof?".
+
+riskLevel: high
+
+dependencies:
+  - 'A spec at `.guides/specs/spec.<specId>.yaml` at `status: implemented`'
+  - A traceability matrix at `.guides/traceability/matrix.<specId>.yaml`
+  - Test cases at `.guides/testing/test-cases.<specId>.yaml` (if produced)
+  - Access to the implementation source tree
+  - Git history of commits referenced by the matrix
+
+output:
+  - file: .guides/operation/conformance.<specId>.md
+    language: markdown
+    rules:
+      - MUST list the spec under review with its `specId`, `specVersion`, and current `status`
+      - MUST list every requirement and classify it as `satisfied | partially-satisfied | not-satisfied`
+      - For every classification, MUST provide evidence (file paths, test IDs, commit SHAs, CI run URL)
+      - MUST list every `not-satisfied` and `partially-satisfied` requirement as a numbered gap with a remediation owner (spec amendment vs implementation fix)
+      - MUST end with a single overall verdict (`PASS` / `PASS-WITH-GAPS` / `FAIL`) and a rationale paragraph
+      - MUST be signed by the executing persona and timestamped (ISO 8601)
+  - file: .guides/operation/worklog.md
+    language: markdown
+    rules:
+      - Append a worklog entry naming the `specId`, the verdict, the number of gaps, the persona, and the ISO timestamp
+
+steps:
+  - id: load-artifacts
+    title: Load the spec, matrix, and test cases
+    actions:
+      - 'Read `.guides/specs/spec.<specId>.yaml`; confirm `status: implemented`'
+      - Read `.guides/traceability/matrix.<specId>.yaml`; confirm every spec requirement has a matrix entry
+      - Read `.guides/testing/test-cases.<specId>.yaml` if it exists
+      - Note any missing or stale references (e.g., commits that no longer exist)
+
+  - id: verify-per-requirement
+    title: Verify each requirement independently
+    actions:
+      - For each requirement, locate the implementation files (via the matrix `commits[]` and source-tree search)
+      - Locate the test cases that cover it; check that tests actually exist and pass
+      - Locate the `evidence[]` artifacts; check that each exists and is readable
+      - Classify the requirement as `satisfied`, `partially-satisfied`, or `not-satisfied`
+
+  - id: classify-acceptance-criteria
+    title: Classify each acceptance criterion as covered or uncovered
+    actions:
+      - For each AC, check that at least one test case references it and that the test passes
+      - Flag ACs with no test as `not-satisfied`
+      - Flag ACs with a test that fails or is skipped as `partially-satisfied`
+
+  - id: write-gap-report
+    title: Write the conformance report
+    actions:
+      - Write `.guides/operation/conformance.<specId>.md` with sections for `Satisfied`, `Partially Satisfied (with gaps)`, `Not Satisfied (with gaps)`, and `Overall Verdict`
+      - For each gap, name the requirement and AC IDs, the remediation owner, and the suggested fix path
+      - End with the verdict and rationale
+
+  - id: handle-verdict
+    title: Drive the loop based on the verdict
+    actions:
+      - 'On `PASS`: recommend advancing the spec to `status: implemented` (if not already) and leave a closing worklog entry'
+      - 'On `PASS-WITH-GAPS`: keep the spec at `status: implemented`; open follow-up worklog items per gap'
+      - 'On `FAIL`: recommend a status rollback (e.g., back to `approved` if the spec is wrong, or stay at `implemented` with blocking gaps if the code is wrong); escalate to the spec author or implementation persona'
+
+  - id: log
+    title: Append worklog entry
+    actions:
+      - Write a worklog entry naming the `specId`, the verdict, the number of gaps, the persona, and the ISO timestamp
+
+tags:
+  - sdd
+  - conformance
+  - audit
+  - qa
+
+createdBy: guided-engineering
+version: 1

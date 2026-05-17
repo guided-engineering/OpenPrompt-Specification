@@ -1,0 +1,90 @@
+$schema: .guides/schemas/prompt.schema.v2.json
+apiVersion: guided-engineering/v1
+id: acceptance-criteria.author
+title: Author Given/When/Then acceptance criteria for one or more requirements
+persona: QAEngineer
+category: testing
+difficulty: medium
+workspace: ./
+
+context: |
+  Companion to `prompt.spec.author.yaml`. Useful when a spec was authored
+  with a sparse `acceptanceCriteria[]` array and needs a QA pass to
+  expand it, or when requirements are added to an existing spec.
+
+  Each acceptance criterion is a Given/When/Then triple that a tester can
+  turn into a failing test without further clarification.
+
+businessContext: |
+  Acceptance criteria are the contract between product, engineering, and
+  QA. Vague AC produces flaky tests and ambiguous conformance checks. A
+  QA-led authoring pass tightens the contract before code is written.
+
+riskLevel: medium
+
+dependencies:
+  - A spec at `.guides/specs/spec.<specId>.yaml` with `requirements[]` populated
+  - "`.guides/schemas/acceptance-criterion.schema.json`"
+  - "`.guides/schemas/spec.schema.json` (for cross-validation after the edit)"
+
+output:
+  - file: .guides/specs/spec.<specId>.yaml
+    language: yaml
+    rules:
+      - MUST add new acceptance criteria to the existing `acceptanceCriteria[]` array (do not replace)
+      - Each new criterion MUST have a unique `acceptanceCriterionId` (pattern `^[a-z0-9._-]+$`)
+      - "`given`, `when`, `then` MUST each be a single concrete sentence"
+      - Add `dataExamples[]` whenever input/output values are non-trivial
+      - Update the relevant requirement's `acceptanceCriteriaIds[]` to reference the new criterion
+      - MUST keep the spec valid against `.guides/schemas/spec.schema.json`
+      - 'Bump `specVersion` by 1 if the spec was previously at `status: approved` or `implemented`'
+  - file: .guides/operation/worklog.md
+    language: markdown
+    rules:
+      - Append a worklog entry listing the `specId`, the new AC IDs, the requirements they cover, and the ISO timestamp
+
+steps:
+  - id: identify-targets
+    title: Identify the requirements that need acceptance criteria
+    actions:
+      - Read the target spec from `.guides/specs/spec.<specId>.yaml`
+      - List every requirement whose `acceptanceCriteriaIds[]` is empty or whose existing AC are insufficient
+      - Confirm scope with the user if the list is large
+
+  - id: draft-given-when-then
+    title: Draft Given/When/Then for each target requirement
+    actions:
+      - For each requirement, write one or more acceptance criteria
+      - State `given` as the pre-condition or system state, not as an action
+      - State `when` as a single, concrete user/system action
+      - State `then` as a single, observable outcome (UI state, persisted data, emitted event, returned value)
+      - Cover the happy path first; then add ACs for edge cases the requirement implies
+
+  - id: add-data-examples
+    title: Add data examples for non-trivial inputs/outputs
+    actions:
+      - Where the AC depends on specific input values, add `dataExamples[]` with concrete pairs
+      - Where the AC mentions error messages or codes, list them verbatim
+
+  - id: assign-ids-and-update-spec
+    title: Assign IDs and update the spec file
+    actions:
+      - Assign stable `acceptanceCriterionId`s (lowercase, dots/hyphens, no spaces)
+      - Append new criteria to `spec.acceptanceCriteria[]`
+      - Update the source requirements' `acceptanceCriteriaIds[]`
+      - Bump `specVersion` if status is `approved` or `implemented`
+      - Validate the resulting spec against its schema
+
+  - id: log
+    title: Append worklog entry
+    actions:
+      - Write a worklog entry under `.guides/operation/worklog.md` listing the `specId`, the new AC IDs, the requirements covered, and the ISO timestamp
+
+tags:
+  - sdd
+  - acceptance-criteria
+  - testing
+  - qa
+
+createdBy: guided-engineering
+version: 1

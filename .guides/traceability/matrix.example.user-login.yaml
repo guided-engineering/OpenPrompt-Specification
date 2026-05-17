@@ -1,0 +1,64 @@
+$schema: ../schemas/traceability.schema.json
+apiVersion: guided-engineering/v1
+matrixId: matrix.example.user-login
+version: 1
+
+entries:
+  - requirementId: req.user-login.001
+    specId: example.user-login
+    acceptanceCriterionIds:
+      - ac.user-login.happy
+    testCaseIds:
+      - tc.user-login.happy.001
+    commits: []
+    evidence:
+      - .guides/specs/spec.example.user-login.yaml
+      - .guides/testing/test-cases.example.user-login.yaml
+      - .guides/operation/spec-validation.example.user-login.md
+
+  - requirementId: req.user-login.002
+    specId: example.user-login
+    acceptanceCriterionIds:
+      - ac.user-login.invalid-credentials
+    testCaseIds:
+      - tc.user-login.invalid-credentials.unknown-email
+      - tc.user-login.invalid-credentials.wrong-password
+      - tc.user-login.invalid-credentials.byte-identical
+    commits: []
+    evidence:
+      - .guides/specs/spec.example.user-login.yaml
+      - .guides/testing/test-cases.example.user-login.yaml
+
+  - requirementId: req.user-login.003
+    specId: example.user-login
+    acceptanceCriterionIds:
+      - ac.user-login.rate-limit
+    testCaseIds:
+      - tc.user-login.rate-limit.threshold
+      - tc.user-login.rate-limit.window-expiry
+    commits: []
+    evidence:
+      - .guides/specs/spec.example.user-login.yaml
+      - .guides/testing/test-cases.example.user-login.yaml
+
+  - requirementId: req.user-login.004
+    specId: example.user-login
+    acceptanceCriterionIds:
+      - ac.user-login.latency
+    testCaseIds:
+      - tc.user-login.latency.p95
+    commits: []
+    evidence:
+      - .guides/specs/spec.example.user-login.yaml
+      - .guides/testing/test-cases.example.user-login.yaml
+
+  - requirementId: req.user-login.005
+    specId: example.user-login
+    acceptanceCriterionIds:
+      - ac.user-login.no-plaintext
+    testCaseIds:
+      - tc.user-login.no-plaintext.sentinel
+    commits: []
+    evidence:
+      - .guides/specs/spec.example.user-login.yaml
+      - .guides/testing/test-cases.example.user-login.yaml

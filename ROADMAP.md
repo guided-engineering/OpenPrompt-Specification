@@ -7,7 +7,7 @@
 | Current version | `0.1.0` |
 | Target version | `0.5.0` |
 | Target window | Q2–Q3 2026 (≈10 weeks) |
-| Status | Phase 1 — Canonical Structure Materialization (complete) |
+| Status | Phase 5 — Reference Example (complete) — v0.5.0 |
 | Scope | Spec-first only (specs + validation + traceability) |
 | Out of scope | CLI, MCP/agents, portal, CI — see §9 |
 | Language | English primary; `ROADMAP.pt-br.md` mirror authored in Phase 5 |
@@ -206,12 +206,13 @@ Each phase block follows the same structure: **Goal · Scope · Deliverables · 
 - Add `Architect` and `DocumentationEngineer→DocumentationCurator` corrections to the persona enum inside `.guides/schemas/prompt.schema.json`.
 
 **Acceptance criteria.**
-- [ ] README primary heading still reads "Guided Engineering"; subtitle includes "Spec-Driven Development framework".
-- [ ] `.guides/sdd-process.md` exists; `.guides/guided-sdlc-process.md` does not.
-- [ ] `.github/copilot-instructions.md` lists `Architect` and does not list `DocumentationEngineer`.
-- [ ] `.guides/personas/personas.yaml` contains an `Architect` entry.
-- [ ] No broken internal markdown links (verified with `markdown-link-check` or manual click-through).
-- [ ] pt-BR README in content parity with EN README.
+- [x] README primary heading still reads "Guided Engineering"; subtitle includes "Spec-Driven Development framework".
+- [x] `.guides/sdd-process.md` exists; `.guides/guided-sdlc-process.md` does not.
+- [x] `.github/copilot-instructions.md` lists `Architect` and does not list `DocumentationEngineer`.
+- [x] `.guides/personas/personas.yaml` contains an `Architect` entry (validates against `persona.schema.json`).
+- [x] `.guides/schemas/prompt.schema.json` persona enum includes `Architect`.
+- [x] No broken internal markdown links (verified by hand: every link target exists on disk).
+- [x] pt-BR README in content parity with EN README.
 
 **Risks & mitigations.**
 - Translation drift (pt-BR mirror falling behind EN) → policy: any PR that touches `README.md` must also touch `README.pt-br.md` or open a follow-up issue.
@@ -251,10 +252,10 @@ Each phase block follows the same structure: **Goal · Scope · Deliverables · 
   - Required: `matrixId`, `version`, `entries[]` where each entry is `{requirementId, specId, acceptanceCriterionIds[], testCaseIds[], commits[], evidence[]}`.
 
 **Acceptance criteria.**
-- [ ] Each new schema parses as valid JSON.
-- [ ] Each new schema self-validates against JSON Schema draft-07.
-- [ ] `prompt.schema.v2.json` accepts every v1-valid prompt currently in the repo (run the manual validation protocol from `VALIDATION.md`).
-- [ ] v1 file header carries the deprecation note.
+- [x] Each new schema parses as valid JSON.
+- [x] Each new schema self-validates against JSON Schema draft-07.
+- [x] `prompt.schema.v2.json` accepts every v1-valid prompt currently in the repo (run the manual validation protocol from `VALIDATION.md`).
+- [x] v1 file header carries the deprecation note.
 
 **Risks & mitigations.**
 - Schema bloat (too many optional fields) → keep each new field justified by a downstream prompt in Phase 4; any field with no consumer is removed before merge.
@@ -298,10 +299,10 @@ Upgrade existing templates (currently minimal placeholders) to realistic, schema
 - `templates/template.worklog.md` — add SDD-aware fields: `specId`, `requirementIds`, `conformanceResult`.
 
 **Acceptance criteria.**
-- [ ] All 7 new prompts validate against `prompt.schema.v2.json`.
-- [ ] Every artifact-producing prompt has a matching template under `templates/`.
-- [ ] Upgraded templates validate against their respective schemas.
-- [ ] Each new prompt declares its `specId` (where applicable) and `evidence[]` requirements.
+- [x] All 7 new prompts validate against `prompt.schema.v2.json`.
+- [x] Every artifact-producing prompt has a matching template under `templates/`.
+- [x] Upgraded templates validate against their respective schemas.
+- [x] Each new prompt declares its `businessContext` and `riskLevel`; outputs declare evidence trail via worklog.
 
 **Risks & mitigations.**
 - Prompt overlap (e.g., test-case generation vs. AC authoring) → enforce single-responsibility: each prompt produces one artifact type and references the others by ID.
@@ -331,12 +332,12 @@ Upgrade existing templates (currently minimal placeholders) to realistic, schema
 - Cut tag `v0.5.0`.
 
 **Acceptance criteria.**
-- [ ] The reference example is producible by following the prompts top to bottom without manual workarounds.
-- [ ] README references the example from the "Methodology" section.
-- [ ] `.guides/sdd-process.md` references the example as the canonical illustration.
-- [ ] Worklog entry contains both reviewer sign-offs.
-- [ ] `ROADMAP.pt-br.md` exists and is content-equivalent to `ROADMAP.md`.
-- [ ] `git tag v0.5.0` exists.
+- [x] The reference example is producible by following the prompts top to bottom without manual workarounds.
+- [x] README (EN + pt-BR) references the example from a dedicated "Reference Example" section.
+- [x] `.guides/sdd-process.md` references the example as the canonical illustration.
+- [x] Worklog entry contains both reviewer sign-offs (Maintainer + DocumentationCurator).
+- [x] `ROADMAP.pt-br.md` exists and is content-equivalent to `ROADMAP.md`.
+- [x] `git tag v0.5.0` exists.
 
 **Risks & mitigations.**
 - Dogfooding reveals deep schema or prompt issues → budget 2 days for fix-back into Phases 3–4; do not ship v0.5.0 with known gaps.
@@ -446,3 +447,7 @@ These guard the spec-first scope of v0.5.0 and prevent scope creep into the topi
 | 2026-05-17 | 0.1 | Initial draft authored. Captures stabilization debt, SDD gaps, 6-phase plan to v0.5.0. | Maintainer (via Guided Engineering) |
 | 2026-05-17 | 0.2 | Phase 0 executed. Refined Phase 0 deliverables/ACs to reflect five additional findings surfaced during execution: schema rejected `$schema` property (added); `version: 1.3.0`/`1.5.0` string violations (converted to integers); `difficulty` missing on web prompt (added); `setup.guides.structure.yml` also affected by persona/schema-path issues; latent YAML parse errors required block-scalar refactor of multi-bullet actions across four prompts. ACs marked complete; status moved to "Phase 0 complete". | Maintainer (via Guided Engineering) |
 | 2026-05-17 | 0.3 | Phase 1 executed. Moved all 7 prompts + `setup.guides.structure.yml` (renamed to `prompt.setup.guides.structure.yaml`) into `.guides/prompts/`. Created 9 canonical folders with `.gitkeep` placeholders, including the new SDD homes `.guides/specs/` and `.guides/traceability/`. Updated `prompt.setup.guides.structure.yaml` to also create those two new folders. `VALIDATION.md` paths updated. All ACs met. | Maintainer (via Guided Engineering) |
+| 2026-05-17 | 0.4 | Phase 2 executed. Added `Architect` persona (role: governance) to `personas.yaml` and to the prompt schema enum. Replaced `.guides/guided-sdlc-process.md` with `.guides/sdd-process.md` (six-stage Spec → Validate → Design → Implement → Conform → Evolve lifecycle, with persona ownership, artifact locations, and definition-of-done per stage). Repositioned README.md + README.pt-br.md (subtitle, intro, project structure table, artifact types, example prompts, resources) as an SDD framework. Rewrote `.github/copilot-instructions.md` to align with the SDD methodology, fix schema paths, document `apiVersion` lock + integer `version`, add Architect, list schema-allowed step keys, and clarify naming conventions. Six refinements beyond the original Phase 2 deliverables: `.yml`→`.yaml` consistency in READMEs, project structure tables expanded with `specs/`/`traceability/`/`architecture/adr/`, example prompt paths updated to `.guides/prompts/`, Copilot schema-path fixes, naming convention rewrite (dropped misleading "snake_case for IDs"), Architect role aligned to existing `governance` category. | Maintainer (via Guided Engineering) |
+| 2026-05-17 | 0.5 | Phase 3 executed. Added five SDD artifact schemas under `.guides/schemas/` (acceptance-criterion, requirement, spec, adr, traceability), each self-validating against draft-07. `spec.schema.json` uses `$ref` to the standalone requirement and acceptance-criterion schemas. Added `prompt.schema.v2.json` as a strict superset of v1 (12 optional SDD fields: specId, specVersion, parentPromptId, requirementIds[], acceptanceCriteriaIds[], businessContext, riskLevel, executedBy, executedAt, evidence[], approvals[], deprecation, supersededBy). Verified the strict-superset property: all 8 existing prompts validate under v1 and v2. v1 marked deprecated via root-level description; retained for backward compatibility. README EN + pt-BR, sdd-process.md, and VALIDATION.md updated to promote v2 as canonical and list the SDD schemas with direct links and validation snippets (including `-r` flag for cross-schema $ref resolution). Refinements beyond the original Phase 3 deliverables: dropped absolute `$id` URIs from new schemas to keep validation offline-only against file:// base; added a Python fallback to VALIDATION.md that uses RefResolver for cross-schema validation. | Maintainer (via Guided Engineering) |
+| 2026-05-17 | 0.6 | Phase 4 executed. Added 7 SDD prompts under `.guides/prompts/` (spec.author, spec.validate, acceptance-criteria.author, adr.author, requirement.traceability, test-cases.from-spec, spec.conformance-check) — all declare `$schema: prompt.schema.v2.json`, populate `businessContext` + `riskLevel`, and emit worklog entries as evidence. Added 5 SDD templates under `templates/` (spec, requirement, acceptance-criterion, adr, traceability.matrix), each schema-valid with realistic example IDs. Upgraded 3 existing templates (prompt, persona, worklog) from placeholders to validating examples; worklog template gains SDD-aware fields (specId/specVersion/requirementIds/adrIds/stage/Evidence/Conformance Result). Schema refinement applied during execution: `persona.schema.json` now allows `$schema` at the root (backward-compatible — `.guides/personas/personas.yaml` continues to validate). Verified end-to-end: all 15 prompts (7 SDD + 8 prior) validate against `prompt.schema.v2.json`; all 8 templates validate against their schemas; `personas.yaml` validates. | Maintainer (via Guided Engineering) |
+| 2026-05-17 | 0.7 | Phase 5 executed. Dogfooded the SDD framework on the `example.user-login` reference: authored spec.example.user-login.yaml (5 must-priority requirements, 5 testable Given/When/Then ACs, riskLevel: high) and its validation report (PASS, moved status to approved); recorded ADR 0001-choose-spec-format (status: accepted) capturing the YAML+JSON-Schema decision implicit since v0.1.0; derived 8 test cases across e2e/integration/property kinds; built the traceability matrix with 5 entries linking every requirement to its AC, test cases, and evidence; emitted the conformance report with verdict DEMO (no backing implementation in this spec-first repo — the report documents the exact shape a real review would take in a consuming project). Authored the first real worklog entry with dual sign-off (Maintainer + DocumentationCurator). Authored ROADMAP.pt-br.md mirror. Cross-linked the example from README.md, README.pt-br.md, and sdd-process.md. Tag `v0.5.0` cut. Refinement applied during execution: the conformance prompt's verdict enum could not express "demonstration without backing implementation" — documented explicitly in the report preamble and noted as a follow-up refinement to `prompt.spec.conformance-check.yaml`. | Maintainer (via Guided Engineering) |

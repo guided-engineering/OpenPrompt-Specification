@@ -1,0 +1,123 @@
+$schema: .guides/schemas/prompt.schema.v2.json
+apiVersion: guided-engineering/v1
+id: spec.author
+title: Author a Spec-Driven Development specification from a business request
+persona: ProductStrategist
+category: design
+difficulty: hard
+workspace: ./
+
+context: |
+  Converts a business request, PRD section, or stakeholder conversation
+  into a schema-valid SDD spec under `.guides/specs/`. The output is the
+  versioned source of truth that every downstream artifact (ADRs, tests,
+  code, traceability matrix, conformance report) traces back to.
+
+  Stage 1 of the SDD lifecycle. Produces a spec at `status: draft`.
+  `prompt.spec.validate.yaml` then moves it to `in-review`/`approved`
+  before any implementation begins.
+
+businessContext: |
+  Specifications are the only durable record of intent in an SDD project.
+  An ambiguous or incomplete spec causes silent drift during implementation
+  and undermines every downstream artifact. This prompt forces the
+  author to populate every required field and to express acceptance
+  criteria as testable Given/When/Then triples before the spec leaves
+  draft.
+
+riskLevel: medium
+
+dependencies:
+  - A business request, PRD section, ticket, or stakeholder conversation as input
+  - Existing related specs under `.guides/specs/` (to identify supersedence or relatedSpecs)
+  - "`.guides/schemas/spec.schema.json` (validation target)"
+  - "`.guides/schemas/requirement.schema.json` (referenced via $ref)"
+  - "`.guides/schemas/acceptance-criterion.schema.json` (referenced via $ref)"
+
+output:
+  - file: .guides/specs/spec.<specId>.yaml
+    language: yaml
+    rules:
+      - MUST validate against `.guides/schemas/spec.schema.json` with `requirement.schema.json` and `acceptance-criterion.schema.json` preloaded
+      - 'MUST set `apiVersion: guided-engineering/v1` and `specVersion: 1` for a new spec'
+      - 'MUST set `status: draft`'
+      - MUST populate `businessContext` with the problem being solved and the value delivered
+      - MUST list at least one `requirement` with a non-empty `description` and a MoSCoW `priority`
+      - MUST list at least one `acceptanceCriterion` per `must` requirement, expressed as Given/When/Then
+      - MUST link each requirement to its acceptance criteria via `acceptanceCriteriaIds[]`
+      - MUST set `riskLevel` based on blast radius (critical/high/medium/low)
+      - MUST list `owners` as persona IDs from `.guides/personas/personas.yaml`
+      - MUST set `createdAt` as an ISO 8601 date-time
+      - SHOULD list `relatedSpecs` if this spec extends or interacts with another
+  - file: .guides/operation/worklog.md
+    language: markdown
+    rules:
+      - Append a worklog entry with the new `specId`, `specVersion`, persona, and ISO timestamp
+      - Reference the source request (ticket, PRD section) in the worklog
+
+steps:
+  - id: gather-source-material
+    title: Collect the business input
+    actions:
+      - Read the source request (PRD section, ticket, stakeholder note) provided by the user
+      - Identify the audience, the problem, and the expected value
+      - Surface any constraints, deadlines, or regulatory considerations
+
+  - id: scan-related-specs
+    title: Look for related or superseded specs
+    actions:
+      - List existing files in `.guides/specs/`
+      - Read any spec whose title or `tags` overlap with the new request
+      - Decide whether this is a new spec, an extension (`relatedSpecs[]`), or a supersession (`supersededBy`)
+
+  - id: draft-business-context
+    title: Write the businessContext block
+    actions:
+      - Summarize the problem in one paragraph, in plain language
+      - State the user/customer outcome the spec unlocks
+      - Avoid solutioning — describe value, not implementation
+
+  - id: enumerate-requirements
+    title: Enumerate atomic requirements
+    actions:
+      - Break the request into atomic requirements; each gets a stable `requirementId` (lowercase, dots/hyphens)
+      - Assign `type` (functional / non-functional) and MoSCoW `priority` (must/should/could/wont)
+      - Write a one-sentence `description`; add `rationale` and `source` when the reason might be forgotten
+      - For non-functional requirements (performance, security, accessibility) state the measurable target
+
+  - id: author-acceptance-criteria
+    title: Author Given/When/Then acceptance criteria
+    actions:
+      - For each `must` requirement, write at least one acceptance criterion as Given/When/Then
+      - Give each AC a stable `acceptanceCriterionId`
+      - Add concrete `dataExamples[]` when input/output ambiguity is possible
+      - Cross-link from `requirement.acceptanceCriteriaIds[]`
+
+  - id: set-risk-and-owners
+    title: Set risk level and accountable owners
+    actions:
+      - Classify `riskLevel` (`critical | high | medium | low`) based on blast radius
+      - List `owners` as persona IDs accountable for this spec (one product persona + at least one engineering persona is the default)
+
+  - id: emit-spec-file
+    title: Emit the spec YAML
+    actions:
+      - Write `.guides/specs/spec.<specId>.yaml` with all required fields populated
+      - 'Set `status: draft`, `specVersion: 1`, `createdAt` as ISO 8601, `createdBy` to the executing persona'
+      - Reference the relevant schemas via `$schema`
+
+  - id: validate-and-log
+    title: Validate the spec and append to the worklog
+    actions:
+      - Run the spec through `prompt.spec.validate.yaml` (or its manual equivalent in `VALIDATION.md`)
+      - If validation fails, fix the spec; do not advance status
+      - Append a worklog entry under `.guides/operation/worklog.md` with `specId`, `specVersion`, persona, source request, and ISO timestamp
+
+tags:
+  - sdd
+  - spec
+  - authoring
+  - product
+
+createdBy: guided-engineering
+version: 1

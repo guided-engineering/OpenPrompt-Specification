@@ -1,0 +1,132 @@
+$schema: ../schemas/spec.schema.json
+apiVersion: guided-engineering/v1
+specId: example.user-login
+specVersion: 1
+title: User login (email + password)
+status: approved
+businessContext: |
+  Users of consumer products that adopt Guided Engineering need an
+  authenticated session before accessing protected resources. Without a
+  documented login spec, every team reimplements credentials handling,
+  error messaging, and rate limiting differently — producing a long
+  tail of incidents and inconsistent customer experience.
+
+  This spec is the canonical example of the SDD methodology applied
+  end-to-end. It is intentionally narrow (one capability, one happy
+  path, two failure modes) so the full Spec -> Validate -> Design ->
+  Implement -> Conform -> Evolve loop fits in one reading session.
+
+requirements:
+  - requirementId: req.user-login.001
+    type: functional
+    priority: must
+    description: |
+      A registered user can submit their email and password and, on
+      valid credentials, receive an authenticated session.
+    rationale: Without an authenticated session, no protected resource is reachable.
+    source: Reference example for the SDD framework
+    acceptanceCriteriaIds:
+      - ac.user-login.happy
+
+  - requirementId: req.user-login.002
+    type: functional
+    priority: must
+    description: |
+      A user who submits an unknown email or an incorrect password
+      receives a single, identical error message that does not reveal
+      which of the two was wrong.
+    rationale: |
+      Distinct error messages for "unknown email" vs "wrong password"
+      let an attacker enumerate valid accounts.
+    source: OWASP authentication guidance
+    acceptanceCriteriaIds:
+      - ac.user-login.invalid-credentials
+
+  - requirementId: req.user-login.003
+    type: functional
+    priority: must
+    description: |
+      After five consecutive failed login attempts within fifteen
+      minutes for the same email, subsequent attempts for that email
+      are rejected with a rate-limit error until the window expires.
+    rationale: Brute-force protection without disrupting legitimate users.
+    source: OWASP authentication guidance
+    acceptanceCriteriaIds:
+      - ac.user-login.rate-limit
+
+  - requirementId: req.user-login.004
+    type: non-functional
+    priority: must
+    description: |
+      The login endpoint completes successful authentication in under
+      400 ms at the 95th percentile under expected production load.
+    rationale: Latency above this threshold drives measurable bounce.
+    source: Reference example for the SDD framework
+    acceptanceCriteriaIds:
+      - ac.user-login.latency
+
+  - requirementId: req.user-login.005
+    type: non-functional
+    priority: must
+    description: |
+      Passwords are never logged in plaintext, persisted in any cache,
+      or echoed in any error response or telemetry event.
+    rationale: A single leaked password compromises the user across services where they reuse it.
+    source: OWASP authentication guidance
+    acceptanceCriteriaIds:
+      - ac.user-login.no-plaintext
+
+acceptanceCriteria:
+  - acceptanceCriterionId: ac.user-login.happy
+    given: A registered user with email `alice@example.com` and the correct password.
+    when: They submit the login form with that email and password.
+    then: They are redirected to `/dashboard` and receive a session cookie marked `HttpOnly` and `Secure`.
+    dataExamples:
+      - 'input: {email: "alice@example.com", password: "<correct>"} -> redirect to /dashboard, Set-Cookie: session=...; HttpOnly; Secure'
+
+  - acceptanceCriterionId: ac.user-login.invalid-credentials
+    given: The login form rendered.
+    when: The user submits an unknown email OR a known email with an incorrect password.
+    then: 'The response is HTTP 401 with the exact body `{ "error": "invalid_credentials" }` and no session cookie is set.'
+    dataExamples:
+      - 'input: {email: "ghost@example.com", password: "anything"} -> 401 {"error":"invalid_credentials"}'
+      - 'input: {email: "alice@example.com", password: "<wrong>"} -> 401 {"error":"invalid_credentials"}'
+    notes: The two cases MUST produce a byte-identical response.
+
+  - acceptanceCriterionId: ac.user-login.rate-limit
+    given: The user `alice@example.com` has submitted five failed login attempts in the last fifteen minutes.
+    when: A sixth attempt arrives for the same email.
+    then: 'The response is HTTP 429 with body `{ "error": "rate_limited", "retryAfterSeconds": <integer> }` regardless of the password value, until fifteen minutes have elapsed since the first failed attempt in the window.'
+    dataExamples:
+      - 'attempt 6 within 15 min -> 429 {"error":"rate_limited","retryAfterSeconds":600}'
+
+  - acceptanceCriterionId: ac.user-login.latency
+    given: Production load of 50 concurrent login attempts per second.
+    when: A successful login is processed.
+    then: The p95 server-side latency from request received to response sent is below 400 ms.
+    dataExamples:
+      - 'load: 50 rps for 60s -> p95 < 400 ms (measured at the application server, excluding network egress)'
+
+  - acceptanceCriterionId: ac.user-login.no-plaintext
+    given: A successful or failed login attempt has been processed.
+    when: All logs, traces, telemetry payloads, and persisted records are inspected.
+    then: No value matching the submitted password appears anywhere; password fields appear redacted as `***` or omitted.
+    notes: |
+      Verification approach: emit a deliberate unique sentinel password
+      during the test (e.g. `pw-sentinel-7f3a`), then grep all log
+      destinations and telemetry sinks for that exact value. Zero hits
+      is the pass condition.
+
+owners:
+  - ProductStrategist
+  - Architect
+  - SoftwareDeveloper
+  - QAEngineer
+
+createdBy: ProductStrategist
+createdAt: '2026-05-17T20:30:00Z'
+riskLevel: high
+tags:
+  - example
+  - authentication
+  - reference

@@ -1,0 +1,131 @@
+apiVersion: guided-engineering/v1
+specId: example.user-login
+specVersion: 1
+
+testCases:
+  - testCaseId: tc.user-login.happy.001
+    acceptanceCriterionId: ac.user-login.happy
+    kind: e2e
+    given: A registered user with email alice@example.com and the correct password exists.
+    when: The user submits the login form with that email and password.
+    then: Server responds 302 to /dashboard and sets Set-Cookie session with HttpOnly and Secure flags.
+    inputs:
+      email: alice@example.com
+      password: '<correct>'
+    expectedOutputs:
+      status: 302
+      location: /dashboard
+      setCookie:
+        name: session
+        flags: ['HttpOnly', 'Secure']
+
+  - testCaseId: tc.user-login.invalid-credentials.unknown-email
+    acceptanceCriterionId: ac.user-login.invalid-credentials
+    kind: integration
+    given: No user with email ghost@example.com exists.
+    when: A login attempt is submitted with ghost@example.com and any password.
+    then: 'Server responds 401 with body {"error":"invalid_credentials"} and sets no cookie.'
+    inputs:
+      email: ghost@example.com
+      password: anything
+    expectedOutputs:
+      status: 401
+      body:
+        error: invalid_credentials
+      setCookie: null
+
+  - testCaseId: tc.user-login.invalid-credentials.wrong-password
+    acceptanceCriterionId: ac.user-login.invalid-credentials
+    kind: integration
+    given: A registered user with email alice@example.com exists.
+    when: A login attempt is submitted with alice@example.com and an incorrect password.
+    then: 'Server responds 401 with body {"error":"invalid_credentials"} and sets no cookie.'
+    inputs:
+      email: alice@example.com
+      password: '<wrong>'
+    expectedOutputs:
+      status: 401
+      body:
+        error: invalid_credentials
+      setCookie: null
+
+  - testCaseId: tc.user-login.invalid-credentials.byte-identical
+    acceptanceCriterionId: ac.user-login.invalid-credentials
+    kind: property
+    given: Two failing login attempts — one with unknown email, one with known email and wrong password.
+    when: Both responses are captured byte-for-byte.
+    then: The response bodies, status codes, and response headers (excluding Date and any request-id) are byte-identical.
+    inputs:
+      pair:
+        - email: ghost@example.com
+          password: anything
+        - email: alice@example.com
+          password: '<wrong>'
+    expectedOutputs:
+      byteIdentical: true
+      exclusions: ['Date', 'X-Request-Id']
+
+  - testCaseId: tc.user-login.rate-limit.threshold
+    acceptanceCriterionId: ac.user-login.rate-limit
+    kind: integration
+    given: alice@example.com has just submitted five failed login attempts within fifteen minutes.
+    when: A sixth attempt arrives for alice@example.com (with any password).
+    then: 'Server responds 429 with body {"error":"rate_limited","retryAfterSeconds":<integer>} and the integer is in (0, 900].'
+    inputs:
+      precondition:
+        failedAttempts: 5
+        windowSeconds: 900
+      attempt:
+        email: alice@example.com
+        password: anything
+    expectedOutputs:
+      status: 429
+      body:
+        error: rate_limited
+        retryAfterSecondsRange: [1, 900]
+
+  - testCaseId: tc.user-login.rate-limit.window-expiry
+    acceptanceCriterionId: ac.user-login.rate-limit
+    kind: integration
+    given: alice@example.com hit the rate limit fifteen minutes plus one second ago.
+    when: A new login attempt with valid credentials arrives.
+    then: Server responds 302 (happy path) — the rate-limit window has expired.
+    inputs:
+      precondition:
+        firstFailedAttemptAgeSeconds: 901
+      attempt:
+        email: alice@example.com
+        password: '<correct>'
+    expectedOutputs:
+      status: 302
+      location: /dashboard
+
+  - testCaseId: tc.user-login.latency.p95
+    acceptanceCriterionId: ac.user-login.latency
+    kind: e2e
+    given: 50 concurrent login attempts per second sustained for 60 seconds against a warmed instance.
+    when: Successful login responses are timed at the application server boundary.
+    then: The p95 of server-side latency is below 400 ms.
+    inputs:
+      concurrency: 50
+      durationSeconds: 60
+      scenario: happy-path
+    expectedOutputs:
+      p95LatencyMsMax: 400
+
+  - testCaseId: tc.user-login.no-plaintext.sentinel
+    acceptanceCriterionId: ac.user-login.no-plaintext
+    kind: property
+    given: A unique sentinel password 'pw-sentinel-7f3a' is submitted during a login attempt (the user does not exist).
+    when: All log destinations, traces, telemetry payloads, and persisted records are searched for the literal sentinel string.
+    then: Zero hits.
+    inputs:
+      sentinel: pw-sentinel-7f3a
+      sinks:
+        - application logs
+        - access logs
+        - structured telemetry
+        - error tracker
+        - persisted audit table
+    expectedOutputs:
+      sentinelHits: 0
