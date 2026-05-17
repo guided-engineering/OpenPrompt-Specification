@@ -3,7 +3,7 @@
 *Um framework de Spec-Driven Development (SDD).*
 
 OpenPrompt-Specification
-Versão: 0.1.0 — veja [`ROADMAP.md`](./ROADMAP.md) para o caminho até v0.5.0.
+Versão: 0.5.0 — veja [`ROADMAP.md`](./ROADMAP.md) para o histórico de entrega e o outlook Phase 6+.
 
 ~~Vibe Coding~~ → **Guided Engineering** é um framework estruturado, rastreável e executável para **Spec-Driven Development**: especificações versionadas guiam todo artefato a jusante (código, testes, ADRs, worklogs) por meio de prompts modulares, personas e documentação reprodutível.
 
@@ -221,6 +221,8 @@ A ilustração canônica do loop SDD completo está em [`.guides/specs/spec.exam
 | Auditoria | [`.guides/operation/worklog.md`](./.guides/operation/worklog.md) |
 
 Copie a spec para a sua própria pasta `.guides/specs/`, adapte os IDs e siga os prompts de cima para baixo.
+
+> **Aviso.** Este repositório é spec-first, portanto o exemplo não tem implementação backing. Seu relatório de conformance registra o verdict `DEMO`; um projeto consumidor que implementar a spec re-executa `prompt.spec.conformance-check.yaml` contra sua source tree e produz um verdict real `PASS | PASS-WITH-GAPS | FAIL`.
 
 ---
 
