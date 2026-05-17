@@ -1,8 +1,39 @@
 # Worklog — Guided Engineering
 
-> This log records relevant actions, decisions, and SDD lifecycle transitions during the operational lifecycle of the project. One entry per PR or per phase transition.
+> This log records relevant actions, decisions, and SDD lifecycle transitions during the operational lifecycle of the project. One entry per PR or per phase transition. Each entry begins with a YAML front-matter block (between `---` fences) that validates against [`.guides/schemas/worklog.schema.json`](../schemas/worklog.schema.json); the Markdown body is the readable record.
 
 ---
+
+```yaml
+---
+$schema: ../schemas/worklog.schema.json
+apiVersion: guided-engineering/v1
+entryId: 2026-05-17.phase-5-dogfood
+date: '2026-05-17T21:30:00Z'
+persona: Maintainer
+stage: meta
+specId: example.user-login
+specVersion: 1
+requirementIds:
+  - req.user-login.001
+  - req.user-login.002
+  - req.user-login.003
+  - req.user-login.004
+  - req.user-login.005
+adrIds:
+  - 0001-choose-spec-format
+conformanceResult: DEMO
+signOffs:
+  - persona: Maintainer
+    at: '2026-05-17T21:30:00Z'
+  - persona: DocumentationCurator
+    at: '2026-05-17T21:30:00Z'
+tags:
+  - phase-5
+  - dogfood
+  - reference-example
+---
+```
 
 ## 2026-05-17T21:30:00Z — Phase 5: dogfood the SDD framework on the `example.user-login` reference
 

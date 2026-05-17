@@ -1,0 +1,122 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Guided Engineering Worklog Entry Schema",
+  "description": "Front-matter contract for a single worklog entry. Worklog files (.guides/operation/worklog.md) are Markdown with one YAML front-matter block per entry that validates against this schema; the Markdown body is the readable record.",
+  "type": "object",
+  "required": [
+    "apiVersion",
+    "entryId",
+    "date",
+    "persona",
+    "stage"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "apiVersion": {
+      "type": "string",
+      "const": "guided-engineering/v1"
+    },
+    "entryId": {
+      "type": "string",
+      "pattern": "^[a-z0-9._-]+$",
+      "description": "Stable identifier for this worklog entry. Convention: <ISO-date>.<short-slug>, e.g., 2026-05-17.phase-5-dogfood."
+    },
+    "date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the entry was written."
+    },
+    "persona": {
+      "type": "string",
+      "enum": [
+        "SystemIntegrator",
+        "SoftwareDeveloper",
+        "CodeAuditor",
+        "ProductStrategist",
+        "QAEngineer",
+        "DevOpsOrchestrator",
+        "AIEngineer",
+        "DocumentationCurator",
+        "Maintainer",
+        "Architect"
+      ],
+      "description": "Primary persona authoring the entry."
+    },
+    "stage": {
+      "type": "string",
+      "enum": ["Spec", "Validate", "Design", "Implement", "Conform", "Evolve", "meta"],
+      "description": "Which SDD lifecycle stage this entry records. Use 'meta' for framework-level activities (phase transitions, dogfooding, governance changes)."
+    },
+    "specId": {
+      "type": "string",
+      "pattern": "^[a-z0-9._-]+$",
+      "description": "If the entry is tied to a spec, the specId. Omit for meta entries."
+    },
+    "specVersion": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "requirementIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9._-]+$"
+      }
+    },
+    "adrIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[0-9]{4}-[a-z0-9-]+$"
+      }
+    },
+    "conformanceResult": {
+      "type": "string",
+      "enum": ["PASS", "PASS-WITH-GAPS", "FAIL", "DEMO", "N/A"],
+      "description": "If the entry closes the Conform stage, the verdict. Use N/A otherwise."
+    },
+    "signOffs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["persona", "at"],
+        "properties": {
+          "persona": {
+            "type": "string",
+            "enum": [
+              "SystemIntegrator",
+              "SoftwareDeveloper",
+              "CodeAuditor",
+              "ProductStrategist",
+              "QAEngineer",
+              "DevOpsOrchestrator",
+              "AIEngineer",
+              "DocumentationCurator",
+              "Maintainer",
+              "Architect"
+            ]
+          },
+          "at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "signature": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "description": "Sign-off entries. ROADMAP §7.2 requires Maintainer + DocumentationCurator for entries in Phases 3-5; other phases require any Maintainer."
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}

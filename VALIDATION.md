@@ -66,6 +66,7 @@ Every command must report `valid`. A non-zero exit means the file does not confo
 | `.guides/specs/*.yaml` | `.guides/schemas/spec.schema.json` | Refs `requirement.schema.json` and `acceptance-criterion.schema.json` — preload them with `-r`. |
 | `.guides/traceability/*.yaml` | `.guides/schemas/traceability.schema.json` | |
 | `.guides/testing/test-cases.*.yaml` | `.guides/schemas/test-cases.schema.json` | Collection of test cases derived from a spec; emitted by `prompt.test-cases.from-spec.yaml`. |
+| `.guides/operation/worklog.md` (each entry's front-matter block) | `.guides/schemas/worklog.schema.json` | Each entry is a YAML front-matter block fenced by `---` followed by Markdown. Validate by extracting front-matter blocks from the file and validating each separately. |
 | `.guides/architecture/adr/*.{md,yaml}` | `.guides/schemas/adr.schema.json` | ADRs may be authored as YAML directly or as Markdown with a YAML front-matter block. |
 | `templates/template.prompt.yaml` | `.guides/schemas/prompt.schema.v2.json` | Template uses `<placeholder>` values; not expected to validate as-is. Skip until Phase 4 upgrade. |
 | `templates/template.persona.yaml` | `.guides/schemas/persona.schema.json` | Same caveat as above. |
