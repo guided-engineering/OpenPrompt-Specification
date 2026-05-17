@@ -252,6 +252,30 @@ npx ajv-cli@latest validate \
 
 Schemas são draft-07; qualquer validador conforme funciona.
 
+### 7.4 Política de deprecação (prompts, personas, schemas)
+
+Nada que sai neste repo recebe breaking-edit no lugar. Deprecação é uma operação versionada e rastreável:
+
+**Prompts.** Use o vocabulário SDD já em `prompt.schema.v2.json`:
+- Setar o objeto opcional `deprecation` (`{at, reason}`) no prompt que está sendo retirado.
+- Setar `supersededBy: <new-prompt-id>` se houver substituto. Se o prompt está sendo removido sem substituto, omitir `supersededBy` e deixar `reason` carregar o rationale.
+- Bump da `version` integer do prompt no commit de deprecação.
+- Abrir entrada de worklog registrando a deprecação, o rationale, e (se aplicável) o caminho de migração para projetos consumidores.
+- Não deletar o arquivo durante a janela v0.x — manter para backward compatibility e deixar o bloco `deprecation` avisar leitores futuros.
+
+**Personas.** Personas estão listadas uma vez em `.guides/personas/personas.yaml` e referenciadas por enum em `prompt.schema.json`, `prompt.schema.v2.json` e `spec.schema.json`. Para retirar uma persona:
+- Confirmar que nenhum prompt ativo declara como `persona:` e nenhum spec ativo lista em `owners[]`. Migrar antes se houver.
+- Marcar a persona como deprecated em `personas.yaml` com comentário nomeando o substituto (mirror do padrão de prompt: `# deprecated <ISO timestamp>; superseded by <PersonaId>`).
+- Remover o ID da persona do enum nos três schemas no mesmo commit.
+- Atualizar `.github/copilot-instructions.md` para que as sugestões parem de oferecer o ID retirado.
+- Abrir entrada de worklog registrando a mudança e o rationale.
+
+**Schemas.** Schemas evoluem via arquivos paralelos (`prompt.schema.json` → `prompt.schema.v2.json`), não in-place. O arquivo v1 ganha uma nota de deprecação no `description` root-level; ambos os arquivos coexistem durante a janela v0.x. A transição v0 → v1.0 (fora de escopo deste roadmap) é o ponto em que arquivos deprecated são removidos.
+
+**Specs e ADRs.** Use o valor `status: deprecated` mais `supersededBy: <new-id>`. O arquivo antigo permanece; leitores seguem a cadeia de supersessão.
+
+O princípio: toda deprecação tem timestamp ISO, rationale registrado, ponteiro `supersededBy` quando aplicável, e entrada de worklog. Nada desaparece silenciosamente.
+
 ---
 
 ## 8. Princípios fora-do-roadmap (a lista "não")

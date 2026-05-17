@@ -414,6 +414,30 @@ npx ajv-cli@latest validate \
 
 Schemas are draft-07; any conformant validator works.
 
+### 7.4 Deprecation policy (prompts, personas, schemas)
+
+Nothing ships in this repo is breaking-edited in place. Deprecation is a versioned, traceable operation:
+
+**Prompts.** Use the SDD vocabulary already in `prompt.schema.v2.json`:
+- Set the optional `deprecation` object (`{at, reason}`) on the prompt being retired.
+- Set `supersededBy: <new-prompt-id>` if a replacement exists. If the prompt is being removed without replacement, omit `supersededBy` and let `reason` carry the rationale.
+- Bump the prompt's integer `version` on the deprecation change.
+- Open a worklog entry recording the deprecation, the rationale, and (if applicable) the migration path for consuming projects.
+- Do not delete the file during the v0.x window — keep it for backward compatibility and let the `deprecation` block warn future readers.
+
+**Personas.** Personas are listed once in `.guides/personas/personas.yaml` and referenced by enum in `prompt.schema.json`, `prompt.schema.v2.json`, and `spec.schema.json`. To retire a persona:
+- Confirm no active prompt declares it as `persona:` and no active spec lists it in `owners[]`. If any does, migrate first.
+- Mark the persona deprecated in `personas.yaml` with a comment naming the replacement (mirror the prompt pattern: `# deprecated <ISO timestamp>; superseded by <PersonaId>`).
+- Remove the persona ID from the enum in all three schemas in the same commit.
+- Update `.github/copilot-instructions.md` so suggestions stop offering the retired ID.
+- Open a worklog entry recording the change and the rationale.
+
+**Schemas.** Schemas evolve via parallel files (`prompt.schema.json` → `prompt.schema.v2.json`), not in place. The v1 file gains a deprecation note in its root-level `description`; both files coexist during the v0.x window. The v0 → v1.0 transition (out of scope for this roadmap) is the point at which deprecated files are removed.
+
+**Specs and ADRs.** Use the `status: deprecated` value plus `supersededBy: <new-id>`. The old file stays; readers follow the supersession chain.
+
+The principle: every deprecation has an ISO timestamp, a recorded rationale, a `supersededBy` pointer where applicable, and a worklog entry. Nothing disappears silently.
+
 ---
 
 ## 8. Out-of-Roadmap principles (the "no" list)
