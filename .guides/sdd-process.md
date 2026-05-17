@@ -221,3 +221,4 @@ The example is intentionally narrow (one capability, three failure modes, two no
 - Manual validation: `VALIDATION.md` (how to validate every YAML locally).
 - Personas: `.guides/personas/personas.yaml` (canonical list of who owns what).
 - Schemas: `.guides/schemas/` (the validation contracts).
+- Retrofit guide: [`.guides/base/retrofit-sdd-guide.md`](./base/retrofit-sdd-guide.md) (how to adopt SDD in a project that already has working code, ambiguous specs, and scattered ADRs).
