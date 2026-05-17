@@ -7,7 +7,7 @@
 | Current version | `0.1.0` |
 | Target version | `0.5.0` |
 | Target window | Q2–Q3 2026 (≈10 weeks) |
-| Status | Phase 1 — Canonical Structure Materialization (complete) |
+| Status | Phase 2 — Repositioning to SDD (complete) |
 | Scope | Spec-first only (specs + validation + traceability) |
 | Out of scope | CLI, MCP/agents, portal, CI — see §9 |
 | Language | English primary; `ROADMAP.pt-br.md` mirror authored in Phase 5 |
@@ -206,12 +206,13 @@ Each phase block follows the same structure: **Goal · Scope · Deliverables · 
 - Add `Architect` and `DocumentationEngineer→DocumentationCurator` corrections to the persona enum inside `.guides/schemas/prompt.schema.json`.
 
 **Acceptance criteria.**
-- [ ] README primary heading still reads "Guided Engineering"; subtitle includes "Spec-Driven Development framework".
-- [ ] `.guides/sdd-process.md` exists; `.guides/guided-sdlc-process.md` does not.
-- [ ] `.github/copilot-instructions.md` lists `Architect` and does not list `DocumentationEngineer`.
-- [ ] `.guides/personas/personas.yaml` contains an `Architect` entry.
-- [ ] No broken internal markdown links (verified with `markdown-link-check` or manual click-through).
-- [ ] pt-BR README in content parity with EN README.
+- [x] README primary heading still reads "Guided Engineering"; subtitle includes "Spec-Driven Development framework".
+- [x] `.guides/sdd-process.md` exists; `.guides/guided-sdlc-process.md` does not.
+- [x] `.github/copilot-instructions.md` lists `Architect` and does not list `DocumentationEngineer`.
+- [x] `.guides/personas/personas.yaml` contains an `Architect` entry (validates against `persona.schema.json`).
+- [x] `.guides/schemas/prompt.schema.json` persona enum includes `Architect`.
+- [x] No broken internal markdown links (verified by hand: every link target exists on disk).
+- [x] pt-BR README in content parity with EN README.
 
 **Risks & mitigations.**
 - Translation drift (pt-BR mirror falling behind EN) → policy: any PR that touches `README.md` must also touch `README.pt-br.md` or open a follow-up issue.
@@ -446,3 +447,4 @@ These guard the spec-first scope of v0.5.0 and prevent scope creep into the topi
 | 2026-05-17 | 0.1 | Initial draft authored. Captures stabilization debt, SDD gaps, 6-phase plan to v0.5.0. | Maintainer (via Guided Engineering) |
 | 2026-05-17 | 0.2 | Phase 0 executed. Refined Phase 0 deliverables/ACs to reflect five additional findings surfaced during execution: schema rejected `$schema` property (added); `version: 1.3.0`/`1.5.0` string violations (converted to integers); `difficulty` missing on web prompt (added); `setup.guides.structure.yml` also affected by persona/schema-path issues; latent YAML parse errors required block-scalar refactor of multi-bullet actions across four prompts. ACs marked complete; status moved to "Phase 0 complete". | Maintainer (via Guided Engineering) |
 | 2026-05-17 | 0.3 | Phase 1 executed. Moved all 7 prompts + `setup.guides.structure.yml` (renamed to `prompt.setup.guides.structure.yaml`) into `.guides/prompts/`. Created 9 canonical folders with `.gitkeep` placeholders, including the new SDD homes `.guides/specs/` and `.guides/traceability/`. Updated `prompt.setup.guides.structure.yaml` to also create those two new folders. `VALIDATION.md` paths updated. All ACs met. | Maintainer (via Guided Engineering) |
+| 2026-05-17 | 0.4 | Phase 2 executed. Added `Architect` persona (role: governance) to `personas.yaml` and to the prompt schema enum. Replaced `.guides/guided-sdlc-process.md` with `.guides/sdd-process.md` (six-stage Spec → Validate → Design → Implement → Conform → Evolve lifecycle, with persona ownership, artifact locations, and definition-of-done per stage). Repositioned README.md + README.pt-br.md (subtitle, intro, project structure table, artifact types, example prompts, resources) as an SDD framework. Rewrote `.github/copilot-instructions.md` to align with the SDD methodology, fix schema paths, document `apiVersion` lock + integer `version`, add Architect, list schema-allowed step keys, and clarify naming conventions. Six refinements beyond the original Phase 2 deliverables: `.yml`→`.yaml` consistency in READMEs, project structure tables expanded with `specs/`/`traceability/`/`architecture/adr/`, example prompt paths updated to `.guides/prompts/`, Copilot schema-path fixes, naming convention rewrite (dropped misleading "snake_case for IDs"), Architect role aligned to existing `governance` category. | Maintainer (via Guided Engineering) |

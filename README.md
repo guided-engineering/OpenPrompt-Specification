@@ -1,11 +1,15 @@
 # Guided Engineering
 
-OpenPrompt-Specification 
-Version: 0.1.0
+*A Spec-Driven Development (SDD) framework.*
 
-~~Vibe Coding~~ -> **Guided Engineering** is a structured, traceable, and executable system for managing the entire software development lifecycle (SDLC) through modular prompts, intelligent agents, and reproducible documentation.
+OpenPrompt-Specification
+Version: 0.1.0 — see [`ROADMAP.md`](./ROADMAP.md) for the path to v0.5.0.
+
+~~Vibe Coding~~ → **Guided Engineering** is a structured, traceable, and executable framework for **Spec-Driven Development**: versioned specifications drive every downstream artifact (code, tests, ADRs, worklogs) through modular prompts, personas, and reproducible documentation.
 
 This project uses versioned YAML prompts, schema validation, personas, and categorized outputs to enable human–machine collaboration with high observability, reproducibility, and minimal complexity.
+
+> **Brand:** Guided Engineering. **Methodology:** SDD. See [`.guides/sdd-process.md`](./.guides/sdd-process.md) for the lifecycle.
 
 ---
 
@@ -113,8 +117,9 @@ At its core, Guided Engineering is a **human-led practice** that organizes the S
 Guided Engineering relies on structured, versioned artefacts to guide execution and preserve traceability.
 
 ### Main artefact types:
-- **YAML** prompts (`*.yml`): Define intent, context, persona, and execution steps.
-- **Markdown** documentation (`*.md`): Capture structured outputs, decisions, playbooks.
+- **YAML** prompts (`*.yaml`): Define intent, context, persona, and execution steps.
+- **YAML** specs (`*.yaml` under `.guides/specs/`): Versioned source of truth for every feature.
+- **Markdown** documentation (`*.md`): Capture structured outputs, decisions, playbooks, ADRs.
 - **JSON** schemas (`*.json`): Enforce structure, consistency, and validation.
 
 Artefacts are stored in a canonical `.guides/` folder, categorized by function.
@@ -148,17 +153,20 @@ These tools serve as assistants - never as replacements for engineering judgment
 
 ## 📁 Project Structure (`.guides/`)
 
-| Folder          | Purpose                                                |
-| --------------- | ------------------------------------------------------ |
-| `base/`         | Project-level structure and setup guides               |
-| `product/`      | Product requirements, roadmap, user personas           |
-| `assessment/`   | Full assessments of codebase, stack, risks, entities   |
-| `architecture/` | Architectural layers, stack, rules, plugins            |
-| `testing/`      | Test strategies, coverage, risk documentation          |
-| `operation/`    | Worklogs, changelogs, troubleshooting, FAQ             |
-| `prompts/`      | Executable YAML prompts by category and persona        |
-| `personas/`     | Roles responsible for prompts (e.g., Dev, QA, Auditor) |
-| `schema/`       | JSON Schema files to validate prompts and personas     |
+| Folder              | Purpose                                                              |
+| ------------------- | -------------------------------------------------------------------- |
+| `base/`             | Project-level structure and setup guides                             |
+| `product/`          | Product requirements, roadmap, user personas                         |
+| `specs/`            | **SDD specs** — versioned source of truth for every feature          |
+| `traceability/`     | **SDD matrices** — requirement ↔ spec ↔ test ↔ commit ↔ evidence    |
+| `assessment/`       | Full assessments of codebase, stack, risks, entities                 |
+| `architecture/`     | Architectural layers, stack, rules, plugins                          |
+| `architecture/adr/` | Architecture Decision Records (ADRs)                                 |
+| `testing/`          | Test strategies, coverage, risk documentation                        |
+| `operation/`        | Worklogs, changelogs, validation reports, conformance reports, FAQ   |
+| `prompts/`          | Executable YAML prompts by category and persona                      |
+| `personas/`         | Roles responsible for prompts (e.g., Dev, QA, Architect, Auditor)    |
+| `schemas/`          | JSON Schema files to validate prompts, personas, specs, ADRs         |
 
 ---
 
@@ -186,8 +194,14 @@ These tools serve as assistants - never as replacements for engineering judgment
 
 ## 🧩 Example Prompts
 
-- `prompt.discovery.yml`: Full technical assessment of a project (first prompt).
-- `prompt.onboarding.yaml`: Generate a complete onboarding file for engineers.
+All prompts live under [`.guides/prompts/`](./.guides/prompts/):
+
+- `prompt.discovery.yaml` — full technical assessment of a project (first prompt).
+- `prompt.onboarding.yaml` — generate a complete onboarding file for engineers.
+- `prompt.commit.yaml` — analyse pending changes and apply a Conventional Commit.
+- `prompt.web.generate-page.yaml` — generate a localized Next.js page with i18n + tests + worklog.
+
+The SDD prompts (`prompt.spec.author.yaml`, `prompt.spec.validate.yaml`, `prompt.adr.author.yaml`, ...) land in Phase 4 of the roadmap.
 ---
 
 ## 📌 Contributors
@@ -198,11 +212,16 @@ This project is maintained using the `Guided Engineering` model itself - all cha
 
 ## 📖 Resources
 
-- Prompt schema: `.guides/schema/prompt.schema.json`
-- Persona list: `.guides/personas/personas.yml`
+- Methodology: [`.guides/sdd-process.md`](./.guides/sdd-process.md)
+- Roadmap to v0.5.0: [`ROADMAP.md`](./ROADMAP.md)
+- Manual validation protocol: [`VALIDATION.md`](./VALIDATION.md)
+- Prompt schema: [`.guides/schemas/prompt.schema.json`](./.guides/schemas/prompt.schema.json)
+- Persona schema: [`.guides/schemas/persona.schema.json`](./.guides/schemas/persona.schema.json)
+- Persona list: [`.guides/personas/personas.yaml`](./.guides/personas/personas.yaml)
 - Templates:
-  - `.guides/prompts/template.prompt.yml`
-  - `.guides/personas/template.persona.yml`
+  - [`templates/template.prompt.yaml`](./templates/template.prompt.yaml)
+  - [`templates/template.persona.yaml`](./templates/template.persona.yaml)
+  - [`templates/template.worklog.md`](./templates/template.worklog.md)
 
 ---
 
