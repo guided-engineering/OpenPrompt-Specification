@@ -42,6 +42,14 @@ for f in .guides/traceability/*.yaml; do
     -d "$f" \
     --strict=false
 done
+
+# Test cases:
+for f in .guides/testing/test-cases.*.yaml; do
+  npx --yes ajv-cli@5 validate \
+    -s .guides/schemas/test-cases.schema.json \
+    -d "$f" \
+    --strict=false
+done
 ```
 
 Every command must report `valid`. A non-zero exit means the file does not conform — fix the file, do not change the schema (unless the schema itself is wrong).
@@ -57,6 +65,7 @@ Every command must report `valid`. A non-zero exit means the file does not confo
 | `.guides/personas/personas.yaml` | `.guides/schemas/persona.schema.json` | |
 | `.guides/specs/*.yaml` | `.guides/schemas/spec.schema.json` | Refs `requirement.schema.json` and `acceptance-criterion.schema.json` — preload them with `-r`. |
 | `.guides/traceability/*.yaml` | `.guides/schemas/traceability.schema.json` | |
+| `.guides/testing/test-cases.*.yaml` | `.guides/schemas/test-cases.schema.json` | Collection of test cases derived from a spec; emitted by `prompt.test-cases.from-spec.yaml`. |
 | `.guides/architecture/adr/*.{md,yaml}` | `.guides/schemas/adr.schema.json` | ADRs may be authored as YAML directly or as Markdown with a YAML front-matter block. |
 | `templates/template.prompt.yaml` | `.guides/schemas/prompt.schema.v2.json` | Template uses `<placeholder>` values; not expected to validate as-is. Skip until Phase 4 upgrade. |
 | `templates/template.persona.yaml` | `.guides/schemas/persona.schema.json` | Same caveat as above. |
@@ -131,6 +140,17 @@ sv = Draft7Validator(spec_schema, resolver=resolver)
 for f in sorted(glob.glob('.guides/specs/*.yaml')):
     data = yaml.safe_load(open(f))
     errors = list(sv.iter_errors(data))
+    if errors:
+        failed = True; print(f'INVALID {f}: {errors[0].message}')
+    else:
+        print(f'VALID   {f}')
+
+# 4. Validate test cases
+tc_schema = json.load(open('.guides/schemas/test-cases.schema.json'))
+tv = Draft7Validator(tc_schema)
+for f in sorted(glob.glob('.guides/testing/test-cases.*.yaml')):
+    data = yaml.safe_load(open(f))
+    errors = list(tv.iter_errors(data))
     if errors:
         failed = True; print(f'INVALID {f}: {errors[0].message}')
     else:

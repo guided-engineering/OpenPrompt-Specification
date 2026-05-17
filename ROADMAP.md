@@ -358,6 +358,7 @@ Upgrade existing templates (currently minimal placeholders) to realistic, schema
 | `.guides/schemas/acceptance-criterion.schema.json` | 3 | Given/When/Then triple. |
 | `.guides/schemas/adr.schema.json` | 3 | Architecture Decision Record. |
 | `.guides/schemas/traceability.schema.json` | 3 | Traceability matrix structure. |
+| `.guides/schemas/test-cases.schema.json` | 6 (polish) | Collection of test cases derived from a spec; output of `prompt.test-cases.from-spec.yaml`. |
 
 ### 6.2 Personas
 

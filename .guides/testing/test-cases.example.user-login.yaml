@@ -1,3 +1,4 @@
+$schema: ../schemas/test-cases.schema.json
 apiVersion: guided-engineering/v1
 specId: example.user-login
 specVersion: 1
