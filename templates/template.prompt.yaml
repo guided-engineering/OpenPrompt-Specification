@@ -1,36 +1,52 @@
-$schema: .guides/schemas/prompt.schema.json
+$schema: ../.guides/schemas/prompt.schema.v2.json
 apiVersion: guided-engineering/v1
-id: <yourPromptId>
-title: <Your Prompt Title>
-persona: <ValidPersonaId> # e.g., SoftwareDeveloper
-category: <promptCategory> # e.g., implementation
-difficulty: medium
+id: example.starter-prompt
+title: Example starter prompt that validates against prompt.schema.v2.json
+persona: SoftwareDeveloper
+category: implementation
+difficulty: easy
+workspace: ./
 
 context: |
-  Describe the purpose, intent and constraints of the prompt.
-  Mention what it aims to generate or validate, and under what conditions it should be used.
+  Realistic, schema-valid example. Replace every field with content
+  specific to your prompt. Two steps and one structured output keep
+  this template close to the minimum viable shape; real prompts will
+  usually have 4-8 steps and 2-5 outputs.
+
+businessContext: |
+  Optional in v2 — populate when the prompt exists to realize a spec
+  or close a business-visible requirement. Helps reviewers understand
+  why this prompt exists, not just what it does.
+
+riskLevel: low
 
 dependencies:
-  - <dependencyOne>
-  - <dependencyTwo>
+  - The repository checked out locally
+  - "`.guides/schemas/prompt.schema.v2.json` available for validation"
+
+output:
+  - file: .guides/operation/example-output.md
+    language: markdown
+    rules:
+      - MUST start with an H1 matching the prompt title
+      - MUST end with an ISO 8601 timestamp and the executing persona
 
 steps:
-  - id: <stepOneId>
-    title: <Step Title>
+  - id: gather-input
+    title: Gather the input the prompt needs
     actions:
-      - <Describe the first action using imperative natural language>
-      - <Optional second action in the same format>
+      - Read the user-provided input or prior worklog entries
+      - Identify the smallest concrete artifact this prompt must produce
 
-  - id: <stepTwoId>
-    title: <Next Step Title>
+  - id: emit-output
+    title: Emit the structured output file
     actions:
-      - <Describe another imperative action>
-
-output: .guides/output/<output-file>.md
+      - Write the output file declared in the `output` block
+      - Append an ISO 8601 timestamp and the executing persona at the end
 
 tags:
-  - <tagOne>
-  - <tagTwo>
+  - example
+  - template
 
 createdBy: guided-engineering
 version: 1

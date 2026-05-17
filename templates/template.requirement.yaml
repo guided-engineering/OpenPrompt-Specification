@@ -1,0 +1,13 @@
+$schema: ../.guides/schemas/requirement.schema.json
+requirementId: req.example.001
+type: functional
+priority: must
+description: |
+  One sentence stating what the system must do, from the user's or
+  stakeholder's point of view. Avoid implementation details.
+rationale: |
+  Why this requirement exists. Helps the team avoid silently removing
+  it during a future refactor.
+source: PRD section / ticket / stakeholder
+acceptanceCriteriaIds:
+  - ac.example.001

@@ -1,0 +1,17 @@
+$schema: ../.guides/schemas/traceability.schema.json
+apiVersion: guided-engineering/v1
+matrixId: matrix.example-feature
+version: 1
+
+entries:
+  - requirementId: req.example.001
+    specId: example-feature
+    acceptanceCriterionIds:
+      - ac.example.happy
+    testCaseIds:
+      - tc.example.happy.001
+    commits:
+      - abc1234
+    evidence:
+      - .guides/operation/spec-validation.example-feature.md
+      - .guides/testing/test-cases.example-feature.yaml
