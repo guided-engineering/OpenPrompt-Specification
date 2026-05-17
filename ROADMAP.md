@@ -7,7 +7,7 @@
 | Current version | `0.1.0` |
 | Target version | `0.5.0` |
 | Target window | Q2–Q3 2026 (≈10 weeks) |
-| Status | Phase 2 — Repositioning to SDD (complete) |
+| Status | Phase 3 — SDD Schema Extension (complete) |
 | Scope | Spec-first only (specs + validation + traceability) |
 | Out of scope | CLI, MCP/agents, portal, CI — see §9 |
 | Language | English primary; `ROADMAP.pt-br.md` mirror authored in Phase 5 |
@@ -252,10 +252,10 @@ Each phase block follows the same structure: **Goal · Scope · Deliverables · 
   - Required: `matrixId`, `version`, `entries[]` where each entry is `{requirementId, specId, acceptanceCriterionIds[], testCaseIds[], commits[], evidence[]}`.
 
 **Acceptance criteria.**
-- [ ] Each new schema parses as valid JSON.
-- [ ] Each new schema self-validates against JSON Schema draft-07.
-- [ ] `prompt.schema.v2.json` accepts every v1-valid prompt currently in the repo (run the manual validation protocol from `VALIDATION.md`).
-- [ ] v1 file header carries the deprecation note.
+- [x] Each new schema parses as valid JSON.
+- [x] Each new schema self-validates against JSON Schema draft-07.
+- [x] `prompt.schema.v2.json` accepts every v1-valid prompt currently in the repo (run the manual validation protocol from `VALIDATION.md`).
+- [x] v1 file header carries the deprecation note.
 
 **Risks & mitigations.**
 - Schema bloat (too many optional fields) → keep each new field justified by a downstream prompt in Phase 4; any field with no consumer is removed before merge.
@@ -448,3 +448,4 @@ These guard the spec-first scope of v0.5.0 and prevent scope creep into the topi
 | 2026-05-17 | 0.2 | Phase 0 executed. Refined Phase 0 deliverables/ACs to reflect five additional findings surfaced during execution: schema rejected `$schema` property (added); `version: 1.3.0`/`1.5.0` string violations (converted to integers); `difficulty` missing on web prompt (added); `setup.guides.structure.yml` also affected by persona/schema-path issues; latent YAML parse errors required block-scalar refactor of multi-bullet actions across four prompts. ACs marked complete; status moved to "Phase 0 complete". | Maintainer (via Guided Engineering) |
 | 2026-05-17 | 0.3 | Phase 1 executed. Moved all 7 prompts + `setup.guides.structure.yml` (renamed to `prompt.setup.guides.structure.yaml`) into `.guides/prompts/`. Created 9 canonical folders with `.gitkeep` placeholders, including the new SDD homes `.guides/specs/` and `.guides/traceability/`. Updated `prompt.setup.guides.structure.yaml` to also create those two new folders. `VALIDATION.md` paths updated. All ACs met. | Maintainer (via Guided Engineering) |
 | 2026-05-17 | 0.4 | Phase 2 executed. Added `Architect` persona (role: governance) to `personas.yaml` and to the prompt schema enum. Replaced `.guides/guided-sdlc-process.md` with `.guides/sdd-process.md` (six-stage Spec → Validate → Design → Implement → Conform → Evolve lifecycle, with persona ownership, artifact locations, and definition-of-done per stage). Repositioned README.md + README.pt-br.md (subtitle, intro, project structure table, artifact types, example prompts, resources) as an SDD framework. Rewrote `.github/copilot-instructions.md` to align with the SDD methodology, fix schema paths, document `apiVersion` lock + integer `version`, add Architect, list schema-allowed step keys, and clarify naming conventions. Six refinements beyond the original Phase 2 deliverables: `.yml`→`.yaml` consistency in READMEs, project structure tables expanded with `specs/`/`traceability/`/`architecture/adr/`, example prompt paths updated to `.guides/prompts/`, Copilot schema-path fixes, naming convention rewrite (dropped misleading "snake_case for IDs"), Architect role aligned to existing `governance` category. | Maintainer (via Guided Engineering) |
+| 2026-05-17 | 0.5 | Phase 3 executed. Added five SDD artifact schemas under `.guides/schemas/` (acceptance-criterion, requirement, spec, adr, traceability), each self-validating against draft-07. `spec.schema.json` uses `$ref` to the standalone requirement and acceptance-criterion schemas. Added `prompt.schema.v2.json` as a strict superset of v1 (12 optional SDD fields: specId, specVersion, parentPromptId, requirementIds[], acceptanceCriteriaIds[], businessContext, riskLevel, executedBy, executedAt, evidence[], approvals[], deprecation, supersededBy). Verified the strict-superset property: all 8 existing prompts validate under v1 and v2. v1 marked deprecated via root-level description; retained for backward compatibility. README EN + pt-BR, sdd-process.md, and VALIDATION.md updated to promote v2 as canonical and list the SDD schemas with direct links and validation snippets (including `-r` flag for cross-schema $ref resolution). Refinements beyond the original Phase 3 deliverables: dropped absolute `$id` URIs from new schemas to keep validation offline-only against file:// base; added a Python fallback to VALIDATION.md that uses RefResolver for cross-schema validation. | Maintainer (via Guided Engineering) |
