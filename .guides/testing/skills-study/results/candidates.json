@@ -1,0 +1,20 @@
+{
+  "INITIAL_SKILLS": {
+    "commit": "146c4b51fee8f1a6609b424fe6381c28c27c60e4",
+    "committedAt": "2026-11-13T16:06:37-03:00",
+    "recordedAt": "2026-11-13T19:06:57.640Z",
+    "repository": "guided-engineering-skills (local checkout; no remote existed when the candidate was frozen)",
+    "gitTrees": {
+      "ops-author": "cd85073044143c58d8ec815c4a4c2e164bc6ad09",
+      "ops-execute": "e366982812b29d7bd8731bee74c9900266159589"
+    },
+    "bundledFromOpenPromptSpecification": "afbe49198a6635f5d878028689a1f7db4409ff77",
+    "verifiedBeforeFreezing": [
+      "npm test: 25 of 25 pass",
+      "node tools/check.mjs: both Skills pass",
+      "node tools/sync-ops.mjs --check: copies match their record",
+      "skills-ref 0.1.0 validate: both valid"
+    ],
+    "note": "The baseline evidence was committed (afbe491) before any Skill content existed. No assisted run had been made when this file was written."
+  }
+}
