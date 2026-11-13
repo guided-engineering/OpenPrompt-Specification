@@ -1,11 +1,15 @@
 // Run one case under one condition, once, and store the evidence and the score.
 //
 //   node run.mjs --case <caseDir> --condition WITHOUT_SKILLS|INITIAL_SKILLS|REFINED_SKILLS
-//                [--infra-retry "<reason>"]
+//                [--infra-retry "<reason>"] [--corrective "<reason>"]
 //
-// A second run of the same case and condition is refused unless the first one
-// was an infrastructure failure and --infra-retry gives the reason. A wrong
-// answer or an exhausted time limit is an observed outcome, not a reason to retry.
+// A second run of the same case and condition is refused, with two exceptions.
+// --infra-retry: the first run was an infrastructure failure (NOT_SCORED).
+// --corrective: a frozen evaluated input of the case (its oracle) was repaired
+// after the first run, which invalidates that observation; the case is run again
+// under the repaired, re-frozen inputs. The earlier attempt is kept beside it.
+// A wrong answer or an exhausted time limit is an observed outcome, never a
+// reason to run again, and the higher of two scores is never chosen.
 import { existsSync, mkdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { gzipSync } from 'node:zlib';
@@ -19,9 +23,10 @@ const arg = (name) => {
 const caseId = arg('case');
 const condition = arg('condition');
 const retryReason = arg('infra-retry');
+const correctiveReason = arg('corrective');
 const CONDITIONS = ['WITHOUT_SKILLS', 'INITIAL_SKILLS', 'REFINED_SKILLS'];
 if (!caseId || !CONDITIONS.includes(condition)) {
-  console.error('usage: node run.mjs --case <caseDir> --condition WITHOUT_SKILLS|INITIAL_SKILLS|REFINED_SKILLS [--infra-retry "<reason>"]');
+  console.error('usage: node run.mjs --case <caseDir> --condition WITHOUT_SKILLS|INITIAL_SKILLS|REFINED_SKILLS [--infra-retry "<reason>"] [--corrective "<reason>"]');
   process.exit(2);
 }
 
@@ -34,8 +39,10 @@ const attemptsLog = join(STUDY, 'results', 'attempts.jsonl');
 let attempt = 1;
 if (existsSync(join(outDir, 'record.json'))) {
   const previous = readJson(join(outDir, 'record.json'));
-  if (previous.status !== 'NOT_SCORED' || !retryReason) {
-    console.error(`${condition} ${info.id} already has a record with status ${previous.status}. A scored attempt is never repeated.`);
+  const infraRetry = previous.status === 'NOT_SCORED' && retryReason;
+  const corrective = previous.status !== 'NOT_SCORED' && correctiveReason && previous.admissibleForFinalComparison === false;
+  if (!infraRetry && !corrective) {
+    console.error(`${condition} ${info.id} already has a record with status ${previous.status}. A scored attempt is never repeated; a corrective rerun needs --corrective and a record marked inadmissible in amendments.md.`);
     process.exit(2);
   }
   attempt = previous.attempt + 1;
@@ -105,6 +112,8 @@ const record = {
   attemptId: runId,
   attempt,
   retryOfInfrastructureFailure: retryReason,
+  correctiveRerun: correctiveReason ? { reason: correctiveReason, earlierAttempt: `${caseId}.attempt-${attempt - 1}` } : null,
+  admissibleForFinalComparison: status !== 'NOT_SCORED',
   case: info.id,
   caseDir: caseId,
   title: info.title,
@@ -120,6 +129,10 @@ const record = {
   identities: {
     task: { file: `cases/${caseId}/task.md`, sha256: sha256(task) },
     fixture: { dir: `cases/${caseId}/fixture`, treeHash: fixtureHash },
+    oracle: {
+      oracleSha256: sha256(readFileSync(join(caseDir, 'oracle.mjs'), 'utf8').replace(/\r\n/g, '\n')),
+      scorerSha256: sha256(readFileSync(join(STUDY, 'harness', 'score.mjs'), 'utf8').replace(/\r\n/g, '\n')),
+    },
     contractKit: { treeHash: kit.treeHash, promptSchemaSha256: kit.files['.guides/schemas/prompt.schema.json'], validatorSha256: kit.files['.guides/tools/ops-validate.mjs'] },
     initialWorkspace: { treeHash: initialTreeHash },
     agent: { id: 'guided-engineer', resolvesTo: 'current executor', nativeProfile: null },
@@ -150,8 +163,8 @@ const record = {
 };
 writeJson(join(outDir, 'record.json'), record);
 mkdirSync(dirname(attemptsLog), { recursive: true });
-const kind = info.split === 'infrastructure' ? 'infrastructure-check' : retryReason ? 'infrastructure-retry' : 'scored-task';
-writeFileSync(attemptsLog, `${JSON.stringify({ attemptId: runId, kind, case: info.id, condition, status, startedAt: record.startedAt, wallMs: m.wallMs, retryReason })}\n`, { flag: 'a' });
+const kind = info.split === 'infrastructure' ? 'infrastructure-check' : retryReason ? 'infrastructure-retry' : correctiveReason ? 'corrective-rerun' : 'scored-task';
+writeFileSync(attemptsLog, `${JSON.stringify({ attemptId: runId, kind, case: info.id, condition, status, startedAt: record.startedAt, wallMs: m.wallMs, retryReason, correctiveReason })}\n`, { flag: 'a' });
 
 const s = score ? `raw ${score.rawScore}, effective ${score.effectiveScore}, hard failures ${score.hardFailures.map((h) => h.code).join(',') || 'none'}` : 'not scored';
 console.log(`${runId}: ${status}${statusReason ? ` (${statusReason})` : ''}; ${s}; ${Math.round(m.wallMs / 1000)}s; tools ${m.toolCalls}; tokens ${m.tokens?.total ?? 'UNKNOWN'}; skills invoked [${invoked}]`);

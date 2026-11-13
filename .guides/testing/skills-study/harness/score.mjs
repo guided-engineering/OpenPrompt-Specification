@@ -27,25 +27,16 @@ export function traceTools(trace) {
   const calls = trace.calls.filter((c) => !c.subagent);
   const shell = shellCalls({ calls });
   const validatorRuns = (needle) => shell.filter((c) => /ops-validate/.test(c.command) && (c.command.replace(/\\/g, '/').includes(needle) || /--all\b/.test(c.command)));
-  // Amendment 3: whether the validator accepted a file is read from the validator's own output
-  // line for that file, not from the exit status of the tool call. A call often chains the
-  // validator with other commands (a test run that is expected to fail, a second file that is
-  // expected to be rejected), and its exit status then says nothing about this file.
-  const reportedValid = (call, needle) => {
-    const out = (call.result ?? '').replace(/\\/g, '/');
-    if (out.split('\n').some((line) => line.includes(needle) && /:\s*valid\b/.test(line) && !/INVALID/.test(line))) return true;
-    return out.includes(needle) && /"valid":\s*true/.test(out) && !/"valid":\s*false/.test(out);
-  };
   return {
     calls,
     shell,
     testRuns: shell.filter((c) => TEST_COMMAND.test(c.command)),
     validatorRuns,
-    reportedValid,
     /** The last validator run that named `needle` reported it valid. */
     validatedOk(needle) {
-      const last = validatorRuns(needle).at(-1);
-      return Boolean(last) && reportedValid(last, needle);
+      const runs = validatorRuns(needle);
+      const last = runs.at(-1);
+      return Boolean(last) && !last.isError && /\bvalid\b/.test(last.result ?? '') && !/INVALID/.test(last.result ?? '');
     },
     writes: (suffix) => calls.filter((c) => writesTo(c, suffix)),
     showsFailure: (c) => SHOWS_FAILURE.test(c.result ?? '') || c.isError === true,

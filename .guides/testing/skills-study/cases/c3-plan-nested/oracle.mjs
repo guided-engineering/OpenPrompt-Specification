@@ -10,14 +10,14 @@ const list = (v) => (Array.isArray(v) ? v : []);
 export async function score(ctx) {
   const v = ctx.validate(ENTRY);
   const fm = ctx.frontMatter(ENTRY) ?? {};
-  // Amendment 2: Markdown wraps lines, so phrases are matched on whitespace-collapsed text.
+  // Repair 2a (grader implementation error): Markdown wraps lines, so phrases are matched on
+  // whitespace-collapsed text. The accepted phrases are unchanged.
   const body = ctx.body(ENTRY).replace(/\s+/g, ' ');
   const touched = ctx.protectedTouched();
   const outside = ctx.outsideAllowed();
   const entryWrites = ctx.tools.writes(basename(ENTRY));
   const firstWrite = entryWrites.length ? entryWrites[0].index : Infinity;
-  // Amendment 3: read the validator's own verdict, not the exit status of the tool call.
-  const validated = ctx.tools.validatorRuns(PROMPT).filter((c) => ctx.tools.reportedValid(c, PROMPT) && c.index < firstWrite);
+  const validated = ctx.tools.validatorRuns(PROMPT).filter((c) => !c.isError && c.index < firstWrite);
   const testsRun = ctx.tools.testRuns;
 
   // Step order: each step appears, by id or by title, after the previous one.
@@ -31,8 +31,10 @@ export async function score(ctx) {
   const s4 = s3 < 0 ? -1 : at(/`verify`|verify the final state|\bverify\b/i, s3 + 8);
   const ordered = s1 >= 0 && s2 > s1 && s3 > s2 && s4 > s3;
 
-  // Amendment 2: naming the other package is fine, and expected, when the plan says it is out of scope.
-  // It counts against the plan only where no such statement is near the mention.
+  // Repair 2b (CHANGED ACCEPTED EVIDENCE, not an implementation error): as frozen, any mention of the
+  // other package's file failed this sub-check. Now a mention counts against the plan only where no
+  // out-of-scope statement is near it. This is a change of the acceptance criterion made after the
+  // first baseline run; the baseline of C3 was therefore run again under this oracle.
   const OUT_OF_SCOPE = /\bnot\b|n't\b|out of scope|untouched|unchanged|\bnever\b|exclud|other code|off[- ]limits|same name|\bleave\b|outside/i;
   const otherPackage = [...body.matchAll(/packages\/catalog/g)];
   const scopeText = {

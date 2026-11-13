@@ -23,8 +23,14 @@ export async function score(ctx) {
   const productWrites = t.calls.filter((c) => PRODUCT.some((f) => t.writes(f).includes(c)));
   const firstEdit = t.writes(SRC)[0]?.index ?? Infinity;
   const lastEdit = productWrites.at(-1)?.index ?? -1;
-  // Amendment 3: read the validator's own verdict; the call may also hold the failing reproduction run.
-  const validatedFirst = t.validatorRuns(PROMPT).some((c) => t.reportedValid(c, PROMPT) && c.index < firstEdit);
+  // Repair 3 (grader implementation error): as frozen, a validator run counted only when the whole tool
+  // call ended without error, so the grader read the call's exit status instead of the validator's
+  // verdict. A call that chains the validator with the expected failing reproduction run was not
+  // credited. Now the validator's own output line for the prompt is read. The acceptance criterion
+  // (the prompt was validated before the first product edit) is unchanged.
+  const acceptedByValidator = (call) => (call.result ?? '').replace(/\\/g, '/').split('\n')
+    .some((line) => line.includes(PROMPT) && /:\s*valid\b/.test(line) && !/INVALID/.test(line));
+  const validatedFirst = t.validatorRuns(PROMPT).some((c) => acceptedByValidator(c) && c.index < firstEdit);
   const reproduced = t.testRuns.some((c) => c.index < firstEdit && t.showsFailure(c));
   const verifiedAfter = t.testRuns.some((c) => c.index > lastEdit && t.showsPass(c));
 

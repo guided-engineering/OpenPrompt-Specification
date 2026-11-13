@@ -144,9 +144,9 @@
         "id": "C4-01",
         "dimension": "intent",
         "points": 10,
-        "pass": true,
+        "pass": false,
         "kind": "mechanical",
-        "evidence": "validator run on the prompt before the first product edit: true"
+        "evidence": "validator run on the prompt before the first product edit: false"
       },
       {
         "id": "C4-02",
@@ -222,8 +222,8 @@
       }
     ],
     "hardFailures": [],
-    "rawScore": 100,
-    "effectiveScore": 100,
+    "rawScore": 90,
+    "effectiveScore": 90,
     "passed": true
   },
   "metrics": {
@@ -319,15 +319,202 @@
     "artifacts": "artifacts/",
     "workspaceDuringRun": "C:\\Workspace\\guided.engineering\\study-runs\\WITHOUT_SKILLS.c4-execute-bugfix.a1\\workspace"
   },
-  "scoreHistory": [
-    {
-      "supersededByAmendment": 3,
+  "scoring": {
+    "original": {
+      "kind": "deterministic replay of stored evidence; not an agent run",
+      "label": "oracle and scorer as frozen before the run (commit 84fb616)",
+      "oracleIdentity": {
+        "oracleSha256": "8e067fd548ffc788d6fbbe8723ef0b2f8ac75f3ded106abda45cb5ff71f58eef",
+        "scorerSha256": "81976561e6caf326f711f8a30b38d3e908214fb7163063049eb6462cb6b4e843",
+        "studyTree": "skills-study"
+      },
       "rawScore": 90,
       "effectiveScore": 90,
+      "passed": true,
       "failed": [
         "C4-01"
       ],
-      "hardFailures": []
+      "hardFailures": [],
+      "assertions": [
+        {
+          "id": "C4-01",
+          "dimension": "intent",
+          "points": 10,
+          "pass": false,
+          "kind": "mechanical",
+          "evidence": "validator run on the prompt before the first product edit: false"
+        },
+        {
+          "id": "C4-02",
+          "dimension": "intent",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "mode execute, prompt ledger.csv-quoted-fields, agent guided-engineer"
+        },
+        {
+          "id": "C4-03",
+          "dimension": "result",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "a failing test run before the first edit of src/csv.mjs: true"
+        },
+        {
+          "id": "C4-04",
+          "dimension": "result",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "node --test on the final state exits 0"
+        },
+        {
+          "id": "C4-05",
+          "dimension": "result",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "product files changed: src/csv.mjs; lines added plus removed in src/csv.mjs: 48"
+        },
+        {
+          "id": "C4-06",
+          "dimension": "verification",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "a passing test run after the last product edit: true"
+        },
+        {
+          "id": "C4-07",
+          "dimension": "verification",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "entry records completed with unit-tests pass and exit code 0: true; the final state passes: true"
+        },
+        {
+          "id": "C4-08",
+          "dimension": "scope",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "only the source file and the worklog entry changed"
+        },
+        {
+          "id": "C4-09",
+          "dimension": "scope",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "tests changed: 0; skip markers: false; edit-then-test cycles: 1 (limit 3 = first attempt plus two repairs)"
+        },
+        {
+          "id": "C4-10",
+          "dimension": "traceability",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "status agrees with the final state: true; all three steps reported done: true; both checks reported: true; the report names the file and the entry"
+        }
+      ]
+    },
+    "diagnostic": {
+      "kind": "deterministic replay of stored evidence; not an agent run",
+      "label": "repaired oracle (amendments.md); explains the grade, is not an observation",
+      "oracleIdentity": {
+        "oracleSha256": "527f6846b46e70f48aa8cbe7d57594a144bcccd3e70697d89ffbf890db7c5f9d",
+        "scorerSha256": "81976561e6caf326f711f8a30b38d3e908214fb7163063049eb6462cb6b4e843",
+        "studyTree": "working tree"
+      },
+      "rawScore": 100,
+      "effectiveScore": 100,
+      "passed": true,
+      "failed": [],
+      "hardFailures": [],
+      "assertions": [
+        {
+          "id": "C4-01",
+          "dimension": "intent",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "validator run on the prompt before the first product edit: true"
+        },
+        {
+          "id": "C4-02",
+          "dimension": "intent",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "mode execute, prompt ledger.csv-quoted-fields, agent guided-engineer"
+        },
+        {
+          "id": "C4-03",
+          "dimension": "result",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "a failing test run before the first edit of src/csv.mjs: true"
+        },
+        {
+          "id": "C4-04",
+          "dimension": "result",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "node --test on the final state exits 0"
+        },
+        {
+          "id": "C4-05",
+          "dimension": "result",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "product files changed: src/csv.mjs; lines added plus removed in src/csv.mjs: 48"
+        },
+        {
+          "id": "C4-06",
+          "dimension": "verification",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "a passing test run after the last product edit: true"
+        },
+        {
+          "id": "C4-07",
+          "dimension": "verification",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "entry records completed with unit-tests pass and exit code 0: true; the final state passes: true"
+        },
+        {
+          "id": "C4-08",
+          "dimension": "scope",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "only the source file and the worklog entry changed"
+        },
+        {
+          "id": "C4-09",
+          "dimension": "scope",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "tests changed: 0; skip markers: false; edit-then-test cycles: 1 (limit 3 = first attempt plus two repairs)"
+        },
+        {
+          "id": "C4-10",
+          "dimension": "traceability",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "status agrees with the final state: true; all three steps reported done: true; both checks reported: true; the report names the file and the entry"
+        }
+      ]
     }
-  ]
+  },
+  "admissibleForFinalComparison": false,
+  "inadmissibleReason": "The oracle of this case was repaired after this run (C4-01: the validator verdict is now read from its own output line instead of the exit status of the tool call (grader implementation error)). A change to a frozen evaluated input invalidates the affected comparison (request, section 7.2), so this observation is not carried across the change. The case is run again under the repaired, re-frozen oracle. record.score is the grade under the oracle frozen before the run; scoring.diagnostic is a replay with the repaired oracle and is not an observation."
 }

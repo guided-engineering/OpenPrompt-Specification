@@ -6,6 +6,12 @@ cases, the oracles and the harness. The hashes of every frozen file are in
 changed afterwards is listed in [`amendments.md`](./amendments.md) with its
 reason. The order of events can be read from the commit history.
 
+> **Revised after the baseline (2026-11-13).** Sections 4, 8 and 9 were changed:
+> a rule that allowed re-scoring instead of rerunning was withdrawn, three
+> baseline cases are run again under repaired oracles, and C5 is no longer
+> called a holdout. `amendments.md` gives the reasons and the audit. The cases,
+> the score, the hypotheses and the thresholds are as first frozen.
+
 ## 1. Purpose
 
 To test whether two Skills, `ops-author` and `ops-execute`, add value **on top
@@ -79,7 +85,7 @@ scorer files is by location, not by a sandbox.
 | C2 [`c2-convert-legacy`](./cases/c2-convert-legacy/) | intermediate, development | authoring | Convert and improve a legacy, deficient prompt (`persona`, a vague step, a step condition, no check) and report the mapping decisions. Implement nothing. |
 | C3 [`c3-plan-nested`](./cases/c3-plan-nested/) | intermediate, development | execution | Plan a frozen, valid prompt whose workspace is a nested package; record the plan as a plan-mode worklog entry. Plan only. |
 | C4 [`c4-execute-bugfix`](./cases/c4-execute-bugfix/) | advanced, development | execution | Execute a frozen prompt against a deterministic bug: reproduce, fix minimally, verify, record evidence. |
-| C5 `c5-resume-heldout` | advanced, held out | execution | Resume a different task from partial progress and a failing check, without repeating finished work, preserving an unrelated user edit. |
+| C5 `c5-resume-heldout` | advanced, reserved regression case | execution | Resume a different task from partial progress and a failing check, without repeating finished work, preserving an unrelated user edit. |
 
 Fixtures are tiny dependency-free Node.js projects tested with `node --test`.
 The legacy prompt of C2 is synthetic; its shapes are those of the real
@@ -87,22 +93,27 @@ first-generation prompts at commit `c2c06ae`. Authoring cases give every
 condition the same original input. Planning and execution cases give every
 condition the same frozen OPS prompt, written here and not by any condition.
 
-### C5 is held out
+### C5 is a reserved regression case
 
-C5, its fixture and its oracle are created before any Skill is written, by a
-separate agent session that receives the contract, the case format and one
-development case as a model, and nothing about the Skills. The session that
-writes the Skills does not open the C5 directory until the final Skill
-candidate is frozen; it handles C5 only through the generic harness. C5 is
-added to `frozen.json` by hash when the evaluator delivers it, which may be
-after the baseline of C1 to C4 has started but is always before any Skill
-content exists; `frozen.json` records both moments.
+C5, its fixture and its oracle were written before any Skill existed, by a
+separate agent session that received the contract, the case format and one
+development case as a model, and nothing about the Skills. It was delivered
+after the baseline runs of C1 to C4 and frozen by hash after that; the freeze
+proves nothing about an earlier moment.
 
-This separation is **procedural, not enforced**: both sessions are the same
-model family, the files sit on the same disk, and the author's session started
-the evaluator's. C5 is therefore best described as a held-out case with
-procedural isolation. If the author's session reads C5 before the freeze, that
-is recorded in `amendments.md` and C5 is renamed a reserved regression case.
+Its blinding **could not be verified**. The Skill author received the list of
+its file names in the delivery report, and the evaluator's temporary files sat
+for about half an hour in a scratch directory shared with the author's session.
+The author's session states that it opened neither; that statement cannot be
+checked. Both sessions are the same model family and the author's session
+started the evaluator's.
+
+C5 is therefore an **independently authored reserved regression case, frozen
+after the development baseline, with unverified blinding**. It is not an
+independent or uncontaminated holdout. Its directory keeps the name it was
+delivered under. The case is kept as delivered; its fixture, expected solution
+and results stay unopened by the Skill author until the final Skill candidate
+is frozen, and nothing in the Skills changes after C5 has been run.
 
 ## 5. Score
 
@@ -153,8 +164,8 @@ Local choices for this project, not scientific standards.
 - **Evidence of improvement**, per track. The mean effective score of the final
   candidate exceeds the baseline mean by at least 10 points, and no case of the
   track loses more than 10 points. Authoring (C1, C2) and execution (C3, C4,
-  C5) are reported separately; for execution, development-only and held-out
-  figures are shown beside the track figure.
+  C5) are reported separately; for execution, the development-only figure and
+  the figure of the reserved case are shown beside the track figure.
 - **Efficiency target.** Median overhead of at most 50%, computed separately
   for elapsed time and for tokens as
   `median((final_skill_value − baseline_value) / baseline_value)` over matched
@@ -188,6 +199,9 @@ The study is complete only when every required pair is scored.
 
 1. Oracle self-checks, without an agent (`npm run study:selfcheck`).
 2. C1 to C4 under `WITHOUT_SKILLS`. Commit the evidence.
+   - 2a. *(added)* The oracles of C1, C3 and C4 were repaired after step 2
+     (`amendments.md`). Their baselines are run again under the repaired,
+     re-frozen oracles. C2 is unaffected and its first run stands.
 3. Write the Skills. Freeze the first candidate by commit.
 4. C1 to C4 under `INITIAL_SKILLS`.
 5. At most **one** refinement, only if a consequential observed failure points
@@ -202,34 +216,43 @@ The study is complete only when every required pair is scored.
 
 | Limit | Value |
 |---|---|
-| Runs per case and condition | 1. A scored attempt is never repeated; the first baseline results stand. |
+| Runs per case and condition | 1 admissible observation. A scored attempt is never repeated to get a better answer. The one exception is a corrective rerun after a frozen input of the case changed; the earlier attempt is kept and set aside, never compared for the higher score. |
 | Time per scored task | 300 seconds, then the process tree is stopped |
 | Time per activation probe | 60 seconds |
 | Repair cycles inside an execution task | 2, as stated in the task's own prompt |
 | Skill refinements | at most 1 |
 | Infrastructure retries | at most 1 in the whole study, kept in the record with its reason |
-| Evaluation attempts | at most 24: scored runs (10 or 15), probes (6), smoke checks (0), retry (0 or 1) |
+| Evaluation attempts | at most 19 without a refinement, at most 24 with one |
 | Evaluated run time | at most 120 minutes in total |
 
 Evaluator-model calls and nested agent calls would count against the cap; none
 are planned, because every assertion is computed by program. Preparation
 (probes of the environment, the harness smoke check, the creation of C5, the
-self-checks) is recorded but is not an evaluation attempt.
+self-checks) is recorded but is not an evaluation attempt. This classification
+was fixed here before the first scored run and is not changed afterwards; the
+ledger in the report lists the preparation sessions and shows what the total
+would be if they were counted.
+
+*(added)* The three corrective reruns are evaluation attempts. Without a
+refinement the plan is 4 first baseline runs, 3 corrective reruns, 4 runs under
+`INITIAL_SKILLS`, 2 runs of C5 and 6 probes: 19 of 19. There is no attempt left
+for an infrastructure retry or for a smoke check. A refinement would add 5 runs
+(24 of 24). If a required run cannot be made or scored, that comparison is
+reported as incomplete.
 
 ## 9. Rules
 
 - The evaluation is never changed to improve a result. Tasks, fixtures,
   thresholds and the intent of an assertion do not change after the freeze.
-- **Oracle defects.** If an oracle is shown to compute something other than
-  its stated assertion (for example a pattern that cannot match a Windows
-  path), the defect is fixed, **every stored attempt of that case in every
-  condition is re-scored** from its stored trace and artifacts, and the change
-  is disclosed in `amendments.md` with the scores before and after. No agent
-  run is repeated for that reason.
 - **Changes after the freeze.** If a frozen evaluated input changes (contract
-  kit, task text, fixture, agent mapping, oracle intent), the affected
-  comparisons are invalid. They are rerun only within the budget; otherwise
-  the result for the changed bytes is reported as unverified.
+  kit, task text, fixture, agent mapping, or an oracle), the affected
+  comparisons are invalid. They are run again only within the budget; otherwise
+  the result for the changed bytes is reported as unverified. Re-scoring stored
+  evidence with a changed oracle explains a grade; it never replaces a run.
+  *(This replaces a rule, first frozen here, that allowed an oracle to be fixed
+  and stored attempts to be re-scored without a rerun. See `amendments.md`.)*
+- **No further oracle changes.** After the repaired oracles are frozen, a
+  failed assertion stands as scored.
 - A fixture is never repaired between conditions.
 - A result that shows no improvement is a result. It is reported as observed.
 
@@ -239,8 +262,9 @@ self-checks) is recorded but is not an evaluation attempt.
   percentage. A difference of ten points is one assertion.
 - One model and effort level; a strong baseline can leave little room to
   improve (ceiling), and a weaker one could behave differently.
-- The Skill author knows the development cases and their oracles. C5 exists to
-  show whether a gain survives a case the author did not see.
+- The Skill author knows the development cases and their oracles. C5 was meant
+  to show whether a result survives a case the author had not seen; its
+  blinding could not be verified (section 4), so it supports less than that.
 - The author and the C5 evaluator are sessions of the same model family.
 - Order of actions is read from tool calls. A file changed through a shell
   command in an unusual form may not be recognized as an edit.

@@ -152,7 +152,7 @@
         "id": "C1-02",
         "dimension": "intent",
         "points": 10,
-        "pass": true,
+        "pass": false,
         "kind": "anchor",
         "evidence": "objective names applyDiscount, two decimals and half up"
       },
@@ -222,8 +222,8 @@
       }
     ],
     "hardFailures": [],
-    "rawScore": 100,
-    "effectiveScore": 100,
+    "rawScore": 90,
+    "effectiveScore": 90,
     "passed": true
   },
   "metrics": {
@@ -317,22 +317,202 @@
     "artifacts": "artifacts/",
     "workspaceDuringRun": "C:\\Workspace\\guided.engineering\\study-runs\\WITHOUT_SKILLS.c1-author-basic.a1\\workspace"
   },
-  "scoreHistory": [
-    {
-      "supersededByAmendment": 1,
+  "scoring": {
+    "original": {
+      "kind": "deterministic replay of stored evidence; not an agent run",
+      "label": "oracle and scorer as frozen before the run (commit 84fb616)",
+      "oracleIdentity": {
+        "oracleSha256": "a1597cf88aab77bf03d4c35faa40ca862615c309faa2273514c6914f3e3eb083",
+        "scorerSha256": "81976561e6caf326f711f8a30b38d3e908214fb7163063049eb6462cb6b4e843",
+        "studyTree": "skills-study"
+      },
       "rawScore": 90,
       "effectiveScore": 90,
+      "passed": true,
       "failed": [
         "C1-02"
       ],
-      "hardFailures": []
+      "hardFailures": [],
+      "assertions": [
+        {
+          "id": "C1-01",
+          "dimension": "intent",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "validator accepts the prompt"
+        },
+        {
+          "id": "C1-02",
+          "dimension": "intent",
+          "points": 10,
+          "pass": false,
+          "kind": "anchor",
+          "evidence": "objective names applyDiscount, two decimals and half up"
+        },
+        {
+          "id": "C1-03",
+          "dimension": "result",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "workspace is the repository root: true; outputs: src/discount.mjs, test/discount.test.mjs"
+        },
+        {
+          "id": "C1-04",
+          "dimension": "result",
+          "points": 10,
+          "pass": true,
+          "kind": "anchor",
+          "evidence": "constraints kept: {\"signature\":true,\"dependencies\":true,\"onlyTwoFiles\":true,\"existingTests\":true}"
+        },
+        {
+          "id": "C1-05",
+          "dimension": "result",
+          "points": 10,
+          "pass": true,
+          "kind": "anchor",
+          "evidence": "examples kept: 16.99, 1.01 with its 1.005 boundary, and 90"
+        },
+        {
+          "id": "C1-06",
+          "dimension": "verification",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "verification commands: npm test | node -e \"import('./src/discount.mjs').then(({applyDiscount:f})=>{const a=require('node:assert/strict');a.equal(f(19.99,15),16.99);a.equal(f(2.01,50),1.01);a.equal(f(100,10),90);a.equal(f(80,0),80)}).catch(e=>{console.error(e.message);process.exit(1)})\" | node -e \"import('./src/discount.mjs').then(({applyDiscount:f})=>{const a=require('node:assert/strict');a.equal(f.length,2);for(const [p,q] of [[-1,10],[NaN,10],[Infinity,10],[10,-1],[10,101],[10,NaN]])a.throws(()=>f(p,q),RangeError)}).catch(e=>{console.error(e.message);process.exit(1)})\" | node -e \"const s=require('fs').readFileSync('test/discount.test.mjs','utf8').replace(/\\s+/g,'');const need=['applyDiscount(19.99,15)','applyDiscount(2.01,50)','applyDiscount(100,10)','applyDiscount(80,0)','applyDiscount(-1,10)'];const miss=need.filter(n=>s.indexOf(n)<0);if(miss.length){console.error('missing',miss);process.exit(1)}\" | node -e \"const o=require('child_process').execSync('git status --porcelain -uall',{encoding:'utf8'});const ok=['src/discount.mjs','test/discount.test.mjs','.guides/prompts/prompt.pricing.round-half-up.yaml'];const bad=o.split('\\n').filter(Boolean).map(l=>l.slice(3)).filter(p=>ok.indexOf(p)<0&&p.startsWith('.guides/operation/worklog/')===false);if(bad.length){console.error('out of scope',bad);process.exit(1)}\""
+        },
+        {
+          "id": "C1-07",
+          "dimension": "verification",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "validator runs seen in the trace: 2"
+        },
+        {
+          "id": "C1-08",
+          "dimension": "scope",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "product code, tests and request are unchanged"
+        },
+        {
+          "id": "C1-09",
+          "dimension": "scope",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "only the prompt was written"
+        },
+        {
+          "id": "C1-10",
+          "dimension": "traceability",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "names artifacts: true; states validity: true; validator run seen with a valid result: true; artifact valid now: true"
+        }
+      ]
     },
-    {
-      "supersededByAmendment": 3,
+    "diagnostic": {
+      "kind": "deterministic replay of stored evidence; not an agent run",
+      "label": "repaired oracle (amendments.md); explains the grade, is not an observation",
+      "oracleIdentity": {
+        "oracleSha256": "8a53f28607f010ad2c6ea43f8b7811b78c23a1ee7de8870fd8857e256e4e37fa",
+        "scorerSha256": "81976561e6caf326f711f8a30b38d3e908214fb7163063049eb6462cb6b4e843",
+        "studyTree": "working tree"
+      },
       "rawScore": 100,
       "effectiveScore": 100,
+      "passed": true,
       "failed": [],
-      "hardFailures": []
+      "hardFailures": [],
+      "assertions": [
+        {
+          "id": "C1-01",
+          "dimension": "intent",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "validator accepts the prompt"
+        },
+        {
+          "id": "C1-02",
+          "dimension": "intent",
+          "points": 10,
+          "pass": true,
+          "kind": "anchor",
+          "evidence": "objective names applyDiscount, two decimals and half up"
+        },
+        {
+          "id": "C1-03",
+          "dimension": "result",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "workspace is the repository root: true; outputs: src/discount.mjs, test/discount.test.mjs"
+        },
+        {
+          "id": "C1-04",
+          "dimension": "result",
+          "points": 10,
+          "pass": true,
+          "kind": "anchor",
+          "evidence": "constraints kept: {\"signature\":true,\"dependencies\":true,\"onlyTwoFiles\":true,\"existingTests\":true}"
+        },
+        {
+          "id": "C1-05",
+          "dimension": "result",
+          "points": 10,
+          "pass": true,
+          "kind": "anchor",
+          "evidence": "examples kept: 16.99, 1.01 with its 1.005 boundary, and 90"
+        },
+        {
+          "id": "C1-06",
+          "dimension": "verification",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "verification commands: npm test | node -e \"import('./src/discount.mjs').then(({applyDiscount:f})=>{const a=require('node:assert/strict');a.equal(f(19.99,15),16.99);a.equal(f(2.01,50),1.01);a.equal(f(100,10),90);a.equal(f(80,0),80)}).catch(e=>{console.error(e.message);process.exit(1)})\" | node -e \"import('./src/discount.mjs').then(({applyDiscount:f})=>{const a=require('node:assert/strict');a.equal(f.length,2);for(const [p,q] of [[-1,10],[NaN,10],[Infinity,10],[10,-1],[10,101],[10,NaN]])a.throws(()=>f(p,q),RangeError)}).catch(e=>{console.error(e.message);process.exit(1)})\" | node -e \"const s=require('fs').readFileSync('test/discount.test.mjs','utf8').replace(/\\s+/g,'');const need=['applyDiscount(19.99,15)','applyDiscount(2.01,50)','applyDiscount(100,10)','applyDiscount(80,0)','applyDiscount(-1,10)'];const miss=need.filter(n=>s.indexOf(n)<0);if(miss.length){console.error('missing',miss);process.exit(1)}\" | node -e \"const o=require('child_process').execSync('git status --porcelain -uall',{encoding:'utf8'});const ok=['src/discount.mjs','test/discount.test.mjs','.guides/prompts/prompt.pricing.round-half-up.yaml'];const bad=o.split('\\n').filter(Boolean).map(l=>l.slice(3)).filter(p=>ok.indexOf(p)<0&&p.startsWith('.guides/operation/worklog/')===false);if(bad.length){console.error('out of scope',bad);process.exit(1)}\""
+        },
+        {
+          "id": "C1-07",
+          "dimension": "verification",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "validator runs seen in the trace: 2"
+        },
+        {
+          "id": "C1-08",
+          "dimension": "scope",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "product code, tests and request are unchanged"
+        },
+        {
+          "id": "C1-09",
+          "dimension": "scope",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "only the prompt was written"
+        },
+        {
+          "id": "C1-10",
+          "dimension": "traceability",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "names artifacts: true; states validity: true; validator run seen with a valid result: true; artifact valid now: true"
+        }
+      ]
     }
-  ]
+  },
+  "admissibleForFinalComparison": false,
+  "inadmissibleReason": "The oracle of this case was repaired after this run (C1-02: the accepted wording of the rounding rule was broadened (changed accepted evidence)). A change to a frozen evaluated input invalidates the affected comparison (request, section 7.2), so this observation is not carried across the change. The case is run again under the repaired, re-frozen oracle. record.score is the grade under the oracle frozen before the run; scoring.diagnostic is a replay with the repaired oracle and is not an observation."
 }

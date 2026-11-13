@@ -325,13 +325,104 @@
     "artifacts": "artifacts/",
     "workspaceDuringRun": "C:\\Workspace\\guided.engineering\\study-runs\\WITHOUT_SKILLS.c2-convert-legacy.a1\\workspace"
   },
-  "scoreHistory": [
-    {
-      "supersededByAmendment": 3,
+  "scoring": {
+    "original": {
+      "kind": "deterministic replay of stored evidence; not an agent run",
+      "label": "oracle and scorer as frozen before the run (commit 84fb616)",
+      "oracleIdentity": {
+        "oracleSha256": "8a20eb680f44b1fb38d7a18de58190b04ee949dfbd8591704a4298d3046a0b62",
+        "scorerSha256": "81976561e6caf326f711f8a30b38d3e908214fb7163063049eb6462cb6b4e843",
+        "studyTree": "skills-study"
+      },
       "rawScore": 100,
       "effectiveScore": 100,
+      "passed": true,
       "failed": [],
-      "hardFailures": []
+      "hardFailures": [],
+      "assertions": [
+        {
+          "id": "C2-01",
+          "dimension": "intent",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "validator accepts the converted prompt"
+        },
+        {
+          "id": "C2-02",
+          "dimension": "intent",
+          "points": 10,
+          "pass": true,
+          "kind": "anchor",
+          "evidence": "intent kept: {\"jitter\":true,\"functionName\":true,\"randomSource\":true,\"bound\":true}"
+        },
+        {
+          "id": "C2-03",
+          "dimension": "result",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "agent: guided-engineer; the report names the legacy persona: true"
+        },
+        {
+          "id": "C2-04",
+          "dimension": "result",
+          "points": 10,
+          "pass": true,
+          "kind": "anchor",
+          "evidence": "vague steps made concrete: {\"noVagueAction\":true,\"namesBound\":true,\"namesTarget\":true,\"deterministicTests\":true}"
+        },
+        {
+          "id": "C2-05",
+          "dimension": "result",
+          "points": 10,
+          "pass": true,
+          "kind": "anchor",
+          "evidence": "the report names the unresolved step condition: true; legacy items named: retries, onFailure, difficulty, category, language, createBy, 1.2.0, ops/v1, .guided"
+        },
+        {
+          "id": "C2-06",
+          "dimension": "verification",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "verification commands: npm test | node --input-type=module -e \"import { backoffDelays } from './src/retry.mjs'; import assert from 'node:assert/strict'; assert.deepEqual(backoffDelays(3, 100, () => 0), [50, 100, 200]); assert.deepEqual(backoffDelays(3, 100, () => 0.5), [75, 150, 300]);\" | node --input-type=module -e \"import { backoffDelays } from './src/retry.mjs'; import assert from 'node:assert/strict'; for (let n = 0; n < 1000; n++) { const d = backoffDelays(6, 100); assert.equal(d.length, 6); d.forEach((v, i) => { const e = 100 * 2 ** i; assert.ok(v >= e / 2 && v <= e, 'delay ' + i + ' out of range: ' + v); }); }\" | node --input-type=module -e \"import { backoffDelays } from './src/retry.mjs'; import assert from 'node:assert/strict'; assert.deepEqual(backoffDelays(0, 100), []);\" | git diff --quiet HEAD -- package.json README.md legacy .guides/schemas .guides/tools .guides/prompts | (observed)"
+        },
+        {
+          "id": "C2-07",
+          "dimension": "verification",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "validator runs seen in the trace: 2"
+        },
+        {
+          "id": "C2-08",
+          "dimension": "scope",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "legacy file, product code and tests are unchanged"
+        },
+        {
+          "id": "C2-09",
+          "dimension": "scope",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "prompt written: true; report written: true"
+        },
+        {
+          "id": "C2-10",
+          "dimension": "traceability",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "names artifacts: true; states validity: true; validator run seen with a valid result: true; artifact valid now: true"
+        }
+      ]
     }
-  ]
+  },
+  "admissibleForFinalComparison": true,
+  "admissibilityNote": "The oracle and the shared scorer of this case are byte-identical to the freeze made before the run (commit 84fb616). A shared-scorer change made by amendment 3 was withdrawn before any further run."
 }
