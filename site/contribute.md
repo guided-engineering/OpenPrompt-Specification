@@ -7,8 +7,8 @@
 | [`guided-engineering/OpenPrompt-Specification`](https://github.com/guided-engineering/OpenPrompt-Specification) | The normative contract and the practice: schemas, validator, examples, conversion guide, study evidence, and this website. |
 | [`guided-engineering/skills`](https://github.com/guided-engineering/skills) | The `ops-author` and `ops-execute` Skills, their installation, their tests, and host integration notes. |
 
-The Skills carry a copy of the schemas and the validator so that they work in a
-project that has neither. That copy is synchronized by script and records the
+The Skills carry the validator, which contains the schemas, and a copy of the
+contract text, so that they work in a project that has neither. That copy is synchronized by script and records the
 revision and hashes it came from. The contract is defined in one place only.
 
 ## The specification

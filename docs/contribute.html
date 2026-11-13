@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Specification sources and contribution · Guided Engineering</title>
+  <meta name="description" content="Guided Engineering: a practice for working with coding agents through validated task contracts (OPS prompts), portable Skills and evidence.">
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header>
+    <div class="wrap">
+      <a class="brand" href="index.html">Guided Engineering</a>
+      <nav aria-label="Main">
+        <ul>
+        <li><a href="index.html">Overview</a></li>
+        <li><a href="practice.html">Practice</a></li>
+        <li><a href="quick-start.html">Quick start</a></li>
+        <li><a href="example.html">Example</a></li>
+        <li><a href="skills.html">Skills and agents</a></li>
+        <li><a href="results.html">Results</a></li>
+        <li><a href="contract.html">Specification</a></li>
+        <li><a href="contribute.html" aria-current="page">Contribute</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main id="main" class="wrap">
+<h1 id="specification-sources-and-contribution">Specification sources and contribution</h1>
+<h2 id="where-things-live">Where things live</h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+<thead><tr><th scope="col">Repository</th><th scope="col">Owns</th></tr></thead>
+<tbody>
+<tr><td><a href="https://github.com/guided-engineering/OpenPrompt-Specification" rel="noopener"><code>guided-engineering/OpenPrompt-Specification</code></a></td><td>The normative contract and the practice: schemas, validator, examples, conversion guide, study evidence, and this website.</td></tr>
+<tr><td><a href="https://github.com/guided-engineering/skills" rel="noopener"><code>guided-engineering/skills</code></a></td><td>The <code>ops-author</code> and <code>ops-execute</code> Skills, their installation, their tests, and host integration notes.</td></tr>
+</tbody>
+</table>
+</div>
+<p>The Skills carry the validator, which contains the schemas, and a copy of the
+contract text, so that they work in a project that has neither. That copy is synchronized by script and records the
+revision and hashes it came from. The contract is defined in one place only.</p>
+<h2 id="the-specification">The specification</h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+<thead><tr><th scope="col">Document</th><th scope="col">What it is</th></tr></thead>
+<tbody>
+<tr><td><a href="contract.html">The OPS prompt contract</a></td><td>Normative. Fields, resolution rules, completion, request modes, worklog entries, error codes, compatibility boundary.</td></tr>
+<tr><td><a href="practice.html">The practice</a></td><td>How the contract is used: the journey and the loop.</td></tr>
+<tr><td><a href="conversion.html">Converting from the earlier contract</a></td><td>Field map and replacement table for documents written before the reformulation.</td></tr>
+<tr><td><a href="https://github.com/guided-engineering/OpenPrompt-Specification/blob/main/.guides/architecture/adr/0002-refound-on-agents-skills-and-ops-contracts.md" rel="noopener">Design record</a></td><td>Why the project was rebuilt, what was considered, and the acceptance criteria.</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="schemas-and-validator">Schemas and validator</h2>
+<p>The schemas are served here at the addresses their <code>$id</code> names:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+<thead><tr><th scope="col">Artifact</th><th scope="col">Schema</th></tr></thead>
+<tbody>
+<tr><td>OPS prompt</td><td><a href="schemas/prompt.schema.json"><code>schemas/prompt.schema.json</code></a></td></tr>
+<tr><td>Agent map</td><td><a href="schemas/agents.schema.json"><code>schemas/agents.schema.json</code></a></td></tr>
+<tr><td>Worklog entry</td><td><a href="schemas/worklog.schema.json"><code>schemas/worklog.schema.json</code></a></td></tr>
+<tr><td>Architecture Decision Record</td><td><a href="schemas/adr.schema.json"><code>schemas/adr.schema.json</code></a></td></tr>
+</tbody>
+</table>
+</div>
+<p>The validator is one file with no dependencies. It needs Node.js 20 or newer.</p>
+<pre data-lang="bash"><code>curl -fsSLO https://guided-engineering.github.io/OpenPrompt-Specification/ops-validate.mjs
+node ops-validate.mjs --help
+node ops-validate.mjs .guides/prompts/prompt.my-task.yaml</code></pre>
+<p>Its third-party notices are in <a href="ops-validate.licenses.txt"><code>ops-validate.licenses.txt</code></a>.
+A schema alone cannot check that an agent resolves, that a path stays inside its
+workspace or that a worklog entry claims no more than it shows; the validator
+does. A document is a valid OPS prompt when the validator accepts it.</p>
+<h2 id="examples">Examples</h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+<thead><tr><th scope="col">Example</th><th scope="col">Shows</th></tr></thead>
+<tbody>
+<tr><td><a href="https://github.com/guided-engineering/OpenPrompt-Specification/tree/main/examples/project/" rel="noopener"><code>examples/project/</code></a></td><td>A request, its prompt, the plan and the evidence of a run. It is executed by <code>npm run example</code>.</td></tr>
+<tr><td><a href="https://github.com/guided-engineering/OpenPrompt-Specification/tree/main/examples/valid/" rel="noopener"><code>examples/valid/</code></a></td><td>The smallest valid prompt and two worklog entries, one blocked and one completed.</td></tr>
+<tr><td><a href="https://github.com/guided-engineering/OpenPrompt-Specification/tree/main/examples/invalid/" rel="noopener"><code>examples/invalid/</code></a></td><td>One file per rejection, each naming the error code it must produce.</td></tr>
+<tr><td><a href="https://github.com/guided-engineering/OpenPrompt-Specification/blob/main/examples/conversion/onboarding/report.md" rel="noopener"><code>examples/conversion/onboarding/</code></a></td><td>A real first-generation prompt, taken verbatim from history, and its conversion.</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="checking-a-change">Checking a change</h2>
+<pre data-lang="bash"><code>git clone https://github.com/guided-engineering/OpenPrompt-Specification
+cd OpenPrompt-Specification
+npm ci
+npm test              # contract tests: valid and invalid examples, CLI, bundle
+npm run validate      # every active artifact of the repository
+npm run check:refs    # links, schema references, retired vocabulary
+npm run example       # the end-to-end example
+npm run site          # regenerate this website into docs/</code></pre>
+<p>The rules of the repository are in <a href="https://github.com/guided-engineering/OpenPrompt-Specification/blob/main/AGENTS.md" rel="noopener"><code>AGENTS.md</code></a>: the schemas are
+the single source of structure, the bundle and this site are generated, the
+invalid examples are invalid on purpose, and a failing check is reported with
+its output and never worked around.</p>
+<h2 id="proposing-a-change">Proposing a change</h2>
+<ol>
+<li>Open an issue or a pull request against <code>OpenPrompt-Specification</code> for the
+contract, or against <code>skills</code> for a Skill.</li>
+<li>A change to the contract changes the schema first, then the validator, then
+the documents, and adds or adjusts an example that pins the behavior.</li>
+<li>A change to a Skill states which observed failure it addresses. The study
+protocol in <a href="https://github.com/guided-engineering/OpenPrompt-Specification/blob/main/.guides/testing/skills-study/protocol.md" rel="noopener"><code>.guides/testing/skills-study/</code></a>
+shows how a claim of improvement is tested.</li>
+</ol>
+<p>The license of both repositories is MIT.</p>
+
+  </main>
+  <footer>
+    <div class="wrap">
+      <p>Source: <a href="https://github.com/guided-engineering/OpenPrompt-Specification" rel="noopener">OpenPrompt-Specification</a> · Skills: <a href="https://github.com/guided-engineering/skills" rel="noopener">guided-engineering/skills</a> · MIT License</p>
+      <p>This site is generated from the repository by <code>npm run site</code>. Page source: <a href="https://github.com/guided-engineering/OpenPrompt-Specification/blob/main/site/contribute.md" rel="noopener"><code>site/contribute.md</code></a></p>
+    </div>
+  </footer>
+  <script src="assets/site.js"></script>
+</body>
+</html>

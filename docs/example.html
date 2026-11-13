@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>An OPS example, end to end · Guided Engineering</title>
+  <meta name="description" content="Guided Engineering: a practice for working with coding agents through validated task contracts (OPS prompts), portable Skills and evidence.">
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header>
+    <div class="wrap">
+      <a class="brand" href="index.html">Guided Engineering</a>
+      <nav aria-label="Main">
+        <ul>
+        <li><a href="index.html">Overview</a></li>
+        <li><a href="practice.html">Practice</a></li>
+        <li><a href="quick-start.html">Quick start</a></li>
+        <li><a href="example.html" aria-current="page">Example</a></li>
+        <li><a href="skills.html">Skills and agents</a></li>
+        <li><a href="results.html">Results</a></li>
+        <li><a href="contract.html">Specification</a></li>
+        <li><a href="contribute.html">Contribute</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main id="main" class="wrap">
+<h1 id="an-ops-example-end-to-end">An OPS example, end to end</h1>
+<p>One small change, followed from the request to the evidence. Everything on this
+page is read from <a href="https://github.com/guided-engineering/OpenPrompt-Specification/tree/main/examples/project/" rel="noopener"><code>examples/project/</code></a> when the site is
+built, and that example is executed by <code>npm run example</code>: the prompt and the
+worklog entries are validated and the prompt&#39;s checks are run again.</p>
+<p>This is an <strong>illustrative example</strong>. It is not one of the measured study cases;
+those are on the <a href="results.html">results page</a>.</p>
+<h2 id="1-the-request">1. The request</h2>
+<p>What a person wrote, in plain language:</p>
+<h1 id="request">Request</h1>
+<p>Slugs coming out of <code>packages/slug</code> look wrong in the article URLs. A title like
+<code>a  --  b</code> turns into <code>a------b</code>, and <code> -Hello! </code> turns into <code>-hello-</code>.</p>
+<p>Please make <code>slugify</code> produce clean slugs: one hyphen between words, and no
+hyphen at the start or the end. Two tests in <code>packages/slug/test/slug.test.mjs</code>
+already describe what I expect and currently fail.</p>
+<p>Keep it small: do not add dependencies, do not change the function&#39;s name or
+signature, and do not touch the tests. Other packages in this repository are
+out of scope.</p>
+<h2 id="2-the-ops-prompt">2. The OPS prompt</h2>
+<p>The same request as a task contract. It names the workspace, states an
+objective that can be checked, carries the constraints, orders the work, and
+lists the checks that decide completion. Nothing has been changed yet at this
+point; the person reads this and corrects it before any code is touched.</p>
+<pre data-lang="yaml"><code>apiVersion: guided-engineering/v1
+id: slug.clean-separators
+version: 1
+title: Make slugify collapse repeated separators and trim hyphens at the edges
+agent: guided-engineer
+workspace: ./packages/slug
+
+objective: |
+  `slugify` returns clean slugs: exactly one hyphen between words and no hyphen
+  at the start or the end. `slugify('a  --  b')` returns `a-b` and
+  `slugify('  -Hello!  ')` returns `hello`.
+
+context: |
+  `packages/slug` is a dependency-free ES module package tested with the Node.js
+  built-in test runner. `src/slug.mjs` replaces every non-alphanumeric character
+  with its own hyphen, so runs of separators survive as runs of hyphens and
+  leading or trailing separators stay in the result. Two tests in
+  `test/slug.test.mjs` describe the expected behavior and currently fail.
+  The request comes from `request.md` at the repository root.
+
+inputs:
+  - src/slug.mjs
+  - test/slug.test.mjs
+
+dependencies:
+  - Node.js 20 or newer is available as `node`
+
+constraints:
+  - Change only `src/slug.mjs`.
+  - Do not edit, skip, or delete any test.
+  - Do not add dependencies.
+  - Keep the exported name `slugify` and its single-argument signature.
+  - Leave every other package in the repository untouched.
+
+requirements:
+  - id: R1
+    text: Runs of separator characters collapse into a single hyphen.
+  - id: R2
+    text: The result never starts or ends with a hyphen.
+  - id: R3
+    text: Existing behavior (lowercasing, diacritic stripping) is preserved.
+
+steps:
+  - id: reproduce
+    title: Reproduce the failure
+    requirements: [R1, R2]
+    actions:
+      - Run `node --test` in the workspace and record which tests fail and with which actual values.
+      - Confirm the two failing tests are the separator-collapsing and edge-trimming tests; stop if anything else fails.
+
+  - id: fix
+    title: Correct the separator handling
+    requirements: [R1, R2, R3]
+    actions:
+      - Read `src/slug.mjs` and identify the replacement that emits one hyphen per character.
+      - Change the implementation so a run of non-alphanumeric characters becomes one hyphen and hyphens at either edge are removed.
+      - Keep the normalization, diacritic stripping, and lowercasing steps as they are.
+
+  - id: verify
+    title: Verify the final bytes
+    requirements: [R1, R2, R3]
+    actions:
+      - Run `node --test` in the workspace after the last edit and record the exit code and the pass and fail counts.
+      - Confirm with `git status --short` that `src/slug.mjs` is the only modified file.
+
+output:
+  - file: src/slug.mjs
+    rules:
+      - Exports `slugify(input)` with the same signature.
+      - Uses no dependencies.
+
+verification:
+  - id: unit-tests
+    expect: All four tests in `test/slug.test.mjs` pass.
+    run: node --test
+    requirements: [R1, R2, R3]
+  - id: scope
+    expect: '`src/slug.mjs` is the only file changed inside or outside the workspace.'
+    requirements: [R3]
+
+stopConditions:
+  - A test other than the two described ones fails before any change is made.
+  - The fix cannot be made without editing a test or adding a dependency.
+
+limits:
+  repairAttempts: 2
+  timeBudgetMinutes: 15
+
+tags:
+  - example
+  - bugfix
+createdBy: guided-engineering</code></pre>
+<p>Validated with:</p>
+<pre data-lang="bash"><code>node dist/ops-validate.mjs --resolve examples/project/.guides/prompts/prompt.slug.clean-separators.yaml</code></pre>
+<h2 id="3-the-plan">3. The plan</h2>
+<p>Asked to plan, the agent validates the prompt, resolves where the work
+happens, and writes a plan in which every task has a check. A plan is recorded
+as a worklog entry with <code>mode: plan</code>, and it cannot claim that anything ran.</p>
+<h1 id="plan-clean-separators-in-slugify">Plan: clean separators in <code>slugify</code></h1>
+<p>The request was to plan the prompt <code>slug.clean-separators</code>. Nothing was
+executed: no step ran, no test ran and no file other than this entry changed.
+<code>status: completed</code> says only that the planning is finished.</p>
+<h2 id="what-resolved">What resolved</h2>
+<p>Validated with <code>ops-validate --resolve</code>, which accepted the prompt.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+<thead><tr><th scope="col">Reference</th><th scope="col">Resolves to</th></tr></thead>
+<tbody>
+<tr><td>Repository root</td><td>this example project</td></tr>
+<tr><td>Workspace, the write boundary</td><td><code>packages/slug</code></td></tr>
+<tr><td>Agent <code>guided-engineer</code></td><td>the current executor; the agent map binds no native profile</td></tr>
+<tr><td>Inputs</td><td><code>packages/slug/src/slug.mjs</code> and <code>packages/slug/test/slug.test.mjs</code>, both present</td></tr>
+<tr><td>Output</td><td><code>packages/slug/src/slug.mjs</code></td></tr>
+</tbody>
+</table>
+</div>
+<p>Dependency: Node.js 20 or newer as <code>node</code>. The working tree of the example was
+clean when the plan was written.</p>
+<h2 id="tasks">Tasks</h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+<thead><tr><th scope="col">#</th><th scope="col">Step</th><th scope="col">Files</th><th scope="col">Change</th><th scope="col">Check for this task</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>reproduce</code></td><td>none</td><td>none</td><td><code>node --test</code> in <code>packages/slug</code> fails with exactly two failing tests: the one that collapses repeated separators and the one about hyphens at the edges. The other two pass.</td></tr>
+<tr><td>2</td><td><code>fix</code></td><td><code>src/slug.mjs</code></td><td>Replace each run of non-alphanumeric characters with one hyphen, then remove a hyphen at the start and at the end. Keep normalization, diacritic stripping and lowercasing as they are.</td><td><code>node --test</code> exits 0.</td></tr>
+<tr><td>3</td><td><code>verify</code></td><td>none</td><td>none</td><td>After the last edit: <code>node --test</code> exits 0 with four passing tests, and <code>git status --short</code> lists <code>packages/slug/src/slug.mjs</code> as the only changed product file.</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="checks-that-decide-completion">Checks that decide completion</h2>
+<ul>
+<li><code>unit-tests</code>: <code>node --test</code>, run in <code>packages/slug</code> after the last edit. Exit
+code 0 passes. Covers R1, R2 and R3.</li>
+<li><code>scope</code>: observed with <code>git status --short</code> from the repository root.
+<code>src/slug.mjs</code> is the only file changed, apart from the worklog entry of the
+run. Covers R3.</li>
+</ul>
+<h2 id="out-of-scope">Out of scope</h2>
+<p>The tests, every other package, dependencies, and the name and signature of
+<code>slugify</code>.</p>
+<h2 id="stop-conditions-and-limits">Stop conditions and limits</h2>
+<ul>
+<li>Stop if a test other than the two described ones fails before any change.</li>
+<li>Stop if the fix would need an edited test or a new dependency.</li>
+<li>At most two repair attempts for a failing check, and 15 minutes for the run.</li>
+</ul>
+<h2 id="who-planned">Who planned</h2>
+<p>The session that built this repository, acting as the current executor. It
+followed the <code>ops-execute</code> procedure by reading it. The model is the one the
+session reports; the host does not expose its version to the session.</p>
+<h2 id="next-unit">Next unit</h2>
+<p>Execute the prompt, on request.</p>
+<h2 id="4-the-evidence">4. The evidence</h2>
+<p>Asked to execute, the agent reproduces the failure, makes the change, runs the
+checks again after the last edit, and records what it observed. The front
+matter of the entry is the checkpoint and the index of evidence:</p>
+<pre data-lang="yaml"><code>apiVersion: guided-engineering/v1
+entryId: 2026-11-13.slug-clean-separators
+date: '2026-11-13T19:19:40Z'
+prompt:
+  id: slug.clean-separators
+  version: 1
+  sha256: 09a3e858eeccfb4712e4a06e9cc19eb3e9b2b9cadbb481b8f76a3b4965b13cef
+agent: guided-engineer
+executor:
+  host: claude-code
+  hostVersion: UNKNOWN
+  model: claude-fable-5-2
+mode: execute
+status: completed
+steps:
+  - id: reproduce
+    status: done
+    evidence:
+      - packages/slug/test/slug.test.mjs
+  - id: fix
+    status: done
+    evidence:
+      - packages/slug/src/slug.mjs
+  - id: verify
+    status: done
+    evidence:
+      - packages/slug/src/slug.mjs
+checks:
+  - id: unit-tests
+    result: pass
+    command: node --test
+    exitCode: 0
+    at: '2026-11-13T19:19:11Z'
+  - id: scope
+    result: pass
+    command: git status --short
+    exitCode: 0
+    at: '2026-11-13T19:19:12Z'
+    evidence:
+      - packages/slug/src/slug.mjs</code></pre>
+<p>And the readable record:</p>
+<h1 id="clean-separators-in-slugify">Clean separators in <code>slugify</code></h1>
+<p>The request was to execute the prompt <code>slug.clean-separators</code>, after the plan
+in <code>2026-11-13.slug-clean-separators-plan.md</code>.</p>
+<h2 id="what-was-done">What was done</h2>
+<ul>
+<li><strong>reproduce.</strong> <code>node --test</code> in <code>packages/slug</code>, before any edit, exited
+with code 1: two tests passed and two failed. The failing ones were the two
+the prompt describes. &quot;collapses repeated separators into one hyphen&quot; got
+<code>a------b</code> where <code>a-b</code> was expected, and &quot;never starts or ends with a
+hyphen&quot; got <code>-hello-</code> where <code>hello</code> was expected. Nothing else failed, so no
+stop condition applied.</li>
+<li><strong>fix.</strong> <code>src/slug.mjs</code> replaced every non-alphanumeric character with its
+own hyphen. The replacement now takes a whole run of such characters at once,
+and a second replacement removes a hyphen at the start and at the end. Two
+lines added, one removed. Normalization, diacritic stripping and lowercasing
+are untouched.</li>
+<li><strong>verify.</strong> <code>node --test</code> was run again after that edit, which was the last
+one.</li>
+</ul>
+<h2 id="checks">Checks</h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+<thead><tr><th scope="col">Check</th><th scope="col">Command or observation</th><th scope="col">Result</th><th scope="col">When</th></tr></thead>
+<tbody>
+<tr><td><code>unit-tests</code></td><td><code>node --test</code> in <code>packages/slug</code></td><td>exit code 0, four tests passed, none failed</td><td>after the last edit</td></tr>
+<tr><td><code>scope</code></td><td><code>git status --short</code> from the repository root listed <code>packages/slug/src/slug.mjs</code> as the only modified file; the only other new files are this entry and the plan entry</td><td>as expected</td><td>after the last edit</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="failures-and-repairs">Failures and repairs</h2>
+<p>None. The failing run during <code>reproduce</code> was the expected starting state, not a
+failed check. No repair attempt was used.</p>
+<h2 id="decisions-and-open-questions">Decisions and open questions</h2>
+<ul>
+<li>The existing <code>.trim()</code> call was left in place. It is redundant after the
+change but harmless, and removing it was not asked for.</li>
+<li>No open question.</li>
+</ul>
+<h2 id="who-executed">Who executed</h2>
+<p>The session that built this repository, acting as the current executor. It
+followed the <code>ops-execute</code> procedure by reading it. The model is the one the
+session reports; the host does not expose its version to the session. No one
+reviewed or approved this change, so the entry has no <code>approvals</code>.</p>
+<h2 id="next-unit-1">Next unit</h2>
+<p>A person reads the diff of <code>packages/slug/src/slug.mjs</code> and decides whether to
+keep it.</p>
+<h2 id="5-the-decision">5. The decision</h2>
+<p>The entry has no <code>approvals</code>. The agent executed and reported; whether the
+change is merged is a person&#39;s decision, and when it is made it is recorded as
+that person&#39;s, with a reference to where it was given.</p>
+
+  </main>
+  <footer>
+    <div class="wrap">
+      <p>Source: <a href="https://github.com/guided-engineering/OpenPrompt-Specification" rel="noopener">OpenPrompt-Specification</a> · Skills: <a href="https://github.com/guided-engineering/skills" rel="noopener">guided-engineering/skills</a> · MIT License</p>
+      <p>This site is generated from the repository by <code>npm run site</code>. Page source: <a href="https://github.com/guided-engineering/OpenPrompt-Specification/blob/main/site/example.md" rel="noopener"><code>site/example.md</code></a></p>
+    </div>
+  </footer>
+  <script src="assets/site.js"></script>
+</body>
+</html>

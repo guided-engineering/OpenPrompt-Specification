@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Converting from the earlier contract · Guided Engineering</title>
+  <meta name="description" content="Guided Engineering: a practice for working with coding agents through validated task contracts (OPS prompts), portable Skills and evidence.">
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header>
+    <div class="wrap">
+      <a class="brand" href="index.html">Guided Engineering</a>
+      <nav aria-label="Main">
+        <ul>
+        <li><a href="index.html">Overview</a></li>
+        <li><a href="practice.html">Practice</a></li>
+        <li><a href="quick-start.html">Quick start</a></li>
+        <li><a href="example.html">Example</a></li>
+        <li><a href="skills.html">Skills and agents</a></li>
+        <li><a href="results.html">Results</a></li>
+        <li><a href="contract.html">Specification</a></li>
+        <li><a href="contribute.html">Contribute</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main id="main" class="wrap">
+<h1 id="converting-from-the-earlier-contract">Converting from the Earlier Contract</h1>
+<p>The contract in <a href="contract.html"><code>ops-contract.md</code></a> replaced an earlier one.
+Documents written for the earlier contract are not valid and are not
+&quot;compatible&quot;; they are converted. This guide is the map. It is a historical
+reference, not an onboarding path: new work starts from
+<a href="practice.html"><code>practice.md</code></a>.</p>
+<p>The earlier contract and everything retired with it stay available in Git
+history. The last commit before the reformulation is
+<a href="https://github.com/guided-engineering/OpenPrompt-Specification/tree/ca820409df0aebe2b4669aa168ebc82d6bcecd48" rel="noopener"><code>ca82040</code></a>.</p>
+<h2 id="how-to-convert-a-prompt">How to convert a prompt</h2>
+<ol>
+<li>Run the validator on the old file. Each <code>legacy-*</code> message names the field
+and its replacement.</li>
+<li>Map the fields with the tables below. Preserve what the task is for; do not
+carry over what had no meaning.</li>
+<li>Write what the old format could not say: an <code>objective</code> that can be checked
+and at least one <code>verification</code> check.</li>
+<li>Report what you decided and what you could not map. Do not relabel an
+unknown actor silently, and do not pick a side when <code>persona</code> and <code>agent</code>
+disagree.</li>
+<li>Validate the result.</li>
+</ol>
+<p>The <code>ops-author</code> Skill follows this procedure. A complete worked example, with
+the legacy input taken verbatim from history, is in
+<a href="https://github.com/guided-engineering/OpenPrompt-Specification/blob/main/examples/conversion/onboarding/report.md" rel="noopener"><code>examples/conversion/onboarding/</code></a>.</p>
+<h2 id="prompt-fields">Prompt fields</h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+<thead><tr><th scope="col">Earlier field</th><th scope="col">Now</th><th scope="col">Note</th></tr></thead>
+<tbody>
+<tr><td><code>apiVersion: ops/v1</code></td><td><code>apiVersion: guided-engineering/v1</code></td><td>Only after the whole document is converted. Changing the line alone does not make a document valid.</td></tr>
+<tr><td><code>persona: &lt;RoleName&gt;</code></td><td><code>agent: &lt;id&gt;</code></td><td>An id from the agent map. A persona was a role label; an agent is an execution profile. What a persona&#39;s &quot;principles&quot; asked for goes into <code>constraints</code>. If no existing agent fits, say so; do not invent an id.</td></tr>
+<tr><td><code>personaDetails</code></td><td>—</td><td>Removed. Describe executors in the agent map.</td></tr>
+<tr><td>—</td><td><code>objective</code></td><td>New and required. State the checkable end state, not the activity.</td></tr>
+<tr><td>—</td><td><code>verification</code></td><td>New and required. At least one check.</td></tr>
+<tr><td><code>category</code></td><td><code>tags</code></td><td>Classification only.</td></tr>
+<tr><td><code>difficulty</code></td><td>—</td><td>Removed; no execution meaning.</td></tr>
+<tr><td><code>language</code> (top level)</td><td>—</td><td>Removed. A language requirement is a constraint.</td></tr>
+<tr><td><code>businessContext</code>, <code>riskLevel</code></td><td><code>context</code></td><td>Merge the text into <code>context</code>.</td></tr>
+<tr><td><code>dependencies</code></td><td><code>dependencies</code>, <code>inputs</code></td><td>Paths that must exist become <code>inputs</code>; the rest stay prose.</td></tr>
+<tr><td><code>steps[].actions</code></td><td><code>steps[].actions</code></td><td>Unchanged. Quote any action containing <code>: </code>.</td></tr>
+<tr><td><code>steps[].description</code>, <code>action</code>, <code>expectedOutcome</code></td><td><code>title</code>, <code>actions</code>, <code>verification</code></td><td>One block of text becomes a list of imperative sentences; an expected outcome becomes a check.</td></tr>
+<tr><td><code>steps[].output</code></td><td><code>output[]</code></td><td>Declare each artifact once, at the top level.</td></tr>
+<tr><td><code>steps[].if</code></td><td>action text</td><td>Conditions are not evaluated. Write &quot;Only when …&quot; into the action, and declare where the value comes from.</td></tr>
+<tr><td><code>steps[].retries</code>, <code>onFailure</code>, <code>timeout</code></td><td><code>limits</code></td><td>One repair limit and one time budget for the run. A failed check is repaired, never skipped.</td></tr>
+<tr><td><code>output[].language</code></td><td><code>output[].rules</code></td><td>The extension shows the format; a natural-language requirement is a rule.</td></tr>
+<tr><td><code>output[].rules</code> as one block string</td><td><code>output[].rules</code> as a list</td><td>One rule per item.</td></tr>
+<tr><td><code>specId</code>, <code>specVersion</code>, <code>requirementIds</code>, <code>acceptanceCriteriaIds</code></td><td><code>requirements</code></td><td>Declared in the prompt and referenced from steps and checks.</td></tr>
+<tr><td><code>executedBy</code>, <code>executedAt</code>, <code>evidence</code>, <code>approvals</code></td><td>worklog entry</td><td>Facts about a run do not belong in the reusable definition.</td></tr>
+<tr><td><code>deprecation</code>, <code>supersededBy</code>, <code>parentPromptId</code></td><td>—</td><td>Retire a prompt by deleting it; history keeps it.</td></tr>
+<tr><td><code>version</code> as a string such as <code>1.3.0</code></td><td><code>version</code> as an integer</td><td>Increment it when the definition changes in substance.</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="worklog-fields">Worklog fields</h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+<thead><tr><th scope="col">Earlier field</th><th scope="col">Now</th><th scope="col">Note</th></tr></thead>
+<tbody>
+<tr><td><code>persona</code></td><td><code>agent</code> and <code>executor</code></td><td>The id the work ran as, and what actually acted.</td></tr>
+<tr><td><code>signOffs[].persona</code></td><td><code>approvals[].by</code></td><td>A human, with a reference to where the approval was given. Role labels cannot sign. Earlier sign-offs are <strong>not</strong> converted into approvals: they stay historical.</td></tr>
+<tr><td><code>stage</code></td><td><code>mode</code>, <code>status</code></td><td>Lifecycle stages are gone.</td></tr>
+<tr><td><code>conformanceResult</code></td><td><code>status</code>, <code>checks[].result</code></td><td>There is no <code>DEMO</code> verdict. A run whose checks did not run is not complete.</td></tr>
+<tr><td><code>specId</code>, <code>specVersion</code>, <code>requirementIds</code>, <code>adrIds</code></td><td><code>prompt</code>, body text</td><td>Name the prompt that ran; link ADRs from the body.</td></tr>
+<tr><td>One <code>worklog.md</code> with many entries</td><td>One file per entry under <code>.guides/operation/worklog/</code></td><td>Standard front matter at the top of each file.</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="persona-catalogue-to-agent-map">Persona catalogue to agent map</h2>
+<p>The ten personas (<code>SystemIntegrator</code>, <code>SoftwareDeveloper</code>, <code>CodeAuditor</code>,
+<code>ProductStrategist</code>, <code>QAEngineer</code>, <code>DevOpsOrchestrator</code>, <code>AIEngineer</code>,
+<code>DocumentationCurator</code>, <code>Maintainer</code>, <code>Architect</code>) are not replaced by ten
+agents. They described roles; none of them was ever a configured executor.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+<thead><tr><th scope="col">Earlier idea</th><th scope="col">Now</th></tr></thead>
+<tbody>
+<tr><td>&quot;This prompt belongs to persona X.&quot;</td><td><code>agent: guided-engineer</code>, the default, unless the project has configured another real profile.</td></tr>
+<tr><td>A persona&#39;s responsibilities and principles</td><td><code>constraints</code> and <code>context</code> of the prompt that needs them.</td></tr>
+<tr><td>A persona &quot;signs off&quot;.</td><td>A human approves; the worklog entry records it.</td></tr>
+<tr><td>An independent reviewer persona</td><td>An actual second run by a separately configured profile, recorded as such. Naming a reviewer proves nothing.</td></tr>
+</tbody>
+</table>
+</div>
+<p>&quot;User persona&quot; in product research (a kind of user) is unrelated and unchanged.</p>
+<h2 id="retired-files">Retired files</h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+<thead><tr><th scope="col">Retired</th><th scope="col">Replaced by</th></tr></thead>
+<tbody>
+<tr><td><code>.guides/schemas/prompt.schema.v2.json</code>, and the earlier content of <code>prompt.schema.json</code></td><td><a href="./schemas/prompt.schema.json"><code>.guides/schemas/prompt.schema.json</code></a></td></tr>
+<tr><td><code>.guides/schemas/persona.schema.json</code>, <code>.guides/personas/personas.yaml</code>, <code>templates/template.persona.yaml</code></td><td><a href="./schemas/agents.schema.json"><code>.guides/schemas/agents.schema.json</code></a>, <a href="https://github.com/guided-engineering/OpenPrompt-Specification/blob/main/.guides/agents/agents.yaml" rel="noopener"><code>.guides/agents/agents.yaml</code></a>, <a href="https://github.com/guided-engineering/OpenPrompt-Specification/blob/main/templates/template.agents.yaml" rel="noopener"><code>templates/template.agents.yaml</code></a></td></tr>
+<tr><td>The earlier <code>.guides/schemas/worklog.schema.json</code> and <code>.guides/operation/worklog.md</code></td><td><a href="./schemas/worklog.schema.json"><code>.guides/schemas/worklog.schema.json</code></a>, <code>.guides/operation/worklog/</code></td></tr>
+<tr><td><code>.guides/schemas/spec.schema.json</code>, <code>requirement.schema.json</code>, <code>acceptance-criterion.schema.json</code>, <code>test-cases.schema.json</code>, <code>traceability.schema.json</code> and their templates</td><td><code>requirements</code> and <code>verification</code> inside a prompt; <code>checks</code> inside a worklog entry</td></tr>
+<tr><td><code>.guides/sdd-process.md</code>, <code>.guides/base/retrofit-sdd-guide.md</code></td><td><a href="practice.html"><code>practice.md</code></a>, <a href="contract.html"><code>ops-contract.md</code></a></td></tr>
+<tr><td>The <code>example.user-login</code> spec, test cases, matrix, validation report and conformance report</td><td><a href="https://github.com/guided-engineering/OpenPrompt-Specification/tree/main/examples/project/" rel="noopener"><code>examples/project/</code></a>, which runs</td></tr>
+<tr><td>Prompts <code>spec.author</code>, <code>spec.validate</code>, <code>acceptance-criteria.author</code>, <code>requirement.traceability</code>, <code>test-cases.from-spec</code>, <code>spec.conformance-check</code></td><td>No replacement prompt; their artifacts are retired.</td></tr>
+<tr><td>Prompts <code>setup.and.assess.project</code>, <code>setup.guides.structure</code>, <code>generate.ide.llm.instructions</code>, <code>execution.guided-cli.phase1-kanban</code>, <code>init.standalone-nextjs.codebase</code>, <code>web.generate-page</code>, <code>base.onboarding.generate</code></td><td>No replacement prompt; they were written for other projects or for the earlier folder layout. <code>base.onboarding.generate</code> survives as the conversion example.</td></tr>
+<tr><td><code>.github/copilot-instructions.md</code></td><td><a href="https://github.com/guided-engineering/OpenPrompt-Specification/blob/main/AGENTS.md" rel="noopener"><code>AGENTS.md</code></a></td></tr>
+<tr><td><code>VALIDATION.md</code> (manual commands)</td><td><a href="https://github.com/guided-engineering/OpenPrompt-Specification/blob/main/VALIDATION.md" rel="noopener"><code>VALIDATION.md</code></a> (<code>npm test</code>, <code>ops-validate</code>)</td></tr>
+</tbody>
+</table>
+</div>
+<p>Kept and converted: <code>operation.commit-analyze-and-apply</code> and <code>adr.author</code>. Kept
+as is: the ADR schema, the ADR template and ADR 0001.</p>
+<h2 id="why-the-spec-layer-was-retired">Why the spec layer was retired</h2>
+<p>The earlier design placed a specification, requirements, acceptance criteria,
+test cases, a traceability matrix and a conformance report between a request
+and the work. Its reference example ended in the verdict <code>DEMO</code>: every artifact
+validated, and no software existed. Six schemas, seven prompts and ten role
+labels were needed to say what one prompt can say with <code>objective</code>,
+<code>requirements</code> and <code>verification</code>, and to prove what one worklog entry proves
+with check results. The useful ideas survive: requirements have identifiers,
+each one needs a check, and completion needs evidence.</p>
+<h2 id="historical-evidence">Historical evidence</h2>
+<p>Earlier logs, sign-offs and reports are evidence of what happened then. They
+are not rewritten, not converted into approvals of new content, and not
+validated as current artifacts.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+<thead><tr><th scope="col">Artifact</th><th scope="col">Where it is preserved</th></tr></thead>
+<tbody>
+<tr><td>Worklog entry <code>2026-05-17.phase-5-dogfood</code>, with its <code>Maintainer</code> and <code>DocumentationCurator</code> sign-offs</td><td><a href="https://github.com/guided-engineering/OpenPrompt-Specification/blob/ca820409df0aebe2b4669aa168ebc82d6bcecd48/.guides/operation/worklog.md" rel="noopener"><code>ca82040:.guides/operation/worklog.md</code></a></td></tr>
+<tr><td>Conformance report for <code>example.user-login</code> (verdict <code>DEMO</code>)</td><td><a href="https://github.com/guided-engineering/OpenPrompt-Specification/blob/ca820409df0aebe2b4669aa168ebc82d6bcecd48/.guides/operation/conformance.example.user-login.md" rel="noopener"><code>ca82040:.guides/operation/conformance.example.user-login.md</code></a></td></tr>
+<tr><td>The first-generation prompts (<code>apiVersion: ops/v1</code>)</td><td>commit <a href="https://github.com/guided-engineering/OpenPrompt-Specification/tree/c2c06ae" rel="noopener"><code>c2c06ae</code></a></td></tr>
+<tr><td>The earlier roadmap and its delivery history</td><td><a href="https://github.com/guided-engineering/OpenPrompt-Specification/blob/ca820409df0aebe2b4669aa168ebc82d6bcecd48/ROADMAP.md" rel="noopener"><code>ca82040:ROADMAP.md</code></a></td></tr>
+</tbody>
+</table>
+</div>
+
+  </main>
+  <footer>
+    <div class="wrap">
+      <p>Source: <a href="https://github.com/guided-engineering/OpenPrompt-Specification" rel="noopener">OpenPrompt-Specification</a> · Skills: <a href="https://github.com/guided-engineering/skills" rel="noopener">guided-engineering/skills</a> · MIT License</p>
+      <p>This site is generated from the repository by <code>npm run site</code>. Page source: <a href="https://github.com/guided-engineering/OpenPrompt-Specification/blob/main/.guides/conversion.md" rel="noopener"><code>.guides/conversion.md</code></a></p>
+    </div>
+  </footer>
+  <script src="assets/site.js"></script>
+</body>
+</html>

@@ -107,8 +107,8 @@ The validator cannot check these. They are what keeps a prompt provable.
 | [`guided-engineering/OpenPrompt-Specification`](https://github.com/guided-engineering/OpenPrompt-Specification) | The normative contract and this practice: schemas, validator, examples, conversion guide, study evidence, and the website. |
 | [`guided-engineering/skills`](https://github.com/guided-engineering/skills) | The reusable guidance that agents load: the `ops-author` and `ops-execute` Skills, installation, their tests, and host integration notes. |
 
-The Skills carry a copy of the schemas and of the validator so they work in a
-project that has neither. That copy is synchronized mechanically from this
+The Skills carry the validator, which contains the schemas, and a copy of the
+contract text, so they work in a project that has neither. That copy is synchronized mechanically from this
 repository and records the revision and hashes it came from; the Skills do not
 define the contract.
 

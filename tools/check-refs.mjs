@@ -33,7 +33,8 @@ const HISTORY = [
   /^\.guides\/prompts\/prompt\.refoundation\.yaml$/, /^\.guides\/traceability\//,
   /^\.guides\/testing\/skills-study\//, /^\.guides\/operation\/worklog\//,
   /^examples\/conversion\/[^/]+\/report\.md$/, /^examples\/README\.md$/,
-  /^tools\//, /^AGENTS\.md$/, /^VALIDATION\.md$/, /^ROADMAP(\.pt-br)?\.md$/, /^README(\.pt-br)?\.md$/, /^docs\//,
+  /^tools\//, /^AGENTS\.md$/, /^VALIDATION\.md$/, /^docs\/(contract|conversion|practice)\.html$/, /^docs\/ops-validate\.mjs$/,
+  // The READMEs, the roadmap and the other pages of the site are entry points: they are not on this list.
 ];
 const RETIRED_NAMES = /prompt\.schema\.v\d|persona\.schema|personas\.ya?ml|sdd-process|spec\.schema\.json|requirement\.schema|acceptance-criterion\.schema|test-cases\.schema|traceability\.schema|template\.persona/;
 const RETIRED_KEYS = /^\s*(-\s+)?(persona|personas|personaDetails|signOffs|conformanceResult)\s*:/;

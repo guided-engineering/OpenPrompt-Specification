@@ -112,8 +112,10 @@ re-verified by `npm run example`.
 
 4. **Decide.** Review the diff and the evidence. The decision is yours.
 
-Nothing else is required. The Skills bring the schemas and the validator with
-them.
+Nothing else is required. The Skills bring the validator and the text of the
+contract with them. An OPS prompt names an agent, and `guided-engineer`, the
+default, is simply the agent session that reads the prompt. Installing a Skill
+installs no agent profile.
 
 ## What is in this repository
 
@@ -150,7 +152,35 @@ and a worklog entry that claims completion without passing checks. See
 
 ## Does it help? What a local study found
 
-STUDY_SUMMARY_PENDING
+A small local study compared the same agent, on the same contract, with and
+without the two Skills: five tasks, one run per task and condition, one model.
+
+| Task | Without Skills | With Skills |
+|---|---:|---:|
+| C1 Write a prompt from a request | 100 | 100 |
+| C2 Convert and improve a legacy prompt | 100 | 100 |
+| C3 Plan a prompt in a nested workspace | 90 | 100 |
+| C4 Execute a prompt against a bug | 90 | 90 |
+| C5 Resume from a recorded checkpoint (reserved case) | 100 | 100 |
+
+**The study does not show that the Skills improve the work, and it shows no
+case where they made it worse.** The agent already scored at or near the top
+without them, so there was no room to show a gain. The one higher score, C3,
+comes from a point the baseline lost to the grader and not to the task. The
+right Skill loaded in six of six probes and in all five tasks. Time and tokens
+stayed within a few percent, with one exception (C1, 72% more tokens
+processed).
+
+What the study could not measure is what the Skills are for. Every test project
+already contained the contract and the validator, and the Skills exist to bring
+both to a project that has neither.
+
+Also on record: the scoring of three tasks was repaired after their first run,
+and those runs were repeated; the blinding of the fifth task could not be
+verified; and one sentence in `ops-author` misleads about a required field
+until the validator corrects it. Every run and every limit is in
+[the report](./.guides/testing/skills-study/results/report.md) and on
+[the results page](https://guided-engineering.github.io/OpenPrompt-Specification/results.html).
 
 ## History
 

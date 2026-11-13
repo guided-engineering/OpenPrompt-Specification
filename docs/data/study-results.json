@@ -1,0 +1,1272 @@
+{
+  "generatedAt": "2026-11-13T19:25:55.805Z",
+  "finalCondition": "INITIAL_SKILLS",
+  "refined": false,
+  "retainedConditions": [
+    "WITHOUT_SKILLS",
+    "INITIAL_SKILLS"
+  ],
+  "studyComplete": true,
+  "cases": [
+    {
+      "id": "C1",
+      "dir": "c1-author-basic",
+      "title": "Convert a fully specified prose request into an OPS prompt",
+      "complexity": "basic",
+      "split": "development",
+      "splitLabel": "development",
+      "track": "authoring"
+    },
+    {
+      "id": "C2",
+      "dir": "c2-convert-legacy",
+      "title": "Improve and convert a legacy, deficient prompt into the OPS contract",
+      "complexity": "intermediate",
+      "split": "development",
+      "splitLabel": "development",
+      "track": "authoring"
+    },
+    {
+      "id": "C3",
+      "dir": "c3-plan-nested",
+      "title": "Plan a frozen OPS prompt for a nested workspace, plan only",
+      "complexity": "intermediate",
+      "split": "development",
+      "splitLabel": "development",
+      "track": "execution"
+    },
+    {
+      "id": "C4",
+      "dir": "c4-execute-bugfix",
+      "title": "Execute a frozen OPS prompt against a deterministic bug",
+      "complexity": "advanced",
+      "split": "development",
+      "splitLabel": "development",
+      "track": "execution"
+    },
+    {
+      "id": "C5",
+      "dir": "c5-resume-heldout",
+      "title": "Resume a frozen OPS prompt from a recorded checkpoint",
+      "complexity": "advanced",
+      "split": "held-out",
+      "splitLabel": "reserved regression",
+      "track": "execution"
+    }
+  ],
+  "scores": {
+    "C1": {
+      "WITHOUT_SKILLS": {
+        "state": "SCORED",
+        "status": "COMPLETED",
+        "attemptId": "WITHOUT_SKILLS.c1-author-basic.a2",
+        "raw": 100,
+        "effective": 100,
+        "passed": true,
+        "hardFailures": [],
+        "failedAssertions": [],
+        "elapsedSeconds": 57.6,
+        "tokensProcessed": 170177,
+        "outputTokens": 6321,
+        "toolCalls": 12,
+        "skillsInvoked": [],
+        "oracleSha256": "8a53f28607f010ad2c6ea43f8b7811b78c23a1ee7de8870fd8857e256e4e37fa",
+        "correctiveRerun": true,
+        "record": "runs/WITHOUT_SKILLS/c1-author-basic/record.json"
+      },
+      "INITIAL_SKILLS": {
+        "state": "SCORED",
+        "status": "COMPLETED",
+        "attemptId": "INITIAL_SKILLS.c1-author-basic.a1",
+        "raw": 100,
+        "effective": 100,
+        "passed": true,
+        "hardFailures": [],
+        "failedAssertions": [],
+        "elapsedSeconds": 55.8,
+        "tokensProcessed": 293071,
+        "outputTokens": 5509,
+        "toolCalls": 10,
+        "skillsInvoked": [
+          "ops-author"
+        ],
+        "oracleSha256": "8a53f28607f010ad2c6ea43f8b7811b78c23a1ee7de8870fd8857e256e4e37fa",
+        "correctiveRerun": false,
+        "record": "runs/INITIAL_SKILLS/c1-author-basic/record.json"
+      },
+      "REFINED_SKILLS": {
+        "state": "NOT_RUN",
+        "reason": null
+      }
+    },
+    "C2": {
+      "WITHOUT_SKILLS": {
+        "state": "SCORED",
+        "status": "COMPLETED",
+        "attemptId": "WITHOUT_SKILLS.c2-convert-legacy.a1",
+        "raw": 100,
+        "effective": 100,
+        "passed": true,
+        "hardFailures": [],
+        "failedAssertions": [],
+        "elapsedSeconds": 98.8,
+        "tokensProcessed": 374007,
+        "outputTokens": 10097,
+        "toolCalls": 9,
+        "skillsInvoked": [],
+        "oracleSha256": "8a20eb680f44b1fb38d7a18de58190b04ee949dfbd8591704a4298d3046a0b62",
+        "correctiveRerun": false,
+        "record": "runs/WITHOUT_SKILLS/c2-convert-legacy/record.json"
+      },
+      "INITIAL_SKILLS": {
+        "state": "SCORED",
+        "status": "COMPLETED",
+        "attemptId": "INITIAL_SKILLS.c2-convert-legacy.a1",
+        "raw": 100,
+        "effective": 100,
+        "passed": true,
+        "hardFailures": [],
+        "failedAssertions": [],
+        "elapsedSeconds": 94.8,
+        "tokensProcessed": 316576,
+        "outputTokens": 9948,
+        "toolCalls": 11,
+        "skillsInvoked": [
+          "ops-author"
+        ],
+        "oracleSha256": "8a20eb680f44b1fb38d7a18de58190b04ee949dfbd8591704a4298d3046a0b62",
+        "correctiveRerun": false,
+        "record": "runs/INITIAL_SKILLS/c2-convert-legacy/record.json"
+      },
+      "REFINED_SKILLS": {
+        "state": "NOT_RUN",
+        "reason": null
+      }
+    },
+    "C3": {
+      "WITHOUT_SKILLS": {
+        "state": "SCORED",
+        "status": "COMPLETED",
+        "attemptId": "WITHOUT_SKILLS.c3-plan-nested.a2",
+        "raw": 90,
+        "effective": 90,
+        "passed": true,
+        "hardFailures": [],
+        "failedAssertions": [
+          "C3-04"
+        ],
+        "elapsedSeconds": 56.7,
+        "tokensProcessed": 232926,
+        "outputTokens": 5855,
+        "toolCalls": 12,
+        "skillsInvoked": [],
+        "oracleSha256": "498d138583a9cb561f17bc9a4c49a79b4e3d470343fecd24c06dca4e873aa631",
+        "correctiveRerun": true,
+        "record": "runs/WITHOUT_SKILLS/c3-plan-nested/record.json"
+      },
+      "INITIAL_SKILLS": {
+        "state": "SCORED",
+        "status": "COMPLETED",
+        "attemptId": "INITIAL_SKILLS.c3-plan-nested.a1",
+        "raw": 100,
+        "effective": 100,
+        "passed": true,
+        "hardFailures": [],
+        "failedAssertions": [],
+        "elapsedSeconds": 45.6,
+        "tokensProcessed": 230530,
+        "outputTokens": 4630,
+        "toolCalls": 11,
+        "skillsInvoked": [
+          "ops-execute"
+        ],
+        "oracleSha256": "498d138583a9cb561f17bc9a4c49a79b4e3d470343fecd24c06dca4e873aa631",
+        "correctiveRerun": false,
+        "record": "runs/INITIAL_SKILLS/c3-plan-nested/record.json"
+      },
+      "REFINED_SKILLS": {
+        "state": "NOT_RUN",
+        "reason": null
+      }
+    },
+    "C4": {
+      "WITHOUT_SKILLS": {
+        "state": "SCORED",
+        "status": "COMPLETED",
+        "attemptId": "WITHOUT_SKILLS.c4-execute-bugfix.a2",
+        "raw": 90,
+        "effective": 90,
+        "passed": true,
+        "hardFailures": [],
+        "failedAssertions": [
+          "C4-06"
+        ],
+        "elapsedSeconds": 55.2,
+        "tokensProcessed": 340935,
+        "outputTokens": 5469,
+        "toolCalls": 14,
+        "skillsInvoked": [],
+        "oracleSha256": "527f6846b46e70f48aa8cbe7d57594a144bcccd3e70697d89ffbf890db7c5f9d",
+        "correctiveRerun": true,
+        "record": "runs/WITHOUT_SKILLS/c4-execute-bugfix/record.json"
+      },
+      "INITIAL_SKILLS": {
+        "state": "SCORED",
+        "status": "COMPLETED",
+        "attemptId": "INITIAL_SKILLS.c4-execute-bugfix.a1",
+        "raw": 90,
+        "effective": 90,
+        "passed": true,
+        "hardFailures": [],
+        "failedAssertions": [
+          "C4-06"
+        ],
+        "elapsedSeconds": 49.6,
+        "tokensProcessed": 331710,
+        "outputTokens": 4770,
+        "toolCalls": 13,
+        "skillsInvoked": [
+          "ops-execute"
+        ],
+        "oracleSha256": "527f6846b46e70f48aa8cbe7d57594a144bcccd3e70697d89ffbf890db7c5f9d",
+        "correctiveRerun": false,
+        "record": "runs/INITIAL_SKILLS/c4-execute-bugfix/record.json"
+      },
+      "REFINED_SKILLS": {
+        "state": "NOT_RUN",
+        "reason": null
+      }
+    },
+    "C5": {
+      "WITHOUT_SKILLS": {
+        "state": "SCORED",
+        "status": "COMPLETED",
+        "attemptId": "WITHOUT_SKILLS.c5-resume-heldout.a1",
+        "raw": 100,
+        "effective": 100,
+        "passed": true,
+        "hardFailures": [],
+        "failedAssertions": [],
+        "elapsedSeconds": 48,
+        "tokensProcessed": 291315,
+        "outputTokens": 4705,
+        "toolCalls": 11,
+        "skillsInvoked": [],
+        "oracleSha256": "27412479425fd1566308867c22fda483ef4bba7e3af2cb1502384c01b47035ee",
+        "correctiveRerun": false,
+        "record": "runs/WITHOUT_SKILLS/c5-resume-heldout/record.json"
+      },
+      "INITIAL_SKILLS": {
+        "state": "SCORED",
+        "status": "COMPLETED",
+        "attemptId": "INITIAL_SKILLS.c5-resume-heldout.a1",
+        "raw": 100,
+        "effective": 100,
+        "passed": true,
+        "hardFailures": [],
+        "failedAssertions": [],
+        "elapsedSeconds": 47.5,
+        "tokensProcessed": 304146,
+        "outputTokens": 4537,
+        "toolCalls": 12,
+        "skillsInvoked": [
+          "ops-execute"
+        ],
+        "oracleSha256": "27412479425fd1566308867c22fda483ef4bba7e3af2cb1502384c01b47035ee",
+        "correctiveRerun": false,
+        "record": "runs/INITIAL_SKILLS/c5-resume-heldout/record.json"
+      },
+      "REFINED_SKILLS": {
+        "state": "NOT_RUN",
+        "reason": null
+      }
+    }
+  },
+  "setAside": [
+    {
+      "case": "C1",
+      "condition": "WITHOUT_SKILLS",
+      "attemptId": "WITHOUT_SKILLS.c1-author-basic.a1",
+      "location": "runs/WITHOUT_SKILLS/c1-author-basic.attempt-1",
+      "status": "COMPLETED",
+      "reason": "The oracle of this case was repaired after this run (C1-02: the accepted wording of the rounding rule was broadened (changed accepted evidence)). A change to a frozen evaluated input invalidates the affected comparison (request, section 7.2), so this observation is not carried across the change. The case is run again under the repaired, re-frozen oracle. record.score is the grade under the oracle frozen before the run; scoring.diagnostic is a replay with the repaired oracle and is not an observation.",
+      "originalGrade": {
+        "raw": 90,
+        "effective": 90,
+        "failed": [
+          "C1-02"
+        ],
+        "oracle": "a1597cf88aab77bf03d4c35faa40ca862615c309faa2273514c6914f3e3eb083"
+      },
+      "diagnosticReplay": {
+        "raw": 100,
+        "effective": 100,
+        "failed": [],
+        "oracle": "8a53f28607f010ad2c6ea43f8b7811b78c23a1ee7de8870fd8857e256e4e37fa"
+      }
+    },
+    {
+      "case": "C3",
+      "condition": "WITHOUT_SKILLS",
+      "attemptId": "WITHOUT_SKILLS.c3-plan-nested.a1",
+      "location": "runs/WITHOUT_SKILLS/c3-plan-nested.attempt-1",
+      "status": "COMPLETED",
+      "reason": "The oracle of this case was repaired after this run (C3-06: phrases are now matched across line breaks (grader implementation error); C3-02: a mention of the other package inside an out-of-scope statement is now accepted (changed accepted evidence)). A change to a frozen evaluated input invalidates the affected comparison (request, section 7.2), so this observation is not carried across the change. The case is run again under the repaired, re-frozen oracle. record.score is the grade under the oracle frozen before the run; scoring.diagnostic is a replay with the repaired oracle and is not an observation.",
+      "originalGrade": {
+        "raw": 80,
+        "effective": 80,
+        "failed": [
+          "C3-02",
+          "C3-06"
+        ],
+        "oracle": "2016dec943ea23289eefd95def18781b8f68d282da043a9099703a199a2dd531"
+      },
+      "diagnosticReplay": {
+        "raw": 100,
+        "effective": 100,
+        "failed": [],
+        "oracle": "498d138583a9cb561f17bc9a4c49a79b4e3d470343fecd24c06dca4e873aa631"
+      }
+    },
+    {
+      "case": "C4",
+      "condition": "WITHOUT_SKILLS",
+      "attemptId": "WITHOUT_SKILLS.c4-execute-bugfix.a1",
+      "location": "runs/WITHOUT_SKILLS/c4-execute-bugfix.attempt-1",
+      "status": "COMPLETED",
+      "reason": "The oracle of this case was repaired after this run (C4-01: the validator verdict is now read from its own output line instead of the exit status of the tool call (grader implementation error)). A change to a frozen evaluated input invalidates the affected comparison (request, section 7.2), so this observation is not carried across the change. The case is run again under the repaired, re-frozen oracle. record.score is the grade under the oracle frozen before the run; scoring.diagnostic is a replay with the repaired oracle and is not an observation.",
+      "originalGrade": {
+        "raw": 90,
+        "effective": 90,
+        "failed": [
+          "C4-01"
+        ],
+        "oracle": "8e067fd548ffc788d6fbbe8723ef0b2f8ac75f3ded106abda45cb5ff71f58eef"
+      },
+      "diagnosticReplay": {
+        "raw": 100,
+        "effective": 100,
+        "failed": [],
+        "oracle": "527f6846b46e70f48aa8cbe7d57594a144bcccd3e70697d89ffbf890db7c5f9d"
+      }
+    }
+  ],
+  "quality": {
+    "INITIAL_SKILLS": {
+      "authoring": {
+        "cases": [
+          "C1",
+          "C2"
+        ],
+        "complete": true,
+        "deltas": [
+          {
+            "id": "C1",
+            "baseline": 100,
+            "withSkills": 100,
+            "delta": 0,
+            "rawDelta": 0
+          },
+          {
+            "id": "C2",
+            "baseline": 100,
+            "withSkills": 100,
+            "delta": 0,
+            "rawDelta": 0
+          }
+        ],
+        "meanBaseline": 100,
+        "meanWithSkills": 100,
+        "meanDelta": 0,
+        "largestLoss": 0,
+        "headroom": 0,
+        "verdict": "unsupported",
+        "why": "the baseline mean is 100, so a gain of 10 points was not possible on these cases; observed change 0"
+      },
+      "execution": {
+        "cases": [
+          "C3",
+          "C4",
+          "C5"
+        ],
+        "complete": true,
+        "deltas": [
+          {
+            "id": "C3",
+            "baseline": 90,
+            "withSkills": 100,
+            "delta": 10,
+            "rawDelta": 10
+          },
+          {
+            "id": "C4",
+            "baseline": 90,
+            "withSkills": 90,
+            "delta": 0,
+            "rawDelta": 0
+          },
+          {
+            "id": "C5",
+            "baseline": 100,
+            "withSkills": 100,
+            "delta": 0,
+            "rawDelta": 0
+          }
+        ],
+        "meanBaseline": 93.3,
+        "meanWithSkills": 96.7,
+        "meanDelta": 3.3,
+        "largestLoss": 0,
+        "headroom": 6.7,
+        "verdict": "unsupported",
+        "why": "the baseline mean is 93.3, so a gain of 10 points was not possible on these cases; observed change 3.3"
+      },
+      "executionDevelopmentOnly": {
+        "cases": [
+          "C3",
+          "C4"
+        ],
+        "complete": true,
+        "deltas": [
+          {
+            "id": "C3",
+            "baseline": 90,
+            "withSkills": 100,
+            "delta": 10,
+            "rawDelta": 10
+          },
+          {
+            "id": "C4",
+            "baseline": 90,
+            "withSkills": 90,
+            "delta": 0,
+            "rawDelta": 0
+          }
+        ],
+        "meanBaseline": 90,
+        "meanWithSkills": 95,
+        "meanDelta": 5,
+        "largestLoss": 0,
+        "headroom": 10,
+        "verdict": "unsupported",
+        "why": "mean gain below 10 points (observed 5)"
+      },
+      "reservedRegression": {
+        "cases": [
+          "C5"
+        ],
+        "complete": true,
+        "deltas": [
+          {
+            "id": "C5",
+            "baseline": 100,
+            "withSkills": 100,
+            "delta": 0,
+            "rawDelta": 0
+          }
+        ],
+        "meanBaseline": 100,
+        "meanWithSkills": 100,
+        "meanDelta": 0,
+        "largestLoss": 0,
+        "headroom": 0,
+        "verdict": "unsupported",
+        "why": "the baseline mean is 100, so a gain of 10 points was not possible on these cases; observed change 0"
+      }
+    }
+  },
+  "efficiency": {
+    "INITIAL_SKILLS": {
+      "elapsedTime": {
+        "eligiblePairs": 5,
+        "pairs": [
+          {
+            "id": "C1",
+            "baseline": 57629,
+            "withSkills": 55827,
+            "overhead": -0.031
+          },
+          {
+            "id": "C2",
+            "baseline": 98782,
+            "withSkills": 94809,
+            "overhead": -0.04
+          },
+          {
+            "id": "C3",
+            "baseline": 56730,
+            "withSkills": 45617,
+            "overhead": -0.196
+          },
+          {
+            "id": "C4",
+            "baseline": 55193,
+            "withSkills": 49592,
+            "overhead": -0.101
+          },
+          {
+            "id": "C5",
+            "baseline": 48045,
+            "withSkills": 47508,
+            "overhead": -0.011
+          }
+        ],
+        "medianOverhead": -0.04
+      },
+      "tokensProcessed": {
+        "eligiblePairs": 5,
+        "pairs": [
+          {
+            "id": "C1",
+            "baseline": 170177,
+            "withSkills": 293071,
+            "overhead": 0.722
+          },
+          {
+            "id": "C2",
+            "baseline": 374007,
+            "withSkills": 316576,
+            "overhead": -0.154
+          },
+          {
+            "id": "C3",
+            "baseline": 232926,
+            "withSkills": 230530,
+            "overhead": -0.01
+          },
+          {
+            "id": "C4",
+            "baseline": 340935,
+            "withSkills": 331710,
+            "overhead": -0.027
+          },
+          {
+            "id": "C5",
+            "baseline": 291315,
+            "withSkills": 304146,
+            "overhead": 0.044
+          }
+        ],
+        "medianOverhead": -0.01
+      },
+      "outputTokens": {
+        "eligiblePairs": 5,
+        "pairs": [
+          {
+            "id": "C1",
+            "baseline": 6321,
+            "withSkills": 5509,
+            "overhead": -0.128
+          },
+          {
+            "id": "C2",
+            "baseline": 10097,
+            "withSkills": 9948,
+            "overhead": -0.015
+          },
+          {
+            "id": "C3",
+            "baseline": 5855,
+            "withSkills": 4630,
+            "overhead": -0.209
+          },
+          {
+            "id": "C4",
+            "baseline": 5469,
+            "withSkills": 4770,
+            "overhead": -0.128
+          },
+          {
+            "id": "C5",
+            "baseline": 4705,
+            "withSkills": 4537,
+            "overhead": -0.036
+          }
+        ],
+        "medianOverhead": -0.128
+      }
+    }
+  },
+  "hypotheses": {
+    "H1": {
+      "statement": "ops-author improves intent preservation, contract validity and actionable verification in authored prompts",
+      "cases": [
+        "C1",
+        "C2"
+      ],
+      "complete": true,
+      "deltas": [
+        {
+          "id": "C1",
+          "baseline": 100,
+          "withSkills": 100,
+          "delta": 0,
+          "rawDelta": 0
+        },
+        {
+          "id": "C2",
+          "baseline": 100,
+          "withSkills": 100,
+          "delta": 0,
+          "rawDelta": 0
+        }
+      ],
+      "meanBaseline": 100,
+      "meanWithSkills": 100,
+      "meanDelta": 0,
+      "largestLoss": 0,
+      "headroom": 0,
+      "verdict": "unsupported",
+      "why": "the baseline mean is 100, so a gain of 10 points was not possible on these cases; observed change 0"
+    },
+    "H2": {
+      "statement": "ops-execute improves correct planning, scoped implementation and closure of the verify-repair loop",
+      "cases": [
+        "C3",
+        "C4",
+        "C5"
+      ],
+      "complete": true,
+      "deltas": [
+        {
+          "id": "C3",
+          "baseline": 90,
+          "withSkills": 100,
+          "delta": 10,
+          "rawDelta": 10
+        },
+        {
+          "id": "C4",
+          "baseline": 90,
+          "withSkills": 90,
+          "delta": 0,
+          "rawDelta": 0
+        },
+        {
+          "id": "C5",
+          "baseline": 100,
+          "withSkills": 100,
+          "delta": 0,
+          "rawDelta": 0
+        }
+      ],
+      "meanBaseline": 93.3,
+      "meanWithSkills": 96.7,
+      "meanDelta": 3.3,
+      "largestLoss": 0,
+      "headroom": 6.7,
+      "verdict": "unsupported",
+      "why": "the baseline mean is 93.3, so a gain of 10 points was not possible on these cases; observed change 3.3"
+    },
+    "H3": {
+      "statement": "any observed quality gain has an acceptable cost in time, tokens, tool calls and human intervention",
+      "verdict": "inconclusive",
+      "why": "no quality gain reached the improvement threshold, so there is no gain whose cost could be judged; the measured overhead is reported as it is"
+    }
+  },
+  "readiness": {
+    "condition": "INITIAL_SKILLS",
+    "complete": true,
+    "allCasesPass": true,
+    "mean": 98,
+    "hardFailures": [],
+    "ready": true
+  },
+  "activationProbes": {
+    "condition": "INITIAL_SKILLS",
+    "commit": "146c4b51fee8f1a6609b424fe6381c28c27c60e4",
+    "limitSeconds": 60,
+    "probes": [
+      {
+        "id": "author-explicit",
+        "skill": "ops-author",
+        "kind": "explicit",
+        "expectActivation": true,
+        "prompt": "Use the ops-author skill: write an OPS prompt for adding a `clearCart()` function to `packages/cart/src/totals.mjs`. Do not implement it.",
+        "status": "OBSERVED",
+        "activated": true,
+        "skillsInvoked": [
+          "ops-author"
+        ],
+        "candidatesListedByClient": [
+          "ops-author",
+          "ops-execute"
+        ],
+        "timedOutAtLimit": false,
+        "wallMs": 45873,
+        "outcome": "correct activation",
+        "skills": [
+          {
+            "name": "ops-author",
+            "commit": "146c4b51fee8f1a6609b424fe6381c28c27c60e4",
+            "files": 7,
+            "treeHash": "19e4feba3c48eb57f341076fc8640049d67dcd919fb260ce763448fd73b076aa"
+          },
+          {
+            "name": "ops-execute",
+            "commit": "146c4b51fee8f1a6609b424fe6381c28c27c60e4",
+            "files": 6,
+            "treeHash": "5ef91499adc296ebdadacf160eef4cd5db1587fba2333442a869a5a80ba4df60"
+          }
+        ]
+      },
+      {
+        "id": "author-implicit",
+        "skill": "ops-author",
+        "kind": "implicit",
+        "expectActivation": true,
+        "prompt": "Before anyone touches the code, I want this change written down as a task contract for our agent, in this project's format: `cartTotal` in `packages/cart` should reject items with a negative quantity. Do not implement it.",
+        "status": "OBSERVED",
+        "activated": true,
+        "skillsInvoked": [
+          "ops-author"
+        ],
+        "candidatesListedByClient": [
+          "ops-author",
+          "ops-execute"
+        ],
+        "timedOutAtLimit": false,
+        "wallMs": 42859,
+        "outcome": "correct activation",
+        "skills": [
+          {
+            "name": "ops-author",
+            "commit": "146c4b51fee8f1a6609b424fe6381c28c27c60e4",
+            "files": 7,
+            "treeHash": "19e4feba3c48eb57f341076fc8640049d67dcd919fb260ce763448fd73b076aa"
+          },
+          {
+            "name": "ops-execute",
+            "commit": "146c4b51fee8f1a6609b424fe6381c28c27c60e4",
+            "files": 6,
+            "treeHash": "5ef91499adc296ebdadacf160eef4cd5db1587fba2333442a869a5a80ba4df60"
+          }
+        ]
+      },
+      {
+        "id": "author-adjacent",
+        "skill": "ops-author",
+        "kind": "adjacent",
+        "expectActivation": false,
+        "prompt": "Write a short system prompt for a customer-support chatbot that answers questions about shipping times. Just print it; do not create any file.",
+        "status": "OBSERVED",
+        "activated": false,
+        "skillsInvoked": [],
+        "candidatesListedByClient": [
+          "ops-author",
+          "ops-execute"
+        ],
+        "timedOutAtLimit": false,
+        "wallMs": 9389,
+        "outcome": "correct non-activation",
+        "skills": [
+          {
+            "name": "ops-author",
+            "commit": "146c4b51fee8f1a6609b424fe6381c28c27c60e4",
+            "files": 7,
+            "treeHash": "19e4feba3c48eb57f341076fc8640049d67dcd919fb260ce763448fd73b076aa"
+          },
+          {
+            "name": "ops-execute",
+            "commit": "146c4b51fee8f1a6609b424fe6381c28c27c60e4",
+            "files": 6,
+            "treeHash": "5ef91499adc296ebdadacf160eef4cd5db1587fba2333442a869a5a80ba4df60"
+          }
+        ]
+      },
+      {
+        "id": "execute-explicit",
+        "skill": "ops-execute",
+        "kind": "explicit",
+        "expectActivation": true,
+        "prompt": "Use the ops-execute skill to plan `.guides/prompts/prompt.cart.quantity-discount.yaml`. Plan only.",
+        "status": "OBSERVED",
+        "activated": true,
+        "skillsInvoked": [
+          "ops-execute"
+        ],
+        "candidatesListedByClient": [
+          "ops-author",
+          "ops-execute"
+        ],
+        "timedOutAtLimit": false,
+        "wallMs": 41587,
+        "outcome": "correct activation",
+        "skills": [
+          {
+            "name": "ops-author",
+            "commit": "146c4b51fee8f1a6609b424fe6381c28c27c60e4",
+            "files": 7,
+            "treeHash": "19e4feba3c48eb57f341076fc8640049d67dcd919fb260ce763448fd73b076aa"
+          },
+          {
+            "name": "ops-execute",
+            "commit": "146c4b51fee8f1a6609b424fe6381c28c27c60e4",
+            "files": 6,
+            "treeHash": "5ef91499adc296ebdadacf160eef4cd5db1587fba2333442a869a5a80ba4df60"
+          }
+        ]
+      },
+      {
+        "id": "execute-implicit",
+        "skill": "ops-execute",
+        "kind": "implicit",
+        "expectActivation": true,
+        "prompt": "Please carry out `.guides/prompts/prompt.cart.quantity-discount.yaml`.",
+        "status": "OBSERVED",
+        "activated": true,
+        "skillsInvoked": [
+          "ops-execute"
+        ],
+        "candidatesListedByClient": [
+          "ops-author",
+          "ops-execute"
+        ],
+        "timedOutAtLimit": false,
+        "wallMs": 45133,
+        "outcome": "correct activation",
+        "skills": [
+          {
+            "name": "ops-author",
+            "commit": "146c4b51fee8f1a6609b424fe6381c28c27c60e4",
+            "files": 7,
+            "treeHash": "19e4feba3c48eb57f341076fc8640049d67dcd919fb260ce763448fd73b076aa"
+          },
+          {
+            "name": "ops-execute",
+            "commit": "146c4b51fee8f1a6609b424fe6381c28c27c60e4",
+            "files": 6,
+            "treeHash": "5ef91499adc296ebdadacf160eef4cd5db1587fba2333442a869a5a80ba4df60"
+          }
+        ]
+      },
+      {
+        "id": "execute-adjacent",
+        "skill": "ops-execute",
+        "kind": "adjacent",
+        "expectActivation": false,
+        "prompt": "Run the tests of `packages/cart` and tell me whether they pass. Change nothing.",
+        "status": "OBSERVED",
+        "activated": false,
+        "skillsInvoked": [],
+        "candidatesListedByClient": [
+          "ops-author",
+          "ops-execute"
+        ],
+        "timedOutAtLimit": false,
+        "wallMs": 12542,
+        "outcome": "correct non-activation",
+        "skills": [
+          {
+            "name": "ops-author",
+            "commit": "146c4b51fee8f1a6609b424fe6381c28c27c60e4",
+            "files": 7,
+            "treeHash": "19e4feba3c48eb57f341076fc8640049d67dcd919fb260ce763448fd73b076aa"
+          },
+          {
+            "name": "ops-execute",
+            "commit": "146c4b51fee8f1a6609b424fe6381c28c27c60e4",
+            "files": 6,
+            "treeHash": "5ef91499adc296ebdadacf160eef4cd5db1587fba2333442a869a5a80ba4df60"
+          }
+        ]
+      }
+    ],
+    "summary": {
+      "correct": 6,
+      "missed": 0,
+      "unwanted": 0,
+      "notObserved": 0
+    }
+  },
+  "budget": {
+    "ceiling": 19,
+    "ceilingBasis": "no refinement was made",
+    "evaluationAttempts": 19,
+    "evaluatedMinutes": 17.6,
+    "minuteLimit": 120,
+    "preparationAgentSessions": 7,
+    "ifPreparationWereCounted": 26,
+    "byKind": {
+      "environment-probe": 2,
+      "infrastructure-check": 1,
+      "case-authoring": 1,
+      "scored-task": 10,
+      "deterministic-replay": 3,
+      "case-custody": 1,
+      "corrective-rerun": 3,
+      "installation-check": 2,
+      "activation-probe": 6
+    }
+  },
+  "candidates": {
+    "INITIAL_SKILLS": {
+      "commit": "146c4b51fee8f1a6609b424fe6381c28c27c60e4",
+      "committedAt": "2026-11-13T16:06:37-03:00",
+      "recordedAt": "2026-11-13T19:06:57.640Z",
+      "repository": "guided-engineering-skills (local checkout; no remote existed when the candidate was frozen)",
+      "gitTrees": {
+        "ops-author": "cd85073044143c58d8ec815c4a4c2e164bc6ad09",
+        "ops-execute": "e366982812b29d7bd8731bee74c9900266159589"
+      },
+      "bundledFromOpenPromptSpecification": "afbe49198a6635f5d878028689a1f7db4409ff77",
+      "verifiedBeforeFreezing": [
+        "npm test: 25 of 25 pass",
+        "node tools/check.mjs: both Skills pass",
+        "node tools/sync-ops.mjs --check: copies match their record",
+        "skills-ref 0.1.0 validate: both valid"
+      ],
+      "note": "The baseline evidence was committed (afbe491) before any Skill content existed. No assisted run had been made when this file was written."
+    },
+    "decision": {
+      "finalCandidate": "INITIAL_SKILLS",
+      "refinement": "none",
+      "decidedAt": "2026-11-13T19:16:05.069Z",
+      "decidedBeforeAnyC5Run": true,
+      "observed": {
+        "WITHOUT_SKILLS": {
+          "C1": 100,
+          "C2": 100,
+          "C3": 90,
+          "C4": 90
+        },
+        "INITIAL_SKILLS": {
+          "C1": 100,
+          "C2": 100,
+          "C3": 100,
+          "C4": 90
+        }
+      },
+      "basis": "The one optional refinement is for a consequential observed Skill defect. None was observed. The only assertion failed with the Skills is C4-06, which the baseline fails too: in both traces the tests pass after the only real edit of src/csv.mjs, and a later read-only command that names the file and contains a \">\" character is counted as an edit by the shared detector. The Skills were invoked in all four runs (ops-author in C1 and C2, ops-execute in C3 and C4). Elapsed time and output tokens were lower in all four pairs; tokens processed were higher in C1 (+72%) and lower in the other three.",
+      "consequence": "skills 146c4b5 is the final candidate. It was frozen before any C5 result existed, and nothing under skills/ changes after this point without a new, unmeasured candidate identity.",
+      "addendum": {
+        "addedAt": "2026-11-13T19:25:55.717Z",
+        "afterTheStudyWasComplete": true,
+        "text": "The decision above was taken from the scores and the failed assertions. Reading the traces of the two authoring runs afterwards showed a wording defect in ops-author: in C1 and in C2 the first validation was rejected with \"missing required property expect\" on every check that had a run command, because the field guide can be read as if expect were needed only for a check without a command. The validator named the problem, the agent corrected it, the final prompts are valid and no score changed. It was noticed after C5 had been run, when a change to the candidate is no longer allowed. The candidate stays as measured (146c4b5). Correcting the sentence would make a new candidate that this study did not measure; it is listed as the first follow-up item in report.md."
+      }
+    }
+  },
+  "ledger": [
+    {
+      "kind": "environment-probe",
+      "what": "probe: client defaults, tool shapes, absence of user-level Skills",
+      "condition": "WITHOUT_SKILLS",
+      "status": "OBSERVED",
+      "startedAt": "2026-11-13T16:49:49.165Z",
+      "wallMs": 5665,
+      "agentSession": true,
+      "note": "preparation, before the freeze"
+    },
+    {
+      "kind": "environment-probe",
+      "what": "probe: pinned model with a throwaway project Skill present",
+      "condition": "(throwaway Skill)",
+      "status": "OBSERVED",
+      "startedAt": "2026-11-13T16:50:15.074Z",
+      "wallMs": 4355,
+      "agentSession": true,
+      "note": "preparation, before the freeze"
+    },
+    {
+      "attemptId": "WITHOUT_SKILLS.x0-harness-smoke.a1",
+      "kind": "infrastructure-check",
+      "case": "X0",
+      "condition": "WITHOUT_SKILLS",
+      "status": "COMPLETED",
+      "startedAt": "2026-11-13T17:02:20.074Z",
+      "wallMs": 6083,
+      "retryReason": null,
+      "agentSession": true,
+      "note": "harness smoke check, preparation, before the freeze",
+      "tokensProcessed": 42539,
+      "outputTokens": 202,
+      "toolCalls": 2
+    },
+    {
+      "kind": "case-authoring",
+      "what": "C5 written by an independent evaluator session",
+      "condition": "—",
+      "status": "COMPLETED",
+      "startedAt": "2026-11-13T17:05:00Z",
+      "wallMs": 3936914,
+      "agentSession": true,
+      "tokensProcessed": 423539,
+      "toolCalls": 152,
+      "note": "preparation; start time approximate; duration and tokens as reported by the host"
+    },
+    {
+      "attemptId": "WITHOUT_SKILLS.c1-author-basic.a1",
+      "kind": "scored-task",
+      "case": "C1",
+      "condition": "WITHOUT_SKILLS",
+      "status": "COMPLETED",
+      "startedAt": "2026-11-13T17:09:51.735Z",
+      "wallMs": 94977,
+      "retryReason": null,
+      "agentSession": true,
+      "tokensProcessed": 354911,
+      "outputTokens": 9596,
+      "toolCalls": 16,
+      "note": "set aside after its oracle was repaired"
+    },
+    {
+      "attemptId": "WITHOUT_SKILLS.c2-convert-legacy.a1",
+      "kind": "scored-task",
+      "case": "C2",
+      "condition": "WITHOUT_SKILLS",
+      "status": "COMPLETED",
+      "startedAt": "2026-11-13T17:11:49.613Z",
+      "wallMs": 100891,
+      "retryReason": null,
+      "agentSession": true,
+      "tokensProcessed": 374007,
+      "outputTokens": 10097,
+      "toolCalls": 9,
+      "note": "admissible"
+    },
+    {
+      "attemptId": "WITHOUT_SKILLS.c3-plan-nested.a1",
+      "kind": "scored-task",
+      "case": "C3",
+      "condition": "WITHOUT_SKILLS",
+      "status": "COMPLETED",
+      "startedAt": "2026-11-13T17:13:59.224Z",
+      "wallMs": 62304,
+      "retryReason": null,
+      "agentSession": true,
+      "tokensProcessed": 274351,
+      "outputTokens": 6249,
+      "toolCalls": 13,
+      "note": "set aside after its oracle was repaired"
+    },
+    {
+      "attemptId": "WITHOUT_SKILLS.c4-execute-bugfix.a1",
+      "kind": "scored-task",
+      "case": "C4",
+      "condition": "WITHOUT_SKILLS",
+      "status": "COMPLETED",
+      "startedAt": "2026-11-13T17:16:00.103Z",
+      "wallMs": 69366,
+      "retryReason": null,
+      "agentSession": true,
+      "tokensProcessed": 372541,
+      "outputTokens": 6781,
+      "toolCalls": 14,
+      "note": "set aside after its oracle was repaired"
+    },
+    {
+      "kind": "deterministic-replay",
+      "what": "re-scoring of stored C1, C3 and C1-C4 attempts after amendments 1, 2 and 3",
+      "condition": "WITHOUT_SKILLS",
+      "status": "DONE",
+      "startedAt": "2026-11-13T17:20:00Z",
+      "wallMs": null,
+      "agentSession": false,
+      "note": "no agent run; superseded by the replays below"
+    },
+    {
+      "kind": "deterministic-replay",
+      "what": "replay of the four stored baseline attempts with the oracle and scorer frozen before the runs (84fb616)",
+      "condition": "WITHOUT_SKILLS",
+      "status": "DONE",
+      "startedAt": "2026-11-13T18:40:05.348Z",
+      "wallMs": null,
+      "agentSession": false,
+      "note": "reconstructs the original grades 90, 100, 80, 90"
+    },
+    {
+      "kind": "deterministic-replay",
+      "what": "replay of the stored C1, C3 and C4 baseline attempts with the repaired oracles",
+      "condition": "WITHOUT_SKILLS",
+      "status": "DONE",
+      "startedAt": "2026-11-13T18:40:05.349Z",
+      "wallMs": null,
+      "agentSession": false,
+      "note": "diagnostic grades 100, 100, 100; not observations"
+    },
+    {
+      "kind": "case-custody",
+      "what": "C5 revalidated against the settled harness, frozen by hash and committed by its author session (a5dfe71)",
+      "condition": "—",
+      "status": "COMPLETED",
+      "startedAt": "2026-11-13T18:44:00Z",
+      "wallMs": 126694,
+      "agentSession": true,
+      "toolCalls": 11,
+      "note": "preparation; no content of the case was reported back"
+    },
+    {
+      "attemptId": "WITHOUT_SKILLS.c1-author-basic.a2",
+      "kind": "corrective-rerun",
+      "case": "C1",
+      "condition": "WITHOUT_SKILLS",
+      "status": "COMPLETED",
+      "startedAt": "2026-11-13T18:46:36.939Z",
+      "wallMs": 59802,
+      "retryReason": null,
+      "correctiveReason": "oracle repaired after the first run (amendments.md, repair 1: changed accepted evidence for C1-02)"
+    },
+    {
+      "attemptId": "WITHOUT_SKILLS.c3-plan-nested.a2",
+      "kind": "corrective-rerun",
+      "case": "C3",
+      "condition": "WITHOUT_SKILLS",
+      "status": "COMPLETED",
+      "startedAt": "2026-11-13T18:48:44.673Z",
+      "wallMs": 58803,
+      "retryReason": null,
+      "correctiveReason": "oracle repaired after the first run (amendments.md, repairs 2a and 2b)"
+    },
+    {
+      "attemptId": "WITHOUT_SKILLS.c4-execute-bugfix.a2",
+      "kind": "corrective-rerun",
+      "case": "C4",
+      "condition": "WITHOUT_SKILLS",
+      "status": "COMPLETED",
+      "startedAt": "2026-11-13T18:50:17.044Z",
+      "wallMs": 57381,
+      "retryReason": null,
+      "correctiveReason": "oracle repaired after the first run (amendments.md, repair 3: grader implementation error in C4-01)"
+    },
+    {
+      "kind": "installation-check",
+      "what": "client listing after installing ops-author alone into a clean project with skills@1.8.1 (skills 146c4b5)",
+      "condition": "(one Skill installed)",
+      "status": "OBSERVED",
+      "startedAt": "2026-11-13T19:08:11.255Z",
+      "wallMs": 4025,
+      "agentSession": true,
+      "note": "verification of installation, not an evaluation; prompt \"Reply with the single word OK.\"; the Skill was listed and not invoked"
+    },
+    {
+      "kind": "installation-check",
+      "what": "client listing after installing ops-execute alone into a clean project with skills@1.8.1 (skills 146c4b5)",
+      "condition": "(one Skill installed)",
+      "status": "OBSERVED",
+      "startedAt": "2026-11-13T19:08:17.447Z",
+      "wallMs": 3851,
+      "agentSession": true,
+      "note": "verification of installation, not an evaluation; prompt \"Reply with the single word OK.\"; the Skill was listed and not invoked"
+    },
+    {
+      "attemptId": "INITIAL_SKILLS.c1-author-basic.a1",
+      "kind": "scored-task",
+      "case": "C1",
+      "condition": "INITIAL_SKILLS",
+      "status": "COMPLETED",
+      "startedAt": "2026-11-13T19:08:38.499Z",
+      "wallMs": 57924,
+      "retryReason": null,
+      "correctiveReason": null
+    },
+    {
+      "attemptId": "INITIAL_SKILLS.c2-convert-legacy.a1",
+      "kind": "scored-task",
+      "case": "C2",
+      "condition": "INITIAL_SKILLS",
+      "status": "COMPLETED",
+      "startedAt": "2026-11-13T19:10:19.500Z",
+      "wallMs": 96855,
+      "retryReason": null,
+      "correctiveReason": null
+    },
+    {
+      "attemptId": "INITIAL_SKILLS.c3-plan-nested.a1",
+      "kind": "scored-task",
+      "case": "C3",
+      "condition": "INITIAL_SKILLS",
+      "status": "COMPLETED",
+      "startedAt": "2026-11-13T19:12:44.916Z",
+      "wallMs": 47688,
+      "retryReason": null,
+      "correctiveReason": null
+    },
+    {
+      "attemptId": "INITIAL_SKILLS.c4-execute-bugfix.a1",
+      "kind": "scored-task",
+      "case": "C4",
+      "condition": "INITIAL_SKILLS",
+      "status": "COMPLETED",
+      "startedAt": "2026-11-13T19:14:00.454Z",
+      "wallMs": 51609,
+      "retryReason": null,
+      "correctiveReason": null
+    },
+    {
+      "attemptId": "WITHOUT_SKILLS.c5-resume-heldout.a1",
+      "kind": "scored-task",
+      "case": "C5",
+      "condition": "WITHOUT_SKILLS",
+      "status": "COMPLETED",
+      "startedAt": "2026-11-13T19:16:26.697Z",
+      "wallMs": 50215,
+      "retryReason": null,
+      "correctiveReason": null
+    },
+    {
+      "attemptId": "INITIAL_SKILLS.c5-resume-heldout.a1",
+      "kind": "scored-task",
+      "case": "C5",
+      "condition": "INITIAL_SKILLS",
+      "status": "COMPLETED",
+      "startedAt": "2026-11-13T19:17:35.392Z",
+      "wallMs": 49587,
+      "retryReason": null,
+      "correctiveReason": null
+    },
+    {
+      "attemptId": "probe.author-explicit",
+      "kind": "activation-probe",
+      "case": "author-explicit",
+      "condition": "INITIAL_SKILLS",
+      "status": "OBSERVED",
+      "startedAt": "2026-11-13T19:18:38.932Z",
+      "wallMs": 45873
+    },
+    {
+      "attemptId": "probe.author-implicit",
+      "kind": "activation-probe",
+      "case": "author-implicit",
+      "condition": "INITIAL_SKILLS",
+      "status": "OBSERVED",
+      "startedAt": "2026-11-13T19:19:25.976Z",
+      "wallMs": 42859
+    },
+    {
+      "attemptId": "probe.author-adjacent",
+      "kind": "activation-probe",
+      "case": "author-adjacent",
+      "condition": "INITIAL_SKILLS",
+      "status": "OBSERVED",
+      "startedAt": "2026-11-13T19:20:10.000Z",
+      "wallMs": 9389
+    },
+    {
+      "attemptId": "probe.execute-explicit",
+      "kind": "activation-probe",
+      "case": "execute-explicit",
+      "condition": "INITIAL_SKILLS",
+      "status": "OBSERVED",
+      "startedAt": "2026-11-13T19:20:20.540Z",
+      "wallMs": 41587
+    },
+    {
+      "attemptId": "probe.execute-implicit",
+      "kind": "activation-probe",
+      "case": "execute-implicit",
+      "condition": "INITIAL_SKILLS",
+      "status": "OBSERVED",
+      "startedAt": "2026-11-13T19:21:03.277Z",
+      "wallMs": 45133
+    },
+    {
+      "attemptId": "probe.execute-adjacent",
+      "kind": "activation-probe",
+      "case": "execute-adjacent",
+      "condition": "INITIAL_SKILLS",
+      "status": "OBSERVED",
+      "startedAt": "2026-11-13T19:21:49.692Z",
+      "wallMs": 12542
+    }
+  ]
+}

@@ -95,18 +95,25 @@ function resultsBlock() {
   const r = JSON.parse(read(file));
   const conditions = r.retainedConditions;
   const label = { WITHOUT_SKILLS: 'Without Skills', INITIAL_SKILLS: 'With Skills (first version)', REFINED_SKILLS: 'With Skills (refined)' };
-  const cell = (x) => (x.state === 'SCORED' ? `${x.effective}${x.raw !== x.effective ? ` (raw ${x.raw}; ${x.hardFailures.join(', ')})` : ''}${x.status === 'TIMEOUT' ? ' — stopped at the time limit' : ''}` : x.state.replace('_', ' ').toLowerCase());
+  const STATE = { NOT_RUN: 'not run', NOT_SCORED: 'not scored', RERUN_PENDING: 'rerun pending' };
+  const cell = (x) => (x.state === 'SCORED' ? `${x.effective}${x.raw !== x.effective ? ` (raw ${x.raw}; ${x.hardFailures.join(', ')})` : ''}${x.status === 'TIMEOUT' ? ' — stopped at the time limit' : ''}${x.correctiveRerun ? ' ↻' : ''}` : STATE[x.state] ?? x.state);
   const out = [];
-  out.push(r.studyComplete ? '' : '> **Incomplete.** At least one required run is missing or could not be scored. Nothing on this page is a final result.\n');
+  out.push(r.studyComplete ? '' : '> **Incomplete.** At least one required observation is missing, pending a rerun, or could not be scored. Nothing on this page is a final result.\n');
   out.push(`| Case | What it tests | ${conditions.map((c) => label[c]).join(' | ')} | Change |`, `|---|---|${conditions.map(() => '---:').join('|')}|---:|`);
   for (const c of r.cases) {
     const s = r.scores[c.id];
     const b = s.WITHOUT_SKILLS;
     const f = s[r.finalCondition];
     const delta = b.state === 'SCORED' && f.state === 'SCORED' ? `${f.effective - b.effective > 0 ? '+' : ''}${f.effective - b.effective}` : 'n/a';
-    out.push(`| **${c.id}** ${c.split === 'held-out' ? '(held out)' : ''} | ${c.title} | ${conditions.map((k) => cell(s[k])).join(' | ')} | ${delta} |`);
+    out.push(`| **${c.id}**${c.split === 'held-out' ? ' (reserved)' : ''} | ${c.title} | ${conditions.map((k) => cell(s[k])).join(' | ')} | ${delta} |`);
   }
-  out.push('', 'Scores are out of 100. A case passes at 80 or more with no hard failure; a hard failure sets the score to 0 and the raw score is shown in brackets.', '');
+  out.push('', 'Scores are out of 100. A case passes at 80 or more with no hard failure; a hard failure sets the score to 0 and the raw score is shown in brackets. ↻ marks a baseline that was executed again after its scoring was repaired (see below).', '');
+  if (r.setAside.length) {
+    out.push('### Runs that are kept but not compared', '', 'After the first baseline runs, the scoring of three cases was repaired. A changed scoring invalidates the run made before it, so those cases were executed again and only the new runs are compared. The first runs are kept, with the grade they had under the scoring frozen before they ran and a diagnostic replay of the same evidence under the repaired scoring. A replay is not a run.', '');
+    out.push('| First run | Grade under the scoring frozen before it ran | Diagnostic replay, repaired scoring | Compared |', '|---|---:|---:|---|');
+    for (const s of r.setAside) out.push(`| ${s.case}, ${label[s.condition].toLowerCase()} | ${s.originalGrade ? `${s.originalGrade.effective}${s.originalGrade.failed.length ? ` (missed ${s.originalGrade.failed.join(', ')})` : ''}` : s.status.toLowerCase()} | ${s.diagnosticReplay ? s.diagnosticReplay.effective : '—'} | no |`);
+    out.push('');
+  }
   out.push('### Hypotheses', '', '| | Hypothesis | Verdict in this sample | Basis |', '|---|---|---|---|');
   for (const [id, h] of Object.entries(r.hypotheses)) out.push(`| ${id} | ${h.statement} | **${h.verdict}** | ${h.why}${h.meanDelta !== undefined && h.meanDelta !== null ? ` (baseline mean ${h.meanBaseline}, with Skills ${h.meanWithSkills})` : ''} |`);
   const e = r.efficiency[r.finalCondition];
@@ -114,6 +121,7 @@ function resultsBlock() {
     const pct = (x) => (x === null ? 'not available' : `${x >= 0 ? '+' : ''}${Math.round(x * 100)}%`);
     out.push('', '### Cost of using the Skills', '', '| Measure | Matched pairs | Median change against the baseline |', '|---|---:|---:|');
     out.push(`| Elapsed time | ${e.elapsedTime.eligiblePairs} | ${pct(e.elapsedTime.medianOverhead)} |`, `| Tokens processed | ${e.tokensProcessed.eligiblePairs} | ${pct(e.tokensProcessed.medianOverhead)} |`, `| Output tokens | ${e.outputTokens.eligiblePairs} | ${pct(e.outputTokens.medianOverhead)} |`);
+    out.push('', 'The tolerance set in advance was a median increase of at most 50%. Staying inside a tolerance is not a saving; a negative number here is one run per case and says little by itself.');
   }
   const rd = r.readiness;
   out.push('', '### Readiness by the local thresholds', '', `All five cases pass: **${rd.allCasesPass ? 'yes' : 'no'}**. Mean score: **${rd.mean ?? 'n/a'}** (threshold 85). Hard failures: **${rd.hardFailures.length}**. Verdict: **${rd.complete ? (rd.ready ? 'ready' : 'not ready') : 'not determined'}**.`);
@@ -122,7 +130,7 @@ function resultsBlock() {
     out.push('', '### Does the right Skill load?', '', '| Skill | Request | Expected | Observed |', '|---|---|---|---|');
     for (const x of p.probes) out.push(`| \`${x.skill}\` | ${x.kind} | ${x.expectActivation ? 'loads' : 'stays out'} | ${x.outcome} |`);
   }
-  out.push('', `### Attempts`, '', `${r.budget.attempts} evaluation attempts of at most ${r.budget.attemptLimit}; ${r.budget.evaluatedMinutes} minutes of evaluated run time of at most ${r.budget.minuteLimit}.`);
+  out.push('', '### Attempts', '', `${r.budget.evaluationAttempts} evaluation attempts of at most ${r.budget.ceiling} (${r.budget.ceilingBasis}); ${r.budget.evaluatedMinutes} minutes of evaluated run time of at most ${r.budget.minuteLimit}. ${r.budget.preparationAgentSessions} other agent sessions (environment probes, a harness check, writing and freezing the reserved case, and two checks that the client lists an installed Skill) are recorded and counted apart, as preparation and verification; counted together the total would be ${r.budget.ifPreparationWereCounted}.`);
   return `${out.join('\n')}\n`;
 }
 

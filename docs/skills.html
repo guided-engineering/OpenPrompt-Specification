@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Skills and agents · Guided Engineering</title>
+  <meta name="description" content="Guided Engineering: a practice for working with coding agents through validated task contracts (OPS prompts), portable Skills and evidence.">
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header>
+    <div class="wrap">
+      <a class="brand" href="index.html">Guided Engineering</a>
+      <nav aria-label="Main">
+        <ul>
+        <li><a href="index.html">Overview</a></li>
+        <li><a href="practice.html">Practice</a></li>
+        <li><a href="quick-start.html">Quick start</a></li>
+        <li><a href="example.html">Example</a></li>
+        <li><a href="skills.html" aria-current="page">Skills and agents</a></li>
+        <li><a href="results.html">Results</a></li>
+        <li><a href="contract.html">Specification</a></li>
+        <li><a href="contribute.html">Contribute</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main id="main" class="wrap">
+<h1 id="skills-and-agents">Skills and agents</h1>
+<p>Two Skills carry the procedures of the practice. They are plain
+<a href="https://agentskills.io" rel="noopener">Agent Skills</a>: a folder with a <code>SKILL.md</code>, a few
+reference files and one script. They live in
+<a href="https://github.com/guided-engineering/skills" rel="noopener"><code>guided-engineering/skills</code></a>.</p>
+<h2 id="when-to-use-which">When to use which</h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+<thead><tr><th scope="col">Skill</th><th scope="col">Use it when you want</th><th scope="col">It will</th><th scope="col">It will not</th></tr></thead>
+<tbody>
+<tr><td><strong><code>ops-author</code></strong></td><td>a request written down as an OPS prompt; an existing prompt reviewed or improved; a prompt in the earlier format converted</td><td>read the request and only the project files it needs, write the prompt, ask about ambiguity that matters, validate the result, and report what it assumed and what a person still has to decide</td><td>carry out the task the prompt describes, or relabel an unknown actor silently</td></tr>
+<tr><td><strong><code>ops-execute</code></strong></td><td>an OPS prompt interpreted, planned, executed or resumed</td><td>validate the contract, resolve workspace and agent, plan with a check for every task, make the smallest change the request authorizes, verify after the last edit, repair within the prompt&#39;s limits, and record a worklog entry</td><td>go beyond the mode you asked for, weaken a test to get a pass, or record an approval</td></tr>
+</tbody>
+</table>
+</div>
+<p>Each Skill works when installed alone. Each carries the validator
+(<code>scripts/ops-validate.mjs</code>, one file, needs Node.js 20 or newer) and a copy of
+the contract, synchronized by script from the specification repository with the
+source commit and hashes recorded in <code>ops-source.json</code>.</p>
+<h2 id="which-executes-the-agent-not-the-skill">Which executes: the agent, not the Skill</h2>
+<p>A Skill is instructions that an agent loads. It does not run, and it is not a
+second opinion. An OPS prompt names an <strong>agent</strong>; that name resolves through
+the project&#39;s agent map:</p>
+<pre data-lang="yaml"><code># .guides/agents/agents.yaml (optional)
+apiVersion: guided-engineering/v1
+agents:
+  - id: guided-engineer
+    description: Default engineering executor.</code></pre>
+<p>A project without this file uses a built-in map with exactly this one agent.
+<code>guided-engineer</code> resolves to the <strong>current executor</strong>: the session of your
+agent host that is reading the prompt. Nothing is spawned.</p>
+<p>A project can bind an id to a native profile of its host:</p>
+<pre data-lang="yaml"><code>agents:
+  - id: guided-engineer
+    description: Default engineering executor.
+    profiles:
+      claude-code: .claude/agents/guided-engineer.md</code></pre>
+<p>The validator then requires that file to exist. Agent hosts do not share a
+profile format, so a profile is written for one host and the map only points at
+it. Installing a Skill never installs a profile: they are separate steps.</p>
+<h2 id="hosts">Hosts</h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+<thead><tr><th scope="col">Host</th><th scope="col">Skills location</th><th scope="col">Status</th><th scope="col">Native profile format</th></tr></thead>
+<tbody>
+<tr><td><strong>Claude Code</strong></td><td><code>.claude/skills/&lt;name&gt;/</code> (project) or <code>~/.claude/skills/&lt;name&gt;/</code> (personal)</td><td><strong>Tested.</strong> Installed, listed by the client, invoked, and used in the local study (Windows, version 2.1.322).</td><td>Markdown with front matter in <code>.claude/agents/&lt;name&gt;.md</code>, per its documentation. No profile ships: none was needed, and none was exercised.</td></tr>
+<tr><td><strong>Codex</strong></td><td><code>.agents/skills/&lt;name&gt;/</code> (repository) or <code>~/.agents/skills/&lt;name&gt;/</code> (user), per its documentation</td><td><strong>Not tested.</strong> Codex was not installed on the machine the work was done on. The Skills use only the fields of the open format, which Codex&#39;s documentation says it follows.</td><td>TOML in <code>.codex/agents/&lt;name&gt;.toml</code>, per its documentation. No example ships, because none could be run.</td></tr>
+<tr><td>Other hosts that read <code>.agents/skills/</code></td><td>as installed by the <code>skills</code> CLI</td><td><strong>Not tested.</strong></td><td>—</td></tr>
+</tbody>
+</table>
+</div>
+<p>What &quot;not tested&quot; means here: nothing is known about whether the Skills are
+discovered, when they activate, or how the instructions behave on that host.
+The format is portable by specification; the behavior is unverified until
+someone runs it.</p>
+<h2 id="what-stays-out-of-the-portable-core">What stays out of the portable core</h2>
+<p>The two <code>SKILL.md</code> files use only <code>name</code>, <code>description</code>, <code>license</code> and
+<code>compatibility</code>, four of the fields the Agent Skills specification defines. No
+host-specific file ships with them: no Claude Code profile and no Codex
+<code>agents/openai.yaml</code>. If one is added later, it belongs outside the Skill
+folders.</p>
+<h2 id="what-is-and-is-not-claimed-about-distribution">What is and is not claimed about distribution</h2>
+<p>The Skills are installable with the <a href="https://github.com/vercel-labs/skills" rel="noopener"><code>skills</code> CLI</a>
+from the public repository. <a href="https://skills.sh" rel="noopener">skills.sh</a> is a directory built
+around that CLI: it lists what people install and shows automated scan results.
+No listing, review, certification or benchmark of these Skills is claimed.</p>
+<h2 id="did-they-help">Did they help?</h2>
+<p>In the local study the same agent, with the same contract and validator in the
+project, was run with and without the Skills on five small tasks. The right
+Skill loaded every time, nothing got worse, and nothing measurably got better:
+the agent was already at or near the top of the scale without them. The
+<a href="results.html">results page</a> has every number and every limit.</p>
+<h2 id="a-known-issue-in-ops-author">A known issue in <code>ops-author</code></h2>
+<p>The field guide of <code>ops-author</code> says that a check without a command uses
+<code>expect</code> to say what to observe. That can be read as if <code>expect</code> were needed
+only then. It is required for every check. In both authoring runs of the study
+the first draft left it out of the checks that had a command; the validator
+rejected the draft and named the field, and the agent corrected it.</p>
+<p>The Skills are published exactly as they were measured, so the sentence is
+still there. Correcting it makes a new version that the study did not measure.
+It is listed in the <a href="https://github.com/guided-engineering/OpenPrompt-Specification/blob/main/ROADMAP.md" rel="noopener">roadmap</a>.</p>
+
+  </main>
+  <footer>
+    <div class="wrap">
+      <p>Source: <a href="https://github.com/guided-engineering/OpenPrompt-Specification" rel="noopener">OpenPrompt-Specification</a> · Skills: <a href="https://github.com/guided-engineering/skills" rel="noopener">guided-engineering/skills</a> · MIT License</p>
+      <p>This site is generated from the repository by <code>npm run site</code>. Page source: <a href="https://github.com/guided-engineering/OpenPrompt-Specification/blob/main/site/skills.md" rel="noopener"><code>site/skills.md</code></a></p>
+    </div>
+  </footer>
+  <script src="assets/site.js"></script>
+</body>
+</html>

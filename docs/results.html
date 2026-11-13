@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Local study results · Guided Engineering</title>
+  <meta name="description" content="Guided Engineering: a practice for working with coding agents through validated task contracts (OPS prompts), portable Skills and evidence.">
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header>
+    <div class="wrap">
+      <a class="brand" href="index.html">Guided Engineering</a>
+      <nav aria-label="Main">
+        <ul>
+        <li><a href="index.html">Overview</a></li>
+        <li><a href="practice.html">Practice</a></li>
+        <li><a href="quick-start.html">Quick start</a></li>
+        <li><a href="example.html">Example</a></li>
+        <li><a href="skills.html">Skills and agents</a></li>
+        <li><a href="results.html" aria-current="page">Results</a></li>
+        <li><a href="contract.html">Specification</a></li>
+        <li><a href="contribute.html">Contribute</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main id="main" class="wrap">
+<h1 id="local-study-results">Local study results</h1>
+<p>A small local pilot asked one question: do the two Skills add anything <strong>on top
+of the same contract and the same agent</strong>? Every run got the same contract
+documents, schemas, validator, task text and starting files. The only
+difference between conditions was whether the Skills were installed.</p>
+<p><strong>Short answer: the study does not show that the Skills improve the work, and
+it shows no case where they made it worse.</strong> The agent already scored at or
+near the top of the scale without them.</p>
+<p>Read this page with its size in mind: five tasks, one run per task and
+condition, one model, one machine. It shows what happened in this sample. It
+does not show that the result holds elsewhere, and it supports no statistical
+claim.</p>
+<h2 id="what-was-measured">What was measured</h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+<thead><tr><th scope="col">Case</th><th scope="col">What it tests</th><th scope="col" class="right">Without Skills</th><th scope="col" class="right">With Skills (first version)</th><th scope="col" class="right">Change</th></tr></thead>
+<tbody>
+<tr><td><strong>C1</strong></td><td>Convert a fully specified prose request into an OPS prompt</td><td class="right">100 ↻</td><td class="right">100</td><td class="right">0</td></tr>
+<tr><td><strong>C2</strong></td><td>Improve and convert a legacy, deficient prompt into the OPS contract</td><td class="right">100</td><td class="right">100</td><td class="right">0</td></tr>
+<tr><td><strong>C3</strong></td><td>Plan a frozen OPS prompt for a nested workspace, plan only</td><td class="right">90 ↻</td><td class="right">100</td><td class="right">+10</td></tr>
+<tr><td><strong>C4</strong></td><td>Execute a frozen OPS prompt against a deterministic bug</td><td class="right">90 ↻</td><td class="right">90</td><td class="right">0</td></tr>
+<tr><td><strong>C5</strong> (reserved)</td><td>Resume a frozen OPS prompt from a recorded checkpoint</td><td class="right">100</td><td class="right">100</td><td class="right">0</td></tr>
+</tbody>
+</table>
+</div>
+<p>Scores are out of 100. A case passes at 80 or more with no hard failure; a hard failure sets the score to 0 and the raw score is shown in brackets. ↻ marks a baseline that was executed again after its scoring was repaired (see below).</p>
+<h3 id="runs-that-are-kept-but-not-compared">Runs that are kept but not compared</h3>
+<p>After the first baseline runs, the scoring of three cases was repaired. A changed scoring invalidates the run made before it, so those cases were executed again and only the new runs are compared. The first runs are kept, with the grade they had under the scoring frozen before they ran and a diagnostic replay of the same evidence under the repaired scoring. A replay is not a run.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+<thead><tr><th scope="col">First run</th><th scope="col" class="right">Grade under the scoring frozen before it ran</th><th scope="col" class="right">Diagnostic replay, repaired scoring</th><th scope="col">Compared</th></tr></thead>
+<tbody>
+<tr><td>C1, without skills</td><td class="right">90 (missed C1-02)</td><td class="right">100</td><td>no</td></tr>
+<tr><td>C3, without skills</td><td class="right">80 (missed C3-02, C3-06)</td><td class="right">100</td><td>no</td></tr>
+<tr><td>C4, without skills</td><td class="right">90 (missed C4-01)</td><td class="right">100</td><td>no</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="hypotheses">Hypotheses</h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+<thead><tr><th scope="col"></th><th scope="col">Hypothesis</th><th scope="col">Verdict in this sample</th><th scope="col">Basis</th></tr></thead>
+<tbody>
+<tr><td>H1</td><td>ops-author improves intent preservation, contract validity and actionable verification in authored prompts</td><td><strong>unsupported</strong></td><td>the baseline mean is 100, so a gain of 10 points was not possible on these cases; observed change 0 (baseline mean 100, with Skills 100)</td></tr>
+<tr><td>H2</td><td>ops-execute improves correct planning, scoped implementation and closure of the verify-repair loop</td><td><strong>unsupported</strong></td><td>the baseline mean is 93.3, so a gain of 10 points was not possible on these cases; observed change 3.3 (baseline mean 93.3, with Skills 96.7)</td></tr>
+<tr><td>H3</td><td>any observed quality gain has an acceptable cost in time, tokens, tool calls and human intervention</td><td><strong>inconclusive</strong></td><td>no quality gain reached the improvement threshold, so there is no gain whose cost could be judged; the measured overhead is reported as it is</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="cost-of-using-the-skills">Cost of using the Skills</h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+<thead><tr><th scope="col">Measure</th><th scope="col" class="right">Matched pairs</th><th scope="col" class="right">Median change against the baseline</th></tr></thead>
+<tbody>
+<tr><td>Elapsed time</td><td class="right">5</td><td class="right">-4%</td></tr>
+<tr><td>Tokens processed</td><td class="right">5</td><td class="right">-1%</td></tr>
+<tr><td>Output tokens</td><td class="right">5</td><td class="right">-13%</td></tr>
+</tbody>
+</table>
+</div>
+<p>The tolerance set in advance was a median increase of at most 50%. Staying inside a tolerance is not a saving; a negative number here is one run per case and says little by itself.</p>
+<h3 id="readiness-by-the-local-thresholds">Readiness by the local thresholds</h3>
+<p>All five cases pass: <strong>yes</strong>. Mean score: <strong>98</strong> (threshold 85). Hard failures: <strong>0</strong>. Verdict: <strong>ready</strong>.</p>
+<h3 id="does-the-right-skill-load">Does the right Skill load?</h3>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+<thead><tr><th scope="col">Skill</th><th scope="col">Request</th><th scope="col">Expected</th><th scope="col">Observed</th></tr></thead>
+<tbody>
+<tr><td><code>ops-author</code></td><td>explicit</td><td>loads</td><td>correct activation</td></tr>
+<tr><td><code>ops-author</code></td><td>implicit</td><td>loads</td><td>correct activation</td></tr>
+<tr><td><code>ops-author</code></td><td>adjacent</td><td>stays out</td><td>correct non-activation</td></tr>
+<tr><td><code>ops-execute</code></td><td>explicit</td><td>loads</td><td>correct activation</td></tr>
+<tr><td><code>ops-execute</code></td><td>implicit</td><td>loads</td><td>correct activation</td></tr>
+<tr><td><code>ops-execute</code></td><td>adjacent</td><td>stays out</td><td>correct non-activation</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="attempts">Attempts</h3>
+<p>19 evaluation attempts of at most 19 (no refinement was made); 17.6 minutes of evaluated run time of at most 120. 7 other agent sessions (environment probes, a harness check, writing and freezing the reserved case, and two checks that the client lists an installed Skill) are recorded and counted apart, as preparation and verification; counted together the total would be 26.</p>
+<h2 id="what-the-numbers-do-and-do-not-show">What the numbers do and do not show</h2>
+<ul>
+<li><strong>No room to show a gain.</strong> Without the Skills the two authoring tasks scored
+100 and the three execution tasks 90, 90 and 100. The threshold for &quot;evidence
+of improvement&quot; was ten points on the mean of a track. Neither track could
+reach it.</li>
+<li><strong>The one higher score is not a quality gain.</strong> C3 went from 90 to 100. The
+baseline lost those ten points because its plan wrote &quot;Node.js ≥ 20&quot; and the
+scoring pattern accepts &quot;Node.js 20&quot; and &quot;Node &gt;= 20&quot; but not the <code>≥</code> sign.
+The dependency was stated.</li>
+<li><strong>C4 lost the same ten points with and without the Skills</strong>, for one reason.
+The harness decides from the text of a shell command whether it edited a
+file. In both runs the tests passed after the only edit, and a later
+read-only command that names the source file was counted as an edit.</li>
+<li><strong>&quot;Ready&quot; means no harm was seen.</strong> With the Skills all five tasks pass and
+the mean is 98. Without them all five pass too, with a mean of 96.</li>
+<li><strong>The cost numbers are not savings.</strong> The median changes are small and
+negative, from one run per task. That is inside the tolerance set in advance
+and inside what run-to-run variation would produce.</li>
+<li><strong>What was not measured.</strong> Every test project already contained the contract
+and the validator. The Skills exist to bring both to a project that has
+neither, and that case is not in this study.</li>
+</ul>
+<h2 id="what-the-traces-show-beyond-the-scores">What the traces show beyond the scores</h2>
+<p>In both authoring runs with the Skills, the first draft of the prompt was
+rejected by the validator: the checks that had a command lacked the required
+<code>expect</code> field. One sentence in <code>ops-author</code> can be read as if <code>expect</code> were
+needed only for a check without a command. The validator named the field, the
+agent corrected it, and the final prompts are valid, so no score changed. The
+baseline runs, which read the contract itself, passed their first validation.</p>
+<p>This was noticed after the last task had been run, when the rules of the study
+no longer allow a change to the Skills. They are published as measured, and the
+correction is listed in the <a href="https://github.com/guided-engineering/OpenPrompt-Specification/blob/main/ROADMAP.md" rel="noopener">roadmap</a>.</p>
+<h2 id="how-to-read-the-scores">How to read the scores</h2>
+<p>Each task has ten yes-or-no assertions worth ten points, computed by program
+from the files an attempt left and from the recorded tool calls: 20 points for
+intent and contract, 30 for the required result, 20 for verification, 20 for
+scope and control, 10 for traceability. Twelve of the fifty assertions look for
+specific facts by pattern and are approximate. A hard failure (a missing or
+invalid required artifact, a failing core check, a weakened test, a prohibited
+action, or a fabricated record) sets the score of that attempt to zero. None
+occurred.</p>
+<p>The five tasks:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+<thead><tr><th scope="col">Case</th><th scope="col">Task</th></tr></thead>
+<tbody>
+<tr><td>C1</td><td>Turn a fully specified prose request into an OPS prompt, without implementing it.</td></tr>
+<tr><td>C2</td><td>Convert and improve a legacy, deficient prompt and report the mapping decisions.</td></tr>
+<tr><td>C3</td><td>Plan a frozen prompt whose workspace is a nested package. Plan only.</td></tr>
+<tr><td>C4</td><td>Execute a frozen prompt against a deterministic bug.</td></tr>
+<tr><td>C5</td><td>Resume a different task from partial progress and a failing check. A reserved regression case: written by a separate session before any Skill existed and frozen after the baseline of C1 to C4. Its blinding could not be verified (the author of the Skills saw its file names), so it is not presented as an independent holdout.</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="what-was-held-constant">What was held constant</h2>
+<ul>
+<li>Client: Claude Code 2.1.322, non-interactive. Model <code>claude-opus-5-5</code>,
+requested explicitly, with effort <code>medium</code>.</li>
+<li>The agent mapping: <code>guided-engineer</code> resolved to the current executor. No
+native profile.</li>
+<li>A fresh session and a clean copy of the files for every run; user-level
+Skills, plugins and MCP servers excluded; isolation verified from the
+client&#39;s own listing in every run.</li>
+</ul>
+<h2 id="limits">Limits</h2>
+<ul>
+<li>One run per task and condition. A ten-point difference is one assertion, and
+an assertion can fail for the grader&#39;s reasons, as happened three times here.</li>
+<li>One model at one effort level. A weaker baseline would leave room that this
+one did not.</li>
+<li>The author of the Skills knew the four development cases and wrote their
+scoring. C5 was meant to show whether a result survives a task the author had
+not seen; its blinding could not be verified, so it supports less than that.</li>
+<li>The scoring of three cases was repaired after their first baseline run. Two
+of the four repairs changed what counts as evidence. Those cases were run
+again and the first runs are shown above, not compared.</li>
+<li>No second agent host was installed, so nothing here says how the Skills
+behave outside Claude Code.</li>
+<li>Besides the 19 evaluation attempts, seven other agent sessions prepared or
+verified the study. Counted together they exceed the limit of attempts that
+had been set for evaluation.</li>
+</ul>
+<h2 id="evidence">Evidence</h2>
+<ul>
+<li>Protocol, written and committed before the first scored run:
+<a href="https://github.com/guided-engineering/OpenPrompt-Specification/blob/main/.guides/testing/skills-study/protocol.md" rel="noopener"><code>protocol.md</code></a></li>
+<li>What changed after the first runs, and why:
+<a href="https://github.com/guided-engineering/OpenPrompt-Specification/blob/main/.guides/testing/skills-study/amendments.md" rel="noopener"><code>amendments.md</code></a></li>
+<li>The report, with every failed assertion and what the traces show:
+<a href="https://github.com/guided-engineering/OpenPrompt-Specification/blob/main/.guides/testing/skills-study/results/report.md" rel="noopener"><code>results/report.md</code></a></li>
+<li>One record per attempt, with the trace and the files it produced:
+<a href="https://github.com/guided-engineering/OpenPrompt-Specification/tree/main/.guides/testing/skills-study/results/runs/" rel="noopener"><code>results/runs/</code></a></li>
+<li>The same numbers as data: <a href="data/study-results.json"><code>data/study-results.json</code></a></li>
+</ul>
+
+  </main>
+  <footer>
+    <div class="wrap">
+      <p>Source: <a href="https://github.com/guided-engineering/OpenPrompt-Specification" rel="noopener">OpenPrompt-Specification</a> · Skills: <a href="https://github.com/guided-engineering/skills" rel="noopener">guided-engineering/skills</a> · MIT License</p>
+      <p>This site is generated from the repository by <code>npm run site</code>. Page source: <a href="https://github.com/guided-engineering/OpenPrompt-Specification/blob/main/site/results.md" rel="noopener"><code>site/results.md</code></a></p>
+    </div>
+  </footer>
+  <script src="assets/site.js"></script>
+</body>
+</html>
