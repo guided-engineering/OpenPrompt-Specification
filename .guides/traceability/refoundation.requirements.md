@@ -150,7 +150,7 @@ show that the translation lost nothing. That question was answered by reading:
 ## Recorded results
 
 What the run record shows for each check, and from there for each requirement.
-Record: `2026-11-13.refoundation`, prompt version 2, status `in-progress`, last updated 2026-11-13T19:34:52Z.
+Record: `2026-11-13.refoundation`, prompt version 2, status `blocked`, last updated 2026-11-13T19:39:59Z.
 This table repeats the record. A check without a command was observed by the
 executor, and the record's body says how.
 
@@ -175,15 +175,15 @@ executor, and the record's body says how.
 | `example-runs` | pass | 2026-11-13T19:31:20Z | `npm run example` | 0 | — |
 | `site-built` | pass | 2026-11-13T19:31:18Z | `npm run site -- --check` | 0 | `docs/index.html` |
 | `site-public` | not-run | — | observed | — | — |
-| `final-report` | not-run | — | observed | — | — |
+| `final-report` | pass | 2026-11-13T19:39:12Z | observed | — | `.guides/operation/worklog/2026-11-13.refoundation.md` |
 
 A requirement is **shown** when every check that covers it is recorded as
 `pass`, **failing** when one of them is recorded as `fail`, and **open**
-otherwise. 77 of 88 requirements are shown, 11 are open and 0 are failing.
+otherwise. 86 of 88 requirements are shown, 2 are open and 0 are failing.
 
 | Requirement | Checks and their recorded results | State |
 |---|---|---|
-| `X1` | `assessment-complete` pass, `final-report` not-run | open |
+| `X1` | `assessment-complete` pass, `final-report` pass | shown |
 | `X2` | `consolidated` pass | shown |
 | `X3` | `plan-translated` pass, `translation-audited` pass | shown |
 | `O1` | `design-recorded` pass | shown |
@@ -191,13 +191,13 @@ otherwise. 77 of 88 requirements are shown, 11 are open and 0 are failing.
 | `O3` | `skills-usable` pass | shown |
 | `O4` | `study-preregistered` pass, `measurement-recorded` pass | shown |
 | `O5` | `measurement-recorded` pass | shown |
-| `O6` | `site-public` not-run, `final-report` not-run | open |
-| `B1` | `final-report` not-run | open |
-| `B2` | `assessment-complete` pass, `final-report` not-run | open |
-| `B3` | `design-recorded` pass, `final-report` not-run | open |
+| `O6` | `site-public` not-run, `final-report` pass | open |
+| `B1` | `final-report` pass | shown |
+| `B2` | `assessment-complete` pass, `final-report` pass | shown |
+| `B3` | `design-recorded` pass, `final-report` pass | shown |
 | `B4` | `design-recorded` pass | shown |
 | `B5` | `references-clean` pass | shown |
-| `B6` | `final-report` not-run | open |
+| `B6` | `final-report` pass | shown |
 | `B7` | `study-inputs-frozen` pass | shown |
 | `I1` | `assessment-complete` pass | shown |
 | `I2` | `assessment-complete` pass | shown |
@@ -267,7 +267,7 @@ otherwise. 77 of 88 requirements are shown, 11 are open and 0 are failing.
 | `W3` | `site-built` pass | shown |
 | `W4` | `site-built` pass | shown |
 | `W5` | `site-public` not-run | open |
-| `R1` | `final-report` not-run | open |
-| `R2` | `final-report` not-run | open |
-| `R3` | `final-report` not-run | open |
-| `R4` | `final-report` not-run | open |
+| `R1` | `final-report` pass | shown |
+| `R2` | `final-report` pass | shown |
+| `R3` | `final-report` pass | shown |
+| `R4` | `final-report` pass | shown |
