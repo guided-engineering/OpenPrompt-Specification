@@ -16,6 +16,9 @@
     "trace": "node tools/trace.mjs",
     "check:refs": "node tools/check-refs.mjs",
     "example": "node tools/run-example.mjs",
+    "study:selfcheck": "node .guides/testing/skills-study/harness/selfcheck.mjs",
+    "study:frozen": "node .guides/testing/skills-study/harness/freeze.mjs --check",
+    "study:report": "node .guides/testing/skills-study/harness/report.mjs",
     "site": "node tools/build-site.mjs"
   },
   "devDependencies": {

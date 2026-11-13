@@ -1,0 +1,12 @@
+{
+  "deleted": [],
+  "rawScore": 80,
+  "effectiveScore": 0,
+  "failed": [
+    "C1-08",
+    "C1-09"
+  ],
+  "hardFailures": [
+    "HF-PROHIBITED"
+  ]
+}

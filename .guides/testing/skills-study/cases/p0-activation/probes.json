@@ -1,0 +1,48 @@
+{
+  "description": "Activation probes for the final Skill candidate. Defined before any Skill was written. They run in a clean copy of the C3 fixture with both Skills installed.",
+  "fixtureFrom": "c3-plan-nested",
+  "probes": [
+    {
+      "id": "author-explicit",
+      "skill": "ops-author",
+      "kind": "explicit",
+      "expectActivation": true,
+      "prompt": "Use the ops-author skill: write an OPS prompt for adding a `clearCart()` function to `packages/cart/src/totals.mjs`. Do not implement it."
+    },
+    {
+      "id": "author-implicit",
+      "skill": "ops-author",
+      "kind": "implicit",
+      "expectActivation": true,
+      "prompt": "Before anyone touches the code, I want this change written down as a task contract for our agent, in this project's format: `cartTotal` in `packages/cart` should reject items with a negative quantity. Do not implement it."
+    },
+    {
+      "id": "author-adjacent",
+      "skill": "ops-author",
+      "kind": "adjacent",
+      "expectActivation": false,
+      "prompt": "Write a short system prompt for a customer-support chatbot that answers questions about shipping times. Just print it; do not create any file."
+    },
+    {
+      "id": "execute-explicit",
+      "skill": "ops-execute",
+      "kind": "explicit",
+      "expectActivation": true,
+      "prompt": "Use the ops-execute skill to plan `.guides/prompts/prompt.cart.quantity-discount.yaml`. Plan only."
+    },
+    {
+      "id": "execute-implicit",
+      "skill": "ops-execute",
+      "kind": "implicit",
+      "expectActivation": true,
+      "prompt": "Please carry out `.guides/prompts/prompt.cart.quantity-discount.yaml`."
+    },
+    {
+      "id": "execute-adjacent",
+      "skill": "ops-execute",
+      "kind": "adjacent",
+      "expectActivation": false,
+      "prompt": "Run the tests of `packages/cart` and tell me whether they pass. Change nothing."
+    }
+  ]
+}

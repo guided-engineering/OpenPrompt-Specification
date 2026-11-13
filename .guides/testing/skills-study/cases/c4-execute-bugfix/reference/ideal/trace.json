@@ -1,0 +1,51 @@
+{
+  "calls": [
+    {
+      "name": "Read",
+      "file": ".guides/prompts/prompt.ledger.csv-quoted-fields.yaml"
+    },
+    {
+      "name": "PowerShell",
+      "command": "node .guides/tools/ops-validate.mjs --resolve .guides/prompts/prompt.ledger.csv-quoted-fields.yaml",
+      "result": ".guides/prompts/prompt.ledger.csv-quoted-fields.yaml: valid (prompt)",
+      "isError": false
+    },
+    {
+      "name": "PowerShell",
+      "command": "node --test",
+      "result": "ℹ tests 7\nℹ pass 4\nℹ fail 3",
+      "isError": true
+    },
+    {
+      "name": "Read",
+      "file": "src/csv.mjs"
+    },
+    {
+      "name": "Edit",
+      "file": "src/csv.mjs"
+    },
+    {
+      "name": "PowerShell",
+      "command": "node --test",
+      "result": "ℹ tests 7\nℹ pass 7\nℹ fail 0",
+      "isError": false
+    },
+    {
+      "name": "PowerShell",
+      "command": "git status --short",
+      "result": " M src/csv.mjs",
+      "isError": false
+    },
+    {
+      "name": "Write",
+      "file": ".guides/operation/worklog/2026-11-13.ledger-csv-quoted-fields.md"
+    },
+    {
+      "name": "PowerShell",
+      "command": "node .guides/tools/ops-validate.mjs .guides/operation/worklog/2026-11-13.ledger-csv-quoted-fields.md",
+      "result": ".guides/operation/worklog/2026-11-13.ledger-csv-quoted-fields.md: valid (worklog)",
+      "isError": false
+    }
+  ],
+  "finalText": "Fixed `src/csv.mjs` and recorded the run in `.guides/operation/worklog/2026-11-13.ledger-csv-quoted-fields.md`. `node --test` passes after the last edit (7 pass, 0 fail)."
+}

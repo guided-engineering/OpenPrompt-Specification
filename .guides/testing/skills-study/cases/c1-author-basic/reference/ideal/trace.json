@@ -1,0 +1,27 @@
+{
+  "calls": [
+    {
+      "name": "Read",
+      "file": ".guides/README.md"
+    },
+    {
+      "name": "Read",
+      "file": "requests/round-half-up.md"
+    },
+    {
+      "name": "Read",
+      "file": ".guides/ops-contract.md"
+    },
+    {
+      "name": "Write",
+      "file": ".guides/prompts/prompt.pricing.round-half-up.yaml"
+    },
+    {
+      "name": "PowerShell",
+      "command": "node .guides/tools/ops-validate.mjs .guides/prompts/prompt.pricing.round-half-up.yaml",
+      "result": ".guides/prompts/prompt.pricing.round-half-up.yaml: valid (prompt)\n1 checked, 1 valid, 0 invalid",
+      "isError": false
+    }
+  ],
+  "finalText": "Wrote `.guides/prompts/prompt.pricing.round-half-up.yaml`. I validated it with the project validator and it is valid. I did not change any product code or test."
+}

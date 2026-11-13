@@ -1,0 +1,258 @@
+{
+  "accessed": "2026-11-13T16:50:15.074Z",
+  "clientVersion": "2.1.322 (Claude Code)",
+  "configuredModel": "claude-opus-5-5",
+  "probes": [
+    {
+      "probe": "pinned-with-skill",
+      "exitCode": 0,
+      "timedOut": false,
+      "wallMs": 4355,
+      "stderrHead": "",
+      "init": {
+        "model": "claude-opus-5-5",
+        "claude_code_version": "2.1.322",
+        "permissionMode": "acceptEdits",
+        "apiKeySource": "none",
+        "tools": [
+          "Task",
+          "CronCreate",
+          "CronDelete",
+          "CronList",
+          "DesignSync",
+          "Edit",
+          "EnterWorktree",
+          "ExitWorktree",
+          "Glob",
+          "Grep",
+          "ListAgents",
+          "NotebookEdit",
+          "PowerShell",
+          "PushNotification",
+          "Read",
+          "RemoteTrigger",
+          "ReportFindings",
+          "ScheduleWakeup",
+          "SendMessage",
+          "Skill",
+          "TaskStop",
+          "ToolSearch",
+          "WebFetch",
+          "WebSearch",
+          "Workflow",
+          "Write"
+        ],
+        "skills": [
+          "hello-probe",
+          "deep-research",
+          "design",
+          "design-sync",
+          "dataviz",
+          "update-config",
+          "verify",
+          "debug",
+          "code-review",
+          "simplify",
+          "batch",
+          "fewer-permission-prompts",
+          "doctor",
+          "loop",
+          "schedule",
+          "claude-api",
+          "workflow-authoring",
+          "run",
+          "run-skill-generator",
+          "plugin-authoring"
+        ],
+        "slash_commands": [
+          "hello-probe",
+          "deep-research",
+          "design",
+          "design-sync",
+          "dataviz",
+          "update-config",
+          "verify",
+          "debug",
+          "code-review",
+          "simplify",
+          "batch",
+          "fewer-permission-prompts",
+          "doctor",
+          "loop",
+          "schedule",
+          "claude-api",
+          "workflow-authoring",
+          "run",
+          "run-skill-generator",
+          "plugin-authoring",
+          "advisor",
+          "agents",
+          "auto-mode-setup",
+          "autocompact",
+          "clear",
+          "color",
+          "compact",
+          "config",
+          "output-style",
+          "context",
+          "effort",
+          "fast",
+          "focus",
+          "heapdump",
+          "init",
+          "mcp",
+          "import",
+          "model",
+          "__remote-workflow",
+          "workflow-launch-exec",
+          "reload-plugins",
+          "reload-skills",
+          "rename",
+          "ultrareview",
+          "security-review",
+          "usage-credits",
+          "extra-usage",
+          "usage",
+          "insights",
+          "recap",
+          "skill-doctor",
+          "goal",
+          "design-consent",
+          "design-revoke",
+          "list-agents",
+          "team-onboarding"
+        ],
+        "plugins": [
+          {
+            "name": "cc-plugin-agents-md",
+            "path": "builtin",
+            "source": "cc-plugin-agents-md@builtin"
+          },
+          {
+            "name": "cc-plugin-telemetry",
+            "path": "builtin",
+            "source": "cc-plugin-telemetry@builtin"
+          },
+          {
+            "name": "cc-plugin-privacy",
+            "path": "builtin",
+            "source": "cc-plugin-privacy@builtin"
+          },
+          {
+            "name": "cc-plugin-plugin-authoring",
+            "path": "builtin",
+            "source": "cc-plugin-plugin-authoring@builtin"
+          }
+        ],
+        "agents": [
+          "claude",
+          "Explore",
+          "general-purpose",
+          "Plan",
+          "statusline-setup"
+        ],
+        "mcp_servers": [],
+        "otherKeys": [
+          "terminal_slash_commands",
+          "output_style",
+          "capabilities",
+          "analytics_disabled",
+          "product_feedback_disabled",
+          "memory_paths",
+          "original_cwd",
+          "additional_directories",
+          "messaging_socket_path",
+          "fast_mode_state",
+          "fast_mode_disabled_reason",
+          "per_turn_effort_active",
+          "ultrathink_available",
+          "ultrathink_typed_raises",
+          "view_mode",
+          "powershell_path"
+        ]
+      },
+      "calls": [
+        {
+          "name": "Skill",
+          "inputKeys": [
+            "skill"
+          ],
+          "command": null,
+          "file": null,
+          "skill": "hello-probe",
+          "isError": false,
+          "resultHead": "Launching skill: hello-probe"
+        }
+      ],
+      "finalText": "PROBE-GREETING-7391",
+      "resultKeys": [
+        "duration_api_ms",
+        "stop_reason",
+        "session_id",
+        "total_cost_usd",
+        "usage",
+        "modelUsage",
+        "permission_denials",
+        "terminal_reason",
+        "fast_mode_state",
+        "fast_mode_disabled_reason",
+        "subagent_stats",
+        "safety_stops",
+        "is_error",
+        "num_turns",
+        "subtype",
+        "api_error_status",
+        "result",
+        "ttft_ms",
+        "type",
+        "duration_ms",
+        "uuid",
+        "ttft_stream_ms",
+        "time_to_request_ms",
+        "first_content_frame_ms",
+        "queued_turn_count",
+        "result_index",
+        "model_usage_since_last_result",
+        "credential_expires_at"
+      ],
+      "usage": {
+        "input_tokens": 6,
+        "cache_creation_input_tokens": 6029,
+        "cache_read_input_tokens": 36042,
+        "output_tokens": 66,
+        "output_tokens_details": {
+          "thinking_tokens": 0
+        },
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 6029,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "global",
+        "iterations": [
+          {
+            "input_tokens": 4,
+            "output_tokens": 14,
+            "cache_read_input_tokens": 20960,
+            "cache_creation_input_tokens": 151,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 151
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard",
+        "fallback_credit": null
+      },
+      "modelUsageKeys": [
+        "claude-opus-5-5"
+      ],
+      "permissionDenials": []
+    }
+  ]
+}

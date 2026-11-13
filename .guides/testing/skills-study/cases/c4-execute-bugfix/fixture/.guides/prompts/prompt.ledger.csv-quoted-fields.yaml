@@ -1,0 +1,92 @@
+apiVersion: guided-engineering/v1
+id: ledger.csv-quoted-fields
+version: 1
+title: Make parseCsvLine handle quoted fields
+agent: guided-engineer
+
+objective: |
+  `parseCsvLine` reads quoted CSV fields correctly: a comma inside quotes stays
+  in the field, a doubled quote inside quotes is one quote character, and
+  whitespace inside quotes is kept. Unquoted fields are still trimmed.
+
+context: |
+  `ledger` is a dependency-free ES module package tested with the Node.js
+  built-in test runner. `src/csv.mjs` splits a line on every comma, so bank
+  statement lines such as `2026-01-05,"Rent, January",900.00` are split in the
+  wrong places. Three tests in `test/csv.test.mjs` describe the expected
+  behavior and currently fail. `src/report.mjs` uses `parseCsvLine` and must
+  keep working.
+
+inputs:
+  - src/csv.mjs
+  - test/csv.test.mjs
+
+dependencies:
+  - Node.js 20 or newer is available as `node`
+
+constraints:
+  - Change only `src/csv.mjs`.
+  - Do not edit, skip, or delete any test.
+  - Do not add dependencies.
+  - Keep the exported name `parseCsvLine` and its single-argument signature.
+
+requirements:
+  - id: R1
+    text: A comma inside a quoted field does not split the field.
+  - id: R2
+    text: A doubled quote inside a quoted field is read as one quote character.
+  - id: R3
+    text: Whitespace inside a quoted field is kept, and unquoted fields are still trimmed.
+  - id: R4
+    text: Lines without quotes are parsed exactly as before.
+
+steps:
+  - id: reproduce
+    title: Reproduce the failure
+    requirements: [R1, R2, R3]
+    actions:
+      - Run `node --test` and record which tests fail and with which actual values.
+      - Confirm that exactly the three quoted-field tests fail; stop if anything else fails.
+
+  - id: fix
+    title: Correct the parser
+    requirements: [R1, R2, R3, R4]
+    actions:
+      - Read `src/csv.mjs` and replace the split on every comma with a scan that tracks whether the current position is inside quotes.
+      - Keep trimming for unquoted fields and keep the content of quoted fields as written.
+
+  - id: verify
+    title: Verify the final state
+    requirements: [R1, R2, R3, R4]
+    actions:
+      - Run `node --test` after the last edit and record the exit code and the pass and fail counts.
+      - Run `git status --short` and confirm that `src/csv.mjs` is the only product file that changed.
+
+output:
+  - file: src/csv.mjs
+    rules:
+      - Exports `parseCsvLine(line)` with the same signature.
+      - Uses no dependencies.
+
+verification:
+  - id: unit-tests
+    expect: All tests pass, including the three quoted-field tests and the report test.
+    run: node --test
+    requirements: [R1, R2, R3, R4]
+  - id: scope
+    expect: Among the product files, only `src/csv.mjs` changed.
+    run: git status --short
+    requirements: [R4]
+
+stopConditions:
+  - A test other than the three quoted-field tests fails before any change is made.
+  - The fix cannot be made without editing a test or adding a dependency.
+
+limits:
+  repairAttempts: 2
+  timeBudgetMinutes: 15
+
+tags:
+  - ledger
+  - bugfix
+createdBy: ledger-team

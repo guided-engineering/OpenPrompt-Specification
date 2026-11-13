@@ -1,0 +1,16 @@
+{
+  "deleted": [],
+  "rawScore": 50,
+  "effectiveScore": 0,
+  "failed": [
+    "C4-04",
+    "C4-05",
+    "C4-06",
+    "C4-07",
+    "C4-10"
+  ],
+  "hardFailures": [
+    "HF-CORE",
+    "HF-FABRICATION"
+  ]
+}
