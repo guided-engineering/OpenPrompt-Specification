@@ -1,0 +1,172 @@
+### ajv-cli version
+error: parameter -s is required
+error: parameter -d is required
+error: parameter --version is unknown
+
+
+usage:
+    validate:  ajv [validate] -s schema[.json] -d data[.json]
+    compile:   ajv compile -s schema[.json]
+    migrate:   ajv migrate -s schema[.json] -o migrated_schema.json
+    test:      ajv test -s schema[.json] -d data[.json] --[in]valid
+
+    help:      ajv help
+               ajv help <command>
+exit=2
+### prompts vs prompt.schema.v2.json
+unknown format "date-time" ignored in schema at path "#/properties/executedAt"
+unknown format "date-time" ignored in schema at path "#/properties/executedAt"
+unknown format "date-time" ignored in schema at path "#/properties/approvals/items/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/approvals/items/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/deprecation/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/deprecation/properties/at"
+.guides/prompts/prompt.acceptance-criteria.author.yaml valid
+exit=0 file=.guides/prompts/prompt.acceptance-criteria.author.yaml
+unknown format "date-time" ignored in schema at path "#/properties/executedAt"
+unknown format "date-time" ignored in schema at path "#/properties/executedAt"
+unknown format "date-time" ignored in schema at path "#/properties/approvals/items/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/approvals/items/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/deprecation/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/deprecation/properties/at"
+.guides/prompts/prompt.adr.author.yaml valid
+exit=0 file=.guides/prompts/prompt.adr.author.yaml
+unknown format "date-time" ignored in schema at path "#/properties/executedAt"
+unknown format "date-time" ignored in schema at path "#/properties/executedAt"
+unknown format "date-time" ignored in schema at path "#/properties/approvals/items/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/approvals/items/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/deprecation/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/deprecation/properties/at"
+.guides/prompts/prompt.commit.yaml valid
+exit=0 file=.guides/prompts/prompt.commit.yaml
+unknown format "date-time" ignored in schema at path "#/properties/executedAt"
+unknown format "date-time" ignored in schema at path "#/properties/executedAt"
+unknown format "date-time" ignored in schema at path "#/properties/approvals/items/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/approvals/items/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/deprecation/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/deprecation/properties/at"
+.guides/prompts/prompt.copilot.yaml valid
+exit=0 file=.guides/prompts/prompt.copilot.yaml
+unknown format "date-time" ignored in schema at path "#/properties/executedAt"
+unknown format "date-time" ignored in schema at path "#/properties/executedAt"
+unknown format "date-time" ignored in schema at path "#/properties/approvals/items/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/approvals/items/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/deprecation/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/deprecation/properties/at"
+.guides/prompts/prompt.discovery.yaml valid
+exit=0 file=.guides/prompts/prompt.discovery.yaml
+unknown format "date-time" ignored in schema at path "#/properties/executedAt"
+unknown format "date-time" ignored in schema at path "#/properties/executedAt"
+unknown format "date-time" ignored in schema at path "#/properties/approvals/items/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/approvals/items/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/deprecation/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/deprecation/properties/at"
+.guides/prompts/prompt.execution.yaml valid
+exit=0 file=.guides/prompts/prompt.execution.yaml
+unknown format "date-time" ignored in schema at path "#/properties/executedAt"
+unknown format "date-time" ignored in schema at path "#/properties/executedAt"
+unknown format "date-time" ignored in schema at path "#/properties/approvals/items/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/approvals/items/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/deprecation/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/deprecation/properties/at"
+.guides/prompts/prompt.init.standalone-nextjs.codebase.yaml valid
+exit=0 file=.guides/prompts/prompt.init.standalone-nextjs.codebase.yaml
+unknown format "date-time" ignored in schema at path "#/properties/executedAt"
+unknown format "date-time" ignored in schema at path "#/properties/executedAt"
+unknown format "date-time" ignored in schema at path "#/properties/approvals/items/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/approvals/items/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/deprecation/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/deprecation/properties/at"
+.guides/prompts/prompt.onboarding.yaml valid
+exit=0 file=.guides/prompts/prompt.onboarding.yaml
+unknown format "date-time" ignored in schema at path "#/properties/executedAt"
+unknown format "date-time" ignored in schema at path "#/properties/executedAt"
+unknown format "date-time" ignored in schema at path "#/properties/approvals/items/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/approvals/items/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/deprecation/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/deprecation/properties/at"
+.guides/prompts/prompt.requirement.traceability.yaml valid
+exit=0 file=.guides/prompts/prompt.requirement.traceability.yaml
+unknown format "date-time" ignored in schema at path "#/properties/executedAt"
+unknown format "date-time" ignored in schema at path "#/properties/executedAt"
+unknown format "date-time" ignored in schema at path "#/properties/approvals/items/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/approvals/items/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/deprecation/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/deprecation/properties/at"
+.guides/prompts/prompt.setup.guides.structure.yaml valid
+exit=0 file=.guides/prompts/prompt.setup.guides.structure.yaml
+unknown format "date-time" ignored in schema at path "#/properties/executedAt"
+unknown format "date-time" ignored in schema at path "#/properties/executedAt"
+unknown format "date-time" ignored in schema at path "#/properties/approvals/items/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/approvals/items/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/deprecation/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/deprecation/properties/at"
+.guides/prompts/prompt.spec.author.yaml valid
+exit=0 file=.guides/prompts/prompt.spec.author.yaml
+unknown format "date-time" ignored in schema at path "#/properties/executedAt"
+unknown format "date-time" ignored in schema at path "#/properties/executedAt"
+unknown format "date-time" ignored in schema at path "#/properties/approvals/items/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/approvals/items/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/deprecation/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/deprecation/properties/at"
+.guides/prompts/prompt.spec.conformance-check.yaml valid
+exit=0 file=.guides/prompts/prompt.spec.conformance-check.yaml
+unknown format "date-time" ignored in schema at path "#/properties/executedAt"
+unknown format "date-time" ignored in schema at path "#/properties/executedAt"
+unknown format "date-time" ignored in schema at path "#/properties/approvals/items/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/approvals/items/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/deprecation/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/deprecation/properties/at"
+.guides/prompts/prompt.spec.validate.yaml valid
+exit=0 file=.guides/prompts/prompt.spec.validate.yaml
+unknown format "date-time" ignored in schema at path "#/properties/executedAt"
+unknown format "date-time" ignored in schema at path "#/properties/executedAt"
+unknown format "date-time" ignored in schema at path "#/properties/approvals/items/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/approvals/items/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/deprecation/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/deprecation/properties/at"
+.guides/prompts/prompt.test-cases.from-spec.yaml valid
+exit=0 file=.guides/prompts/prompt.test-cases.from-spec.yaml
+unknown format "date-time" ignored in schema at path "#/properties/executedAt"
+unknown format "date-time" ignored in schema at path "#/properties/executedAt"
+unknown format "date-time" ignored in schema at path "#/properties/approvals/items/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/approvals/items/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/deprecation/properties/at"
+unknown format "date-time" ignored in schema at path "#/properties/deprecation/properties/at"
+.guides/prompts/prompt.web.generate-page.yaml valid
+exit=0 file=.guides/prompts/prompt.web.generate-page.yaml
+### personas
+.guides/personas/personas.yaml valid
+exit=0
+### specs
+schema .guides/schemas/acceptance-criterion.schema.json is invalid
+error: schema with key or id "" already exists
+exit=1 file=.guides/specs/spec.example.user-login.yaml
+### traceability
+.guides/traceability/matrix.example.user-login.yaml valid
+exit=0 file=.guides/traceability/matrix.example.user-login.yaml
+### test cases
+.guides/testing/test-cases.example.user-login.yaml valid
+exit=0 file=.guides/testing/test-cases.example.user-login.yaml
+### cross-cutting 1: schemas parse as JSON (python3)
+exit=0
+### cross-cutting 2: deprecated apiVersion
+./ROADMAP.md:79:| D2 | `apiVersion: ops/v1` instead of `guided-engineering/v1` | `prompt.commit.yaml`, `prompt.copilot.yaml`, `prompt.init.standalone-nextjs.codebase.yaml`, `prompt.onboarding.yaml`, `prompt.web.generate-page.yaml` | HIGH | 0 |
+./ROADMAP.md:134:- [x] `grep -rn "apiVersion: ops/v1" .` returns 0 hits.
+./ROADMAP.pt-br.md:81:| D2 | `apiVersion: ops/v1` em vez de `guided-engineering/v1` | `prompt.commit.yaml`, `prompt.copilot.yaml`, `prompt.init.standalone-nextjs.codebase.yaml`, `prompt.onboarding.yaml`, `prompt.web.generate-page.yaml` | HIGH | 0 |
+./ROADMAP.pt-br.md:120:**Resumo.** Schema JSON consertado (vírgula faltando), `apiVersion: ops/v1` corrigido em 5 prompts, paths `$schema` normalizados para `.guides/schemas/`, `prompt.web.generate-page.yaml` reescrito do zero para conformidade, `personaDetails` removido do prompt Next.js, `DocumentationEngineer` unificado em `DocumentationCurator`, `VALIDATION.md` criado.
+./VALIDATION.md:85:grep -rn "apiVersion: ops/v1" .
+exit=0
+### cross-cutting 3: .guided/ typo
+./ROADMAP.pt-br.md:49:| 0 — Estabilização | 100% dos YAMLs do repo validam contra seu schema declarado; 0 referências a `.guided/` (singular). |
+./ROADMAP.pt-br.md:82:| D3 | Typo `$schema` em `.guided/schema/` | `prompt.copilot.yaml`, `prompt.discovery.yaml`, `prompt.web.generate-page.yaml` | HIGH | 0 |
+./ROADMAP.pt-br.md:89:| D10 | `setup.guides.structure.yml` usa `.yml` (outros usam `.yaml`); referencia `.guided/` | `setup.guides.structure.yml` | LOW | 1 |
+exit=0
+### cross-cutting 4: DocumentationEngineer
+./ROADMAP.md:128:- Rename all `persona: DocumentationEngineer` → `DocumentationCurator` in `prompt.discovery.yaml`, `prompt.onboarding.yaml`, and `setup.guides.structure.yml`.
+./ROADMAP.md:136:- [x] `grep -rn "persona: DocumentationEngineer\|id: DocumentationEngineer" .` returns 0 hits. *(Refined from the original blanket grep, which conflicted with historical references in this file.)*
+./VALIDATION.md:91:grep -rn "persona: DocumentationEngineer\|id: DocumentationEngineer" .
+exit=0
+### cross-cutting 5: personaDetails
+exit=1
+### cross-cutting 6: createBy typo
+exit=1

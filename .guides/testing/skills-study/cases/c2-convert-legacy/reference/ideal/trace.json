@@ -1,0 +1,33 @@
+{
+  "calls": [
+    {
+      "name": "Read",
+      "file": "legacy/prompt.retry.yaml"
+    },
+    {
+      "name": "Read",
+      "file": ".guides/conversion.md"
+    },
+    {
+      "name": "PowerShell",
+      "command": "node .guides/tools/ops-validate.mjs --kind prompt legacy/prompt.retry.yaml",
+      "result": "legacy/prompt.retry.yaml: INVALID (prompt)\n  legacy-persona: ...",
+      "isError": true
+    },
+    {
+      "name": "Write",
+      "file": ".guides/prompts/prompt.notify.retry-jitter.yaml"
+    },
+    {
+      "name": "Write",
+      "file": ".guides/prompts/prompt.notify.retry-jitter.report.md"
+    },
+    {
+      "name": "PowerShell",
+      "command": "node .guides/tools/ops-validate.mjs .guides/prompts/prompt.notify.retry-jitter.yaml",
+      "result": ".guides/prompts/prompt.notify.retry-jitter.yaml: valid (prompt)\n1 checked, 1 valid, 0 invalid",
+      "isError": false
+    }
+  ],
+  "finalText": "Wrote `.guides/prompts/prompt.notify.retry-jitter.yaml` and `.guides/prompts/prompt.notify.retry-jitter.report.md`. The validator reports the new prompt as valid. One decision is left for a person: whether jitter is always on."
+}

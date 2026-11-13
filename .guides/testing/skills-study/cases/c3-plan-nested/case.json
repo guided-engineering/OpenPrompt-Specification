@@ -1,0 +1,20 @@
+{
+  "id": "C3",
+  "title": "Plan a frozen OPS prompt for a nested workspace, plan only",
+  "complexity": "intermediate",
+  "split": "development",
+  "track": "execution",
+  "requestedMode": "plan",
+  "timeLimitSeconds": 300,
+  "prompt": ".guides/prompts/prompt.cart.quantity-discount.yaml",
+  "requiredArtifact": ".guides/operation/worklog/2026-11-13.cart-quantity-discount-plan.md",
+  "allowedPaths": [
+    ".guides/operation/worklog/2026-11-13.cart-quantity-discount-plan.md"
+  ],
+  "protectedPaths": [
+    "packages/",
+    "src/",
+    "package.json",
+    ".guides/prompts/"
+  ]
+}

@@ -1,0 +1,119 @@
+{
+  "prompt.missing-agent.yaml": [
+    "agent-missing"
+  ],
+  "prompt.unresolved-agent.yaml": [
+    "agent-unresolved"
+  ],
+  "prompt.legacy-persona.yaml": [
+    "legacy-persona",
+    "legacy-field",
+    "agent-missing"
+  ],
+  "prompt.actor-conflict.yaml": [
+    "actor-conflict"
+  ],
+  "prompt.duplicate-key.yaml": [
+    "yaml-duplicate-key"
+  ],
+  "prompt.output-shape-string.yaml": [
+    "schema"
+  ],
+  "prompt.output-rules-block-string.yaml": [
+    "schema"
+  ],
+  "prompt.output-path-escape.yaml": [
+    "path-invalid"
+  ],
+  "prompt.output-duplicate.yaml": [
+    "output-duplicate"
+  ],
+  "prompt.workspace-escape.yaml": [
+    "path-invalid"
+  ],
+  "prompt.workspace-not-relative.yaml": [
+    "path-invalid"
+  ],
+  "prompt.workspace-not-found.yaml": [
+    "workspace-not-found"
+  ],
+  "prompt.input-not-found.yaml": [
+    "input-not-found"
+  ],
+  "prompt.missing-verification.yaml": [
+    "verification-missing"
+  ],
+  "prompt.empty-verification.yaml": [
+    "verification-missing"
+  ],
+  "prompt.unknown-field.yaml": [
+    "unknown-field"
+  ],
+  "prompt.step-legacy-controls.yaml": [
+    "legacy-field"
+  ],
+  "prompt.duplicate-step-id.yaml": [
+    "duplicate-id"
+  ],
+  "prompt.requirement-unverified.yaml": [
+    "requirement-unverified"
+  ],
+  "prompt.requirement-unknown.yaml": [
+    "requirement-unknown"
+  ],
+  "prompt.schema-path-stale.yaml": [
+    "schema-path"
+  ],
+  "prompt.legacy-api-version.yaml": [
+    "legacy-api-version"
+  ],
+  "prompt.limits-out-of-range.yaml": [
+    "schema"
+  ],
+  "prompt.unquoted-colon.yaml": [
+    "schema"
+  ],
+  "prompt.multi-document.yaml": [
+    "yaml-multi-document"
+  ],
+  "prompt.not-yaml.yaml": [
+    "yaml-parse"
+  ],
+  "agents.duplicate-id.yaml": [
+    "duplicate-id"
+  ],
+  "agents.profile-missing.yaml": [
+    "agent-profile-missing"
+  ],
+  "agents.legacy-persona-list.yaml": [
+    "legacy-field"
+  ],
+  "worklog.completed-with-failing-check.md": [
+    "completed-without-proof"
+  ],
+  "worklog.completed-without-checks.md": [
+    "completed-without-proof"
+  ],
+  "worklog.approval-by-agent.md": [
+    "approval-by-agent"
+  ],
+  "worklog.legacy-persona-signoff.md": [
+    "legacy-persona",
+    "legacy-field"
+  ],
+  "worklog.bad-timestamp.md": [
+    "schema"
+  ],
+  "worklog.agent-mismatch.md": [
+    "actor-conflict"
+  ],
+  "worklog.unknown-step.md": [
+    "record-unknown-step"
+  ],
+  "worklog.plan-claims-execution.md": [
+    "plan-claims-execution"
+  ],
+  "worklog.no-front-matter.md": [
+    "front-matter-missing"
+  ]
+}

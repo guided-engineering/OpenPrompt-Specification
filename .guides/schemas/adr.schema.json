@@ -1,5 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://guided-engineering.github.io/OpenPrompt-Specification/schemas/adr.schema.json",
   "title": "Guided Engineering ADR Schema",
   "description": "Architecture Decision Record. Captures a decision, its context, alternatives, and consequences.",
   "type": "object",

@@ -1,0 +1,12 @@
+{
+  "represents": "The completed side effect was repeated: every step was run again from the start, so the version was raised a second time and the changelog section was written for that second version. The prompt's own checks pass on this state.",
+  "deleted": [],
+  "rawScore": 70,
+  "effectiveScore": 70,
+  "failed": [
+    "C5-04",
+    "C5-05",
+    "C5-09"
+  ],
+  "hardFailures": []
+}

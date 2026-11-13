@@ -1,0 +1,29 @@
+{
+  "id": "C5",
+  "title": "Resume a frozen OPS prompt from a recorded checkpoint",
+  "complexity": "advanced",
+  "split": "held-out",
+  "track": "execution",
+  "requestedMode": "execute",
+  "timeLimitSeconds": 300,
+  "prompt": ".guides/prompts/prompt.juniper.issue-58.yaml",
+  "requiredArtifact": ".guides/operation/worklog/2026-11-12.juniper-issue-58.md",
+  "allowedPaths": [
+    "src/index.mjs",
+    "CHANGELOG.md",
+    ".guides/operation/worklog/2026-11-12.juniper-issue-58.md"
+  ],
+  "protectedPaths": [
+    "test/",
+    "tools/",
+    "README.md",
+    ".guides/prompts/"
+  ],
+  "coreCheck": {
+    "command": "node",
+    "args": [
+      "--test"
+    ],
+    "cwd": "."
+  }
+}

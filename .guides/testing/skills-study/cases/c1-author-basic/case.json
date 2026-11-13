@@ -1,0 +1,20 @@
+{
+  "id": "C1",
+  "title": "Convert a fully specified prose request into an OPS prompt",
+  "complexity": "basic",
+  "split": "development",
+  "track": "authoring",
+  "requestedMode": "author",
+  "timeLimitSeconds": 300,
+  "requiredArtifact": ".guides/prompts/prompt.pricing.round-half-up.yaml",
+  "allowedPaths": [
+    ".guides/prompts/prompt.pricing.round-half-up.yaml"
+  ],
+  "protectedPaths": [
+    "src/",
+    "test/",
+    "requests/",
+    "package.json",
+    "README.md"
+  ]
+}

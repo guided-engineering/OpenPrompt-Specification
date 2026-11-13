@@ -1,0 +1,11 @@
+$schema: ../schemas/agents.schema.json
+apiVersion: guided-engineering/v1
+
+# The agent map of this repository. An OPS prompt's `agent` must name one of
+# these ids. An id without a `profiles` entry for the running host resolves to
+# that host's current executor. See .guides/ops-contract.md, "Agent resolution".
+agents:
+  - id: guided-engineer
+    description: >-
+      Default engineering executor for OPS prompts in this repository. Resolves
+      to the current executor of whichever agent host runs the prompt.

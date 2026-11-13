@@ -1,0 +1,22 @@
+{
+  "description": "Contract kit overlaid on every study fixture in every condition.",
+  "sources": {
+    ".guides/README.md": "(written by build-kit.mjs)",
+    ".guides/ops-contract.md": ".guides/ops-contract.md",
+    ".guides/conversion.md": ".guides/conversion.md",
+    ".guides/schemas/prompt.schema.json": ".guides/schemas/prompt.schema.json",
+    ".guides/schemas/agents.schema.json": ".guides/schemas/agents.schema.json",
+    ".guides/schemas/worklog.schema.json": ".guides/schemas/worklog.schema.json",
+    ".guides/tools/ops-validate.mjs": "dist/ops-validate.mjs"
+  },
+  "files": {
+    ".guides/README.md": "3bd37480f38253026ebe4060fa4b15f530aebcc5165d007f519cee3bb4d9150c",
+    ".guides/conversion.md": "3f9475b0ee8a68fcd34e8dbea44f38932cef0561a9d8ba343147e5dd4c0d6913",
+    ".guides/ops-contract.md": "85efe11edcdd2531925a14f6d21bf31747c54ef119f2a0e31c97931aaf678603",
+    ".guides/schemas/agents.schema.json": "d2a208cd628e09e477455fe5b901a66d2857903afd84eb89acde376691713e1b",
+    ".guides/schemas/prompt.schema.json": "a59f70ff0633f2e0f9c0df145736dd9e641333680322957a22c86528f5869f0d",
+    ".guides/schemas/worklog.schema.json": "f217cf84dbf11d57c9b69d863c219d9c1fe1b9baa7078b82735b90cb41c0c6a7",
+    ".guides/tools/ops-validate.mjs": "b3585074396d651fe183ec59d15153df4f7f2f193be09cfbc8546dee6d52fd4a"
+  },
+  "treeHash": "1a16a632b2c793bc20b91ee2abdd060d8d891b7a1fb4a44c1f6583a87696a6f5"
+}

@@ -1,0 +1,339 @@
+{
+  "attemptId": "INITIAL_SKILLS.c1-author-basic.a1",
+  "attempt": 1,
+  "retryOfInfrastructureFailure": null,
+  "correctiveRerun": null,
+  "admissibleForFinalComparison": true,
+  "case": "C1",
+  "caseDir": "c1-author-basic",
+  "title": "Convert a fully specified prose request into an OPS prompt",
+  "split": "development",
+  "track": "authoring",
+  "complexity": "basic",
+  "requestedMode": "author",
+  "condition": "INITIAL_SKILLS",
+  "status": "COMPLETED",
+  "statusReason": null,
+  "startedAt": "2026-11-13T19:08:38.499Z",
+  "endedAt": "2026-11-13T19:09:36.423Z",
+  "identities": {
+    "task": {
+      "file": "cases/c1-author-basic/task.md",
+      "sha256": "9d82f4e6cfc073c3bd2a2e8dd5f78043370dcbf3025d2b8573138c670ae98ea8"
+    },
+    "fixture": {
+      "dir": "cases/c1-author-basic/fixture",
+      "treeHash": "52ed32bb70f90f93a68bbed8f4d431600fc713993b5ccc6cfbef4cd2fc66549a"
+    },
+    "oracle": {
+      "oracleSha256": "8a53f28607f010ad2c6ea43f8b7811b78c23a1ee7de8870fd8857e256e4e37fa",
+      "scorerSha256": "81976561e6caf326f711f8a30b38d3e908214fb7163063049eb6462cb6b4e843"
+    },
+    "contractKit": {
+      "treeHash": "1a16a632b2c793bc20b91ee2abdd060d8d891b7a1fb4a44c1f6583a87696a6f5",
+      "promptSchemaSha256": "a59f70ff0633f2e0f9c0df145736dd9e641333680322957a22c86528f5869f0d",
+      "validatorSha256": "b3585074396d651fe183ec59d15153df4f7f2f193be09cfbc8546dee6d52fd4a"
+    },
+    "initialWorkspace": {
+      "treeHash": "d5a0eb1eefb0e7821b41dab032817b8f65a04353c7fce4cdc6dde2c83e5b0bd3"
+    },
+    "agent": {
+      "id": "guided-engineer",
+      "resolvesTo": "current executor",
+      "nativeProfile": null
+    },
+    "skills": [
+      {
+        "name": "ops-author",
+        "commit": "146c4b51fee8f1a6609b424fe6381c28c27c60e4",
+        "files": 7,
+        "treeHash": "19e4feba3c48eb57f341076fc8640049d67dcd919fb260ce763448fd73b076aa"
+      },
+      {
+        "name": "ops-execute",
+        "commit": "146c4b51fee8f1a6609b424fe6381c28c27c60e4",
+        "files": 6,
+        "treeHash": "5ef91499adc296ebdadacf160eef4cd5db1587fba2333442a869a5a80ba4df60"
+      }
+    ]
+  },
+  "client": {
+    "command": "claude",
+    "version": "2.1.322 (Claude Code)",
+    "versionReportedInTrace": "2.1.322",
+    "modelRequested": "claude-opus-5-5",
+    "modelReportedInTrace": "claude-opus-5-5",
+    "effortRequested": "medium",
+    "permissionMode": "acceptEdits",
+    "arguments": [
+      "-p",
+      "--output-format",
+      "stream-json",
+      "--verbose",
+      "--model",
+      "claude-opus-5-5",
+      "--effort",
+      "medium",
+      "--setting-sources",
+      "project,local",
+      "--strict-mcp-config",
+      "--permission-mode",
+      "acceptEdits",
+      "--no-session-persistence",
+      "--allowedTools",
+      "Bash",
+      "PowerShell",
+      "Read",
+      "Edit",
+      "Write",
+      "Glob",
+      "Grep",
+      "Skill"
+    ],
+    "tools": [
+      "Task",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "DesignSync",
+      "Edit",
+      "EnterWorktree",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "ListAgents",
+      "NotebookEdit",
+      "PowerShell",
+      "PushNotification",
+      "Read",
+      "RemoteTrigger",
+      "ReportFindings",
+      "ScheduleWakeup",
+      "SendMessage",
+      "Skill",
+      "TaskStop",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Workflow",
+      "Write"
+    ],
+    "plugins": [
+      "cc-plugin-agents-md",
+      "cc-plugin-telemetry",
+      "cc-plugin-privacy",
+      "cc-plugin-plugin-authoring"
+    ],
+    "mcpServers": [],
+    "environment": "variables named CLAUDE*, ANTHROPIC* and MCP_* removed"
+  },
+  "skillsAvailable": {
+    "candidates": [
+      "ops-author",
+      "ops-execute"
+    ],
+    "allListedByClient": [
+      "ops-author",
+      "ops-execute",
+      "deep-research",
+      "design",
+      "design-sync",
+      "dataviz",
+      "update-config",
+      "verify",
+      "debug",
+      "code-review",
+      "simplify",
+      "batch",
+      "fewer-permission-prompts",
+      "doctor",
+      "loop",
+      "schedule",
+      "claude-api",
+      "workflow-authoring",
+      "run",
+      "run-skill-generator",
+      "plugin-authoring"
+    ],
+    "isolation": "enforced: settings sources exclude the user level; the workspace is its own Git repository outside both project repositories; verified from the client listing"
+  },
+  "skillsInvoked": [
+    "ops-author"
+  ],
+  "exit": {
+    "code": 0,
+    "timedOut": false
+  },
+  "score": {
+    "assertions": [
+      {
+        "id": "C1-01",
+        "dimension": "intent",
+        "points": 10,
+        "pass": true,
+        "kind": "mechanical",
+        "evidence": "validator accepts the prompt"
+      },
+      {
+        "id": "C1-02",
+        "dimension": "intent",
+        "points": 10,
+        "pass": true,
+        "kind": "anchor",
+        "evidence": "objective names applyDiscount, two decimals and half up"
+      },
+      {
+        "id": "C1-03",
+        "dimension": "result",
+        "points": 10,
+        "pass": true,
+        "kind": "mechanical",
+        "evidence": "workspace is the repository root: true; outputs: src/discount.mjs, test/discount.test.mjs"
+      },
+      {
+        "id": "C1-04",
+        "dimension": "result",
+        "points": 10,
+        "pass": true,
+        "kind": "anchor",
+        "evidence": "constraints kept: {\"signature\":true,\"dependencies\":true,\"onlyTwoFiles\":true,\"existingTests\":true}"
+      },
+      {
+        "id": "C1-05",
+        "dimension": "result",
+        "points": 10,
+        "pass": true,
+        "kind": "anchor",
+        "evidence": "examples kept: 16.99, 1.01 with its 1.005 boundary, and 90"
+      },
+      {
+        "id": "C1-06",
+        "dimension": "verification",
+        "points": 10,
+        "pass": true,
+        "kind": "mechanical",
+        "evidence": "verification commands: npm test | node -e \"import('./src/discount.mjs').then(({ applyDiscount: d }) => { if (d(19.99, 15) !== 16.99 || d(2.01, 50) !== 1.01 || d(100, 10) !== 90) process.exit(1); })\" | (observed) | (observed)"
+      },
+      {
+        "id": "C1-07",
+        "dimension": "verification",
+        "points": 10,
+        "pass": true,
+        "kind": "mechanical",
+        "evidence": "validator runs seen in the trace: 3"
+      },
+      {
+        "id": "C1-08",
+        "dimension": "scope",
+        "points": 10,
+        "pass": true,
+        "kind": "mechanical",
+        "evidence": "product code, tests and request are unchanged"
+      },
+      {
+        "id": "C1-09",
+        "dimension": "scope",
+        "points": 10,
+        "pass": true,
+        "kind": "mechanical",
+        "evidence": "only the prompt was written"
+      },
+      {
+        "id": "C1-10",
+        "dimension": "traceability",
+        "points": 10,
+        "pass": true,
+        "kind": "mechanical",
+        "evidence": "names artifacts: true; states validity: true; validator run seen with a valid result: true; artifact valid now: true"
+      }
+    ],
+    "hardFailures": [],
+    "rawScore": 100,
+    "effectiveScore": 100,
+    "passed": true
+  },
+  "metrics": {
+    "wallMs": 57924,
+    "durationMs": 55827,
+    "durationApiMs": 50507,
+    "turns": 12,
+    "toolCalls": 10,
+    "tokens": {
+      "input": 22,
+      "output": 5509,
+      "cacheCreation": 17405,
+      "cacheRead": 270135,
+      "total": 293071
+    },
+    "modelUsage": {
+      "claude-opus-5-5": {
+        "inputTokens": 22,
+        "outputTokens": 5509,
+        "cacheReadInputTokens": 270135,
+        "cacheCreationInputTokens": 17405,
+        "webSearchRequests": 0,
+        "costUSD": 0.303535,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 777,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 17405,
+        "canonicalModel": "claude-opus-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "costUsdReportedByClient": 0.303535,
+    "permissionDenials": 0
+  },
+  "commands": [
+    {
+      "index": 1,
+      "tool": "PowerShell",
+      "command": "Get-Content requests/round-half-up.md; Get-Content .guides/README.md; Get-ChildItem -Recurse -File -Exclude *.git* | ? { $_.FullName -notmatch '\\\\(\\.git|node_modules|\\.claude)\\\\' } | % { $_.FullName.Substring((Get-Location).Path.Length+1) }",
+      "isError": false,
+      "resultHead": "# Round discounted prices to cents\r\n\r\nDiscounted prices show up in the checkout with long decimal tails, for example\r\n`16.9915`.\r\n\r\nChange `applyDiscount` in `src/discount.mjs` so that the price it re"
+    },
+    {
+      "index": 2,
+      "tool": "PowerShell",
+      "command": "Get-Content package.json; Get-Content test/discount.test.mjs; Get-Content .claude/skills/ops-author/assets/prompt.template.yaml",
+      "isError": false,
+      "resultHead": "{\r\n  \"name\": \"pricing-lib\",\r\n  \"version\": \"0.0.0\",\r\n  \"private\": true,\r\n  \"type\": \"module\",\r\n  \"scripts\": {\r\n    \"test\": \"node --test\"\r\n  }\r\n}\r\nimport { test } from 'node:test';\r\nimport assert from 'n"
+    },
+    {
+      "index": 4,
+      "tool": "PowerShell",
+      "command": "node .guides/tools/ops-validate.mjs .guides/prompts/prompt.pricing.round-half-up.yaml; \"exit=$LASTEXITCODE\"; node .guides/tools/ops-validate.mjs --resolve .guides/prompts/prompt.pricing.round-half-up.yaml; \"exit=$LASTEXITCODE\"",
+      "isError": true,
+      "resultHead": "Exit code 1\n.guides/prompts/prompt.pricing.round-half-up.yaml: INVALID (prompt)\n  yaml-parse: Nested mappings are not allowed in compact mappings at line 87, column 10\n1 checked, 0 valid, 1 invalid\nex"
+    },
+    {
+      "index": 6,
+      "tool": "PowerShell",
+      "command": "node .guides/tools/ops-validate.mjs .guides/prompts/prompt.pricing.round-half-up.yaml; \"exit=$LASTEXITCODE\"; node .guides/tools/ops-validate.mjs --resolve .guides/prompts/prompt.pricing.round-half-up.yaml; \"exit=$LASTEXITCODE\"; git status --porcelain",
+      "isError": false,
+      "resultHead": ".guides/prompts/prompt.pricing.round-half-up.yaml: INVALID (prompt)\n  schema: missing required property `expect` [at /verification/0]\n  schema: missing required property `expect` [at /verification/1]\n"
+    },
+    {
+      "index": 9,
+      "tool": "PowerShell",
+      "command": "node .guides/tools/ops-validate.mjs --resolve .guides/prompts/prompt.pricing.round-half-up.yaml; \"exit=$LASTEXITCODE\"",
+      "isError": false,
+      "resultHead": ".guides/prompts/prompt.pricing.round-half-up.yaml: valid (prompt)\n  root: .\n  workspace: .\n  agent: guided-engineer -> current-executor [map: built-in]\n  input: src/discount.mjs\n  input: test/discount"
+    }
+  ],
+  "changes": {
+    "added": [
+      ".guides/prompts/prompt.pricing.round-half-up.yaml"
+    ],
+    "modified": [],
+    "deleted": []
+  },
+  "evidence": {
+    "trace": "trace.jsonl.gz",
+    "finalReport": "final-report.md",
+    "artifacts": "artifacts/",
+    "workspaceDuringRun": "C:\\Workspace\\guided.engineering\\study-runs\\INITIAL_SKILLS.c1-author-basic.a1\\workspace"
+  }
+}

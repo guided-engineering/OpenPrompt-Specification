@@ -1,0 +1,505 @@
+{
+  "attemptId": "WITHOUT_SKILLS.c3-plan-nested.a1",
+  "attempt": 1,
+  "retryOfInfrastructureFailure": null,
+  "case": "C3",
+  "caseDir": "c3-plan-nested",
+  "title": "Plan a frozen OPS prompt for a nested workspace, plan only",
+  "split": "development",
+  "track": "execution",
+  "complexity": "intermediate",
+  "requestedMode": "plan",
+  "condition": "WITHOUT_SKILLS",
+  "status": "COMPLETED",
+  "statusReason": null,
+  "startedAt": "2026-11-13T17:13:59.224Z",
+  "endedAt": "2026-11-13T17:15:01.528Z",
+  "identities": {
+    "task": {
+      "file": "cases/c3-plan-nested/task.md",
+      "sha256": "80661cc5c84ed810f38a7bac295648ae24170af01a31dde55acd1e0322afc259"
+    },
+    "fixture": {
+      "dir": "cases/c3-plan-nested/fixture",
+      "treeHash": "27733b942e2583b593934ce481daed249065b6d8ba8c0f382c222642e637484b"
+    },
+    "contractKit": {
+      "treeHash": "1a16a632b2c793bc20b91ee2abdd060d8d891b7a1fb4a44c1f6583a87696a6f5",
+      "promptSchemaSha256": "a59f70ff0633f2e0f9c0df145736dd9e641333680322957a22c86528f5869f0d",
+      "validatorSha256": "b3585074396d651fe183ec59d15153df4f7f2f193be09cfbc8546dee6d52fd4a"
+    },
+    "initialWorkspace": {
+      "treeHash": "b6305b00f7b88e5a264da9eeef22eeada318958eca5c9574c1a70016fd67c295"
+    },
+    "agent": {
+      "id": "guided-engineer",
+      "resolvesTo": "current executor",
+      "nativeProfile": null
+    },
+    "skills": []
+  },
+  "client": {
+    "command": "claude",
+    "version": "2.1.322 (Claude Code)",
+    "versionReportedInTrace": "2.1.322",
+    "modelRequested": "claude-opus-5-5",
+    "modelReportedInTrace": "claude-opus-5-5",
+    "effortRequested": "medium",
+    "permissionMode": "acceptEdits",
+    "arguments": [
+      "-p",
+      "--output-format",
+      "stream-json",
+      "--verbose",
+      "--model",
+      "claude-opus-5-5",
+      "--effort",
+      "medium",
+      "--setting-sources",
+      "project,local",
+      "--strict-mcp-config",
+      "--permission-mode",
+      "acceptEdits",
+      "--no-session-persistence",
+      "--allowedTools",
+      "Bash",
+      "PowerShell",
+      "Read",
+      "Edit",
+      "Write",
+      "Glob",
+      "Grep",
+      "Skill"
+    ],
+    "tools": [
+      "Task",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "DesignSync",
+      "Edit",
+      "EnterWorktree",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "ListAgents",
+      "NotebookEdit",
+      "PowerShell",
+      "PushNotification",
+      "Read",
+      "RemoteTrigger",
+      "ReportFindings",
+      "ScheduleWakeup",
+      "SendMessage",
+      "Skill",
+      "TaskStop",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Workflow",
+      "Write"
+    ],
+    "plugins": [
+      "cc-plugin-agents-md",
+      "cc-plugin-telemetry",
+      "cc-plugin-privacy",
+      "cc-plugin-plugin-authoring"
+    ],
+    "mcpServers": [],
+    "environment": "variables named CLAUDE*, ANTHROPIC* and MCP_* removed"
+  },
+  "skillsAvailable": {
+    "candidates": [],
+    "allListedByClient": [
+      "deep-research",
+      "design",
+      "design-sync",
+      "dataviz",
+      "update-config",
+      "verify",
+      "debug",
+      "code-review",
+      "simplify",
+      "batch",
+      "fewer-permission-prompts",
+      "doctor",
+      "loop",
+      "schedule",
+      "claude-api",
+      "workflow-authoring",
+      "run",
+      "run-skill-generator",
+      "plugin-authoring"
+    ],
+    "isolation": "enforced: settings sources exclude the user level; the workspace is its own Git repository outside both project repositories; verified from the client listing"
+  },
+  "skillsInvoked": [],
+  "exit": {
+    "code": 0,
+    "timedOut": false
+  },
+  "score": {
+    "assertions": [
+      {
+        "id": "C3-01",
+        "dimension": "intent",
+        "points": 10,
+        "pass": true,
+        "kind": "mechanical",
+        "evidence": "mode plan, prompt cart.quantity-discount, agent guided-engineer"
+      },
+      {
+        "id": "C3-02",
+        "dimension": "intent",
+        "points": 10,
+        "pass": false,
+        "kind": "anchor",
+        "evidence": "workspace resolution in the plan: {\"workspace\":true,\"source\":true,\"tests\":true,\"notOtherPackage\":false}"
+      },
+      {
+        "id": "C3-03",
+        "dimension": "result",
+        "points": 10,
+        "pass": true,
+        "kind": "anchor",
+        "evidence": "positions of the four steps in the plan: 2087, 2311, 3506, 4073"
+      },
+      {
+        "id": "C3-04",
+        "dimension": "result",
+        "points": 10,
+        "pass": true,
+        "kind": "anchor",
+        "evidence": "dependencies stated: {\"node\":true,\"ordering\":true}"
+      },
+      {
+        "id": "C3-05",
+        "dimension": "result",
+        "points": 10,
+        "pass": true,
+        "kind": "anchor",
+        "evidence": "checks per task, with the boundary: {\"testCommand\":true,\"scopeCommand\":true,\"expectedTotal\":true,\"belowThreshold\":true}"
+      },
+      {
+        "id": "C3-06",
+        "dimension": "verification",
+        "points": 10,
+        "pass": false,
+        "kind": "anchor",
+        "evidence": "stop conditions and limits: {\"failingBaseline\":true,\"wouldChangeTest\":false,\"repairLimit\":true,\"timeBudget\":true}"
+      },
+      {
+        "id": "C3-07",
+        "dimension": "verification",
+        "points": 10,
+        "pass": true,
+        "kind": "mechanical",
+        "evidence": "validator runs on the prompt before the plan was written: 1"
+      },
+      {
+        "id": "C3-08",
+        "dimension": "scope",
+        "points": 10,
+        "pass": true,
+        "kind": "mechanical",
+        "evidence": "product code, tests and the prompt are unchanged"
+      },
+      {
+        "id": "C3-09",
+        "dimension": "scope",
+        "points": 10,
+        "pass": true,
+        "kind": "mechanical",
+        "evidence": "outside the allowed paths: none; test commands run during a plan-only request: 0"
+      },
+      {
+        "id": "C3-10",
+        "dimension": "traceability",
+        "points": 10,
+        "pass": true,
+        "kind": "mechanical",
+        "evidence": "entry claims no execution: true; the report names the entry: true"
+      }
+    ],
+    "hardFailures": [],
+    "rawScore": 80,
+    "effectiveScore": 80,
+    "passed": true
+  },
+  "metrics": {
+    "wallMs": 62304,
+    "durationMs": 60158,
+    "durationApiMs": 55906,
+    "turns": 14,
+    "toolCalls": 13,
+    "tokens": {
+      "input": 16,
+      "output": 6249,
+      "cacheCreation": 23947,
+      "cacheRead": 244139,
+      "total": 274351
+    },
+    "modelUsage": {
+      "claude-opus-5-5": {
+        "inputTokens": 16,
+        "outputTokens": 6249,
+        "cacheReadInputTokens": 244139,
+        "cacheCreationInputTokens": 23947,
+        "webSearchRequests": 0,
+        "costUSD": 0.3654478,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 690,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 23947,
+        "canonicalModel": "claude-opus-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "costUsdReportedByClient": 0.3654478,
+    "permissionDenials": 0
+  },
+  "commands": [
+    {
+      "index": 7,
+      "tool": "PowerShell",
+      "command": "node .guides/tools/ops-validate.mjs --resolve .guides/prompts/prompt.cart.quantity-discount.yaml; \"exit=$LASTEXITCODE\"; Get-Content packages/cart/package.json; node --version; node -e \"console.log(4*10*0.9, 4*10*0.9+5*2, 3*9, 4*10*0.9 === 36)\"; (Get-FileHash .guides/prompts/prompt.cart.quantity-discount.yaml -Algorithm SHA256).Hash.ToLower()",
+      "isError": false,
+      "resultHead": ".guides/prompts/prompt.cart.quantity-discount.yaml: valid (prompt)\n  root: .\n  workspace: packages/cart\n  agent: guided-engineer -> current-executor [map: built-in]\n  input: packages/cart/src/totals.m"
+    },
+    {
+      "index": 9,
+      "tool": "PowerShell",
+      "command": "node .guides/tools/ops-validate.mjs .guides/operation/worklog/2026-11-13.cart-quantity-discount-plan.md; \"exit=$LASTEXITCODE\"; git status --short",
+      "isError": false,
+      "resultHead": ".guides/operation/worklog/2026-11-13.cart-quantity-discount-plan.md: valid (worklog)\n1 checked, 1 valid, 0 invalid\nexit=0\r\n?? .guides/operation/"
+    },
+    {
+      "index": 10,
+      "tool": "PowerShell",
+      "command": "(Get-Date).ToUniversalTime().ToString(\"yyyy-MM-ddTHH:mm:ssZ\")",
+      "isError": false,
+      "resultHead": "2026-11-13T17:14:47Z"
+    },
+    {
+      "index": 12,
+      "tool": "PowerShell",
+      "command": "node .guides/tools/ops-validate.mjs .guides/operation/worklog/2026-11-13.cart-quantity-discount-plan.md; \"exit=$LASTEXITCODE\"",
+      "isError": false,
+      "resultHead": ".guides/operation/worklog/2026-11-13.cart-quantity-discount-plan.md: valid (worklog)\n1 checked, 1 valid, 0 invalid\nexit=0"
+    }
+  ],
+  "changes": {
+    "added": [
+      ".guides/operation/worklog/2026-11-13.cart-quantity-discount-plan.md"
+    ],
+    "modified": [],
+    "deleted": []
+  },
+  "evidence": {
+    "trace": "trace.jsonl.gz",
+    "finalReport": "final-report.md",
+    "artifacts": "artifacts/",
+    "workspaceDuringRun": "C:\\Workspace\\guided.engineering\\study-runs\\WITHOUT_SKILLS.c3-plan-nested.a1\\workspace"
+  },
+  "scoring": {
+    "original": {
+      "kind": "deterministic replay of stored evidence; not an agent run",
+      "label": "oracle and scorer as frozen before the run (commit 84fb616)",
+      "oracleIdentity": {
+        "oracleSha256": "2016dec943ea23289eefd95def18781b8f68d282da043a9099703a199a2dd531",
+        "scorerSha256": "81976561e6caf326f711f8a30b38d3e908214fb7163063049eb6462cb6b4e843",
+        "studyTree": "skills-study"
+      },
+      "rawScore": 80,
+      "effectiveScore": 80,
+      "passed": true,
+      "failed": [
+        "C3-02",
+        "C3-06"
+      ],
+      "hardFailures": [],
+      "assertions": [
+        {
+          "id": "C3-01",
+          "dimension": "intent",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "mode plan, prompt cart.quantity-discount, agent guided-engineer"
+        },
+        {
+          "id": "C3-02",
+          "dimension": "intent",
+          "points": 10,
+          "pass": false,
+          "kind": "anchor",
+          "evidence": "workspace resolution in the plan: {\"workspace\":true,\"source\":true,\"tests\":true,\"notOtherPackage\":false}"
+        },
+        {
+          "id": "C3-03",
+          "dimension": "result",
+          "points": 10,
+          "pass": true,
+          "kind": "anchor",
+          "evidence": "positions of the four steps in the plan: 2087, 2311, 3506, 4073"
+        },
+        {
+          "id": "C3-04",
+          "dimension": "result",
+          "points": 10,
+          "pass": true,
+          "kind": "anchor",
+          "evidence": "dependencies stated: {\"node\":true,\"ordering\":true}"
+        },
+        {
+          "id": "C3-05",
+          "dimension": "result",
+          "points": 10,
+          "pass": true,
+          "kind": "anchor",
+          "evidence": "checks per task, with the boundary: {\"testCommand\":true,\"scopeCommand\":true,\"expectedTotal\":true,\"belowThreshold\":true}"
+        },
+        {
+          "id": "C3-06",
+          "dimension": "verification",
+          "points": 10,
+          "pass": false,
+          "kind": "anchor",
+          "evidence": "stop conditions and limits: {\"failingBaseline\":true,\"wouldChangeTest\":false,\"repairLimit\":true,\"timeBudget\":true}"
+        },
+        {
+          "id": "C3-07",
+          "dimension": "verification",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "validator runs on the prompt before the plan was written: 1"
+        },
+        {
+          "id": "C3-08",
+          "dimension": "scope",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "product code, tests and the prompt are unchanged"
+        },
+        {
+          "id": "C3-09",
+          "dimension": "scope",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "outside the allowed paths: none; test commands run during a plan-only request: 0"
+        },
+        {
+          "id": "C3-10",
+          "dimension": "traceability",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "entry claims no execution: true; the report names the entry: true"
+        }
+      ]
+    },
+    "diagnostic": {
+      "kind": "deterministic replay of stored evidence; not an agent run",
+      "label": "repaired oracle (amendments.md); explains the grade, is not an observation",
+      "oracleIdentity": {
+        "oracleSha256": "498d138583a9cb561f17bc9a4c49a79b4e3d470343fecd24c06dca4e873aa631",
+        "scorerSha256": "81976561e6caf326f711f8a30b38d3e908214fb7163063049eb6462cb6b4e843",
+        "studyTree": "working tree"
+      },
+      "rawScore": 100,
+      "effectiveScore": 100,
+      "passed": true,
+      "failed": [],
+      "hardFailures": [],
+      "assertions": [
+        {
+          "id": "C3-01",
+          "dimension": "intent",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "mode plan, prompt cart.quantity-discount, agent guided-engineer"
+        },
+        {
+          "id": "C3-02",
+          "dimension": "intent",
+          "points": 10,
+          "pass": true,
+          "kind": "anchor",
+          "evidence": "workspace resolution in the plan: {\"workspace\":true,\"source\":true,\"tests\":true,\"notOtherPackage\":true}"
+        },
+        {
+          "id": "C3-03",
+          "dimension": "result",
+          "points": 10,
+          "pass": true,
+          "kind": "anchor",
+          "evidence": "positions of the four steps in the plan: 2061, 2281, 3456, 4005"
+        },
+        {
+          "id": "C3-04",
+          "dimension": "result",
+          "points": 10,
+          "pass": true,
+          "kind": "anchor",
+          "evidence": "dependencies stated: {\"node\":true,\"ordering\":true}"
+        },
+        {
+          "id": "C3-05",
+          "dimension": "result",
+          "points": 10,
+          "pass": true,
+          "kind": "anchor",
+          "evidence": "checks per task, with the boundary: {\"testCommand\":true,\"scopeCommand\":true,\"expectedTotal\":true,\"belowThreshold\":true}"
+        },
+        {
+          "id": "C3-06",
+          "dimension": "verification",
+          "points": 10,
+          "pass": true,
+          "kind": "anchor",
+          "evidence": "stop conditions and limits: {\"failingBaseline\":true,\"wouldChangeTest\":true,\"repairLimit\":true,\"timeBudget\":true}"
+        },
+        {
+          "id": "C3-07",
+          "dimension": "verification",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "validator runs on the prompt before the plan was written: 1"
+        },
+        {
+          "id": "C3-08",
+          "dimension": "scope",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "product code, tests and the prompt are unchanged"
+        },
+        {
+          "id": "C3-09",
+          "dimension": "scope",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "outside the allowed paths: none; test commands run during a plan-only request: 0"
+        },
+        {
+          "id": "C3-10",
+          "dimension": "traceability",
+          "points": 10,
+          "pass": true,
+          "kind": "mechanical",
+          "evidence": "entry claims no execution: true; the report names the entry: true"
+        }
+      ]
+    }
+  },
+  "admissibleForFinalComparison": false,
+  "inadmissibleReason": "The oracle of this case was repaired after this run (C3-06: phrases are now matched across line breaks (grader implementation error); C3-02: a mention of the other package inside an out-of-scope statement is now accepted (changed accepted evidence)). A change to a frozen evaluated input invalidates the affected comparison (request, section 7.2), so this observation is not carried across the change. The case is run again under the repaired, re-frozen oracle. record.score is the grade under the oracle frozen before the run; scoring.diagnostic is a replay with the repaired oracle and is not an observation."
+}

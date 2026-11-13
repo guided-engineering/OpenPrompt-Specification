@@ -1,0 +1,29 @@
+<scratch>/baseline-python-fallback.py:3: DeprecationWarning: jsonschema.RefResolver is deprecated as of v4.18.0, in favor of the https://github.com/python-jsonschema/referencing library, which provides more compliant referencing behavior as well as more flexible APIs for customization. A future release will remove RefResolver. Please file a feature request (on referencing) if you are missing an API for the kind of customization you need.
+  from jsonschema import Draft7Validator, RefResolver
+SCHEMA OK    .guides/schemas\acceptance-criterion.schema.json
+SCHEMA OK    .guides/schemas\adr.schema.json
+SCHEMA OK    .guides/schemas\persona.schema.json
+SCHEMA OK    .guides/schemas\prompt.schema.json
+SCHEMA OK    .guides/schemas\prompt.schema.v2.json
+SCHEMA OK    .guides/schemas\requirement.schema.json
+SCHEMA OK    .guides/schemas\spec.schema.json
+SCHEMA OK    .guides/schemas\test-cases.schema.json
+SCHEMA OK    .guides/schemas\traceability.schema.json
+SCHEMA OK    .guides/schemas\worklog.schema.json
+VALID   .guides/prompts\prompt.acceptance-criteria.author.yaml
+VALID   .guides/prompts\prompt.adr.author.yaml
+VALID   .guides/prompts\prompt.commit.yaml
+VALID   .guides/prompts\prompt.copilot.yaml
+VALID   .guides/prompts\prompt.discovery.yaml
+VALID   .guides/prompts\prompt.execution.yaml
+VALID   .guides/prompts\prompt.init.standalone-nextjs.codebase.yaml
+VALID   .guides/prompts\prompt.onboarding.yaml
+VALID   .guides/prompts\prompt.requirement.traceability.yaml
+VALID   .guides/prompts\prompt.setup.guides.structure.yaml
+VALID   .guides/prompts\prompt.spec.author.yaml
+VALID   .guides/prompts\prompt.spec.conformance-check.yaml
+VALID   .guides/prompts\prompt.spec.validate.yaml
+VALID   .guides/prompts\prompt.test-cases.from-spec.yaml
+VALID   .guides/prompts\prompt.web.generate-page.yaml
+VALID   .guides/specs\spec.example.user-login.yaml
+VALID   .guides/testing\test-cases.example.user-login.yaml

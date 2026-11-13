@@ -1,0 +1,21 @@
+{
+  "id": "C2",
+  "title": "Improve and convert a legacy, deficient prompt into the OPS contract",
+  "complexity": "intermediate",
+  "split": "development",
+  "track": "authoring",
+  "requestedMode": "author",
+  "timeLimitSeconds": 300,
+  "requiredArtifact": ".guides/prompts/prompt.notify.retry-jitter.yaml",
+  "allowedPaths": [
+    ".guides/prompts/prompt.notify.retry-jitter.yaml",
+    ".guides/prompts/prompt.notify.retry-jitter.report.md"
+  ],
+  "protectedPaths": [
+    "legacy/",
+    "src/",
+    "test/",
+    "package.json",
+    "README.md"
+  ]
+}

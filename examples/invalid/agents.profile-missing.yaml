@@ -1,0 +1,8 @@
+# INVALID ON PURPOSE - expected: agent-profile-missing
+# The declared native profile file does not exist, so the mapping is broken.
+apiVersion: guided-engineering/v1
+agents:
+  - id: guided-engineer
+    description: Default engineering executor.
+    profiles:
+      claude-code: .claude/agents/does-not-exist.md

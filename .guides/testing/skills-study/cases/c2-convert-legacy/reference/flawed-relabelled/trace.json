@@ -1,0 +1,17 @@
+{
+  "calls": [
+    {
+      "name": "Read",
+      "file": "legacy/prompt.retry.yaml"
+    },
+    {
+      "name": "Write",
+      "file": ".guides/prompts/prompt.notify.retry-jitter.yaml"
+    },
+    {
+      "name": "Write",
+      "file": ".guides/prompts/prompt.notify.retry-jitter.report.md"
+    }
+  ],
+  "finalText": "Wrote `.guides/prompts/prompt.notify.retry-jitter.yaml` and `.guides/prompts/prompt.notify.retry-jitter.report.md`. The prompt is valid."
+}

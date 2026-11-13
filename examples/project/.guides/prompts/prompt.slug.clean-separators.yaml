@@ -1,0 +1,92 @@
+apiVersion: guided-engineering/v1
+id: slug.clean-separators
+version: 1
+title: Make slugify collapse repeated separators and trim hyphens at the edges
+agent: guided-engineer
+workspace: ./packages/slug
+
+objective: |
+  `slugify` returns clean slugs: exactly one hyphen between words and no hyphen
+  at the start or the end. `slugify('a  --  b')` returns `a-b` and
+  `slugify('  -Hello!  ')` returns `hello`.
+
+context: |
+  `packages/slug` is a dependency-free ES module package tested with the Node.js
+  built-in test runner. `src/slug.mjs` replaces every non-alphanumeric character
+  with its own hyphen, so runs of separators survive as runs of hyphens and
+  leading or trailing separators stay in the result. Two tests in
+  `test/slug.test.mjs` describe the expected behavior and currently fail.
+  The request comes from `request.md` at the repository root.
+
+inputs:
+  - src/slug.mjs
+  - test/slug.test.mjs
+
+dependencies:
+  - Node.js 20 or newer is available as `node`
+
+constraints:
+  - Change only `src/slug.mjs`.
+  - Do not edit, skip, or delete any test.
+  - Do not add dependencies.
+  - Keep the exported name `slugify` and its single-argument signature.
+  - Leave every other package in the repository untouched.
+
+requirements:
+  - id: R1
+    text: Runs of separator characters collapse into a single hyphen.
+  - id: R2
+    text: The result never starts or ends with a hyphen.
+  - id: R3
+    text: Existing behavior (lowercasing, diacritic stripping) is preserved.
+
+steps:
+  - id: reproduce
+    title: Reproduce the failure
+    requirements: [R1, R2]
+    actions:
+      - Run `node --test` in the workspace and record which tests fail and with which actual values.
+      - Confirm the two failing tests are the separator-collapsing and edge-trimming tests; stop if anything else fails.
+
+  - id: fix
+    title: Correct the separator handling
+    requirements: [R1, R2, R3]
+    actions:
+      - Read `src/slug.mjs` and identify the replacement that emits one hyphen per character.
+      - Change the implementation so a run of non-alphanumeric characters becomes one hyphen and hyphens at either edge are removed.
+      - Keep the normalization, diacritic stripping, and lowercasing steps as they are.
+
+  - id: verify
+    title: Verify the final bytes
+    requirements: [R1, R2, R3]
+    actions:
+      - Run `node --test` in the workspace after the last edit and record the exit code and the pass and fail counts.
+      - Confirm with `git status --short` that `src/slug.mjs` is the only modified file.
+
+output:
+  - file: src/slug.mjs
+    rules:
+      - Exports `slugify(input)` with the same signature.
+      - Uses no dependencies.
+
+verification:
+  - id: unit-tests
+    expect: All four tests in `test/slug.test.mjs` pass.
+    run: node --test
+    requirements: [R1, R2, R3]
+  - id: scope
+    expect: '`src/slug.mjs` is the only file changed inside or outside the workspace.'
+    requirements: [R3]
+
+stopConditions:
+  - A test other than the two described ones fails before any change is made.
+  - The fix cannot be made without editing a test or adding a dependency.
+
+limits:
+  repairAttempts: 2
+  timeBudgetMinutes: 15
+
+tags:
+  - example
+  - bugfix
+createdBy: guided-engineering

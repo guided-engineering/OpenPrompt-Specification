@@ -1,0 +1,16 @@
+{
+  "client": {
+    "command": "claude",
+    "model": "claude-opus-5-5",
+    "effort": "medium",
+    "settingSources": "project,local",
+    "permissionMode": "acceptEdits",
+    "allowedTools": ["Bash", "PowerShell", "Read", "Edit", "Write", "Glob", "Grep", "Skill"]
+  },
+  "timeLimitsSeconds": {
+    "scored": 300,
+    "probe": 60,
+    "smoke": 120
+  },
+  "skills": ["ops-author", "ops-execute"]
+}

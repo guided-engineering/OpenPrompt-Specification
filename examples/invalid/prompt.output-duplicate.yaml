@@ -1,0 +1,24 @@
+# INVALID ON PURPOSE - expected: output-duplicate
+# The same output file is declared twice, with rules that can contradict each other.
+apiVersion: guided-engineering/v1
+id: invalid.output-duplicate
+version: 1
+title: Prompt that declares one output twice
+agent: guided-engineer
+objective: The report file exists.
+context: Fixture used by the contract tests. It is invalid on purpose.
+steps:
+  - id: write
+    title: Write the report
+    actions:
+      - Write `report.md`.
+output:
+  - file: report.md
+    rules:
+      - Written in English.
+  - file: report.md
+    rules:
+      - Written in Portuguese.
+verification:
+  - id: exists
+    expect: The file `report.md` exists.

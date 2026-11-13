@@ -1,0 +1,64 @@
+apiVersion: guided-engineering/v1
+id: notify.retry-jitter
+version: 2
+title: Add equal jitter to retry delays
+agent: guided-engineer
+
+objective: |
+  `backoffDelays` in `src/retry.mjs` returns jittered delays. Each delay lies
+  between 0.5 and 1.0 times the exponential delay for its attempt ("equal
+  jitter"), and an optional random function passed as third argument makes the
+  result deterministic in tests.
+
+context: |
+  The notification sender retries failed deliveries with the delays returned by
+  `backoffDelays(attempts, baseMs)`. All clients retry at the same instants,
+  which causes bursts. The package is dependency-free and tested with `npm test`.
+
+inputs:
+  - src/retry.mjs
+  - test/retry.test.mjs
+
+dependencies:
+  - Node.js 20 or newer is available as `node`
+
+constraints:
+  - Keep the exported function name `backoffDelays` and its first two parameters.
+  - Add no dependencies.
+  - Change only `src/retry.mjs` and `test/retry.test.mjs`.
+
+steps:
+  - id: describe-in-tests
+    title: Describe the jitter in tests
+    actions:
+      - Add tests to `test/retry.test.mjs` that pass a fixed random function to `backoffDelays` and expect exactly 0.5 times the exponential delay for a random value of 0.
+      - Add a test that calls `backoffDelays` with the default random source and expects every delay to lie between 0.5 and 1.0 times the exponential delay.
+  - id: add-jitter
+    title: Add equal jitter to backoffDelays
+    actions:
+      - Add an optional third parameter to `backoffDelays` in `src/retry.mjs`, a random function that defaults to `Math.random`.
+      - Compute each delay as the exponential delay times 0.5 plus half of the random value, so that it stays between 0.5 and 1.0 times the exponential delay.
+  - id: verify
+    title: Verify the final state
+    actions:
+      - Run `npm test` after the last edit and record the exit code.
+
+output:
+  - file: src/retry.mjs
+    rules:
+      - Keeps the exported function name `backoffDelays`.
+      - Accepts an optional random function as third argument so that tests are deterministic.
+      - Keeps each delay within 0.5 and 1.0 times the exponential delay.
+  - file: test/retry.test.mjs
+
+verification:
+  - id: tests-pass
+    expect: All tests pass, including the jitter tests.
+    run: npm test
+
+stopConditions:
+  - A human has not decided whether jitter is always applied. The legacy prompt made the change conditional on an undeclared `jitterEnabled`, and the existing test expects delays without jitter.
+
+tags:
+  - implementation
+createdBy: platform-team

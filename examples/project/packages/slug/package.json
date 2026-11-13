@@ -1,0 +1,10 @@
+{
+  "name": "@example/slug",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": "./src/slug.mjs",
+  "scripts": {
+    "test": "node --test"
+  }
+}

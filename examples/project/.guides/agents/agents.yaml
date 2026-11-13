@@ -1,0 +1,7 @@
+apiVersion: guided-engineering/v1
+
+# Agent map of the example project. `guided-engineer` has no host-specific
+# profile, so it resolves to the current executor on every host.
+agents:
+  - id: guided-engineer
+    description: Default engineering executor for this example project.

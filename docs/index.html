@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Guided Engineering</title>
+  <meta name="description" content="Guided Engineering: a practice for working with coding agents through validated task contracts (OPS prompts), portable Skills and evidence.">
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header>
+    <div class="wrap">
+      <a class="brand" href="index.html">Guided Engineering</a>
+      <nav aria-label="Main">
+        <ul>
+        <li><a href="index.html" aria-current="page">Overview</a></li>
+        <li><a href="practice.html">Practice</a></li>
+        <li><a href="quick-start.html">Quick start</a></li>
+        <li><a href="example.html">Example</a></li>
+        <li><a href="skills.html">Skills and agents</a></li>
+        <li><a href="results.html">Results</a></li>
+        <li><a href="contract.html">Specification</a></li>
+        <li><a href="contribute.html">Contribute</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main id="main" class="wrap">
+<h1 id="guided-engineering">Guided Engineering</h1>
+<p>Guided Engineering is a way of working with coding agents: you say what should
+be true, the agent does the work in small verified units, and every claim of
+&quot;done&quot; points at evidence.</p>
+<p>It adds no runtime. It uses the agent you already have, two portable Agent
+Skills, and one small contract.</p>
+<h2 id="four-things-kept-apart">Four things, kept apart</h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table">
+<table>
+<thead><tr><th scope="col"></th><th scope="col">What it is</th><th scope="col">What it is not</th></tr></thead>
+<tbody>
+<tr><td><strong>Human</strong></td><td>Sets intent, constraints and decisions. Stays accountable.</td><td>A rubber stamp.</td></tr>
+<tr><td><strong>Agent</strong></td><td>The executor: your agent host&#39;s current session, or a profile you configured in it.</td><td>A role label in a document.</td></tr>
+<tr><td><strong>Skill</strong></td><td>A procedure packaged as <code>SKILL.md</code> that an agent loads when it needs it.</td><td>An agent. It runs nothing by itself.</td></tr>
+<tr><td><strong>OPS prompt</strong></td><td>A validated task contract: objective, context, constraints, steps, expected outputs, and the checks that decide completion.</td><td>A script. Naming an agent in it starts nothing.</td></tr>
+</tbody>
+</table>
+</div>
+<p>From a prompt the agent derives a <strong>plan</strong>, and a run leaves <strong>evidence</strong>: a
+worklog entry that says which checks ran after the last change and what they
+showed.</p>
+<h2 id="the-loop">The loop</h2>
+<p>Every unit of work follows the same bounded loop:</p>
+<p><strong>Inspect → validate intent and contract → plan → execute the authorized unit →
+verify → diagnose and repair if justified → reverify → record evidence → decide
+the next unit.</strong></p>
+<p>A failed check is diagnosed before it is touched. A test is never weakened to
+get a pass. A check that passed before the last edit proves nothing about the
+final state, so it is run again. A run that cannot be verified is reported as
+unverified. <a href="practice.html">The practice</a> explains each stage.</p>
+<h2 id="what-an-ops-prompt-looks-like">What an OPS prompt looks like</h2>
+<pre data-lang="yaml"><code>apiVersion: guided-engineering/v1
+id: slug.clean-separators
+version: 1
+title: Make slugify collapse repeated separators and trim hyphens at the edges
+agent: guided-engineer
+workspace: ./packages/slug
+objective: |
+  `slugify` returns clean slugs: exactly one hyphen between words and no hyphen
+  at the start or the end.
+context: |
+  `packages/slug` is a dependency-free package tested with `node --test`.
+  Two tests describe the expected behavior and currently fail.
+constraints:
+  - Change only `src/slug.mjs`.
+  - Do not edit, skip, or delete any test.
+steps:
+  - id: reproduce
+    title: Reproduce the failure
+    actions:
+      - Run `node --test` in the workspace and record which tests fail.
+  - id: fix
+    title: Correct the separator handling
+    actions:
+      - Change the implementation so a run of separators becomes one hyphen.
+output:
+  - file: src/slug.mjs
+verification:
+  - id: unit-tests
+    expect: All four tests pass.
+    run: node --test</code></pre>
+<p>The <a href="example.html">example page</a> shows the request this came from, the full
+prompt, the plan and the evidence of the run.</p>
+<h2 id="where-to-go">Where to go</h2>
+<ul>
+<li><a href="quick-start.html">Quick start</a>: install the Skills and run one example.</li>
+<li><a href="skills.html">Skills and agents</a>: what each Skill does, which hosts were tested.</li>
+<li><a href="results.html">Results</a>: what a small local study measured, including where the Skills did not help.</li>
+<li><a href="contract.html">Specification</a>: the normative contract, schemas and validator.</li>
+<li><a href="contribute.html">Contribute</a>: where everything lives and how to check a change.</li>
+</ul>
+
+  </main>
+  <footer>
+    <div class="wrap">
+      <p>Source: <a href="https://github.com/guided-engineering/OpenPrompt-Specification" rel="noopener">OpenPrompt-Specification</a> · Skills: <a href="https://github.com/guided-engineering/skills" rel="noopener">guided-engineering/skills</a> · MIT License</p>
+      <p>This site is generated from the repository by <code>npm run site</code>. Page source: <a href="https://github.com/guided-engineering/OpenPrompt-Specification/blob/main/site/index.md" rel="noopener"><code>site/index.md</code></a></p>
+    </div>
+  </footer>
+  <script src="assets/site.js"></script>
+</body>
+</html>

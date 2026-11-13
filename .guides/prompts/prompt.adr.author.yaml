@@ -1,107 +1,94 @@
-$schema: .guides/schemas/prompt.schema.v2.json
+$schema: ../schemas/prompt.schema.json
 apiVersion: guided-engineering/v1
 id: adr.author
-title: Author an Architecture Decision Record from a captured decision moment
-persona: Architect
-category: design
-difficulty: medium
-workspace: ./
+version: 2
+title: Record an architecture decision as an ADR at the moment it is made
+agent: guided-engineer
+
+objective: |
+  One new Architecture Decision Record under `.guides/architecture/adr/` states
+  the decision, the forces behind it, its consequences, and the alternatives
+  that were rejected. Its front matter validates against the ADR schema.
 
 context: |
-  Stage 3 of the SDD lifecycle. Captures an architectural decision the
-  moment it is made, as an ADR under `.guides/architecture/adr/`. ADRs
-  are intentionally cheap to write (a few hundred words) and immutable
-  once `accepted`; later decisions supersede them rather than rewrite
-  them.
+  An ADR is cheap to write (a few hundred words) and is not rewritten once
+  `accepted`; a later decision supersedes it. Write one for a decision with
+  structural reach: stack changes, data model shifts, public contracts, security
+  posture, cross-cutting conventions. A decision that can be reversed inside a
+  single pull request usually does not need one.
 
-  An ADR is required for any decision with structural blast radius:
-  tech stack changes, data model shifts, public API contracts, security
-  posture changes, cross-cutting framework choices.
+  Decisions made implicitly during implementation turn into knowledge that only
+  some people hold. Capturing one at decision time costs minutes; reconstructing
+  it months later costs days. The alternatives are the part most often skipped
+  and most often needed.
 
-businessContext: |
-  Decisions made implicitly during implementation become tribal
-  knowledge that decays with the team. An ADR captured at decision time
-  costs minutes; reconstructing it three months later costs days and
-  often produces a confused approximation. The "alternatives considered"
-  block is the part most often skipped and most often needed during
-  retros.
+  An ADR file is Markdown with a YAML front-matter block. The front matter is
+  the contract (`.guides/schemas/adr.schema.json`); the body is the readable
+  record. The file name is the `adrId` plus `.md`, and the `adrId` is the next
+  free four-digit number followed by a short kebab-case title.
 
-riskLevel: medium
+inputs:
+  - .guides/schemas/adr.schema.json
+  - .guides/architecture/adr/
 
 dependencies:
-  - The decision moment (a meeting note, a PR discussion, a Slack thread)
-  - "`.guides/schemas/adr.schema.json` (validation target)"
-  - "`.guides/architecture/adr/` (writable; existing ADRs determine the next numeric prefix)"
-  - The related `specId` and `requirementIds`, if the decision realizes a spec
+  - The decision itself, from the human who made it or from the discussion where it was made.
 
-output:
-  - file: .guides/architecture/adr/<NNNN>-<short-title>.md
-    language: markdown
-    rules:
-      - File name MUST match the pattern `^[0-9]{4}-[a-z0-9-]+\.md$`
-      - File MUST start with a YAML front-matter block validating against `.guides/schemas/adr.schema.json`
-      - "Front-matter MUST include `adrId`, `apiVersion: guided-engineering/v1`, `title`, `status` (`proposed` or `accepted` for a fresh ADR), `date` (ISO 8601 date), `context`, `decision`, `consequences`"
-      - The Markdown body below the front-matter MUST contain the same `context`, `decision`, `consequences`, and `alternativesConsidered` sections in prose form (the YAML is the contract; the prose is the readable record)
-      - MUST list `alternativesConsidered[]` with at least one alternative
-      - SHOULD link the `relatedSpecs[]` and the `requirementIds` (if any) this decision realizes
-      - 'If superseding an earlier ADR, MUST set `supersededBy` on the old one and `status: superseded` on it'
-  - file: .guides/operation/worklog.md
-    language: markdown
-    rules:
-      - Append a worklog entry naming the new `adrId`, the decision in one sentence, the persona, and the ISO timestamp
+constraints:
+  - Record the decision that was made; do not make one. Ask when the decision or its reason is unclear.
+  - 'Use `status: proposed` when a human still has to accept the decision and `status: accepted` only when a human already did.'
+  - Do not edit the content of an existing ADR, except to mark it superseded.
 
 steps:
-  - id: identify-decision
-    title: Identify and frame the decision
+  - id: frame
+    title: Frame the decision
     actions:
-      - State the decision in one sentence in active voice ("We will use X for Y because Z")
-      - Identify the forces in play (constraints, deadlines, regulatory, performance, cost, team skill)
-      - Confirm the decision has structural blast radius — if it is reversible inside a single PR, an ADR is usually overkill
+      - State the decision in one sentence in active voice ("We will use X for Y because Z").
+      - Identify the forces in play (constraints, deadlines, regulation, performance, cost, team skill).
 
-  - id: enumerate-alternatives
-    title: Enumerate alternatives considered
+  - id: alternatives
+    title: Enumerate the alternatives
     actions:
-      - List at least one credible alternative (often "do nothing" or "use the existing approach")
-      - For each alternative, state in one sentence why it was rejected (cost, complexity, performance, risk)
+      - List at least one credible alternative; "keep the current approach" often is one.
+      - State in one sentence why each alternative was rejected.
 
-  - id: state-consequences
-    title: State consequences explicitly
+  - id: consequences
+    title: State the consequences
     actions:
-      - List what becomes easier and what becomes harder as a result of this decision
-      - Flag reversibility — note any downstream artifacts that lock in once this ADR is `accepted`
-      - List the migration cost if the decision is later superseded
+      - List what becomes easier and what becomes harder.
+      - State how reversible the decision is and what would have to change if it is superseded.
 
-  - id: assign-id-and-numbering
-    title: Assign the next ADR ID
+  - id: write
+    title: Write the ADR file
     actions:
-      - List existing files in `.guides/architecture/adr/` and pick the next sequential 4-digit prefix
-      - Compose the `adrId` as `NNNN-<short-kebab-title>` (e.g., `0007-adopt-edge-runtime`)
-      - The file name matches `adrId` plus `.md`
+      - List `.guides/architecture/adr/` and take the next free four-digit prefix.
+      - Write `.guides/architecture/adr/<adrId>.md` with the front matter first and the same content in prose below it.
+      - 'When the new ADR supersedes an earlier one, set `status: superseded` and `supersededBy: <adrId>` in the earlier file and change nothing else in it.'
 
-  - id: emit-adr
-    title: Emit the ADR file
+  - id: validate
+    title: Validate the result
     actions:
-      - Write the file with a YAML front-matter block followed by Markdown body
-      - 'Set `status: proposed` if the decision still needs sign-off; `accepted` if it is being recorded after the fact'
-      - Validate the front-matter block against `.guides/schemas/adr.schema.json`
+      - Run `npm run validate` and correct the new file until its front matter is valid.
 
-  - id: cross-link
-    title: Cross-link related artifacts
-    actions:
-      - 'If superseding an earlier ADR, edit the old ADR to set `status: superseded` and `supersededBy: <new-adrId>`'
-      - Add the new `adrId` to the `relatedAdrs[]` of any ADR it interacts with
-      - Reference the new `adrId` from the relevant spec's `tags` or in a comment near the affected requirement
+output:
+  - file: .guides/architecture/adr/<adrId>.md
+    rules:
+      - The file name matches `^[0-9]{4}-[a-z0-9-]+\.md$` and equals the `adrId` plus `.md`.
+      - The front matter validates against `.guides/schemas/adr.schema.json`.
+      - '`alternativesConsidered` lists at least one alternative.'
+      - The body repeats context, decision, consequences and alternatives in prose.
 
-  - id: log
-    title: Append worklog entry
-    actions:
-      - Write a worklog entry under `.guides/operation/worklog.md` naming the new `adrId`, the decision, the persona, and the ISO timestamp
+verification:
+  - id: front-matter-valid
+    expect: Every ADR in the repository, including the new one, has valid front matter.
+    run: npm run validate
+  - id: decision-is-the-humans
+    expect: The recorded decision and its status match what the human decided; nothing was decided by the executor.
+
+stopConditions:
+  - The decision, or the reason for it, cannot be established from what the human provided.
 
 tags:
-  - sdd
   - adr
   - architecture
-  - governance
-
 createdBy: guided-engineering
-version: 1

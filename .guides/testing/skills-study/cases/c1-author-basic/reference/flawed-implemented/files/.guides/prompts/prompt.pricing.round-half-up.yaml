@@ -1,0 +1,62 @@
+apiVersion: guided-engineering/v1
+id: pricing.round-half-up
+version: 1
+title: Round discounted prices to two decimals, half up
+agent: guided-engineer
+
+objective: |
+  `applyDiscount` in `src/discount.mjs` returns the discounted price rounded to
+  2 decimal places, rounding half up. `applyDiscount(19.99, 15)` returns
+  `16.99`, `applyDiscount(2.01, 50)` returns `1.01`, and
+  `applyDiscount(100, 10)` still returns `90`.
+
+context: |
+  `pricing-lib` is a dependency-free ES module package tested with `npm test`.
+  Discounted prices currently carry long decimal tails such as 16.9915. The
+  exact result of the second example is 1.005, which is stored as
+  1.00499999..., so a naive `Math.round(x * 100) / 100` returns 1.00. The
+  request is `requests/round-half-up.md`.
+
+inputs:
+  - src/discount.mjs
+  - test/discount.test.mjs
+  - requests/round-half-up.md
+
+constraints:
+  - Keep the signature `applyDiscount(price, percent)` and the existing argument checks.
+  - Add no new dependencies.
+  - Change only `src/discount.mjs` and `test/discount.test.mjs`.
+  - Keep the three existing tests passing and unchanged.
+
+steps:
+  - id: add-tests
+    title: Describe the rounding in tests
+    actions:
+      - Add tests to `test/discount.test.mjs` for `applyDiscount(19.99, 15)` returning `16.99` and `applyDiscount(2.01, 50)` returning `1.01`.
+      - Run `npm test` and confirm that the new tests fail and the three existing tests pass.
+  - id: implement
+    title: Round half up to two decimals
+    actions:
+      - Change `applyDiscount` so that the returned price is rounded to 2 decimal places, half up, turning the stored value 1.00499999... into 1.01.
+  - id: verify
+    title: Verify the final state
+    actions:
+      - Run `npm test` after the last edit and record the exit code.
+
+output:
+  - file: src/discount.mjs
+    rules:
+      - Keeps the signature `applyDiscount(price, percent)`.
+  - file: test/discount.test.mjs
+    rules:
+      - Keeps the three existing tests and adds the new examples.
+
+verification:
+  - id: tests-pass
+    expect: All tests pass, including the new rounding examples.
+    run: npm test
+  - id: scope
+    expect: Only `src/discount.mjs` and `test/discount.test.mjs` changed.
+
+stopConditions:
+  - Half-up rounding cannot be achieved without changing the function signature or adding a dependency.

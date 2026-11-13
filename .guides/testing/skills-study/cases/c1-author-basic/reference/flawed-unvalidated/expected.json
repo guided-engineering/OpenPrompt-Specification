@@ -1,0 +1,11 @@
+{
+  "deleted": [],
+  "rawScore": 70,
+  "effectiveScore": 70,
+  "failed": [
+    "C1-06",
+    "C1-07",
+    "C1-10"
+  ],
+  "hardFailures": []
+}

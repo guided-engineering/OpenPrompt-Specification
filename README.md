@@ -1,259 +1,200 @@
 # Guided Engineering
 
-*A Spec-Driven Development (SDD) framework.*
+*A practice for working with coding agents: task contracts, portable Skills, and evidence.*
 
-OpenPrompt-Specification
-Version: 0.5.0 — see [`ROADMAP.md`](./ROADMAP.md) for the delivery history and Phase 6+ outlook.
+You say what should be true. The agent does the work in small verified units.
+Every claim of "done" points at evidence.
 
-~~Vibe Coding~~ → **Guided Engineering** is a structured, traceable, and executable framework for **Spec-Driven Development**: versioned specifications drive every downstream artifact (code, tests, ADRs, worklogs) through modular prompts, personas, and reproducible documentation.
+Guided Engineering adds no runtime. It uses the agent host you already have,
+two portable [Agent Skills](https://agentskills.io), and one small contract:
+the **OPS prompt** (OpenPrompt Specification), a validated task definition that
+states an objective, the constraints, the steps, and the checks that decide
+completion.
 
-This project uses versioned YAML prompts, schema validation, personas, and categorized outputs to enable human–machine collaboration with high observability, reproducibility, and minimal complexity.
-
-> **Brand:** Guided Engineering. **Methodology:** SDD. See [`.guides/sdd-process.md`](./.guides/sdd-process.md) for the lifecycle.
-
----
-
-## ❓ Why Guided Engineering?
-
-Because modern software is too complex to be left to chance.
-
-Teams face:
-
-* Fragmented tools and chaotic handoffs.
-* Hidden knowledge and undocumented decisions.
-* Low reproducibility and onboarding friction.
-* Over-reliance on opaque automation.
-
-**Guided Engineering** addresses these pain points by:
-
-* Treating **engineering as a traceable process**, not an ad-hoc craft.
-* Shifting from unstructured communication to **structured execution**.
-* Giving engineers **control over AI** through validated, readable prompts.
-* Creating a long-term **memory** of why, how, and by whom something was done.
-
-It allows teams to **move fast without losing context**, and **automate without losing control**.
-
-> It's not just about doing things faster. It's about doing them *understandably*.
+🌐 Website: <https://guided-engineering.github.io/OpenPrompt-Specification/> ·
+🇧🇷 [Leia em português](./README.pt-br.md)
 
 ---
 
-## 🚫 What Guided Engineering *is not*
+## The idea in one table
 
-To avoid confusion, it’s important to be clear on what this practice **does not aim to be**:
+| Concept | Responsibility |
+|---|---|
+| **Human** | Sets intent, constraints and material decisions; stays accountable. |
+| **Agent** | The executor, or a named execution profile configured in a real agent host. |
+| **Skill** | A reusable capability packaged as `SKILL.md`. Extends an agent; is not one. |
+| **OPS prompt** | The task contract: intent, context, constraints, actions, expected outcomes. |
+| **Plan** | The task-specific sequence of changes and checks derived from one prompt. |
+| **Evidence** | Files, diffs, command results and observations that support a completion claim. |
 
-| ❌ Not This                     | ✅ But Instead                                     |
-| ------------------------------ | ------------------------------------------------- |
-| A no-code tool                 | A human-led system for *codifying intent*         |
-| A replacement for engineers    | A **framework for engineers to lead AI**          |
-| An automation-first approach   | An **explainability-first** methodology           |
-| A documentation generator      | A **documentation-first** execution model         |
-| A black-box assistant          | A **white-box process** with full visibility      |
-| A generic AI prompt collection | A **validated, version-controlled** prompt system |
-| DevOps boilerplate factory     | A **customizable, observable** execution flow     |
-| Magic AI glue                  | A **disciplined orchestration of agents**         |
+An agent definition is configuration; an agent run does the work. Naming an
+agent in a prompt starts nothing, grants nothing and proves no review. A Skill
+is not an agent. An agent never approves: a human does.
 
-**Guided Engineering is not about replacing expertise** — it's about structuring it.
+## The loop
 
-It's not automation **for its own sake**, but rather **augmentation with purpose**.
+**Inspect → validate intent and contract → plan → execute the authorized unit →
+verify → diagnose and repair if justified → reverify → record evidence → decide
+the next unit.**
 
+A failed check is diagnosed before it is touched. A test is never weakened to
+get a pass. A check that passed before the last edit is run again. Details:
+[`.guides/practice.md`](./.guides/practice.md).
 
-## 👨‍🏫 What is Guided Engineering?
+## A small working example
 
-Guided Engineering is not just a tool, it's a **practice**.
+A person writes a request:
 
-It defines a new way of working where **engineers coordinate agents** (e.g., LLMs, tools, automations) to execute small, traceable tasks. The human leads the process; the machine assists with precision and context.
+> Slugs coming out of `packages/slug` look wrong in the article URLs. A title
+> like `a  --  b` turns into `a------b` … Keep it small: do not add
+> dependencies, do not change the function's name, and do not touch the tests.
 
-Key aspects:
-- Discipline and explainability over chaotic automation.
-- Every task is represented by a validated, version-controlled prompt.
-- Clear personas define responsibilities for each type of activity.
-- All outputs are observable, auditable, and reproducible.
+It becomes an OPS prompt (shortened; the full file is
+[`examples/project/.guides/prompts/prompt.slug.clean-separators.yaml`](./examples/project/.guides/prompts/prompt.slug.clean-separators.yaml)):
 
-
-```bash
-[👤] Human
-   ├─ Plans
-   ├─ Selects Prompts
-   └─ Orchestrates Execution
-        ↓
-[🎯] Structured Prompt (.yml)
-   ├─ YAML + Schema + Persona
-   └─ Defines Inputs, Steps, Outputs
-        ↓
-[🤖] Execution Agent (LLM)
-   ├─ GPT, Claude, Copilot, etc.
-   └─ Executes Prompt with Context
-        ↓
-[📂] Outputs (Markdown)
-   ├─ Docs, Reports, Assessments
-   └─ Stored in `.guides/` folder
-        ↓
-[🔁] Continuous Cycle
-   ├─ Plan
-   ├─ Execute
-   ├─ Document
-   └─ Learn
-        ↺ (Feeds back to Prompts)
-
+```yaml
+apiVersion: guided-engineering/v1
+id: slug.clean-separators
+version: 1
+title: Make slugify collapse repeated separators and trim hyphens at the edges
+agent: guided-engineer
+workspace: ./packages/slug
+objective: |
+  `slugify` returns clean slugs: exactly one hyphen between words and no hyphen
+  at the start or the end.
+context: |
+  `packages/slug` is a dependency-free package tested with `node --test`.
+constraints:
+  - Change only `src/slug.mjs`.
+  - Do not edit, skip, or delete any test.
+steps:
+  - id: reproduce
+    title: Reproduce the failure
+    actions:
+      - Run `node --test` in the workspace and record which tests fail.
+  - id: fix
+    title: Correct the separator handling
+    actions:
+      - Change the implementation so a run of separators becomes one hyphen.
+output:
+  - file: src/slug.mjs
+verification:
+  - id: unit-tests
+    expect: All four tests pass.
+    run: node --test
 ```
 
----
+The agent plans it, executes it, and leaves a worklog entry that records which
+checks ran after the last edit and what they showed. The whole chain (request,
+prompt, plan, evidence) is in [`examples/project/`](./examples/project/) and is
+re-verified by `npm run example`.
 
-## 🧭 The Practice (Human-led)
+## Use it in your project
 
-At its core, Guided Engineering is a **human-led practice** that organizes the SDLC using guided steps and structured decision-making.
+1. **Install the Skills** in your agent host. With the
+   [`skills` CLI](https://github.com/vercel-labs/skills):
 
-### Core tenets of the practice:
-- Engineers **orchestrate agents** through prompt-driven workflows.
-- Tasks are **declarative** and **traceable** - never implicit or opaque.
-- The SDLC becomes an auditable process, from discovery to maintenance.
-- Personas represent real engineering roles (e.g., QA Analyst, SRE, Code Auditor).
-- Documentation is not an afterthought - it’s a first-class citizen.
+   ```bash
+   npx skills add guided-engineering/skills
+   ```
 
----
+   Host by host, including what was and was not tested:
+   [`guided-engineering/skills`](https://github.com/guided-engineering/skills).
 
-## 📦 The Artefacts (Structured Knowledge)
+2. **Ask for a contract.** Describe a change the way you normally would and
+   ask for it as an OPS prompt. `ops-author` writes it to `.guides/prompts/`,
+   asks about ambiguity that matters, and validates the result. Read it; this
+   is the moment to correct scope.
 
-Guided Engineering relies on structured, versioned artefacts to guide execution and preserve traceability.
+3. **Ask for a plan, then for execution.** `ops-execute` validates the prompt,
+   plans with a check for every task, makes the change, verifies after the last
+   edit, and records a worklog entry under `.guides/operation/worklog/`.
 
-### Main artefact types:
-- **YAML** prompts (`*.yaml`): Define intent, context, persona, and execution steps.
-- **YAML** specs (`*.yaml` under `.guides/specs/`): Versioned source of truth for every feature.
-- **Markdown** documentation (`*.md`): Capture structured outputs, decisions, playbooks, ADRs.
-- **JSON** schemas (`*.json`): Enforce structure, consistency, and validation.
+4. **Decide.** Review the diff and the evidence. The decision is yours.
 
-Artefacts are stored in a canonical `.guides/` folder, categorized by function.
+Nothing else is required. The Skills bring the validator and the text of the
+contract with them. An OPS prompt names an agent, and `guided-engineer`, the
+default, is simply the agent session that reads the prompt. Installing a Skill
+installs no agent profile.
 
----
+## What is in this repository
 
-## 🏗️ The Output (Software Built with Guidance)
+This repository is the normative source of the contract and the practice.
 
-Software projects developed using Guided Engineering exhibit the following characteristics:
-- Every decision, plan, and test is **documented as a prompt and output**.
-- Projects are **self-documenting**, **self-explanatory**, and **reproducible**.
-- No tribal knowledge - everything is explicit and preserved.
-- Transitions, audits, and onboarding become seamless due to rich context.
-
-This ensures systems are not only built well - they’re **built understandably**.
-
----
-
-## 🛠️ The Tooling (Execution Support)
-
-Guided Engineering is supported by a growing ecosystem of tools that automate, scaffold, and simplify the use of the practice:
-
-- **CLIs** to run prompts, generate documentation, and validate outputs.
-- **Portals** for browsing `.guides/` content visually.
-- **DevTools & extensions** to integrate prompts and personas into daily workflows.
-- **Templates & generators** to scaffold projects and personas with validated structure.
-
-These tools serve as assistants - never as replacements for engineering judgment.
-
----
-
-## 📁 Project Structure (`.guides/`)
-
-| Folder              | Purpose                                                              |
-| ------------------- | -------------------------------------------------------------------- |
-| `base/`             | Project-level structure and setup guides                             |
-| `product/`          | Product requirements, roadmap, user personas                         |
-| `specs/`            | **SDD specs** — versioned source of truth for every feature          |
-| `traceability/`     | **SDD matrices** — requirement ↔ spec ↔ test ↔ commit ↔ evidence    |
-| `assessment/`       | Full assessments of codebase, stack, risks, entities                 |
-| `architecture/`     | Architectural layers, stack, rules, plugins                          |
-| `architecture/adr/` | Architecture Decision Records (ADRs)                                 |
-| `testing/`          | Test strategies, coverage, risk documentation                        |
-| `operation/`        | Worklogs, changelogs, validation reports, conformance reports, FAQ   |
-| `prompts/`          | Executable YAML prompts by category and persona                      |
-| `personas/`         | Roles responsible for prompts (e.g., Dev, QA, Architect, Auditor)    |
-| `schemas/`          | JSON Schema files to validate prompts, personas, specs, ADRs         |
-
----
-
-## ✅ Core Principles
-
-- **Everything is a prompt**: Executable, explainable and version-controlled YAML.
-- **Small steps**: Every prompt performs one clear task with observable outputs.
-- **Personas over roles**: Each prompt is assigned to a persona with defined responsibilities.
-- **Traceable outputs**: Every action must generate a file in `.guides/`.
-- **Human-led by design**: AI and agents assist, but direction, judgment, and intent come from humans.
-- **Explainability over automation**: Prompts must be readable, auditable, and reproducible by a human at any time.
-- **Minimize cognitive load**: All outputs and flows must be simple, observable, and contextual.
-
----
-
-## 🧠 How it works
-
-1. A prompt (YAML) defines an objective, context, steps, and expected output.
-2. The prompt is assigned to a **persona** that represents the executor (human or agent).
-3. Each step is declarative and uses natural language with imperative clarity.
-4. Execution of the prompt generates Markdown outputs stored in `.guides/`.
-5. All prompts and schemas are versioned and validated locally.
-
----
-
-## 🧩 Example Prompts
-
-All prompts live under [`.guides/prompts/`](./.guides/prompts/):
-
-- `prompt.discovery.yaml` — full technical assessment of a project (first prompt).
-- `prompt.onboarding.yaml` — generate a complete onboarding file for engineers.
-- `prompt.commit.yaml` — analyse pending changes and apply a Conventional Commit.
-- `prompt.web.generate-page.yaml` — generate a localized Next.js page with i18n + tests + worklog.
-
-SDD prompts (`prompt.spec.author.yaml`, `prompt.spec.validate.yaml`, `prompt.adr.author.yaml`, `prompt.requirement.traceability.yaml`, `prompt.acceptance-criteria.author.yaml`, `prompt.test-cases.from-spec.yaml`, `prompt.spec.conformance-check.yaml`) operationalize the methodology.
-
-## 🧪 Reference Example
-
-The canonical illustration of the full SDD loop lives at [`.guides/specs/spec.example.user-login.yaml`](./.guides/specs/spec.example.user-login.yaml). It exercises every stage end-to-end:
-
-| Stage | Artifact |
+| Path | Content |
 |---|---|
-| 1. Spec | [`.guides/specs/spec.example.user-login.yaml`](./.guides/specs/spec.example.user-login.yaml) |
-| 2. Validate | [`.guides/operation/spec-validation.example.user-login.md`](./.guides/operation/spec-validation.example.user-login.md) |
-| 3. Design | [`.guides/architecture/adr/0001-choose-spec-format.md`](./.guides/architecture/adr/0001-choose-spec-format.md) |
-| 4. Test cases | [`.guides/testing/test-cases.example.user-login.yaml`](./.guides/testing/test-cases.example.user-login.yaml) |
-| Cross-cutting | [`.guides/traceability/matrix.example.user-login.yaml`](./.guides/traceability/matrix.example.user-login.yaml) |
-| 5. Conform | [`.guides/operation/conformance.example.user-login.md`](./.guides/operation/conformance.example.user-login.md) |
-| Audit | [`.guides/operation/worklog.md`](./.guides/operation/worklog.md) |
+| [`.guides/ops-contract.md`](./.guides/ops-contract.md) | **The contract.** Fields, resolution rules, completion, request modes, worklog entries, error codes. |
+| [`.guides/practice.md`](./.guides/practice.md) | The practice: who does what, the journey, the loop. |
+| [`.guides/schemas/`](./.guides/schemas/) | JSON Schemas: prompt, agent map, worklog entry, ADR. |
+| [`tools/ops-validate/`](./tools/ops-validate/), [`dist/ops-validate.mjs`](./dist/ops-validate.mjs) | The validator and its single-file, dependency-free bundle. |
+| [`examples/`](./examples/) | Valid, invalid, conversion and end-to-end examples. |
+| [`templates/`](./templates/) | Starting points for a prompt, an agent map, a worklog entry, an ADR. |
+| [`.guides/conversion.md`](./.guides/conversion.md) | What replaced what, for documents written before the reformulation. |
+| [`.guides/testing/skills-study/`](./.guides/testing/skills-study/) | The local study of the Skills: protocol, cases, harness, results. |
+| [`docs/`](./docs/) | The generated website. |
 
-Copy the spec into your own `.guides/specs/` folder, adapt the IDs, and follow the prompts top to bottom.
+The Skills live in [`guided-engineering/skills`](https://github.com/guided-engineering/skills).
 
-> **Heads-up.** This repository is spec-first, so the example has no backing implementation. Its conformance report records the verdict `DEMO`; a consuming project that implements the spec re-runs `prompt.spec.conformance-check.yaml` against its source tree and produces a real `PASS | PASS-WITH-GAPS | FAIL` verdict.
----
+## Validate
 
-## 📌 Contributors
+```bash
+npm ci
+npm test            # contract tests: valid and invalid examples, CLI, bundle
+npm run validate    # every active artifact of this repository
+node dist/ops-validate.mjs path/to/prompt.yaml   # one file, anywhere, no install
+```
 
-This project is maintained using the `Guided Engineering` model itself - all changes are proposed, executed, and documented via prompts and personas.
+A document is a valid OPS prompt when the validator accepts it. The validator
+rejects, among other things, a missing or unresolved `agent`, unknown fields,
+duplicate YAML keys, paths that leave the workspace, a prompt without a check,
+and a worklog entry that claims completion without passing checks. See
+[`VALIDATION.md`](./VALIDATION.md).
 
----
+## Does it help? What a local study found
 
-## 📖 Resources
+A small local study compared the same agent, on the same contract, with and
+without the two Skills: five tasks, one run per task and condition, one model.
 
-- Methodology: [`.guides/sdd-process.md`](./.guides/sdd-process.md)
-- Roadmap to v0.5.0: [`ROADMAP.md`](./ROADMAP.md)
-- Manual validation protocol: [`VALIDATION.md`](./VALIDATION.md)
-- Prompt schema (canonical, SDD-aware): [`.guides/schemas/prompt.schema.v2.json`](./.guides/schemas/prompt.schema.v2.json)
-- Prompt schema v1 (deprecated): [`.guides/schemas/prompt.schema.json`](./.guides/schemas/prompt.schema.json)
-- Persona schema: [`.guides/schemas/persona.schema.json`](./.guides/schemas/persona.schema.json)
-- SDD artifact schemas:
-  - [`.guides/schemas/spec.schema.json`](./.guides/schemas/spec.schema.json)
-  - [`.guides/schemas/requirement.schema.json`](./.guides/schemas/requirement.schema.json)
-  - [`.guides/schemas/acceptance-criterion.schema.json`](./.guides/schemas/acceptance-criterion.schema.json)
-  - [`.guides/schemas/adr.schema.json`](./.guides/schemas/adr.schema.json)
-  - [`.guides/schemas/traceability.schema.json`](./.guides/schemas/traceability.schema.json)
-- Persona list: [`.guides/personas/personas.yaml`](./.guides/personas/personas.yaml)
-- Templates:
-  - [`templates/template.prompt.yaml`](./templates/template.prompt.yaml)
-  - [`templates/template.persona.yaml`](./templates/template.persona.yaml)
-  - [`templates/template.worklog.md`](./templates/template.worklog.md)
+| Task | Without Skills | With Skills |
+|---|---:|---:|
+| C1 Write a prompt from a request | 100 | 100 |
+| C2 Convert and improve a legacy prompt | 100 | 100 |
+| C3 Plan a prompt in a nested workspace | 90 | 100 |
+| C4 Execute a prompt against a bug | 90 | 90 |
+| C5 Resume from a recorded checkpoint (reserved case) | 100 | 100 |
 
----
+**The study does not show that the Skills improve the work, and it shows no
+case where they made it worse.** The agent already scored at or near the top
+without them, so there was no room to show a gain. The one higher score, C3,
+comes from a point the baseline lost to the grader and not to the task. The
+right Skill loaded in six of six probes and in all five tasks. Time and tokens
+stayed within a few percent, with one exception (C1, 72% more tokens
+processed).
 
-## 📜 License
+What the study could not measure is what the Skills are for. Every test project
+already contained the contract and the validator, and the Skills exist to bring
+both to a project that has neither.
 
-MIT © Guided Engineering Team
+Also on record: the scoring of three tasks was repaired after their first run,
+and those runs were repeated; the blinding of the fifth task could not be
+verified; and one sentence in `ops-author` misleads about a required field
+until the validator corrects it. Every run and every limit is in
+[the report](./.guides/testing/skills-study/results/report.md) and on
+[the results page](https://guided-engineering.github.io/OpenPrompt-Specification/results.html).
 
----
+## History
 
-🧠 Designed by minds, executed by machines.
+This project used to describe itself as a Spec-Driven Development framework in
+which prompts were assigned to role labels. That design was replaced, not
+extended: earlier documents are not valid under the current contract and are
+converted with [`.guides/conversion.md`](./.guides/conversion.md). The reasons
+are recorded in
+[ADR 0002](./.guides/architecture/adr/0002-refound-on-agents-skills-and-ops-contracts.md),
+and the earlier tree is in Git history at commit
+[`ca82040`](https://github.com/guided-engineering/OpenPrompt-Specification/tree/ca820409df0aebe2b4669aa168ebc82d6bcecd48).
+
+## Roadmap and license
+
+What is done and what is not: [`ROADMAP.md`](./ROADMAP.md).
+
+MIT © Guided Engineering Team. See [`LICENSE`](./LICENSE).

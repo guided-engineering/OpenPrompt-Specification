@@ -1,0 +1,31 @@
+{
+  "name": "openprompt-specification",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Guided Engineering: the OPS prompt contract, its validator, examples, and project documentation.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test \"tools/ops-validate/test/*.test.mjs\"",
+    "validate": "node tools/ops-validate/cli.mjs --all",
+    "build": "node tools/build-validator.mjs",
+    "build:check": "node tools/build-validator.mjs --check",
+    "trace": "node tools/trace.mjs",
+    "check:refs": "node tools/check-refs.mjs",
+    "example": "node tools/run-example.mjs",
+    "study:selfcheck": "node .guides/testing/skills-study/harness/selfcheck.mjs",
+    "study:frozen": "node .guides/testing/skills-study/harness/freeze.mjs --check",
+    "study:report": "node .guides/testing/skills-study/harness/report.mjs",
+    "site": "node tools/build-site.mjs"
+  },
+  "devDependencies": {
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
+    "esbuild": "0.28.2",
+    "marked": "18.2.0",
+    "yaml": "2.9.1"
+  }
+}

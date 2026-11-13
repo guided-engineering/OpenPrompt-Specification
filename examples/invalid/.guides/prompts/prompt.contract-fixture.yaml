@@ -1,0 +1,18 @@
+# Support file (valid): the prompt that the invalid worklog fixtures refer to.
+apiVersion: guided-engineering/v1
+id: guided-engineering.contract-fixture
+version: 1
+title: Write the contract fixture report
+agent: guided-engineer
+objective: The report file exists.
+context: Support prompt for the worklog fixtures in `examples/invalid/`.
+steps:
+  - id: write
+    title: Write the report
+    actions:
+      - Write `report.md`.
+output:
+  - file: report.md
+verification:
+  - id: exists
+    expect: The file `report.md` exists.

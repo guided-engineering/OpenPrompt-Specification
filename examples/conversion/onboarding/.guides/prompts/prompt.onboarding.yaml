@@ -1,0 +1,92 @@
+# Canonical conversion of ../../legacy.yaml. What changed and why: ../../report.md
+apiVersion: guided-engineering/v1
+id: base.onboarding.generate
+version: 2
+title: Generate an onboarding guide for new developers
+agent: guided-engineer
+
+objective: |
+  `.guides/base/onboarding.md` is a complete onboarding guide, written in
+  Brazilian Portuguese, that lets a new developer understand the project and
+  start contributing. Every statement in it comes from the project's `.guides/`
+  documentation or from its Git history.
+
+context: |
+  The project keeps structured documentation under `.guides/`: product,
+  architecture, setup, testing, prompts and assessments. The guide is aimed at
+  developers who have never seen the repository. It uses clear, welcoming and
+  technically accurate language.
+
+inputs:
+  - .guides/
+
+dependencies:
+  - Git history is available (`git log` works in the workspace).
+  - 'The documentation folders under `.guides/` (base, architecture, product, testing, assessment, agents, prompts) exist where the project uses them; a missing folder is reported as a gap, not filled with invention.'
+
+constraints:
+  - Write the guide in Brazilian Portuguese.
+  - State only what the `.guides/` documentation or the Git history supports; write "não documentado" where a topic has no source.
+  - Create or change no file other than `.guides/base/onboarding.md`.
+
+steps:
+  - id: extract-knowledge
+    title: Extract what the documentation says
+    actions:
+      - List the folders and files under `.guides/` and note which expected folders are missing.
+      - Read the documents and note the purpose, architecture, stack, setup, testing approach and open decisions of the project, each with the file it came from.
+      - Run `git log --format="%aN <%aE>"` and build the list of distinct authors.
+
+  - id: write-guide
+    title: Write the onboarding guide
+    actions:
+      - Write a welcoming introduction that states the project's vision and mission as documented.
+      - Add a table of contents with anchor links to every chapter.
+      - Describe the `.guides/` folder and the role of each section that exists.
+      - Summarize the architecture and the technology stack.
+      - Give local setup and development instructions exactly as documented.
+      - Describe who does what in the project, including the agents declared in `.guides/agents/agents.yaml` when the project has an agent map.
+      - Explain how OPS prompts are written, validated and run in this project.
+      - Describe the testing strategy and how to run the tests.
+      - List the automations that exist (CI, lint, validation).
+      - List pending issues, TODOs and open decisions found in the documentation.
+      - Give the contribution rules for branches, commits and pull requests.
+      - Add a glossary of the terms and acronyms the documentation uses.
+      - End with a section titled "Contribuidores do Projeto" that lists the distinct authors from the Git history.
+
+  - id: verify-guide
+    title: Verify the guide against its sources
+    actions:
+      - Check that every anchor in the table of contents resolves to a heading in the file.
+      - Compare the contributor section with the output of `git log --format="%aN <%aE>"` and correct any difference.
+      - Reread each chapter and remove or mark as "não documentado" any statement that no source supports.
+
+output:
+  - file: .guides/base/onboarding.md
+    rules:
+      - Written in Brazilian Portuguese, in a clear, welcoming and professional tone.
+      - Organized in chapters with an anchor-linked table of contents.
+      - Lean and skimmable, but complete.
+      - Ends with a "Contribuidores do Projeto" section listing author names and emails from the Git history.
+
+verification:
+  - id: guide-exists
+    expect: '`.guides/base/onboarding.md` exists and every table-of-contents anchor resolves to a heading in it.'
+  - id: contributors-match-history
+    expect: The "Contribuidores do Projeto" section lists exactly the distinct authors printed by the command.
+    run: git log --format="%aN <%aE>"
+  - id: grounded
+    expect: Each chapter names the `.guides/` file or the Git history it is based on, or says "não documentado".
+  - id: scope
+    expect: '`.guides/base/onboarding.md` is the only file created or changed.'
+    run: git status --short
+
+stopConditions:
+  - '`.guides/` holds no documentation to base a guide on.'
+  - The human has not confirmed that author emails may be published in the guide.
+
+tags:
+  - base
+  - onboarding
+  - documentation
+createdBy: guided-engineering

@@ -1,0 +1,8 @@
+{
+  "represents": "The checkpoint is compared with the files, the remaining defect is repaired, the missing changelog section is added once, the version is left as it was, the uncommitted README edit is untouched, both run checks pass after the last change, and the same entry is updated to completed.",
+  "deleted": [],
+  "rawScore": 100,
+  "effectiveScore": 100,
+  "failed": [],
+  "hardFailures": []
+}

@@ -1,0 +1,40 @@
+$schema: .guided/schema/prompt.schema.json
+apiVersion: ops/v1
+id: notify.retry-jitter
+title: Add jitter to retry delays
+persona: ReliabilityEngineer
+category: implementation
+difficulty: intermediate
+workspace: ./
+context: |
+  The notification sender retries failed deliveries using backoffDelays() in src/retry.mjs.
+  All clients retry at the same instants, which causes bursts. We want jitter.
+dependencies:
+  - Node.js 20
+steps:
+  - id: analyze
+    title: Analyze
+    actions:
+      - Look at the retry code
+  - id: improve
+    title: Improve the retry logic
+    actions:
+      - Make the delays better
+    if: jitterEnabled == true
+    retries: 3
+    onFailure: continue
+  - id: tests
+    title: Tests
+    actions:
+      - Update tests as needed
+output:
+  - file: src/retry.mjs
+    language: javascript
+    rules: |
+      - MUST keep the exported function name backoffDelays
+      - MUST accept an optional random function as third argument so tests are deterministic
+      - Each delay MUST stay within [0.5x, 1.0x] of the exponential delay ("equal jitter")
+  - file: test/retry.test.mjs
+    language: javascript
+version: 1.2.0
+createBy: platform-team

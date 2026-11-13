@@ -1,0 +1,14 @@
+{
+  "deleted": [],
+  "rawScore": 60,
+  "effectiveScore": 0,
+  "failed": [
+    "C2-01",
+    "C2-03",
+    "C2-07",
+    "C2-10"
+  ],
+  "hardFailures": [
+    "HF-ARTIFACT"
+  ]
+}

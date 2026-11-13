@@ -1,0 +1,121 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://guided-engineering.github.io/OpenPrompt-Specification/schemas/worklog.schema.json",
+  "title": "OPS Worklog Entry",
+  "description": "Front matter of one worklog entry: the record of one unit of work. It says which prompt was run, by which agent on which host, what state each step is in, and what each check observed. It is a checkpoint and an evidence index, kept apart from the reusable prompt. One Markdown file per entry under .guides/operation/worklog/, front matter first, readable record after.",
+  "type": "object",
+  "required": ["apiVersion", "entryId", "date", "agent", "executor", "mode", "status"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string", "minLength": 1 },
+    "apiVersion": { "type": "string", "const": "guided-engineering/v1" },
+    "entryId": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+([._-][a-z0-9]+)*$",
+      "maxLength": 96,
+      "description": "Stable identifier. Convention: <ISO date>.<short-slug>."
+    },
+    "date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the entry was last updated (RFC 3339)."
+    },
+    "prompt": {
+      "type": "object",
+      "required": ["id", "version"],
+      "additionalProperties": false,
+      "description": "The OPS prompt this unit of work ran. Omit for work that no prompt defines.",
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9]+([._-][a-z0-9]+)*$" },
+        "version": { "type": "integer", "minimum": 1 },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "Hash of the prompt file that was run."
+        }
+      }
+    },
+    "agent": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+      "description": "Agent id the work ran as. Equals the prompt's `agent` when a prompt is named."
+    },
+    "executor": {
+      "type": "object",
+      "required": ["host"],
+      "additionalProperties": false,
+      "description": "What actually acted, as observed. Use UNKNOWN for a value the host does not expose; never infer one.",
+      "properties": {
+        "host": { "type": "string", "minLength": 1, "description": "Agent host, for example `claude-code`, or `human` for manual work." },
+        "hostVersion": { "type": "string", "minLength": 1 },
+        "model": { "type": "string", "minLength": 1 },
+        "profile": { "type": "string", "minLength": 1, "description": "Native profile that ran, when one did." }
+      }
+    },
+    "mode": {
+      "type": "string",
+      "enum": ["interpret", "plan", "execute"],
+      "description": "What was requested: explain the prompt, plan it, or execute it."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["in-progress", "completed", "blocked", "failed"],
+      "description": "`completed` in execute mode requires every step done and every check passed after the last change."
+    },
+    "steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "status"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "status": { "type": "string", "enum": ["pending", "in-progress", "done", "blocked"] },
+          "evidence": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1, "description": "Path, commit, or URL of a concrete artifact." }
+          }
+        }
+      }
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "result"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "result": { "type": "string", "enum": ["pass", "fail", "not-run"] },
+          "command": { "type": "string", "minLength": 1 },
+          "exitCode": { "type": "integer" },
+          "at": { "type": "string", "format": "date-time", "description": "When the check last ran." },
+          "evidence": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    },
+    "approvals": {
+      "type": "array",
+      "description": "Decisions by accountable humans. An agent may record an approval a human gave, with a reference to where it was given; it can never be the approver.",
+      "items": {
+        "type": "object",
+        "required": ["by", "at", "scope"],
+        "additionalProperties": false,
+        "properties": {
+          "by": { "type": "string", "minLength": 1, "description": "The human who approved." },
+          "at": { "type": "string", "format": "date-time" },
+          "scope": { "type": "string", "minLength": 1, "description": "Exactly what was approved." },
+          "reference": { "type": "string", "minLength": 1, "description": "Where the approval can be seen: review URL, commit, or a quoted message." }
+        }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    }
+  }
+}

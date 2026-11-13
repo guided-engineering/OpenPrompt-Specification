@@ -1,0 +1,99 @@
+apiVersion: guided-engineering/v1
+id: cart.quantity-discount
+version: 1
+title: Apply a 10 percent line discount for quantities of ten or more
+agent: guided-engineer
+workspace: ./packages/cart
+
+objective: |
+  `cartTotal` applies a 10 percent discount to every line whose quantity is 10
+  or more. Lines with a smaller quantity are charged in full. A cart of
+  `[{unitPrice: 4, quantity: 10}, {unitPrice: 5, quantity: 2}]` totals `46`.
+
+context: |
+  `packages/cart` is a dependency-free ES module package of the `shop`
+  monorepo, tested with the Node.js built-in test runner. `src/totals.mjs`
+  exports `cartTotal(items)`, which today sums unit price times quantity.
+  Other directories of the repository contain files with the same name
+  (`src/totals.mjs` at the repository root and in `packages/catalog`); they
+  belong to other code and are not part of this task.
+
+inputs:
+  - src/totals.mjs
+  - test/totals.test.mjs
+
+dependencies:
+  - Node.js 20 or newer is available as `node`
+
+constraints:
+  - Change only `src/totals.mjs` and `test/totals.test.mjs` of this workspace.
+  - Do not touch `packages/catalog` or the `src/` directory at the repository root.
+  - Do not add dependencies.
+  - Keep the exported name `cartTotal` and its single-argument signature.
+
+requirements:
+  - id: R1
+    text: A line with a quantity of 10 or more is charged at 90 percent of unit price times quantity.
+  - id: R2
+    text: A line with a quantity below 10 is charged in full.
+  - id: R3
+    text: The existing behavior for carts without discounted lines, including the empty cart, is unchanged.
+
+steps:
+  - id: confirm-baseline
+    title: Confirm the starting state
+    requirements: [R3]
+    actions:
+      - Run `node --test` in the workspace and confirm that both existing tests pass.
+
+  - id: extend-tests
+    title: Describe the discount in tests
+    requirements: [R1, R2]
+    actions:
+      - Add a test to `test/totals.test.mjs` for a cart with one line of quantity 10 and one of quantity 2 that expects the total 46.
+      - Add a test for a line of quantity 9 that expects the full price.
+      - Run `node --test` and confirm that the new discount test fails for the expected reason.
+
+  - id: add-tier
+    title: Implement the discount tier
+    requirements: [R1, R2, R3]
+    actions:
+      - Change `cartTotal` in `src/totals.mjs` so that a line with quantity 10 or more is multiplied by 0.9.
+
+  - id: verify
+    title: Verify the final state
+    requirements: [R1, R2, R3]
+    actions:
+      - Run `node --test` in the workspace after the last edit and record the exit code and the pass and fail counts.
+      - Run `git status --short` and confirm that only the two allowed files changed.
+
+output:
+  - file: src/totals.mjs
+    rules:
+      - Exports `cartTotal(items)` with the same signature.
+  - file: test/totals.test.mjs
+    rules:
+      - Keeps the two existing tests unchanged and adds the two new ones.
+
+verification:
+  - id: unit-tests
+    expect: All tests of the workspace pass, including the two new ones.
+    run: node --test
+    requirements: [R1, R2, R3]
+  - id: scope
+    expect: Only `src/totals.mjs` and `test/totals.test.mjs` of the workspace changed.
+    run: git status --short
+    requirements: [R3]
+
+stopConditions:
+  - An existing test fails before any change is made.
+  - The discount rule cannot be implemented without changing an existing test.
+
+limits:
+  repairAttempts: 2
+  timeBudgetMinutes: 20
+
+tags:
+  - cart
+  - feature
+createdBy: shop-team

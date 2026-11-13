@@ -1,52 +1,77 @@
-$schema: ../.guides/schemas/prompt.schema.v2.json
+# OPS prompt template. Copy to `.guides/prompts/prompt.<id>.yaml`, replace every
+# value, delete the optional blocks you do not need, then validate:
+#
+#   node tools/ops-validate/cli.mjs .guides/prompts/prompt.<id>.yaml
+#
+# Field semantics: .guides/ops-contract.md. An optional `$schema` line may point
+# at the prompt schema, relative to the copied file: ../schemas/prompt.schema.json
 apiVersion: guided-engineering/v1
 id: example.starter-prompt
-title: Example starter prompt that validates against prompt.schema.v2.json
-persona: SoftwareDeveloper
-category: implementation
-difficulty: easy
+version: 1
+title: State in one line what this task changes
+agent: guided-engineer
+
+# What must be true when the task is done, stated so that someone can check it.
+objective: |
+  The file `docs/greeting.md` exists and contains a one-paragraph greeting.
+
+# Facts the executor needs before acting. Not instructions.
+context: |
+  The repository keeps its user-facing documents under `docs/`.
+
+# ---- optional ---------------------------------------------------------------
+# Directory the task works in, relative to the repository root. Default: ./
 workspace: ./
 
-context: |
-  Realistic, schema-valid example. Replace every field with content
-  specific to your prompt. Two steps and one structured output keep
-  this template close to the minimum viable shape; real prompts will
-  usually have 4-8 steps and 2-5 outputs.
+# Files or directories (relative to the workspace) that must exist beforehand.
+inputs:
+  - templates/
 
-businessContext: |
-  Optional in v2 — populate when the prompt exists to realize a spec
-  or close a business-visible requirement. Helps reviewers understand
-  why this prompt exists, not just what it does.
-
-riskLevel: low
-
+# Preconditions in plain language.
 dependencies:
-  - The repository checked out locally
-  - "`.guides/schemas/prompt.schema.v2.json` available for validation"
+  - Write access to the working tree.
 
-output:
-  - file: .guides/operation/example-output.md
-    language: markdown
-    rules:
-      - MUST start with an H1 matching the prompt title
-      - MUST end with an ISO 8601 timestamp and the executing persona
+# Limits on scope and method that hold for the whole task.
+constraints:
+  - Change nothing outside `docs/`.
 
+# Numbered requirements. When present, each one needs a covering check.
+requirements:
+  - id: R1
+    text: The greeting is a single paragraph.
+# -----------------------------------------------------------------------------
+
+# Ordered units of work. Each action is one imperative sentence.
 steps:
-  - id: gather-input
-    title: Gather the input the prompt needs
+  - id: write-greeting
+    title: Write the greeting
+    requirements: [R1]
     actions:
-      - Read the user-provided input or prior worklog entries
-      - Identify the smallest concrete artifact this prompt must produce
+      - Write `docs/greeting.md` with a one-paragraph greeting.
 
-  - id: emit-output
-    title: Emit the structured output file
-    actions:
-      - Write the output file declared in the `output` block
-      - Append an ISO 8601 timestamp and the executing persona at the end
+# Expected artifacts, relative to the workspace. Use `output: []` when the
+# result is only a state that the checks observe.
+output:
+  - file: docs/greeting.md
+    rules:
+      - Contains exactly one paragraph.
+
+# The checks that decide completion. `run` is a command executed in the
+# workspace; exit code 0 means pass. Without `run`, say how you observed it.
+verification:
+  - id: greeting-exists
+    expect: '`docs/greeting.md` exists and contains exactly one paragraph.'
+    requirements: [R1]
+
+# ---- optional ---------------------------------------------------------------
+stopConditions:
+  - '`docs/` does not exist.'
+
+limits:
+  repairAttempts: 2
+  timeBudgetMinutes: 10
 
 tags:
   - example
   - template
-
 createdBy: guided-engineering
-version: 1

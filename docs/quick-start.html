@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quick start · Guided Engineering</title>
+  <meta name="description" content="Guided Engineering: a practice for working with coding agents through validated task contracts (OPS prompts), portable Skills and evidence.">
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header>
+    <div class="wrap">
+      <a class="brand" href="index.html">Guided Engineering</a>
+      <nav aria-label="Main">
+        <ul>
+        <li><a href="index.html">Overview</a></li>
+        <li><a href="practice.html">Practice</a></li>
+        <li><a href="quick-start.html" aria-current="page">Quick start</a></li>
+        <li><a href="example.html">Example</a></li>
+        <li><a href="skills.html">Skills and agents</a></li>
+        <li><a href="results.html">Results</a></li>
+        <li><a href="contract.html">Specification</a></li>
+        <li><a href="contribute.html">Contribute</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main id="main" class="wrap">
+<h1 id="quick-start">Quick start</h1>
+<p>Ten minutes, one agent host, one small example. Tested with Claude Code on
+Windows; see <a href="skills.html">Skills and agents</a> for other hosts.</p>
+<h2 id="1-what-you-need">1. What you need</h2>
+<ul>
+<li>An agent host that loads Agent Skills (tested: Claude Code).</li>
+<li>Node.js 22.20 or newer for the <code>skills</code> installer. The validator inside the
+Skills needs Node.js 20 or newer.</li>
+<li>Git.</li>
+</ul>
+<h2 id="2-get-the-example-project">2. Get the example project</h2>
+<p>The example is a tiny repository with one package and two failing tests. Copy
+it out of the specification repository so that it is a project of its own:</p>
+<pre data-lang="bash"><code>git clone https://github.com/guided-engineering/OpenPrompt-Specification</code></pre>
+<pre data-lang="bash"><code>git -C OpenPrompt-Specification checkout 9ed6800e5c7f32ce61073c8746fcedd4e23dde08</code></pre>
+<pre data-lang="bash"><code>cp -r OpenPrompt-Specification/examples/project ops-demo</code></pre>
+<pre data-lang="bash"><code>cd ops-demo</code></pre>
+<p>The commit checked out above is the state of the example before it was solved.</p>
+<h2 id="3-install-the-skills">3. Install the Skills</h2>
+<p>In <code>ops-demo</code>:</p>
+<pre data-lang="bash"><code>npx skills add guided-engineering/skills -a claude-code -y</code></pre>
+<p>This copies <code>ops-author</code> and <code>ops-execute</code> into <code>.claude/skills/</code>. To install a
+fixed revision, name its commit. This one is the revision the local study
+measured:</p>
+<pre data-lang="bash"><code>npx skills add guided-engineering/skills#146c4b51fee8f1a6609b424fe6381c28c27c60e4 -a claude-code -y</code></pre>
+<p>No installer? Copy the two folders under <code>skills/</code> of the
+<a href="https://github.com/guided-engineering/skills" rel="noopener">Skills repository</a> into
+<code>.claude/skills/</code> by hand. The <code>skills</code> CLI sends anonymous install telemetry
+unless <code>DISABLE_TELEMETRY=1</code> is set.</p>
+<p>Now record the starting state, with the Skills in it, so that <code>git status</code>
+later shows only what the agent changed:</p>
+<pre data-lang="bash"><code>git init -q &amp;&amp; git add -A &amp;&amp; git commit -q -m &quot;start&quot;</code></pre>
+<p>The installer also writes a <code>skills-lock.json</code>; it is part of that commit.</p>
+<h2 id="4-read-the-contract">4. Read the contract</h2>
+<p>The example ships with its request and with the OPS prompt written from it:</p>
+<pre data-lang="bash"><code>cat request.md</code></pre>
+<pre data-lang="bash"><code>cat .guides/prompts/prompt.slug.clean-separators.yaml</code></pre>
+<p>To see the authoring step yourself, start your agent in <code>ops-demo</code> and ask:</p>
+<blockquote>
+<p>Write an OPS prompt for the request in <code>request.md</code>. Do not implement it.</p>
+</blockquote>
+<p><code>ops-author</code> writes a prompt under <code>.guides/prompts/</code>, validates it, and tells
+you what it assumed. Compare it with the one that ships.</p>
+<h2 id="5-plan-then-execute">5. Plan, then execute</h2>
+<p>Ask for a plan first:</p>
+<blockquote>
+<p>Plan <code>.guides/prompts/prompt.slug.clean-separators.yaml</code>. Plan only.</p>
+</blockquote>
+<p>Then for the work:</p>
+<blockquote>
+<p>Execute <code>.guides/prompts/prompt.slug.clean-separators.yaml</code>.</p>
+</blockquote>
+<p><code>ops-execute</code> validates the prompt, reproduces the two failing tests, changes
+<code>packages/slug/src/slug.mjs</code>, runs the tests again after the last edit, and
+writes a worklog entry under <code>.guides/operation/worklog/</code>.</p>
+<h2 id="6-check-the-evidence-yourself">6. Check the evidence yourself</h2>
+<p>Still in <code>ops-demo</code>:</p>
+<pre data-lang="bash"><code>node --test packages/slug/test/slug.test.mjs</code></pre>
+<pre data-lang="bash"><code>git status --short</code></pre>
+<p>The worklog entry is a claim. The validator checks that it does not claim more
+than it shows:</p>
+<pre data-lang="bash"><code>node .claude/skills/ops-execute/scripts/ops-validate.mjs --all</code></pre>
+<p>Then read the diff. Whether the change is good is your decision.</p>
+<h2 id="in-your-own-project">In your own project</h2>
+<p>Nothing to set up beyond step 3. Describe a change the way you normally would
+and ask for it &quot;as an OPS prompt&quot;; review the YAML; ask for a plan; ask for
+execution; read the worklog entry with the diff. A project that wants more than
+the default agent adds <code>.guides/agents/agents.yaml</code>; see
+<a href="contract.html#4-4-agent">the contract</a>.</p>
+<h2 id="what-was-verified-on-this-page">What was verified on this page</h2>
+<p>The commands of steps 2, 3, 4 and 6 were replayed as written from the two
+public repositories on 2026-11-13, on Windows: the clone and the checkout, the
+copy, the installer (both Skills, with files identical to the measured
+revision), the starting commit, the two failing tests of the starting state,
+and the validator from the installed Skill.</p>
+<p>The two requests of step 5 were not replayed in a fresh session for this page.
+The example in the repository was executed by the session that built it, and
+the same Skill files were exercised in the <a href="results.html">local study</a>.</p>
+
+  </main>
+  <footer>
+    <div class="wrap">
+      <p>Source: <a href="https://github.com/guided-engineering/OpenPrompt-Specification" rel="noopener">OpenPrompt-Specification</a> · Skills: <a href="https://github.com/guided-engineering/skills" rel="noopener">guided-engineering/skills</a> · MIT License</p>
+      <p>This site is generated from the repository by <code>npm run site</code>. Page source: <a href="https://github.com/guided-engineering/OpenPrompt-Specification/blob/main/site/quick-start.md" rel="noopener"><code>site/quick-start.md</code></a></p>
+    </div>
+  </footer>
+  <script src="assets/site.js"></script>
+</body>
+</html>

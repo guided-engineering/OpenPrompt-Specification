@@ -1,0 +1,370 @@
+TAP version 13
+# Subtest: every canonical schema is a valid draft-07 schema and compiles in strict mode
+ok 1 - every canonical schema is a valid draft-07 schema and compiles in strict mode
+  ---
+  duration_ms: 41.3293
+  type: 'test'
+  ...
+# Subtest: valid: examples/valid/prompt.minimal.yaml
+ok 2 - valid: examples/valid/prompt.minimal.yaml
+  ---
+  duration_ms: 11.3884
+  type: 'test'
+  ...
+# Subtest: valid: examples/valid/worklog.blocked-run.md
+ok 3 - valid: examples/valid/worklog.blocked-run.md
+  ---
+  duration_ms: 24.3845
+  type: 'test'
+  ...
+# Subtest: valid: examples/valid/worklog.completed-run.md
+ok 4 - valid: examples/valid/worklog.completed-run.md
+  ---
+  duration_ms: 14.6588
+  type: 'test'
+  ...
+# Subtest: valid: examples/project/.guides/agents/agents.yaml
+ok 5 - valid: examples/project/.guides/agents/agents.yaml
+  ---
+  duration_ms: 0.902
+  type: 'test'
+  ...
+# Subtest: valid: examples/project/.guides/prompts/prompt.slug.clean-separators.yaml
+ok 6 - valid: examples/project/.guides/prompts/prompt.slug.clean-separators.yaml
+  ---
+  duration_ms: 2.8855
+  type: 'test'
+  ...
+# Subtest: valid: examples/invalid/.guides/agents/agents.yaml
+ok 7 - valid: examples/invalid/.guides/agents/agents.yaml
+  ---
+  duration_ms: 0.6405
+  type: 'test'
+  ...
+# Subtest: valid: examples/invalid/.guides/prompts/prompt.contract-fixture.yaml
+ok 8 - valid: examples/invalid/.guides/prompts/prompt.contract-fixture.yaml
+  ---
+  duration_ms: 1.4835
+  type: 'test'
+  ...
+# Subtest: valid: .guides/agents/agents.yaml
+ok 9 - valid: .guides/agents/agents.yaml
+  ---
+  duration_ms: 1.0717
+  type: 'test'
+  ...
+# Subtest: valid: .guides/architecture/adr/0001-choose-spec-format.md
+ok 10 - valid: .guides/architecture/adr/0001-choose-spec-format.md
+  ---
+  duration_ms: 2.1782
+  type: 'test'
+  ...
+# Subtest: invalid: prompt.missing-agent.yaml is rejected with agent-missing
+ok 11 - invalid: prompt.missing-agent.yaml is rejected with agent-missing
+  ---
+  duration_ms: 1.1432
+  type: 'test'
+  ...
+# Subtest: invalid: prompt.unresolved-agent.yaml is rejected with agent-unresolved
+ok 12 - invalid: prompt.unresolved-agent.yaml is rejected with agent-unresolved
+  ---
+  duration_ms: 1.3665
+  type: 'test'
+  ...
+# Subtest: invalid: prompt.legacy-persona.yaml is rejected with legacy-persona, legacy-field, agent-missing
+ok 13 - invalid: prompt.legacy-persona.yaml is rejected with legacy-persona, legacy-field, agent-missing
+  ---
+  duration_ms: 1.1337
+  type: 'test'
+  ...
+# Subtest: invalid: prompt.actor-conflict.yaml is rejected with actor-conflict
+ok 14 - invalid: prompt.actor-conflict.yaml is rejected with actor-conflict
+  ---
+  duration_ms: 1.3186
+  type: 'test'
+  ...
+# Subtest: invalid: prompt.duplicate-key.yaml is rejected with yaml-duplicate-key
+ok 15 - invalid: prompt.duplicate-key.yaml is rejected with yaml-duplicate-key
+  ---
+  duration_ms: 0.8787
+  type: 'test'
+  ...
+# Subtest: invalid: prompt.output-shape-string.yaml is rejected with schema
+ok 16 - invalid: prompt.output-shape-string.yaml is rejected with schema
+  ---
+  duration_ms: 1.1742
+  type: 'test'
+  ...
+# Subtest: invalid: prompt.output-rules-block-string.yaml is rejected with schema
+ok 17 - invalid: prompt.output-rules-block-string.yaml is rejected with schema
+  ---
+  duration_ms: 1.1845
+  type: 'test'
+  ...
+# Subtest: invalid: prompt.output-path-escape.yaml is rejected with path-invalid
+ok 18 - invalid: prompt.output-path-escape.yaml is rejected with path-invalid
+  ---
+  duration_ms: 1.2429
+  type: 'test'
+  ...
+# Subtest: invalid: prompt.output-duplicate.yaml is rejected with output-duplicate
+ok 19 - invalid: prompt.output-duplicate.yaml is rejected with output-duplicate
+  ---
+  duration_ms: 1.1897
+  type: 'test'
+  ...
+# Subtest: invalid: prompt.workspace-escape.yaml is rejected with path-invalid
+ok 20 - invalid: prompt.workspace-escape.yaml is rejected with path-invalid
+  ---
+  duration_ms: 1.099
+  type: 'test'
+  ...
+# Subtest: invalid: prompt.workspace-not-relative.yaml is rejected with path-invalid
+ok 21 - invalid: prompt.workspace-not-relative.yaml is rejected with path-invalid
+  ---
+  duration_ms: 1.0505
+  type: 'test'
+  ...
+# Subtest: invalid: prompt.workspace-not-found.yaml is rejected with workspace-not-found
+ok 22 - invalid: prompt.workspace-not-found.yaml is rejected with workspace-not-found
+  ---
+  duration_ms: 1.1575
+  type: 'test'
+  ...
+# Subtest: invalid: prompt.input-not-found.yaml is rejected with input-not-found
+ok 23 - invalid: prompt.input-not-found.yaml is rejected with input-not-found
+  ---
+  duration_ms: 1.3203
+  type: 'test'
+  ...
+# Subtest: invalid: prompt.missing-verification.yaml is rejected with verification-missing
+ok 24 - invalid: prompt.missing-verification.yaml is rejected with verification-missing
+  ---
+  duration_ms: 1.1523
+  type: 'test'
+  ...
+# Subtest: invalid: prompt.empty-verification.yaml is rejected with verification-missing
+ok 25 - invalid: prompt.empty-verification.yaml is rejected with verification-missing
+  ---
+  duration_ms: 1.5623
+  type: 'test'
+  ...
+# Subtest: invalid: prompt.unknown-field.yaml is rejected with unknown-field
+ok 26 - invalid: prompt.unknown-field.yaml is rejected with unknown-field
+  ---
+  duration_ms: 1.213
+  type: 'test'
+  ...
+# Subtest: invalid: prompt.step-legacy-controls.yaml is rejected with legacy-field
+ok 27 - invalid: prompt.step-legacy-controls.yaml is rejected with legacy-field
+  ---
+  duration_ms: 1.2042
+  type: 'test'
+  ...
+# Subtest: invalid: prompt.duplicate-step-id.yaml is rejected with duplicate-id
+ok 28 - invalid: prompt.duplicate-step-id.yaml is rejected with duplicate-id
+  ---
+  duration_ms: 1.1513
+  type: 'test'
+  ...
+# Subtest: invalid: prompt.requirement-unverified.yaml is rejected with requirement-unverified
+ok 29 - invalid: prompt.requirement-unverified.yaml is rejected with requirement-unverified
+  ---
+  duration_ms: 1.2692
+  type: 'test'
+  ...
+# Subtest: invalid: prompt.requirement-unknown.yaml is rejected with requirement-unknown
+ok 30 - invalid: prompt.requirement-unknown.yaml is rejected with requirement-unknown
+  ---
+  duration_ms: 1.333
+  type: 'test'
+  ...
+# Subtest: invalid: prompt.schema-path-stale.yaml is rejected with schema-path
+ok 31 - invalid: prompt.schema-path-stale.yaml is rejected with schema-path
+  ---
+  duration_ms: 1.2614
+  type: 'test'
+  ...
+# Subtest: invalid: prompt.legacy-api-version.yaml is rejected with legacy-api-version
+ok 32 - invalid: prompt.legacy-api-version.yaml is rejected with legacy-api-version
+  ---
+  duration_ms: 1.1153
+  type: 'test'
+  ...
+# Subtest: invalid: prompt.limits-out-of-range.yaml is rejected with schema
+ok 33 - invalid: prompt.limits-out-of-range.yaml is rejected with schema
+  ---
+  duration_ms: 1.1707
+  type: 'test'
+  ...
+# Subtest: invalid: prompt.unquoted-colon.yaml is rejected with schema
+ok 34 - invalid: prompt.unquoted-colon.yaml is rejected with schema
+  ---
+  duration_ms: 1.2645
+  type: 'test'
+  ...
+# Subtest: invalid: prompt.multi-document.yaml is rejected with yaml-multi-document
+ok 35 - invalid: prompt.multi-document.yaml is rejected with yaml-multi-document
+  ---
+  duration_ms: 0.7862
+  type: 'test'
+  ...
+# Subtest: invalid: prompt.not-yaml.yaml is rejected with yaml-parse
+ok 36 - invalid: prompt.not-yaml.yaml is rejected with yaml-parse
+  ---
+  duration_ms: 0.6843
+  type: 'test'
+  ...
+# Subtest: invalid: agents.duplicate-id.yaml is rejected with duplicate-id
+ok 37 - invalid: agents.duplicate-id.yaml is rejected with duplicate-id
+  ---
+  duration_ms: 0.5121
+  type: 'test'
+  ...
+# Subtest: invalid: agents.profile-missing.yaml is rejected with agent-profile-missing
+ok 38 - invalid: agents.profile-missing.yaml is rejected with agent-profile-missing
+  ---
+  duration_ms: 0.6013
+  type: 'test'
+  ...
+# Subtest: invalid: agents.legacy-persona-list.yaml is rejected with legacy-field
+ok 39 - invalid: agents.legacy-persona-list.yaml is rejected with legacy-field
+  ---
+  duration_ms: 0.6707
+  type: 'test'
+  ...
+# Subtest: invalid: worklog.completed-with-failing-check.md is rejected with completed-without-proof
+ok 40 - invalid: worklog.completed-with-failing-check.md is rejected with completed-without-proof
+  ---
+  duration_ms: 1.0684
+  type: 'test'
+  ...
+# Subtest: invalid: worklog.completed-without-checks.md is rejected with completed-without-proof
+ok 41 - invalid: worklog.completed-without-checks.md is rejected with completed-without-proof
+  ---
+  duration_ms: 0.9119
+  type: 'test'
+  ...
+# Subtest: invalid: worklog.approval-by-agent.md is rejected with approval-by-agent
+ok 42 - invalid: worklog.approval-by-agent.md is rejected with approval-by-agent
+  ---
+  duration_ms: 0.944
+  type: 'test'
+  ...
+# Subtest: invalid: worklog.legacy-persona-signoff.md is rejected with legacy-persona, legacy-field
+ok 43 - invalid: worklog.legacy-persona-signoff.md is rejected with legacy-persona, legacy-field
+  ---
+  duration_ms: 1.1126
+  type: 'test'
+  ...
+# Subtest: invalid: worklog.bad-timestamp.md is rejected with schema
+ok 44 - invalid: worklog.bad-timestamp.md is rejected with schema
+  ---
+  duration_ms: 0.8649
+  type: 'test'
+  ...
+# Subtest: invalid: worklog.agent-mismatch.md is rejected with actor-conflict
+ok 45 - invalid: worklog.agent-mismatch.md is rejected with actor-conflict
+  ---
+  duration_ms: 1.6912
+  type: 'test'
+  ...
+# Subtest: invalid: worklog.unknown-step.md is rejected with record-unknown-step
+ok 46 - invalid: worklog.unknown-step.md is rejected with record-unknown-step
+  ---
+  duration_ms: 1.6743
+  type: 'test'
+  ...
+# Subtest: invalid: worklog.plan-claims-execution.md is rejected with plan-claims-execution
+ok 47 - invalid: worklog.plan-claims-execution.md is rejected with plan-claims-execution
+  ---
+  duration_ms: 2.1433
+  type: 'test'
+  ...
+# Subtest: invalid: worklog.no-front-matter.md is rejected with front-matter-missing
+ok 48 - invalid: worklog.no-front-matter.md is rejected with front-matter-missing
+  ---
+  duration_ms: 0.1836
+  type: 'test'
+  ...
+# Subtest: conversion example: the legacy prompt is rejected and its conversion is accepted
+ok 49 - conversion example: the legacy prompt is rejected and its conversion is accepted
+  ---
+  duration_ms: 3.4116
+  type: 'test'
+  ...
+# Subtest: every invalid fixture has an expectation
+ok 50 - every invalid fixture has an expectation
+  ---
+  duration_ms: 0.3096
+  type: 'test'
+  ...
+# Subtest: workspace, inputs, outputs and agent resolve against the repository root
+ok 51 - workspace, inputs, outputs and agent resolve against the repository root
+  ---
+  duration_ms: 2.439
+  type: 'test'
+  ...
+# Subtest: without an agent map, the built-in map resolves only `guided-engineer`
+ok 52 - without an agent map, the built-in map resolves only `guided-engineer`
+  ---
+  duration_ms: 4.4499
+  type: 'test'
+  ...
+# Subtest: a declared native profile resolves for its host and to the current executor elsewhere
+ok 53 - a declared native profile resolves for its host and to the current executor elsewhere
+  ---
+  duration_ms: 6.7626
+  type: 'test'
+  ...
+# Subtest: `$schema` must lead to the canonical prompt schema
+ok 54 - `$schema` must lead to the canonical prompt schema
+  ---
+  duration_ms: 13.1383
+  type: 'test'
+  ...
+# Subtest: CLI exits 0 for a valid file, 1 for an invalid file, 2 for a usage error
+ok 55 - CLI exits 0 for a valid file, 1 for an invalid file, 2 for a usage error
+  ---
+  duration_ms: 1103.3572
+  type: 'test'
+  ...
+# Subtest: CLI --json reports machine-readable results
+ok 56 - CLI --json reports machine-readable results
+  ---
+  duration_ms: 316.5432
+  type: 'test'
+  ...
+# Subtest: CLI --all validates every active artifact of this repository
+ok 57 - CLI --all validates every active artifact of this repository
+  ---
+  duration_ms: 423.91
+  type: 'test'
+  ...
+# Subtest: the committed bundle is built from the current sources
+ok 58 - the committed bundle is built from the current sources
+  ---
+  duration_ms: 138.8274
+  type: 'test'
+  ...
+# Subtest: the bundle reports the same result as the sources for every example
+ok 59 - the bundle reports the same result as the sources for every example
+  ---
+  duration_ms: 304.5962
+  type: 'test'
+  ...
+# Subtest: the bundle runs from a directory that has no node_modules
+ok 60 - the bundle runs from a directory that has no node_modules
+  ---
+  duration_ms: 135.5538
+  type: 'test'
+  ...
+1..60
+# tests 60
+# suites 0
+# pass 60
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2898.6253

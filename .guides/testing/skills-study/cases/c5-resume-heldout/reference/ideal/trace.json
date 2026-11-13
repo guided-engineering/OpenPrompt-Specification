@@ -1,0 +1,91 @@
+{
+  "calls": [
+    {
+      "name": "Read",
+      "file": ".guides/prompts/prompt.juniper.issue-58.yaml"
+    },
+    {
+      "name": "Read",
+      "file": ".guides/operation/worklog/2026-11-12.juniper-issue-58.md"
+    },
+    {
+      "name": "PowerShell",
+      "command": "node .guides/tools/ops-validate.mjs --resolve .guides/prompts/prompt.juniper.issue-58.yaml",
+      "result": ".guides/prompts/prompt.juniper.issue-58.yaml: valid (prompt)",
+      "isError": false
+    },
+    {
+      "name": "PowerShell",
+      "command": "git status --short",
+      "result": " M README.md",
+      "isError": false
+    },
+    {
+      "name": "PowerShell",
+      "command": "node --test",
+      "result": "ℹ tests 9\nℹ pass 7\nℹ fail 2",
+      "isError": true
+    },
+    {
+      "name": "PowerShell",
+      "command": "node tools/preflight.mjs",
+      "result": "preflight: FAILED - CHANGELOG.md has no section for 0.3.3",
+      "isError": true
+    },
+    {
+      "name": "Read",
+      "file": "package.json"
+    },
+    {
+      "name": "Read",
+      "file": "CHANGELOG.md"
+    },
+    {
+      "name": "Read",
+      "file": "src/index.mjs"
+    },
+    {
+      "name": "Edit",
+      "file": "src/index.mjs"
+    },
+    {
+      "name": "PowerShell",
+      "command": "node --test",
+      "result": "ℹ tests 9\nℹ pass 9\nℹ fail 0",
+      "isError": false
+    },
+    {
+      "name": "Edit",
+      "file": "CHANGELOG.md"
+    },
+    {
+      "name": "PowerShell",
+      "command": "node --test",
+      "result": "ℹ tests 9\nℹ pass 9\nℹ fail 0",
+      "isError": false
+    },
+    {
+      "name": "PowerShell",
+      "command": "node tools/preflight.mjs",
+      "result": "preflight: ok - CHANGELOG.md describes 0.3.3",
+      "isError": false
+    },
+    {
+      "name": "PowerShell",
+      "command": "git status --short",
+      "result": " M CHANGELOG.md\n M README.md\n M src/index.mjs",
+      "isError": false
+    },
+    {
+      "name": "Write",
+      "file": ".guides/operation/worklog/2026-11-12.juniper-issue-58.md"
+    },
+    {
+      "name": "PowerShell",
+      "command": "node .guides/tools/ops-validate.mjs .guides/operation/worklog/2026-11-12.juniper-issue-58.md",
+      "result": ".guides/operation/worklog/2026-11-12.juniper-issue-58.md: valid (worklog)",
+      "isError": false
+    }
+  ],
+  "finalText": "Resumed the run and finished it. The checkpoint did not match the files in two places: `isFree` in `src/index.mjs` was still unfixed, and `CHANGELOG.md` had no 0.3.3 section. Both are done now; the version in `package.json` was already 0.3.3 and was left alone, and the uncommitted change to `README.md` was not touched. After the last edit `node --test` passes (9 pass, 0 fail) and `node tools/preflight.mjs` exits 0. The record is in the same worklog entry, `.guides/operation/worklog/2026-11-12.juniper-issue-58.md`, which validates."
+}

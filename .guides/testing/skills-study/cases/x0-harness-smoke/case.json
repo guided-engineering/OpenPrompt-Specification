@@ -1,0 +1,11 @@
+{
+  "id": "X0",
+  "title": "Harness smoke check (infrastructure, not part of the study)",
+  "complexity": "none",
+  "split": "infrastructure",
+  "track": "none",
+  "requestedMode": "execute",
+  "timeLimitSeconds": 120,
+  "allowedPaths": ["hello.txt"],
+  "protectedPaths": ["README.md"]
+}

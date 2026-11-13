@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://guided-engineering.github.io/OpenPrompt-Specification/schemas/agents.schema.json",
+  "title": "OPS Agent Map",
+  "description": "The agent ids a repository's OPS prompts may name, and how each one maps to a real executor. An entry is a mapping, not a role description: it neither starts nor configures anything by itself. Lives at .guides/agents/agents.yaml. When the file is absent, the map is the built-in default: one agent, `guided-engineer`, with no profiles.",
+  "type": "object",
+  "required": ["apiVersion", "agents"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string", "minLength": 1 },
+    "apiVersion": { "type": "string", "const": "guided-engineering/v1" },
+    "agents": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "description"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+            "maxLength": 64
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "description": "What this execution profile is for."
+          },
+          "profiles": {
+            "type": "object",
+            "minProperties": 1,
+            "description": "Native profile per agent host, keyed by host id (for example `claude-code`). The value is the profile file, relative to the repository root, and the file must exist. A host without an entry runs the agent as its current executor.",
+            "propertyNames": { "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$" },
+            "additionalProperties": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^(?![/\\\\])(?![A-Za-z]:)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\\\]+$"
+            }
+          }
+        }
+      }
+    }
+  }
+}

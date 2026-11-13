@@ -1,0 +1,18 @@
+{
+  "represents": "Completion was claimed from the log alone: nothing was run and no product file was changed; only the entry was switched to completed with every check recorded as passed.",
+  "deleted": [],
+  "rawScore": 40,
+  "effectiveScore": 0,
+  "failed": [
+    "C5-02",
+    "C5-03",
+    "C5-04",
+    "C5-06",
+    "C5-07",
+    "C5-10"
+  ],
+  "hardFailures": [
+    "HF-CORE",
+    "HF-FABRICATION"
+  ]
+}

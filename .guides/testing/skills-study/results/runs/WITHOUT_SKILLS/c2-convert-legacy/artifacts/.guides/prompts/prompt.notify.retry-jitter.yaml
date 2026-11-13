@@ -1,0 +1,140 @@
+$schema: ../schemas/prompt.schema.json
+apiVersion: guided-engineering/v1
+id: notify.retry-jitter
+version: 1
+title: Add equal jitter to notification retry delays
+agent: guided-engineer
+createdBy: platform-team
+tags:
+  - implementation
+  - reliability
+
+objective: >-
+  backoffDelays(attempts, baseMs, random) in src/retry.mjs returns, for each
+  retry i (0-based), a delay d_i with 0.5 * baseMs * 2^i <= d_i <= baseMs * 2^i
+  ("equal jitter"), computed as half the exponential delay plus random() times
+  the other half. The optional third argument `random` defaults to Math.random,
+  so existing two-argument callers keep working, and tests pass a fixed
+  function to get exact, repeatable values. test/retry.test.mjs covers the
+  bounds and the injected random function, and `npm test` passes.
+
+context: |
+  The notification sender retries failed deliveries using backoffDelays() in
+  src/retry.mjs. Today it returns pure exponential delays
+  (baseMs, 2 * baseMs, 4 * baseMs, ...) with no randomness, so every client
+  that failed at the same moment retries at the same instants and the
+  receiving side sees bursts. Adding jitter spreads those retries out.
+
+  Current state of the code:
+  - src/retry.mjs exports `backoffDelays(attempts, baseMs)` and nothing else.
+  - test/retry.test.mjs uses node:test and asserts exact values, for example
+    `backoffDelays(3, 100)` deep-equals `[100, 200, 400]`. That assertion is
+    incompatible with jitter and has to be rewritten, not deleted.
+  - The project is an ES module package ("type": "module"); `npm test` runs
+    `node --test`.
+
+  "Equal jitter" here means, for exponential delay e_i = baseMs * 2^i:
+  d_i = e_i / 2 + random() * (e_i / 2), with random() in [0, 1).
+  With random = () => 0 the result is exactly half the exponential delays
+  (e.g. backoffDelays(3, 100, () => 0) is [50, 100, 200]).
+
+workspace: ./
+inputs:
+  - src/retry.mjs
+  - test/retry.test.mjs
+  - package.json
+dependencies:
+  - Node.js 20 or later (node:test and node:assert/strict are used).
+  - npm, to run `npm test`.
+
+constraints:
+  - Change only src/retry.mjs and test/retry.test.mjs. Do not modify package.json, README.md, legacy/ or anything under .guides/ except the worklog entry of the run.
+  - Do not add runtime or development dependencies.
+  - Jitter is always applied. There is no feature flag; do not invent one (the earlier `jitterEnabled` condition had no defined source, see stopConditions).
+  - Keep the function synchronous and its return type an array of numbers of length `attempts`.
+  - Tests MUST NOT depend on Math.random; every test that checks values passes its own `random` function.
+
+requirements:
+  - id: R1
+    text: src/retry.mjs keeps exporting a function named backoffDelays.
+  - id: R2
+    text: backoffDelays accepts an optional third argument `random`, a function returning a number in [0, 1), defaulting to Math.random; calls with two arguments keep working.
+  - id: R3
+    text: "For every i in [0, attempts), the returned delay d_i satisfies 0.5 * baseMs * 2^i <= d_i <= baseMs * 2^i, computed as e_i / 2 + random() * e_i / 2."
+  - id: R4
+    text: backoffDelays(0, baseMs) still returns an empty array.
+  - id: R5
+    text: test/retry.test.mjs asserts exact results for at least two injected random functions (one returning 0, one returning a constant such as 0.5) and asserts the bounds of R3 for the default random function.
+
+steps:
+  - id: analyze
+    title: Read the current retry code and tests
+    actions:
+      - Read src/retry.mjs and test/retry.test.mjs.
+      - Search the workspace for other callers of backoffDelays (excluding node_modules) and list them in the worklog entry.
+      - Run `npm test` and record that it passes before any change.
+  - id: implement
+    title: Add equal jitter to backoffDelays
+    requirements: [R1, R2, R3, R4]
+    actions:
+      - Add an optional third parameter `random` to backoffDelays that defaults to Math.random.
+      - "Compute each delay as e / 2 + random() * (e / 2), where e is baseMs * 2 ** i."
+      - Call `random` once per attempt, in attempt order.
+      - Do not round the result; rounding is an open decision for a human (see the conversion report).
+      - Update the JSDoc to describe the `random` parameter, the equal-jitter formula and the returned range.
+  - id: tests
+    title: Rewrite the tests for jittered delays
+    requirements: [R5]
+    actions:
+      - Replace the exact-value assertion `[100, 200, 400]` with assertions that pass an injected random function.
+      - "Assert backoffDelays(3, 100, () => 0) deep-equals [50, 100, 200]."
+      - "Assert backoffDelays(3, 100, () => 0.5) deep-equals [75, 150, 300]."
+      - Assert that, with the default random function, every delay lies within [0.5 * e_i, 1.0 * e_i] over repeated calls.
+      - Keep the test that zero attempts returns an empty array.
+      - Run `npm test`.
+
+output:
+  - file: src/retry.mjs
+    rules:
+      - MUST keep the exported function name backoffDelays.
+      - MUST accept an optional random function as third argument, defaulting to Math.random, so tests are deterministic.
+      - "Each delay MUST stay within [0.5x, 1.0x] of the exponential delay (equal jitter)."
+      - MUST remain an ES module with no new imports.
+  - file: test/retry.test.mjs
+    rules:
+      - MUST use node:test and node:assert/strict, as today.
+      - MUST NOT rely on Math.random for exact-value assertions.
+
+verification:
+  - id: tests-pass
+    expect: The whole test suite passes.
+    run: npm test
+    requirements: [R4, R5]
+  - id: deterministic-jitter
+    expect: "With injected random functions the delays are exact: () => 0 gives [50, 100, 200] and () => 0.5 gives [75, 150, 300] for (3, 100)."
+    run: "node --input-type=module -e \"import { backoffDelays } from './src/retry.mjs'; import assert from 'node:assert/strict'; assert.deepEqual(backoffDelays(3, 100, () => 0), [50, 100, 200]); assert.deepEqual(backoffDelays(3, 100, () => 0.5), [75, 150, 300]);\""
+    requirements: [R1, R2, R3]
+  - id: default-random-bounds
+    expect: Over 1000 calls with the default random function and two arguments, every delay lies within [0.5 * baseMs * 2^i, baseMs * 2^i] and the array length equals attempts.
+    run: "node --input-type=module -e \"import { backoffDelays } from './src/retry.mjs'; import assert from 'node:assert/strict'; for (let n = 0; n < 1000; n++) { const d = backoffDelays(6, 100); assert.equal(d.length, 6); d.forEach((v, i) => { const e = 100 * 2 ** i; assert.ok(v >= e / 2 && v <= e, 'delay ' + i + ' out of range: ' + v); }); }\""
+    requirements: [R2, R3]
+  - id: empty-attempts
+    expect: backoffDelays with zero attempts returns an empty array.
+    run: "node --input-type=module -e \"import { backoffDelays } from './src/retry.mjs'; import assert from 'node:assert/strict'; assert.deepEqual(backoffDelays(0, 100), []);\""
+    requirements: [R4]
+  - id: scope
+    expect: Only src/retry.mjs and test/retry.test.mjs changed among tracked files outside .guides/operation/worklog/; package.json, README.md and legacy/ are untouched.
+    run: git diff --quiet HEAD -- package.json README.md legacy .guides/schemas .guides/tools .guides/prompts
+  - id: no-random-in-exact-tests
+    expect: Every exact-value assertion in test/retry.test.mjs passes an explicit random function; the executor states which lines were inspected.
+    requirements: [R5]
+
+stopConditions:
+  - Other callers of backoffDelays exist that depend on exact, non-random delays (for example, tests or code outside test/retry.test.mjs asserting fixed values). Stop and report them instead of changing them.
+  - Something in the workspace (configuration, environment variable, caller) indicates that jitter must be switchable, such as a `jitterEnabled` setting. Stop and ask where the switch comes from instead of inventing one.
+  - Meeting the objective appears to require changing a file outside src/retry.mjs and test/retry.test.mjs.
+  - "`npm test` fails before any change is made (step analyze)."
+
+limits:
+  repairAttempts: 3
+  timeBudgetMinutes: 30

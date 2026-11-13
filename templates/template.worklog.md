@@ -1,62 +1,50 @@
-# Worklog — Guided Engineering
-
-> This log records relevant actions, decisions, and SDD lifecycle transitions during the operational lifecycle of the project. One entry per PR or per phase transition.
->
-> Each entry begins with a YAML front-matter block (between `---` fences) that validates against [`.guides/schemas/worklog.schema.json`](../.guides/schemas/worklog.schema.json). The Markdown body that follows is the readable record; the front-matter is the contract.
-
 ---
-
-```yaml
----
-$schema: ../.guides/schemas/worklog.schema.json
+# Worklog entry template. Copy to `.guides/operation/worklog/<entryId>.md`.
+# One entry records one unit of work. The front matter is the checkpoint and the
+# evidence index; the text below it is the readable record.
+# Field semantics: .guides/ops-contract.md, "Worklog entries".
 apiVersion: guided-engineering/v1
-entryId: 2026-05-17.example-entry
-date: '2026-05-17T20:00:00Z'
-persona: SoftwareDeveloper
-stage: Implement
-specId: example.user-login
-specVersion: 1
-requirementIds:
-  - req.user-login.001
-adrIds:
-  - 0001-choose-spec-format
-conformanceResult: N/A
-signOffs:
-  - persona: Maintainer
-    at: '2026-05-17T20:05:00Z'
-  - persona: DocumentationCurator
-    at: '2026-05-17T20:05:30Z'
-tags:
-  - example
-  - template
+entryId: 2026-01-31.example-entry
+date: '2026-01-31T10:30:00Z'
+prompt:
+  id: example.starter-prompt
+  version: 1
+agent: guided-engineer
+executor:
+  host: claude-code
+  hostVersion: UNKNOWN
+  model: UNKNOWN
+mode: execute
+status: in-progress
+steps:
+  - id: write-greeting
+    status: done
+    evidence:
+      - docs/greeting.md
+checks:
+  - id: greeting-exists
+    result: not-run
 ---
-```
 
-## Tasks Executed
+# Short title of what this unit of work did
 
-- [ ] Task 1
-- [ ] Task 2
+## What was done
 
-## Key Decisions
+- One line per step, in the order it happened.
 
-- Decision 1 — link to the ADR (`adrIds`) if one was authored.
-- Decision 2.
+## Checks
 
-## Issues Encountered
+- For each check: the command or observation, the result, and when it ran
+  relative to the last change.
 
-- Issue 1 — context, workaround, resolution.
+## Failures and repairs
 
-## Artifacts Updated
+- The failed command, an error summary, the likely cause, what was tried.
 
-- File path → short description of the change.
-- Schema or template version bumped, if any.
+## Decisions and open questions
 
-## Evidence
+- Assumptions made, and anything a human must decide.
 
-- `<path-to-test-output-or-report>`
-- `<path-to-conformance-report-or-CI-run-url>`
+## Next unit
 
-## Next Steps
-
-- Next step 1
-- Next step 2
+- What should happen next, or why the work stops here.

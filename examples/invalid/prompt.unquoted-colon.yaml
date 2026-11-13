@@ -1,0 +1,19 @@
+# INVALID ON PURPOSE - expected: schema
+# An action containing `: ` without quotes is read by YAML as a mapping, not as text.
+apiVersion: guided-engineering/v1
+id: invalid.unquoted-colon
+version: 1
+title: Prompt with an unquoted colon inside an action
+agent: guided-engineer
+objective: The report file exists.
+context: Fixture used by the contract tests. It is invalid on purpose.
+steps:
+  - id: write
+    title: Write the report
+    actions:
+      - Write the report with one heading: the title of the task.
+output:
+  - file: report.md
+verification:
+  - id: exists
+    expect: The file `report.md` exists.

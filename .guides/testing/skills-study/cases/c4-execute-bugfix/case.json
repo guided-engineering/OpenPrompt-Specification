@@ -1,0 +1,28 @@
+{
+  "id": "C4",
+  "title": "Execute a frozen OPS prompt against a deterministic bug",
+  "complexity": "advanced",
+  "split": "development",
+  "track": "execution",
+  "requestedMode": "execute",
+  "timeLimitSeconds": 300,
+  "prompt": ".guides/prompts/prompt.ledger.csv-quoted-fields.yaml",
+  "requiredArtifact": ".guides/operation/worklog/2026-11-13.ledger-csv-quoted-fields.md",
+  "allowedPaths": [
+    "src/csv.mjs",
+    ".guides/operation/worklog/2026-11-13.ledger-csv-quoted-fields.md"
+  ],
+  "protectedPaths": [
+    "test/",
+    "package.json",
+    "src/report.mjs",
+    ".guides/prompts/"
+  ],
+  "coreCheck": {
+    "command": "node",
+    "args": [
+      "--test"
+    ],
+    "cwd": "."
+  }
+}
