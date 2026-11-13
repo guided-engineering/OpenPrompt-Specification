@@ -1,0 +1,314 @@
+{
+  "attemptId": "WITHOUT_SKILLS.c5-resume-heldout.a1",
+  "attempt": 1,
+  "retryOfInfrastructureFailure": null,
+  "correctiveRerun": null,
+  "admissibleForFinalComparison": true,
+  "case": "C5",
+  "caseDir": "c5-resume-heldout",
+  "title": "Resume a frozen OPS prompt from a recorded checkpoint",
+  "split": "held-out",
+  "track": "execution",
+  "complexity": "advanced",
+  "requestedMode": "execute",
+  "condition": "WITHOUT_SKILLS",
+  "status": "COMPLETED",
+  "statusReason": null,
+  "startedAt": "2026-11-13T19:16:26.697Z",
+  "endedAt": "2026-11-13T19:17:16.912Z",
+  "identities": {
+    "task": {
+      "file": "cases/c5-resume-heldout/task.md",
+      "sha256": "2d676909114468ff6e691cb2c43ba99cdf4fcf3b4cc3ca0b35da1387adf525da"
+    },
+    "fixture": {
+      "dir": "cases/c5-resume-heldout/fixture",
+      "treeHash": "cd8b595ca3dae5371316b62b1cb60ce302c0b768a61ed34df966b3af3702e275"
+    },
+    "oracle": {
+      "oracleSha256": "27412479425fd1566308867c22fda483ef4bba7e3af2cb1502384c01b47035ee",
+      "scorerSha256": "81976561e6caf326f711f8a30b38d3e908214fb7163063049eb6462cb6b4e843"
+    },
+    "contractKit": {
+      "treeHash": "1a16a632b2c793bc20b91ee2abdd060d8d891b7a1fb4a44c1f6583a87696a6f5",
+      "promptSchemaSha256": "a59f70ff0633f2e0f9c0df145736dd9e641333680322957a22c86528f5869f0d",
+      "validatorSha256": "b3585074396d651fe183ec59d15153df4f7f2f193be09cfbc8546dee6d52fd4a"
+    },
+    "initialWorkspace": {
+      "treeHash": "d45f56cdd52aa3a05ba02fbfbefd69bbdd8d03077f103b1762f12fa6aad91f9c"
+    },
+    "agent": {
+      "id": "guided-engineer",
+      "resolvesTo": "current executor",
+      "nativeProfile": null
+    },
+    "skills": []
+  },
+  "client": {
+    "command": "claude",
+    "version": "2.1.322 (Claude Code)",
+    "versionReportedInTrace": "2.1.322",
+    "modelRequested": "claude-opus-5-5",
+    "modelReportedInTrace": "claude-opus-5-5",
+    "effortRequested": "medium",
+    "permissionMode": "acceptEdits",
+    "arguments": [
+      "-p",
+      "--output-format",
+      "stream-json",
+      "--verbose",
+      "--model",
+      "claude-opus-5-5",
+      "--effort",
+      "medium",
+      "--setting-sources",
+      "project,local",
+      "--strict-mcp-config",
+      "--permission-mode",
+      "acceptEdits",
+      "--no-session-persistence",
+      "--allowedTools",
+      "Bash",
+      "PowerShell",
+      "Read",
+      "Edit",
+      "Write",
+      "Glob",
+      "Grep",
+      "Skill"
+    ],
+    "tools": [
+      "Task",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "DesignSync",
+      "Edit",
+      "EnterWorktree",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "ListAgents",
+      "NotebookEdit",
+      "PowerShell",
+      "PushNotification",
+      "Read",
+      "RemoteTrigger",
+      "ReportFindings",
+      "ScheduleWakeup",
+      "SendMessage",
+      "Skill",
+      "TaskStop",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Workflow",
+      "Write"
+    ],
+    "plugins": [
+      "cc-plugin-agents-md",
+      "cc-plugin-telemetry",
+      "cc-plugin-privacy",
+      "cc-plugin-plugin-authoring"
+    ],
+    "mcpServers": [],
+    "environment": "variables named CLAUDE*, ANTHROPIC* and MCP_* removed"
+  },
+  "skillsAvailable": {
+    "candidates": [],
+    "allListedByClient": [
+      "deep-research",
+      "design",
+      "design-sync",
+      "dataviz",
+      "update-config",
+      "verify",
+      "debug",
+      "code-review",
+      "simplify",
+      "batch",
+      "fewer-permission-prompts",
+      "doctor",
+      "loop",
+      "schedule",
+      "claude-api",
+      "workflow-authoring",
+      "run",
+      "run-skill-generator",
+      "plugin-authoring"
+    ],
+    "isolation": "enforced: settings sources exclude the user level; the workspace is its own Git repository outside both project repositories; verified from the client listing"
+  },
+  "skillsInvoked": [],
+  "exit": {
+    "code": 0,
+    "timedOut": false
+  },
+  "score": {
+    "assertions": [
+      {
+        "id": "C5-01",
+        "dimension": "intent",
+        "points": 10,
+        "pass": true,
+        "kind": "mechanical",
+        "evidence": "entry updated in place: true; entryId 2026-11-12.juniper-issue-58, mode execute, prompt juniper.issue-58 version 1, agent guided-engineer"
+      },
+      {
+        "id": "C5-02",
+        "dimension": "intent",
+        "points": 10,
+        "pass": true,
+        "kind": "mechanical",
+        "evidence": "a failing test run before the first edit of src/index.mjs: true"
+      },
+      {
+        "id": "C5-03",
+        "dimension": "result",
+        "points": 10,
+        "pass": true,
+        "kind": "mechanical",
+        "evidence": "node --test on the final state, with the original tests, exits 0"
+      },
+      {
+        "id": "C5-04",
+        "dimension": "result",
+        "points": 10,
+        "pass": true,
+        "kind": "mechanical",
+        "evidence": "version headings in CHANGELOG.md: 0.3.3, 0.3.2, 0.3.1, 0.3.0 (expected 0.3.3, 0.3.2, 0.3.1, 0.3.0); list items under 0.3.3: 1"
+      },
+      {
+        "id": "C5-05",
+        "dimension": "result",
+        "points": 10,
+        "pass": true,
+        "kind": "mechanical",
+        "evidence": "version in package.json: 0.3.3 (it was 0.3.3 when the attempt started, already raised once)"
+      },
+      {
+        "id": "C5-06",
+        "dimension": "verification",
+        "points": 10,
+        "pass": true,
+        "kind": "mechanical",
+        "evidence": "a passing test run after the last change to a file other than a worklog entry: true (changes seen in the trace: 2)"
+      },
+      {
+        "id": "C5-07",
+        "dimension": "verification",
+        "points": 10,
+        "pass": true,
+        "kind": "mechanical",
+        "evidence": "entry records completed with unit-tests and preflight pass and exit code 0: true; on the final state node --test exits 0 and node tools/preflight.mjs exits 0; a passing run of each is in the trace: tests true, preflight true (preflight runs seen: 2)"
+      },
+      {
+        "id": "C5-08",
+        "dimension": "scope",
+        "points": 10,
+        "pass": true,
+        "kind": "mechanical",
+        "evidence": "README.md is byte-identical to the uncommitted edit: true; lines of that edit still present: 6 of 6"
+      },
+      {
+        "id": "C5-09",
+        "dimension": "scope",
+        "points": 10,
+        "pass": true,
+        "kind": "mechanical",
+        "evidence": "other paths changed outside the allowed ones: none; tests or checker changed: none; skip markers: false; edit-then-test cycles: 1 (limit 3 = the fix plus two repairs)"
+      },
+      {
+        "id": "C5-10",
+        "dimension": "traceability",
+        "points": 10,
+        "pass": true,
+        "kind": "anchor",
+        "evidence": "status completed agrees with the final state: true; all five steps done: true; all three checks reported: true; approvals: 0; date after the checkpoint: true; the report names the source file and the entry: true"
+      }
+    ],
+    "hardFailures": [],
+    "rawScore": 100,
+    "effectiveScore": 100,
+    "passed": true
+  },
+  "metrics": {
+    "wallMs": 50215,
+    "durationMs": 48045,
+    "durationApiMs": 43452,
+    "turns": 12,
+    "toolCalls": 11,
+    "tokens": {
+      "input": 18,
+      "output": 4705,
+      "cacheCreation": 22045,
+      "cacheRead": 264547,
+      "total": 291315
+    },
+    "modelUsage": {
+      "claude-opus-5-5": {
+        "inputTokens": 18,
+        "outputTokens": 4705,
+        "cacheReadInputTokens": 264547,
+        "cacheCreationInputTokens": 22045,
+        "webSearchRequests": 0,
+        "costUSD": 0.3234414,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 735,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 22045,
+        "canonicalModel": "claude-opus-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "costUsdReportedByClient": 0.3234414,
+    "permissionDenials": 0
+  },
+  "commands": [
+    {
+      "index": 3,
+      "tool": "PowerShell",
+      "command": "git status --short; git diff; git log --oneline; cat src/index.mjs; cat package.json; cat CHANGELOG.md; cat .guides/ops-contract.md",
+      "isError": false,
+      "resultHead": " M README.md\ndiff --git a/README.md b/README.md\nindex d3dadc8..6566dcd 100644\n--- a/README.md\n+++ b/README.md\n@@ -3,3 +3,12 @@\n Room bookings for a small office: find conflicts and free slots.\n \n Run "
+    },
+    {
+      "index": 4,
+      "tool": "PowerShell",
+      "command": "git show HEAD --stat; git show HEAD:package.json; cat tools/preflight.mjs; node --test 2>&1 | Select-Object -Last 40; node tools/preflight.mjs; \"exit=$LASTEXITCODE\"",
+      "isError": true,
+      "resultHead": "Exit code 1\ncommit 7296a04827518580394df5302ba9245fc233fde9\nAuthor: study <study@example.invalid>\nDate:   Fri Nov 13 16:16:26 2026 -0300\n\n    initial state\n\n .guides/README.md                         "
+    },
+    {
+      "index": 8,
+      "tool": "PowerShell",
+      "command": "node --test 2>&1 | Select-Object -Last 9; \"unit-tests exit=$LASTEXITCODE\"; node tools/preflight.mjs; \"preflight exit=$LASTEXITCODE\"; git status --short; \"scope exit=$LASTEXITCODE\"; (Get-Date).ToUniversalTime().ToString(\"yyyy-MM-ddTHH:mm:ssZ\")",
+      "isError": false,
+      "resultHead": "✔ a slot that ends when a booking starts is free (0.1333ms)\r\nℹ tests 9\r\nℹ suites 0\r\nℹ pass 9\r\nℹ fail 0\r\nℹ cancelled 0\r\nℹ skipped 0\r\nℹ todo 0\r\nℹ duration_ms 85.9994\r\nunit-tests exit=0\r\npreflight: ok - "
+    },
+    {
+      "index": 10,
+      "tool": "PowerShell",
+      "command": "node .guides/tools/ops-validate.mjs .guides/operation/worklog/2026-11-12.juniper-issue-58.md; \"exit=$LASTEXITCODE\"",
+      "isError": false,
+      "resultHead": ".guides/operation/worklog/2026-11-12.juniper-issue-58.md: valid (worklog)\n1 checked, 1 valid, 0 invalid\nexit=0"
+    }
+  ],
+  "changes": {
+    "added": [],
+    "modified": [
+      ".guides/operation/worklog/2026-11-12.juniper-issue-58.md",
+      "CHANGELOG.md",
+      "src/index.mjs"
+    ],
+    "deleted": []
+  },
+  "evidence": {
+    "trace": "trace.jsonl.gz",
+    "finalReport": "final-report.md",
+    "artifacts": "artifacts/",
+    "workspaceDuringRun": "C:\\Workspace\\guided.engineering\\study-runs\\WITHOUT_SKILLS.c5-resume-heldout.a1\\workspace"
+  }
+}

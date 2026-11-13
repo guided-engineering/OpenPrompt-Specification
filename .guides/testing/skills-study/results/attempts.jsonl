@@ -19,3 +19,11 @@
 {"attemptId":"INITIAL_SKILLS.c2-convert-legacy.a1","kind":"scored-task","case":"C2","condition":"INITIAL_SKILLS","status":"COMPLETED","startedAt":"2026-11-13T19:10:19.500Z","wallMs":96855,"retryReason":null,"correctiveReason":null}
 {"attemptId":"INITIAL_SKILLS.c3-plan-nested.a1","kind":"scored-task","case":"C3","condition":"INITIAL_SKILLS","status":"COMPLETED","startedAt":"2026-11-13T19:12:44.916Z","wallMs":47688,"retryReason":null,"correctiveReason":null}
 {"attemptId":"INITIAL_SKILLS.c4-execute-bugfix.a1","kind":"scored-task","case":"C4","condition":"INITIAL_SKILLS","status":"COMPLETED","startedAt":"2026-11-13T19:14:00.454Z","wallMs":51609,"retryReason":null,"correctiveReason":null}
+{"attemptId":"WITHOUT_SKILLS.c5-resume-heldout.a1","kind":"scored-task","case":"C5","condition":"WITHOUT_SKILLS","status":"COMPLETED","startedAt":"2026-11-13T19:16:26.697Z","wallMs":50215,"retryReason":null,"correctiveReason":null}
+{"attemptId":"INITIAL_SKILLS.c5-resume-heldout.a1","kind":"scored-task","case":"C5","condition":"INITIAL_SKILLS","status":"COMPLETED","startedAt":"2026-11-13T19:17:35.392Z","wallMs":49587,"retryReason":null,"correctiveReason":null}
+{"attemptId":"probe.author-explicit","kind":"activation-probe","case":"author-explicit","condition":"INITIAL_SKILLS","status":"OBSERVED","startedAt":"2026-11-13T19:18:38.932Z","wallMs":45873}
+{"attemptId":"probe.author-implicit","kind":"activation-probe","case":"author-implicit","condition":"INITIAL_SKILLS","status":"OBSERVED","startedAt":"2026-11-13T19:19:25.976Z","wallMs":42859}
+{"attemptId":"probe.author-adjacent","kind":"activation-probe","case":"author-adjacent","condition":"INITIAL_SKILLS","status":"OBSERVED","startedAt":"2026-11-13T19:20:10.000Z","wallMs":9389}
+{"attemptId":"probe.execute-explicit","kind":"activation-probe","case":"execute-explicit","condition":"INITIAL_SKILLS","status":"OBSERVED","startedAt":"2026-11-13T19:20:20.540Z","wallMs":41587}
+{"attemptId":"probe.execute-implicit","kind":"activation-probe","case":"execute-implicit","condition":"INITIAL_SKILLS","status":"OBSERVED","startedAt":"2026-11-13T19:21:03.277Z","wallMs":45133}
+{"attemptId":"probe.execute-adjacent","kind":"activation-probe","case":"execute-adjacent","condition":"INITIAL_SKILLS","status":"OBSERVED","startedAt":"2026-11-13T19:21:49.692Z","wallMs":12542}

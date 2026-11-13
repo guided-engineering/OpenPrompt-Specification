@@ -1,0 +1,207 @@
+{
+  "condition": "INITIAL_SKILLS",
+  "commit": "146c4b51fee8f1a6609b424fe6381c28c27c60e4",
+  "limitSeconds": 60,
+  "probes": [
+    {
+      "id": "author-explicit",
+      "skill": "ops-author",
+      "kind": "explicit",
+      "expectActivation": true,
+      "prompt": "Use the ops-author skill: write an OPS prompt for adding a `clearCart()` function to `packages/cart/src/totals.mjs`. Do not implement it.",
+      "status": "OBSERVED",
+      "activated": true,
+      "skillsInvoked": [
+        "ops-author"
+      ],
+      "candidatesListedByClient": [
+        "ops-author",
+        "ops-execute"
+      ],
+      "timedOutAtLimit": false,
+      "wallMs": 45873,
+      "outcome": "correct activation",
+      "skills": [
+        {
+          "name": "ops-author",
+          "commit": "146c4b51fee8f1a6609b424fe6381c28c27c60e4",
+          "files": 7,
+          "treeHash": "19e4feba3c48eb57f341076fc8640049d67dcd919fb260ce763448fd73b076aa"
+        },
+        {
+          "name": "ops-execute",
+          "commit": "146c4b51fee8f1a6609b424fe6381c28c27c60e4",
+          "files": 6,
+          "treeHash": "5ef91499adc296ebdadacf160eef4cd5db1587fba2333442a869a5a80ba4df60"
+        }
+      ]
+    },
+    {
+      "id": "author-implicit",
+      "skill": "ops-author",
+      "kind": "implicit",
+      "expectActivation": true,
+      "prompt": "Before anyone touches the code, I want this change written down as a task contract for our agent, in this project's format: `cartTotal` in `packages/cart` should reject items with a negative quantity. Do not implement it.",
+      "status": "OBSERVED",
+      "activated": true,
+      "skillsInvoked": [
+        "ops-author"
+      ],
+      "candidatesListedByClient": [
+        "ops-author",
+        "ops-execute"
+      ],
+      "timedOutAtLimit": false,
+      "wallMs": 42859,
+      "outcome": "correct activation",
+      "skills": [
+        {
+          "name": "ops-author",
+          "commit": "146c4b51fee8f1a6609b424fe6381c28c27c60e4",
+          "files": 7,
+          "treeHash": "19e4feba3c48eb57f341076fc8640049d67dcd919fb260ce763448fd73b076aa"
+        },
+        {
+          "name": "ops-execute",
+          "commit": "146c4b51fee8f1a6609b424fe6381c28c27c60e4",
+          "files": 6,
+          "treeHash": "5ef91499adc296ebdadacf160eef4cd5db1587fba2333442a869a5a80ba4df60"
+        }
+      ]
+    },
+    {
+      "id": "author-adjacent",
+      "skill": "ops-author",
+      "kind": "adjacent",
+      "expectActivation": false,
+      "prompt": "Write a short system prompt for a customer-support chatbot that answers questions about shipping times. Just print it; do not create any file.",
+      "status": "OBSERVED",
+      "activated": false,
+      "skillsInvoked": [],
+      "candidatesListedByClient": [
+        "ops-author",
+        "ops-execute"
+      ],
+      "timedOutAtLimit": false,
+      "wallMs": 9389,
+      "outcome": "correct non-activation",
+      "skills": [
+        {
+          "name": "ops-author",
+          "commit": "146c4b51fee8f1a6609b424fe6381c28c27c60e4",
+          "files": 7,
+          "treeHash": "19e4feba3c48eb57f341076fc8640049d67dcd919fb260ce763448fd73b076aa"
+        },
+        {
+          "name": "ops-execute",
+          "commit": "146c4b51fee8f1a6609b424fe6381c28c27c60e4",
+          "files": 6,
+          "treeHash": "5ef91499adc296ebdadacf160eef4cd5db1587fba2333442a869a5a80ba4df60"
+        }
+      ]
+    },
+    {
+      "id": "execute-explicit",
+      "skill": "ops-execute",
+      "kind": "explicit",
+      "expectActivation": true,
+      "prompt": "Use the ops-execute skill to plan `.guides/prompts/prompt.cart.quantity-discount.yaml`. Plan only.",
+      "status": "OBSERVED",
+      "activated": true,
+      "skillsInvoked": [
+        "ops-execute"
+      ],
+      "candidatesListedByClient": [
+        "ops-author",
+        "ops-execute"
+      ],
+      "timedOutAtLimit": false,
+      "wallMs": 41587,
+      "outcome": "correct activation",
+      "skills": [
+        {
+          "name": "ops-author",
+          "commit": "146c4b51fee8f1a6609b424fe6381c28c27c60e4",
+          "files": 7,
+          "treeHash": "19e4feba3c48eb57f341076fc8640049d67dcd919fb260ce763448fd73b076aa"
+        },
+        {
+          "name": "ops-execute",
+          "commit": "146c4b51fee8f1a6609b424fe6381c28c27c60e4",
+          "files": 6,
+          "treeHash": "5ef91499adc296ebdadacf160eef4cd5db1587fba2333442a869a5a80ba4df60"
+        }
+      ]
+    },
+    {
+      "id": "execute-implicit",
+      "skill": "ops-execute",
+      "kind": "implicit",
+      "expectActivation": true,
+      "prompt": "Please carry out `.guides/prompts/prompt.cart.quantity-discount.yaml`.",
+      "status": "OBSERVED",
+      "activated": true,
+      "skillsInvoked": [
+        "ops-execute"
+      ],
+      "candidatesListedByClient": [
+        "ops-author",
+        "ops-execute"
+      ],
+      "timedOutAtLimit": false,
+      "wallMs": 45133,
+      "outcome": "correct activation",
+      "skills": [
+        {
+          "name": "ops-author",
+          "commit": "146c4b51fee8f1a6609b424fe6381c28c27c60e4",
+          "files": 7,
+          "treeHash": "19e4feba3c48eb57f341076fc8640049d67dcd919fb260ce763448fd73b076aa"
+        },
+        {
+          "name": "ops-execute",
+          "commit": "146c4b51fee8f1a6609b424fe6381c28c27c60e4",
+          "files": 6,
+          "treeHash": "5ef91499adc296ebdadacf160eef4cd5db1587fba2333442a869a5a80ba4df60"
+        }
+      ]
+    },
+    {
+      "id": "execute-adjacent",
+      "skill": "ops-execute",
+      "kind": "adjacent",
+      "expectActivation": false,
+      "prompt": "Run the tests of `packages/cart` and tell me whether they pass. Change nothing.",
+      "status": "OBSERVED",
+      "activated": false,
+      "skillsInvoked": [],
+      "candidatesListedByClient": [
+        "ops-author",
+        "ops-execute"
+      ],
+      "timedOutAtLimit": false,
+      "wallMs": 12542,
+      "outcome": "correct non-activation",
+      "skills": [
+        {
+          "name": "ops-author",
+          "commit": "146c4b51fee8f1a6609b424fe6381c28c27c60e4",
+          "files": 7,
+          "treeHash": "19e4feba3c48eb57f341076fc8640049d67dcd919fb260ce763448fd73b076aa"
+        },
+        {
+          "name": "ops-execute",
+          "commit": "146c4b51fee8f1a6609b424fe6381c28c27c60e4",
+          "files": 6,
+          "treeHash": "5ef91499adc296ebdadacf160eef4cd5db1587fba2333442a869a5a80ba4df60"
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "correct": 6,
+    "missed": 0,
+    "unwanted": 0,
+    "notObserved": 0
+  }
+}

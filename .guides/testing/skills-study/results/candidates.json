@@ -37,6 +37,11 @@
       }
     },
     "basis": "The one optional refinement is for a consequential observed Skill defect. None was observed. The only assertion failed with the Skills is C4-06, which the baseline fails too: in both traces the tests pass after the only real edit of src/csv.mjs, and a later read-only command that names the file and contains a \">\" character is counted as an edit by the shared detector. The Skills were invoked in all four runs (ops-author in C1 and C2, ops-execute in C3 and C4). Elapsed time and output tokens were lower in all four pairs; tokens processed were higher in C1 (+72%) and lower in the other three.",
-    "consequence": "skills 146c4b5 is the final candidate. It was frozen before any C5 result existed, and nothing under skills/ changes after this point without a new, unmeasured candidate identity."
+    "consequence": "skills 146c4b5 is the final candidate. It was frozen before any C5 result existed, and nothing under skills/ changes after this point without a new, unmeasured candidate identity.",
+    "addendum": {
+      "addedAt": "2026-11-13T19:25:55.717Z",
+      "afterTheStudyWasComplete": true,
+      "text": "The decision above was taken from the scores and the failed assertions. Reading the traces of the two authoring runs afterwards showed a wording defect in ops-author: in C1 and in C2 the first validation was rejected with \"missing required property expect\" on every check that had a run command, because the field guide can be read as if expect were needed only for a check without a command. The validator named the problem, the agent corrected it, the final prompts are valid and no score changed. It was noticed after C5 had been run, when a change to the candidate is no longer allowed. The candidate stays as measured (146c4b5). Correcting the sentence would make a new candidate that this study did not measure; it is listed as the first follow-up item in report.md."
+    }
   }
 }
