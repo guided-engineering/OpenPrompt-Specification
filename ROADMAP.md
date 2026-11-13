@@ -5,6 +5,11 @@ What the reformulation delivered, and what is still open. Nothing listed under
 
 ## Where the project stands
 
+**No human has reviewed this reformulation yet.** An agent session produced it,
+and it was merged on the owner's instruction. ADR 0002 is therefore still
+`proposed`. "Delivered" below means that a thing exists and passes its checks,
+not that someone has accepted it.
+
 In November 2026 the project was rebuilt around six concepts (Human, Agent,
 Skill, OPS prompt, Plan, Evidence) and one loop. The design and its
 alternatives are in
@@ -27,7 +32,7 @@ and its [run record](./.guides/operation/worklog/2026-11-13.refoundation.md).
 | Skills | `ops-author` and `ops-execute`, each usable alone, with the validator bundled. Published exactly as measured. | [`guided-engineering/skills`](https://github.com/guided-engineering/skills) |
 | Study | A local pilot of the Skills: five cases, a fixed score, one reserved regression case. It found no measurable benefit and no regression. | [`report.md`](./.guides/testing/skills-study/results/report.md) |
 | Plan and coverage | The request as two OPS prompts, a requirement map joined with the run record, and a clause-by-clause audit of the translation by a reviewer that took no part in it. | [`refoundation.requirements.md`](./.guides/traceability/refoundation.requirements.md), [`refoundation.coverage-audit.md`](./.guides/traceability/refoundation.coverage-audit.md) |
-| Website | Practice, quick start, example, Skills, results, specification. | [`docs/`](./docs/), `npm run site` |
+| Website | Practice, quick start, example, Skills, results, specification. Published at <https://guided-engineering.github.io/OpenPrompt-Specification/>. | [`docs/`](./docs/), `npm run site` |
 
 ## Retired
 
