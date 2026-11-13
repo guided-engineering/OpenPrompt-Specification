@@ -1,0 +1,333 @@
+{
+  "attemptId": "WITHOUT_SKILLS.c4-execute-bugfix.a1",
+  "attempt": 1,
+  "retryOfInfrastructureFailure": null,
+  "case": "C4",
+  "caseDir": "c4-execute-bugfix",
+  "title": "Execute a frozen OPS prompt against a deterministic bug",
+  "split": "development",
+  "track": "execution",
+  "complexity": "advanced",
+  "requestedMode": "execute",
+  "condition": "WITHOUT_SKILLS",
+  "status": "COMPLETED",
+  "statusReason": null,
+  "startedAt": "2026-11-13T17:16:00.103Z",
+  "endedAt": "2026-11-13T17:17:09.469Z",
+  "identities": {
+    "task": {
+      "file": "cases/c4-execute-bugfix/task.md",
+      "sha256": "28b085e525864fa7877ec4ed7592767bc0d1d1c753867edf0a35a5ef9447fa11"
+    },
+    "fixture": {
+      "dir": "cases/c4-execute-bugfix/fixture",
+      "treeHash": "2fc638dcdec144f250db1e443be7dfc4c1d97b454717f96696816fbad9e83e06"
+    },
+    "contractKit": {
+      "treeHash": "1a16a632b2c793bc20b91ee2abdd060d8d891b7a1fb4a44c1f6583a87696a6f5",
+      "promptSchemaSha256": "a59f70ff0633f2e0f9c0df145736dd9e641333680322957a22c86528f5869f0d",
+      "validatorSha256": "b3585074396d651fe183ec59d15153df4f7f2f193be09cfbc8546dee6d52fd4a"
+    },
+    "initialWorkspace": {
+      "treeHash": "184014fb1b4499bed89fcd9d5092e89ad9501382148e07cb5bba8e0c5f9710b8"
+    },
+    "agent": {
+      "id": "guided-engineer",
+      "resolvesTo": "current executor",
+      "nativeProfile": null
+    },
+    "skills": []
+  },
+  "client": {
+    "command": "claude",
+    "version": "2.1.322 (Claude Code)",
+    "versionReportedInTrace": "2.1.322",
+    "modelRequested": "claude-opus-5-5",
+    "modelReportedInTrace": "claude-opus-5-5",
+    "effortRequested": "medium",
+    "permissionMode": "acceptEdits",
+    "arguments": [
+      "-p",
+      "--output-format",
+      "stream-json",
+      "--verbose",
+      "--model",
+      "claude-opus-5-5",
+      "--effort",
+      "medium",
+      "--setting-sources",
+      "project,local",
+      "--strict-mcp-config",
+      "--permission-mode",
+      "acceptEdits",
+      "--no-session-persistence",
+      "--allowedTools",
+      "Bash",
+      "PowerShell",
+      "Read",
+      "Edit",
+      "Write",
+      "Glob",
+      "Grep",
+      "Skill"
+    ],
+    "tools": [
+      "Task",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "DesignSync",
+      "Edit",
+      "EnterWorktree",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "ListAgents",
+      "NotebookEdit",
+      "PowerShell",
+      "PushNotification",
+      "Read",
+      "RemoteTrigger",
+      "ReportFindings",
+      "ScheduleWakeup",
+      "SendMessage",
+      "Skill",
+      "TaskStop",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Workflow",
+      "Write"
+    ],
+    "plugins": [
+      "cc-plugin-agents-md",
+      "cc-plugin-telemetry",
+      "cc-plugin-privacy",
+      "cc-plugin-plugin-authoring"
+    ],
+    "mcpServers": [],
+    "environment": "variables named CLAUDE*, ANTHROPIC* and MCP_* removed"
+  },
+  "skillsAvailable": {
+    "candidates": [],
+    "allListedByClient": [
+      "deep-research",
+      "design",
+      "design-sync",
+      "dataviz",
+      "update-config",
+      "verify",
+      "debug",
+      "code-review",
+      "simplify",
+      "batch",
+      "fewer-permission-prompts",
+      "doctor",
+      "loop",
+      "schedule",
+      "claude-api",
+      "workflow-authoring",
+      "run",
+      "run-skill-generator",
+      "plugin-authoring"
+    ],
+    "isolation": "enforced: settings sources exclude the user level; the workspace is its own Git repository outside both project repositories; verified from the client listing"
+  },
+  "skillsInvoked": [],
+  "exit": {
+    "code": 0,
+    "timedOut": false
+  },
+  "score": {
+    "assertions": [
+      {
+        "id": "C4-01",
+        "dimension": "intent",
+        "points": 10,
+        "pass": true,
+        "kind": "mechanical",
+        "evidence": "validator run on the prompt before the first product edit: true"
+      },
+      {
+        "id": "C4-02",
+        "dimension": "intent",
+        "points": 10,
+        "pass": true,
+        "kind": "mechanical",
+        "evidence": "mode execute, prompt ledger.csv-quoted-fields, agent guided-engineer"
+      },
+      {
+        "id": "C4-03",
+        "dimension": "result",
+        "points": 10,
+        "pass": true,
+        "kind": "mechanical",
+        "evidence": "a failing test run before the first edit of src/csv.mjs: true"
+      },
+      {
+        "id": "C4-04",
+        "dimension": "result",
+        "points": 10,
+        "pass": true,
+        "kind": "mechanical",
+        "evidence": "node --test on the final state exits 0"
+      },
+      {
+        "id": "C4-05",
+        "dimension": "result",
+        "points": 10,
+        "pass": true,
+        "kind": "mechanical",
+        "evidence": "product files changed: src/csv.mjs; lines added plus removed in src/csv.mjs: 48"
+      },
+      {
+        "id": "C4-06",
+        "dimension": "verification",
+        "points": 10,
+        "pass": true,
+        "kind": "mechanical",
+        "evidence": "a passing test run after the last product edit: true"
+      },
+      {
+        "id": "C4-07",
+        "dimension": "verification",
+        "points": 10,
+        "pass": true,
+        "kind": "mechanical",
+        "evidence": "entry records completed with unit-tests pass and exit code 0: true; the final state passes: true"
+      },
+      {
+        "id": "C4-08",
+        "dimension": "scope",
+        "points": 10,
+        "pass": true,
+        "kind": "mechanical",
+        "evidence": "only the source file and the worklog entry changed"
+      },
+      {
+        "id": "C4-09",
+        "dimension": "scope",
+        "points": 10,
+        "pass": true,
+        "kind": "mechanical",
+        "evidence": "tests changed: 0; skip markers: false; edit-then-test cycles: 1 (limit 3 = first attempt plus two repairs)"
+      },
+      {
+        "id": "C4-10",
+        "dimension": "traceability",
+        "points": 10,
+        "pass": true,
+        "kind": "mechanical",
+        "evidence": "status agrees with the final state: true; all three steps reported done: true; both checks reported: true; the report names the file and the entry"
+      }
+    ],
+    "hardFailures": [],
+    "rawScore": 100,
+    "effectiveScore": 100,
+    "passed": true
+  },
+  "metrics": {
+    "wallMs": 69366,
+    "durationMs": 67117,
+    "durationApiMs": 60087,
+    "turns": 15,
+    "toolCalls": 14,
+    "tokens": {
+      "input": 22,
+      "output": 6781,
+      "cacheCreation": 25551,
+      "cacheRead": 340187,
+      "total": 372541
+    },
+    "modelUsage": {
+      "claude-opus-5-5": {
+        "inputTokens": 22,
+        "outputTokens": 6781,
+        "cacheReadInputTokens": 340187,
+        "cacheCreationInputTokens": 25551,
+        "webSearchRequests": 0,
+        "costUSD": 0.4081534,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 911,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 25551,
+        "canonicalModel": "claude-opus-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "costUsdReportedByClient": 0.4081534,
+    "permissionDenials": 0
+  },
+  "commands": [
+    {
+      "index": 5,
+      "tool": "PowerShell",
+      "command": "Get-Date -Format o; node --version; node .guides/tools/ops-validate.mjs --resolve .guides/prompts/prompt.ledger.csv-quoted-fields.yaml; \"validate exit: $LASTEXITCODE\"; node --test 2>&1; \"test exit: $LASTEXITCODE\"",
+      "isError": true,
+      "resultHead": "Exit code 1\n2026-11-13T14:16:09.8620176-03:00\r\nv24.12.0\r\n.guides/prompts/prompt.ledger.csv-quoted-fields.yaml: valid (prompt)\n  root: .\n  workspace: .\n  agent: guided-engineer -> current-executor [map"
+    },
+    {
+      "index": 6,
+      "tool": "PowerShell",
+      "command": "Get-ChildItem -Recurse -File src,test | % FullName; Get-Content src/report.mjs; git ls-files",
+      "isError": false,
+      "resultHead": "C:\\Workspace\\guided.engineering\\study-runs\\WITHOUT_SKILLS.c4-execute-bugfix.a1\\workspace\\src\\csv.mjs\r\nC:\\Workspace\\guided.engineering\\study-runs\\WITHOUT_SKILLS.c4-execute-bugfix.a1\\workspace\\src\\repor"
+    },
+    {
+      "index": 8,
+      "tool": "PowerShell",
+      "command": "node --test 2>&1 | Select-String -Pattern '^(✔|✖|ℹ (tests|pass|fail))'; \"test exit: $LASTEXITCODE\"\n$d = Join-Path ([IO.Path]::GetTempPath()) (\"r4-\" + [guid]::NewGuid()); New-Item -ItemType Directory $d | Out-Null\n$url = ([Uri](Resolve-Path src/csv.mjs).Path).AbsoluteUri\n@\"\nimport { parseCsvLine } from '$url';\nconst old = (l) => l.split(',').map((f) => f.trim());\nconst cases = ['', ',', 'a,', ',a', ' , ', 'a,,c', ' a , b ,c ', '\\tx\\t,y', '2026-01-05,Coffee,3.50', 'single'];\nconst alphabet = ['a', ' ', ',', '\\t', 'b', ' '];\nfor (let n = 0; n < 20000; n++) { let s = ''; const len = Math.floor(Math.random() * 10); for (let k = 0; k < len; k++) s += alphabet[Math.floor(Math.random() * alphabet.length)]; cases.push(s); }\nlet bad = 0;\nfor (const c of cases) { if (JSON.stringify(parseCsvLine(c)) !== JSON.stringify(old(c))) { bad++; console.log('MISMATCH', JSON.stringify(c)); } }\nconsole.log('R4 cases:', cases.length, 'mismatches:', bad);\nconsole.log(JSON.stringify(parseCsvLine('a, \"x, y\" ,c')), JSON.stringify(parseCsvLine('\"unterminated, x')));\nprocess.exit(bad ? 1 : 0);\n\"@ | Set-Content \"$d/r4.mjs\"\nnode \"$d/r4.mjs\"; \"r4 exit: $LASTEXITCODE\"; Remove-Item -Recurse -Force $d\ngit status --short; \"git exit: $LASTEXITCODE\"",
+      "isError": false,
+      "resultHead": "✔ splits plain fields (1.3337ms)\r\n✔ trims whitespace around unquoted fields (0.1244ms)\r\n✔ keeps empty fields (0.1217ms)\r\n✔ keeps a comma inside a quoted field (0.1246ms)\r\n✔ reads a doubled quote insid"
+    },
+    {
+      "index": 10,
+      "tool": "PowerShell",
+      "command": "(Get-FileHash .guides/prompts/prompt.ledger.csv-quoted-fields.yaml -Algorithm SHA256).Hash.ToLower(); Get-Date -Format o",
+      "isError": false,
+      "resultHead": "cf0385504e447bed15e8e20e3c9c01a78745e0fd048a33456dda1a74ad5448d8\r\n2026-11-13T14:16:36.8043636-03:00"
+    },
+    {
+      "index": 11,
+      "tool": "PowerShell",
+      "command": "\"at: $(Get-Date -Format 'yyyy-MM-ddTHH:mm:sszzz')\"; $o = node --test 2>&1; $e = $LASTEXITCODE; $o | Select-String '^ℹ (tests|pass|fail) '; \"node --test exit: $e\"; \"at: $(Get-Date -Format 'yyyy-MM-ddTHH:mm:sszzz')\"; git status --short; \"git exit: $LASTEXITCODE\"",
+      "isError": false,
+      "resultHead": "at: 2026-11-13T14:16:42-03:00\r\n\r\nℹ tests 7\r\nℹ pass 7\r\nℹ fail 0\r\nnode --test exit: 0\r\nat: 2026-11-13T14:16:43-03:00\r\n M src/csv.mjs\ngit exit: 0"
+    },
+    {
+      "index": 13,
+      "tool": "PowerShell",
+      "command": "node .guides/tools/ops-validate.mjs .guides/operation/worklog/2026-11-13.ledger-csv-quoted-fields.md; \"exit: $LASTEXITCODE\"; git status --short",
+      "isError": false,
+      "resultHead": ".guides/operation/worklog/2026-11-13.ledger-csv-quoted-fields.md: valid (worklog)\n1 checked, 1 valid, 0 invalid\nexit: 0\r\n M src/csv.mjs\n?? .guides/operation/"
+    }
+  ],
+  "changes": {
+    "added": [
+      ".guides/operation/worklog/2026-11-13.ledger-csv-quoted-fields.md"
+    ],
+    "modified": [
+      "src/csv.mjs"
+    ],
+    "deleted": []
+  },
+  "evidence": {
+    "trace": "trace.jsonl.gz",
+    "finalReport": "final-report.md",
+    "artifacts": "artifacts/",
+    "workspaceDuringRun": "C:\\Workspace\\guided.engineering\\study-runs\\WITHOUT_SKILLS.c4-execute-bugfix.a1\\workspace"
+  },
+  "scoreHistory": [
+    {
+      "supersededByAmendment": 3,
+      "rawScore": 90,
+      "effectiveScore": 90,
+      "failed": [
+        "C4-01"
+      ],
+      "hardFailures": []
+    }
+  ]
+}

@@ -1,0 +1,301 @@
+{
+  "generatedAt": "2026-11-13T17:19:15.247Z",
+  "finalCondition": "INITIAL_SKILLS",
+  "refined": false,
+  "retainedConditions": [
+    "WITHOUT_SKILLS",
+    "INITIAL_SKILLS"
+  ],
+  "studyComplete": false,
+  "cases": [
+    {
+      "id": "C1",
+      "dir": "c1-author-basic",
+      "title": "Convert a fully specified prose request into an OPS prompt",
+      "complexity": "basic",
+      "split": "development",
+      "track": "authoring"
+    },
+    {
+      "id": "C2",
+      "dir": "c2-convert-legacy",
+      "title": "Improve and convert a legacy, deficient prompt into the OPS contract",
+      "complexity": "intermediate",
+      "split": "development",
+      "track": "authoring"
+    },
+    {
+      "id": "C3",
+      "dir": "c3-plan-nested",
+      "title": "Plan a frozen OPS prompt for a nested workspace, plan only",
+      "complexity": "intermediate",
+      "split": "development",
+      "track": "execution"
+    },
+    {
+      "id": "C4",
+      "dir": "c4-execute-bugfix",
+      "title": "Execute a frozen OPS prompt against a deterministic bug",
+      "complexity": "advanced",
+      "split": "development",
+      "track": "execution"
+    }
+  ],
+  "scores": {
+    "C1": {
+      "WITHOUT_SKILLS": {
+        "state": "SCORED",
+        "status": "COMPLETED",
+        "raw": 100,
+        "effective": 100,
+        "passed": true,
+        "hardFailures": [],
+        "failedAssertions": [],
+        "elapsedSeconds": 92.7,
+        "tokensProcessed": 354911,
+        "outputTokens": 9596,
+        "toolCalls": 16,
+        "skillsInvoked": [],
+        "record": "runs/WITHOUT_SKILLS/c1-author-basic/record.json"
+      },
+      "INITIAL_SKILLS": {
+        "state": "NOT_RUN",
+        "reason": null
+      },
+      "REFINED_SKILLS": {
+        "state": "NOT_RUN",
+        "reason": null
+      }
+    },
+    "C2": {
+      "WITHOUT_SKILLS": {
+        "state": "SCORED",
+        "status": "COMPLETED",
+        "raw": 100,
+        "effective": 100,
+        "passed": true,
+        "hardFailures": [],
+        "failedAssertions": [],
+        "elapsedSeconds": 98.8,
+        "tokensProcessed": 374007,
+        "outputTokens": 10097,
+        "toolCalls": 9,
+        "skillsInvoked": [],
+        "record": "runs/WITHOUT_SKILLS/c2-convert-legacy/record.json"
+      },
+      "INITIAL_SKILLS": {
+        "state": "NOT_RUN",
+        "reason": null
+      },
+      "REFINED_SKILLS": {
+        "state": "NOT_RUN",
+        "reason": null
+      }
+    },
+    "C3": {
+      "WITHOUT_SKILLS": {
+        "state": "SCORED",
+        "status": "COMPLETED",
+        "raw": 100,
+        "effective": 100,
+        "passed": true,
+        "hardFailures": [],
+        "failedAssertions": [],
+        "elapsedSeconds": 60.2,
+        "tokensProcessed": 274351,
+        "outputTokens": 6249,
+        "toolCalls": 13,
+        "skillsInvoked": [],
+        "record": "runs/WITHOUT_SKILLS/c3-plan-nested/record.json"
+      },
+      "INITIAL_SKILLS": {
+        "state": "NOT_RUN",
+        "reason": null
+      },
+      "REFINED_SKILLS": {
+        "state": "NOT_RUN",
+        "reason": null
+      }
+    },
+    "C4": {
+      "WITHOUT_SKILLS": {
+        "state": "SCORED",
+        "status": "COMPLETED",
+        "raw": 100,
+        "effective": 100,
+        "passed": true,
+        "hardFailures": [],
+        "failedAssertions": [],
+        "elapsedSeconds": 67.1,
+        "tokensProcessed": 372541,
+        "outputTokens": 6781,
+        "toolCalls": 14,
+        "skillsInvoked": [],
+        "record": "runs/WITHOUT_SKILLS/c4-execute-bugfix/record.json"
+      },
+      "INITIAL_SKILLS": {
+        "state": "NOT_RUN",
+        "reason": null
+      },
+      "REFINED_SKILLS": {
+        "state": "NOT_RUN",
+        "reason": null
+      }
+    }
+  },
+  "quality": {
+    "INITIAL_SKILLS": {
+      "authoring": {
+        "cases": [
+          "C1",
+          "C2"
+        ],
+        "complete": false,
+        "verdict": "inconclusive",
+        "why": "missing or unscored pairs: C1 (SCORED/NOT_RUN), C2 (SCORED/NOT_RUN)"
+      },
+      "execution": {
+        "cases": [
+          "C3",
+          "C4"
+        ],
+        "complete": false,
+        "verdict": "inconclusive",
+        "why": "missing or unscored pairs: C3 (SCORED/NOT_RUN), C4 (SCORED/NOT_RUN)"
+      },
+      "executionDevelopmentOnly": {
+        "cases": [
+          "C3",
+          "C4"
+        ],
+        "complete": false,
+        "verdict": "inconclusive",
+        "why": "missing or unscored pairs: C3 (SCORED/NOT_RUN), C4 (SCORED/NOT_RUN)"
+      },
+      "heldOut": {
+        "cases": [],
+        "complete": false,
+        "verdict": "inconclusive",
+        "why": "no case in this set"
+      }
+    }
+  },
+  "efficiency": {
+    "INITIAL_SKILLS": {
+      "elapsedTime": {
+        "eligiblePairs": 0,
+        "pairs": [],
+        "medianOverhead": null
+      },
+      "tokensProcessed": {
+        "eligiblePairs": 0,
+        "pairs": [],
+        "medianOverhead": null
+      },
+      "outputTokens": {
+        "eligiblePairs": 0,
+        "pairs": [],
+        "medianOverhead": null
+      }
+    }
+  },
+  "hypotheses": {
+    "H1": {
+      "statement": "ops-author improves intent preservation, contract validity and actionable verification in authored prompts",
+      "cases": [
+        "C1",
+        "C2"
+      ],
+      "complete": false,
+      "verdict": "inconclusive",
+      "why": "missing or unscored pairs: C1 (SCORED/NOT_RUN), C2 (SCORED/NOT_RUN)"
+    },
+    "H2": {
+      "statement": "ops-execute improves correct planning, scoped implementation and closure of the verify-repair loop",
+      "cases": [
+        "C3",
+        "C4"
+      ],
+      "complete": false,
+      "verdict": "inconclusive",
+      "why": "missing or unscored pairs: C3 (SCORED/NOT_RUN), C4 (SCORED/NOT_RUN)"
+    },
+    "H3": {
+      "statement": "any observed quality gain has an acceptable cost in time, tokens, tool calls and human intervention",
+      "verdict": "inconclusive",
+      "why": "fewer than three matched pairs have both time and token measurements"
+    }
+  },
+  "readiness": {
+    "condition": "INITIAL_SKILLS",
+    "complete": false,
+    "allCasesPass": false,
+    "mean": null,
+    "hardFailures": [],
+    "ready": false
+  },
+  "activationProbes": null,
+  "budget": {
+    "attempts": 4,
+    "attemptLimit": 24,
+    "evaluatedMinutes": 5.5,
+    "minuteLimit": 120,
+    "byKind": {
+      "infrastructure-check": 1,
+      "scored-task": 4
+    }
+  },
+  "candidates": {},
+  "attempts": [
+    {
+      "attemptId": "WITHOUT_SKILLS.x0-harness-smoke.a1",
+      "kind": "infrastructure-check",
+      "case": "X0",
+      "condition": "WITHOUT_SKILLS",
+      "status": "COMPLETED",
+      "startedAt": "2026-11-13T17:02:20.074Z",
+      "wallMs": 6083,
+      "retryReason": null
+    },
+    {
+      "attemptId": "WITHOUT_SKILLS.c1-author-basic.a1",
+      "kind": "scored-task",
+      "case": "C1",
+      "condition": "WITHOUT_SKILLS",
+      "status": "COMPLETED",
+      "startedAt": "2026-11-13T17:09:51.735Z",
+      "wallMs": 94977,
+      "retryReason": null
+    },
+    {
+      "attemptId": "WITHOUT_SKILLS.c2-convert-legacy.a1",
+      "kind": "scored-task",
+      "case": "C2",
+      "condition": "WITHOUT_SKILLS",
+      "status": "COMPLETED",
+      "startedAt": "2026-11-13T17:11:49.613Z",
+      "wallMs": 100891,
+      "retryReason": null
+    },
+    {
+      "attemptId": "WITHOUT_SKILLS.c3-plan-nested.a1",
+      "kind": "scored-task",
+      "case": "C3",
+      "condition": "WITHOUT_SKILLS",
+      "status": "COMPLETED",
+      "startedAt": "2026-11-13T17:13:59.224Z",
+      "wallMs": 62304,
+      "retryReason": null
+    },
+    {
+      "attemptId": "WITHOUT_SKILLS.c4-execute-bugfix.a1",
+      "kind": "scored-task",
+      "case": "C4",
+      "condition": "WITHOUT_SKILLS",
+      "status": "COMPLETED",
+      "startedAt": "2026-11-13T17:16:00.103Z",
+      "wallMs": 69366,
+      "retryReason": null
+    }
+  ]
+}

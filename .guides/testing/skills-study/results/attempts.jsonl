@@ -1,1 +1,5 @@
 {"attemptId":"WITHOUT_SKILLS.x0-harness-smoke.a1","kind":"infrastructure-check","case":"X0","condition":"WITHOUT_SKILLS","status":"COMPLETED","startedAt":"2026-11-13T17:02:20.074Z","wallMs":6083,"retryReason":null}
+{"attemptId":"WITHOUT_SKILLS.c1-author-basic.a1","kind":"scored-task","case":"C1","condition":"WITHOUT_SKILLS","status":"COMPLETED","startedAt":"2026-11-13T17:09:51.735Z","wallMs":94977,"retryReason":null}
+{"attemptId":"WITHOUT_SKILLS.c2-convert-legacy.a1","kind":"scored-task","case":"C2","condition":"WITHOUT_SKILLS","status":"COMPLETED","startedAt":"2026-11-13T17:11:49.613Z","wallMs":100891,"retryReason":null}
+{"attemptId":"WITHOUT_SKILLS.c3-plan-nested.a1","kind":"scored-task","case":"C3","condition":"WITHOUT_SKILLS","status":"COMPLETED","startedAt":"2026-11-13T17:13:59.224Z","wallMs":62304,"retryReason":null}
+{"attemptId":"WITHOUT_SKILLS.c4-execute-bugfix.a1","kind":"scored-task","case":"C4","condition":"WITHOUT_SKILLS","status":"COMPLETED","startedAt":"2026-11-13T17:16:00.103Z","wallMs":69366,"retryReason":null}

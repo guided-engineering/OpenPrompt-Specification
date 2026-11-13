@@ -52,12 +52,17 @@ if (process.argv.includes('--check')) {
     console.error('frozen.json exists. Use --check, or --amend together with an entry in amendments.md.');
     process.exit(1);
   }
-  const files = Object.fromEntries(Object.entries(current()).filter(([f]) => process.argv.includes('--amend') || !f.startsWith(HELD_OUT)));
   const previous = existsSync(FROZEN) ? readJson(FROZEN) : null;
+  // The held-out case enters only through --add-held-out. An amendment keeps
+  // its frozen hashes as they are and never picks up held-out files by itself.
+  const heldOut = Object.fromEntries(Object.entries(previous?.files ?? {}).filter(([f]) => f.startsWith(HELD_OUT)));
+  const files = Object.fromEntries(Object.entries({ ...Object.fromEntries(Object.entries(current()).filter(([f]) => !f.startsWith(HELD_OUT))), ...heldOut }).sort());
   writeJson(FROZEN, {
     description: 'Hashes of the study definition. Created before the first scored run; amended only as recorded in amendments.md.',
     frozenAt: previous?.frozenAt ?? new Date().toISOString(),
     amendedAt: previous ? new Date().toISOString() : null,
+    heldOutAddedAt: previous?.heldOutAddedAt ?? null,
+    heldOutFiles: previous?.heldOutFiles ?? 0,
     contractKit: readJson(join(STUDY, 'kit', 'manifest.json')).treeHash,
     treeHash: treeHash(files),
     files,

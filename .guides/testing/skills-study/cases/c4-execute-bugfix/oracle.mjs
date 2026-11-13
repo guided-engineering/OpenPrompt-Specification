@@ -23,7 +23,8 @@ export async function score(ctx) {
   const productWrites = t.calls.filter((c) => PRODUCT.some((f) => t.writes(f).includes(c)));
   const firstEdit = t.writes(SRC)[0]?.index ?? Infinity;
   const lastEdit = productWrites.at(-1)?.index ?? -1;
-  const validatedFirst = t.validatorRuns(PROMPT).some((c) => !c.isError && c.index < firstEdit);
+  // Amendment 3: read the validator's own verdict; the call may also hold the failing reproduction run.
+  const validatedFirst = t.validatorRuns(PROMPT).some((c) => t.reportedValid(c, PROMPT) && c.index < firstEdit);
   const reproduced = t.testRuns.some((c) => c.index < firstEdit && t.showsFailure(c));
   const verifiedAfter = t.testRuns.some((c) => c.index > lastEdit && t.showsPass(c));
 

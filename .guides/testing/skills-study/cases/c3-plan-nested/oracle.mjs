@@ -10,12 +10,14 @@ const list = (v) => (Array.isArray(v) ? v : []);
 export async function score(ctx) {
   const v = ctx.validate(ENTRY);
   const fm = ctx.frontMatter(ENTRY) ?? {};
-  const body = ctx.body(ENTRY);
+  // Amendment 2: Markdown wraps lines, so phrases are matched on whitespace-collapsed text.
+  const body = ctx.body(ENTRY).replace(/\s+/g, ' ');
   const touched = ctx.protectedTouched();
   const outside = ctx.outsideAllowed();
   const entryWrites = ctx.tools.writes(basename(ENTRY));
   const firstWrite = entryWrites.length ? entryWrites[0].index : Infinity;
-  const validated = ctx.tools.validatorRuns(PROMPT).filter((c) => !c.isError && c.index < firstWrite);
+  // Amendment 3: read the validator's own verdict, not the exit status of the tool call.
+  const validated = ctx.tools.validatorRuns(PROMPT).filter((c) => ctx.tools.reportedValid(c, PROMPT) && c.index < firstWrite);
   const testsRun = ctx.tools.testRuns;
 
   // Step order: each step appears, by id or by title, after the previous one.
@@ -29,11 +31,15 @@ export async function score(ctx) {
   const s4 = s3 < 0 ? -1 : at(/`verify`|verify the final state|\bverify\b/i, s3 + 8);
   const ordered = s1 >= 0 && s2 > s1 && s3 > s2 && s4 > s3;
 
+  // Amendment 2: naming the other package is fine, and expected, when the plan says it is out of scope.
+  // It counts against the plan only where no such statement is near the mention.
+  const OUT_OF_SCOPE = /\bnot\b|n't\b|out of scope|untouched|unchanged|\bnever\b|exclud|other code|off[- ]limits|same name|\bleave\b|outside/i;
+  const otherPackage = [...body.matchAll(/packages\/catalog/g)];
   const scopeText = {
     workspace: body.includes('packages/cart'),
     source: /src\/totals\.mjs/.test(body),
     tests: /test\/totals\.test\.mjs/.test(body),
-    notOtherPackage: !/packages\/catalog\/src\/totals\.mjs/.test(body),
+    notOtherPackage: otherPackage.every((m) => OUT_OF_SCOPE.test(body.slice(Math.max(0, m.index - 200), m.index + 250))),
   };
   const dependencies = {
     node: /node(\.js)?\s*(20|>=|version|v20)/i.test(body),

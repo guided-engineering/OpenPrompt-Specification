@@ -29,7 +29,8 @@ export async function score(ctx) {
 
   const assertions = [
     A('C1-01', 'intent', v.valid, v.valid ? 'validator accepts the prompt' : `validator: ${(v.errors ?? []).map((e) => e.code).join(', ')}`),
-    A('C1-02', 'intent', /applyDiscount/.test(objective) && /(2|two)[ -]?decimal|cents?\b/i.test(objective) && /half[ -]?up/i.test(objective),
+    // Amendment 1: the rounding rule is recognized in its common wordings, not only as the literal "half up".
+    A('C1-02', 'intent', /applyDiscount/.test(objective) && /(2|two)[ -]?decimal|cents?\b/i.test(objective) && /half[ -]?up|hal(f|ves)\s+(is\s+|are\s+)?round(s|ed|ing)?\s+up|round(s|ed|ing)?\s+hal(f|ves)\s+up/i.test(objective),
       'objective names applyDiscount, two decimals and half up', 'anchor'),
     A('C1-03', 'result', workspace && outputs.size === 2 && outputs.has('src/discount.mjs') && outputs.has('test/discount.test.mjs'),
       `workspace is the repository root: ${workspace}; outputs: ${[...outputs].join(', ')}`),
