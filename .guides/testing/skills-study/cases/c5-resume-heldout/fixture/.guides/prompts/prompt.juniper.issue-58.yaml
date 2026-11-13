@@ -1,0 +1,118 @@
+apiVersion: guided-engineering/v1
+id: juniper.issue-58
+version: 1
+title: Let back-to-back bookings share a boundary and release the fix
+agent: guided-engineer
+
+objective: |
+  A booking occupies its room from `start` up to, but not including, `end`.
+  `overlaps`, `conflicts` and `isFree` in `src/index.mjs` all follow that rule,
+  so a booking or a slot that begins exactly when another booking ends is not
+  a conflict. The fix is released as the next patch version: `package.json`
+  names a version one patch number above the previous release, and
+  `CHANGELOG.md` opens with a section for that version.
+
+context: |
+  `juniper` is a dependency-free ES module package tested with the Node.js
+  built-in test runner. `overlaps` and `isFree` in `src/index.mjs` compare
+  with `<=`, so the end of a booking counts as occupied; `conflicts` relies on
+  `overlaps`. Four tests in `test/index.test.mjs` describe the expected
+  behavior and currently fail (issue 58). `CHANGELOG.md` has one section per
+  release, newest first. `tools/preflight.mjs` checks that it has a section
+  for the version in `package.json`.
+
+inputs:
+  - src/index.mjs
+  - test/index.test.mjs
+  - package.json
+  - CHANGELOG.md
+  - tools/preflight.mjs
+
+dependencies:
+  - Node.js 20 or newer is available as `node`
+
+constraints:
+  - Change only `src/index.mjs`, `package.json` and `CHANGELOG.md`.
+  - Do not edit, skip, or delete any test, and do not change `tools/preflight.mjs`.
+  - Do not add dependencies.
+  - Keep the exported names and signatures of `src/index.mjs`.
+
+requirements:
+  - id: R1
+    text: Two bookings in one room do not overlap when one starts exactly when the other ends.
+  - id: R2
+    text: A slot is free when it starts exactly when a booking ends, or ends exactly when a booking starts.
+  - id: R3
+    text: Bookings and slots that really share time are still reported.
+  - id: R4
+    text: The fix is released as the next patch version, with its own section in the changelog.
+
+steps:
+  - id: reproduce
+    title: Reproduce the failure
+    requirements: [R1, R2]
+    actions:
+      - Run `node --test` and record which tests fail.
+      - Confirm that only tests about a shared boundary fail; stop if anything else fails.
+
+  - id: fix
+    title: Correct the comparisons
+    requirements: [R1, R2, R3]
+    actions:
+      - Change `overlaps` and `isFree` in `src/index.mjs` so that the end of a booking is not part of it.
+
+  - id: bump-version
+    title: Raise the version
+    requirements: [R4]
+    actions:
+      - Raise the patch number of `version` in `package.json` by one and change nothing else in that file.
+
+  - id: changelog
+    title: Describe the release
+    requirements: [R4]
+    actions:
+      - Add a section for the new version at the top of `CHANGELOG.md`, above the previous release, in the format of the existing sections.
+      - Give the section one list item that says what changed for users.
+
+  - id: verify
+    title: Verify the final state
+    requirements: [R1, R2, R3, R4]
+    actions:
+      - Run every check in `verification` after the last edit and record each exit code.
+      - Record the pass and fail counts of the test run.
+
+output:
+  - file: src/index.mjs
+    rules:
+      - Exports `overlaps`, `conflicts` and `isFree` with unchanged signatures.
+  - file: package.json
+    rules:
+      - Only `version` differs from the previous release, by one patch number.
+  - file: CHANGELOG.md
+    rules:
+      - The first section is the new version; earlier sections are unchanged.
+
+verification:
+  - id: unit-tests
+    expect: All tests pass, including the four tests about a shared boundary.
+    run: node --test
+    requirements: [R1, R2, R3]
+  - id: preflight
+    expect: The changelog has a section with at least one entry for the version in `package.json`.
+    run: node tools/preflight.mjs
+    requirements: [R4]
+  - id: scope
+    expect: Under `src/`, `test/` and `tools/`, only `src/index.mjs` changed.
+    run: git status --short
+
+stopConditions:
+  - A test that is not about a shared boundary fails before any change is made.
+  - The fix cannot be made without editing a test or adding a dependency.
+
+limits:
+  repairAttempts: 2
+
+tags:
+  - juniper
+  - bugfix
+createdBy: juniper-team
