@@ -50,7 +50,8 @@ it out of the specification repository so that it is a project of its own:</p>
 <pre data-lang="bash"><code>npx skills add guided-engineering/skills -a claude-code -y</code></pre>
 <p>This copies <code>ops-author</code> and <code>ops-execute</code> into <code>.claude/skills/</code>. To install a
 fixed revision, name its commit. This one is the revision the local study
-measured:</p>
+measured; the current one differs from it by a single corrected sentence in
+<code>ops-author</code>:</p>
 <pre data-lang="bash"><code>npx skills add guided-engineering/skills#146c4b51fee8f1a6609b424fe6381c28c27c60e4 -a claude-code -y</code></pre>
 <p>No installer? Copy the two folders under <code>skills/</code> of the
 <a href="https://github.com/guided-engineering/skills" rel="noopener">Skills repository</a> into
@@ -99,7 +100,7 @@ the default agent adds <code>.guides/agents/agents.yaml</code>; see
 <h2 id="what-was-verified-on-this-page">What was verified on this page</h2>
 <p>The commands of steps 2, 3, 4 and 6 were replayed as written from the two
 public repositories on 2026-11-13, on Windows: the clone and the checkout, the
-copy, the installer (both Skills, with files identical to the measured
+copy, the installer (both Skills, the current version and then the measured
 revision), the starting commit, the two failing tests of the starting state,
 and the validator from the installed Skill.</p>
 <p>The two requests of step 5 were not replayed in a fresh session for this page.

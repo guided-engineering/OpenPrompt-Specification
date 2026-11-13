@@ -51,8 +51,10 @@ agent corrected it, and the final prompts are valid, so no score changed. The
 baseline runs, which read the contract itself, passed their first validation.
 
 This was noticed after the last task had been run, when the rules of the study
-no longer allow a change to the Skills. They are published as measured, and the
-correction is listed in the [roadmap](../ROADMAP.md).
+no longer allow a change to the Skills. Every number on this page is therefore
+about the Skills as measured, commit `146c4b5` of the Skills repository. The
+sentence was corrected afterwards, in commit `c8418f5`. That corrected version
+has not been measured, and no result here is transferred to it.
 
 ## How to read the scores
 

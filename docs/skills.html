@@ -99,15 +99,23 @@ project, was run with and without the Skills on five small tasks. The right
 Skill loaded every time, nothing got worse, and nothing measurably got better:
 the agent was already at or near the top of the scale without them. The
 <a href="results.html">results page</a> has every number and every limit.</p>
-<h2 id="a-known-issue-in-ops-author">A known issue in <code>ops-author</code></h2>
-<p>The field guide of <code>ops-author</code> says that a check without a command uses
-<code>expect</code> to say what to observe. That can be read as if <code>expect</code> were needed
-only then. It is required for every check. In both authoring runs of the study
-the first draft left it out of the checks that had a command; the validator
-rejected the draft and named the field, and the agent corrected it.</p>
-<p>The Skills are published exactly as they were measured, so the sentence is
-still there. Correcting it makes a new version that the study did not measure.
-It is listed in the <a href="https://github.com/guided-engineering/OpenPrompt-Specification/blob/main/ROADMAP.md" rel="noopener">roadmap</a>.</p>
+<h2 id="a-correction-made-after-the-study">A correction made after the study</h2>
+<p>The field guide of <code>ops-author</code>, as measured, said that a check without a
+command uses <code>expect</code> to say what to observe. That could be read as if <code>expect</code>
+were needed only then, and it is required for every check. In both authoring
+runs of the study the first draft left it out of the checks that had a command;
+the validator rejected the draft and named the field, and the agent corrected
+it.</p>
+<p>The sentence was corrected afterwards, in commit <code>c8418f5</code> of the Skills
+repository: every check has an <code>id</code> and an <code>expect</code>, and <code>run</code> is added when a
+command decides the check. <strong>The corrected version has not been measured.</strong>
+Everything on the <a href="results.html">results page</a> is about the earlier revision,
+<code>146c4b5</code>, which the pinned command in the <a href="quick-start.html">quick start</a>
+still installs. <code>ops-execute</code> is unchanged.</p>
+<p>One known issue remains: the prompt template bundled in <code>ops-author</code> carries a
+header comment that names the specification repository&#39;s validator command.
+Use the command given in the Skill. It is listed in the
+<a href="https://github.com/guided-engineering/OpenPrompt-Specification/blob/main/ROADMAP.md" rel="noopener">roadmap</a>.</p>
 
   </main>
   <footer>

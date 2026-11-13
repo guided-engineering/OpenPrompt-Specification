@@ -177,8 +177,9 @@ both to a project that has neither.
 
 Also on record: the scoring of three tasks was repaired after their first run,
 and those runs were repeated; the blinding of the fifth task could not be
-verified; and one sentence in `ops-author` misleads about a required field
-until the validator corrects it. Every run and every limit is in
+verified; and one sentence in `ops-author` misled about a required field until
+the validator corrected the draft. That sentence was corrected afterwards, in
+a version the study did not measure. Every run and every limit is in
 [the report](./.guides/testing/skills-study/results/report.md) and on
 [the results page](https://guided-engineering.github.io/OpenPrompt-Specification/results.html).
 
