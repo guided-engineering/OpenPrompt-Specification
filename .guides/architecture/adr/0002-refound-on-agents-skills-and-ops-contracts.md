@@ -59,7 +59,9 @@ relatedSpecs: []
 Status: **proposed** · Date: 2026-11-13
 
 This record is the design of the reformulation. It becomes `accepted` when a
-human merges it. ADR 0001's choice, YAML validated by JSON Schema draft-07,
+human accepts it after reading it. The branch that carries it was merged on
+the owner's instruction without such a review, so its status is still
+`proposed`. ADR 0001's choice, YAML validated by JSON Schema draft-07,
 stands; its references to the retired spec layer are historical.
 
 ## Context
