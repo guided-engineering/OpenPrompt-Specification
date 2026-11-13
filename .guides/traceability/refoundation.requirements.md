@@ -150,7 +150,7 @@ show that the translation lost nothing. That question was answered by reading:
 ## Recorded results
 
 What the run record shows for each check, and from there for each requirement.
-Record: `2026-11-13.refoundation`, prompt version 2, status `in-progress`, last updated 2026-11-13T19:27:21Z.
+Record: `2026-11-13.refoundation`, prompt version 2, status `in-progress`, last updated 2026-11-13T19:34:52Z.
 This table repeats the record. A check without a command was observed by the
 executor, and the record's body says how.
 
@@ -160,35 +160,35 @@ executor, and the record's body says how.
 | `design-recorded` | pass | 2026-11-13T16:40:00Z | observed | — | `.guides/architecture/adr/0002-refound-on-agents-skills-and-ops-contracts.md` |
 | `contract-tests` | pass | 2026-11-13T19:26:19Z | `npm test` | 0 | `.guides/testing/contract/green.canonical.tap.txt` |
 | `before-and-after` | pass | 2026-11-13T16:30:00Z | observed | — | `.guides/testing/contract/red.legacy-baseline.tap.txt`<br>`.guides/testing/contract/green.canonical.tap.txt` |
-| `repository-valid` | not-run | — | `npm run validate` (not recorded) | — | — |
-| `references-clean` | not-run | — | `npm run check:refs` (not recorded) | — | — |
-| `plan-translated` | not-run | — | `npm run trace -- --check` (not recorded) | — | — |
-| `translation-audited` | not-run | — | observed | — | — |
+| `repository-valid` | pass | 2026-11-13T19:31:19Z | `npm run validate` | 0 | — |
+| `references-clean` | pass | 2026-11-13T19:31:18Z | `npm run check:refs` | 0 | — |
+| `plan-translated` | pass | 2026-11-13T19:31:21Z | `npm run trace -- --check` | 0 | `.guides/traceability/refoundation.requirements.md` |
+| `translation-audited` | pass | 2026-11-13T19:31:00Z | observed | — | `.guides/traceability/refoundation.coverage-audit.md`<br>`ROADMAP.md`<br>`commit 9ed6800` |
 | `contract-frozen` | pass | 2026-11-13T18:45:00Z | observed | — | `.guides/testing/skills-study/kit/manifest.json`<br>`.guides/testing/skills-study/frozen.json` |
 | `study-preregistered` | pass | 2026-11-13T18:45:00Z | observed | — | `.guides/testing/skills-study/protocol.md`<br>`.guides/testing/skills-study/amendments.md`<br>`commit 84fb616`<br>`commit a5dfe71` |
 | `oracles-self-check` | pass | 2026-11-13T19:26:26Z | `npm run study:selfcheck` | 0 | — |
 | `baseline-recorded` | pass | 2026-11-13T18:55:00Z | observed | — | `.guides/testing/skills-study/results/baseline-gaps.md`<br>`commit afbe491` |
 | `study-inputs-frozen` | pass | 2026-11-13T19:26:19Z | `npm run study:frozen` | 0 | — |
 | `measurement-recorded` | pass | 2026-11-13T19:26:00Z | observed | — | `.guides/testing/skills-study/results/report.md`<br>`.guides/testing/skills-study/results/report.generated.md`<br>`.guides/testing/skills-study/results/attempts.jsonl` |
-| `skills-usable` | not-run | — | observed | — | — |
-| `consolidated` | not-run | — | observed | — | — |
-| `example-runs` | not-run | — | `npm run example` (not recorded) | — | — |
-| `site-built` | not-run | — | `npm run site -- --check` (not recorded) | — | — |
+| `skills-usable` | pass | 2026-11-13T19:32:38Z | observed | — | `.guides/testing/skills-study/results/candidates.json`<br>`commit 11115f5 of the Skills repository` |
+| `consolidated` | pass | 2026-11-13T19:34:00Z | observed | — | `README.md`<br>`README.pt-br.md`<br>`ROADMAP.md`<br>`commit b73b82a` |
+| `example-runs` | pass | 2026-11-13T19:31:20Z | `npm run example` | 0 | — |
+| `site-built` | pass | 2026-11-13T19:31:18Z | `npm run site -- --check` | 0 | `docs/index.html` |
 | `site-public` | not-run | — | observed | — | — |
 | `final-report` | not-run | — | observed | — | — |
 
 A requirement is **shown** when every check that covers it is recorded as
 `pass`, **failing** when one of them is recorded as `fail`, and **open**
-otherwise. 56 of 88 requirements are shown, 32 are open and 0 are failing.
+otherwise. 77 of 88 requirements are shown, 11 are open and 0 are failing.
 
 | Requirement | Checks and their recorded results | State |
 |---|---|---|
 | `X1` | `assessment-complete` pass, `final-report` not-run | open |
-| `X2` | `consolidated` not-run | open |
-| `X3` | `plan-translated` not-run, `translation-audited` not-run | open |
+| `X2` | `consolidated` pass | shown |
+| `X3` | `plan-translated` pass, `translation-audited` pass | shown |
 | `O1` | `design-recorded` pass | shown |
 | `O2` | `contract-tests` pass | shown |
-| `O3` | `skills-usable` not-run | open |
+| `O3` | `skills-usable` pass | shown |
 | `O4` | `study-preregistered` pass, `measurement-recorded` pass | shown |
 | `O5` | `measurement-recorded` pass | shown |
 | `O6` | `site-public` not-run, `final-report` not-run | open |
@@ -196,7 +196,7 @@ otherwise. 56 of 88 requirements are shown, 32 are open and 0 are failing.
 | `B2` | `assessment-complete` pass, `final-report` not-run | open |
 | `B3` | `design-recorded` pass, `final-report` not-run | open |
 | `B4` | `design-recorded` pass | shown |
-| `B5` | `references-clean` not-run | open |
+| `B5` | `references-clean` pass | shown |
 | `B6` | `final-report` not-run | open |
 | `B7` | `study-inputs-frozen` pass | shown |
 | `I1` | `assessment-complete` pass | shown |
@@ -210,7 +210,7 @@ otherwise. 56 of 88 requirements are shown, 32 are open and 0 are failing.
 | `I9` | `assessment-complete` pass | shown |
 | `D1` | `design-recorded` pass | shown |
 | `D2` | `design-recorded` pass | shown |
-| `D3` | `references-clean` not-run | open |
+| `D3` | `references-clean` pass | shown |
 | `D4` | `design-recorded` pass | shown |
 | `D5` | `design-recorded` pass | shown |
 | `D6` | `contract-tests` pass | shown |
@@ -218,12 +218,12 @@ otherwise. 56 of 88 requirements are shown, 32 are open and 0 are failing.
 | `D8` | `contract-tests` pass | shown |
 | `D9` | `contract-tests` pass | shown |
 | `D10` | `contract-tests` pass | shown |
-| `D11` | `references-clean` not-run | open |
+| `D11` | `references-clean` pass | shown |
 | `D12` | `contract-tests` pass | shown |
 | `D13` | `before-and-after` pass | shown |
 | `D14` | `contract-tests` pass | shown |
-| `D15` | `repository-valid` not-run, `references-clean` not-run | open |
-| `D16` | `plan-translated` not-run, `translation-audited` not-run | open |
+| `D15` | `repository-valid` pass, `references-clean` pass | shown |
+| `D16` | `plan-translated` pass, `translation-audited` pass | shown |
 | `D17` | `contract-frozen` pass, `study-inputs-frozen` pass | shown |
 | `S1` | `study-preregistered` pass | shown |
 | `S2` | `study-preregistered` pass | shown |
@@ -253,19 +253,19 @@ otherwise. 56 of 88 requirements are shown, 32 are open and 0 are failing.
 | `M7` | `measurement-recorded` pass | shown |
 | `M8` | `measurement-recorded` pass | shown |
 | `M9` | `measurement-recorded` pass | shown |
-| `K1` | `consolidated` not-run | open |
-| `K2` | `study-inputs-frozen` pass, `consolidated` not-run | open |
-| `K3` | `consolidated` not-run | open |
-| `K4` | `skills-usable` not-run | open |
-| `K5` | `references-clean` not-run | open |
-| `K6` | `references-clean` not-run | open |
-| `K7` | `repository-valid` not-run, `example-runs` not-run | open |
-| `K8` | `consolidated` not-run | open |
-| `K9` | `references-clean` not-run, `consolidated` not-run | open |
-| `W1` | `site-built` not-run | open |
-| `W2` | `site-built` not-run | open |
-| `W3` | `site-built` not-run | open |
-| `W4` | `site-built` not-run | open |
+| `K1` | `consolidated` pass | shown |
+| `K2` | `study-inputs-frozen` pass, `consolidated` pass | shown |
+| `K3` | `consolidated` pass | shown |
+| `K4` | `skills-usable` pass | shown |
+| `K5` | `references-clean` pass | shown |
+| `K6` | `references-clean` pass | shown |
+| `K7` | `repository-valid` pass, `example-runs` pass | shown |
+| `K8` | `consolidated` pass | shown |
+| `K9` | `references-clean` pass, `consolidated` pass | shown |
+| `W1` | `site-built` pass | shown |
+| `W2` | `site-built` pass | shown |
+| `W3` | `site-built` pass | shown |
+| `W4` | `site-built` pass | shown |
 | `W5` | `site-public` not-run | open |
 | `R1` | `final-report` not-run | open |
 | `R2` | `final-report` not-run | open |
