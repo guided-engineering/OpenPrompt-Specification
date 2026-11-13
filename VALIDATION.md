@@ -9,7 +9,7 @@ Requires Node.js 20 or newer.
 
 ```bash
 npm ci
-npm test            # 59 contract tests
+npm test            # the contract tests
 npm run validate    # every active artifact, found by convention
 ```
 
@@ -75,8 +75,8 @@ The same tests were run against the validation that was canonical at commit
 
 | Run | Result | File |
 |---|---|---|
-| Validation of `ca82040` (`OPS_VALIDATOR_IMPL=./legacy-baseline.mjs`) | 51 of 59 fail | [`.guides/testing/contract/red.legacy-baseline.tap.txt`](./.guides/testing/contract/red.legacy-baseline.tap.txt) |
-| This validator | 59 of 59 pass | [`.guides/testing/contract/green.canonical.tap.txt`](./.guides/testing/contract/green.canonical.tap.txt) |
+| Validation of `ca82040` (`OPS_VALIDATOR_IMPL=./legacy-baseline.mjs`) | 52 of 60 fail | [`.guides/testing/contract/red.legacy-baseline.tap.txt`](./.guides/testing/contract/red.legacy-baseline.tap.txt) |
+| This validator | 60 of 60 pass | [`.guides/testing/contract/green.canonical.tap.txt`](./.guides/testing/contract/green.canonical.tap.txt) |
 
 The defects of the earlier validation procedure are listed in
 [`.guides/assessment/refoundation-assessment.md`](./.guides/assessment/refoundation-assessment.md).

@@ -90,10 +90,11 @@ directory.
   directory.
 
 The workspace is also the write boundary. The executor MUST NOT create, change
-or delete anything outside the workspace, with one exception: the worklog entry
-of the run, which always lives under `.guides/operation/worklog/` at the
-repository root. `constraints` can narrow the boundary further; nothing in a
-prompt can widen it.
+or delete anything outside the workspace, with two exceptions: the worklog
+entry of the run, which always lives under `.guides/operation/worklog/` at the
+repository root, and scratch files in a temporary location that the task does
+not keep. `constraints` can narrow the boundary further; nothing in a prompt
+can widen it. A task that spans two repositories is two prompts, one in each.
 
 ### 4.3 `$schema`
 
@@ -151,10 +152,11 @@ A document that declares both `persona` and `agent` is rejected
 - **Requirements.** When `requirements` is declared, every requirement MUST be
   referenced by at least one verification check, and every reference MUST name
   a declared requirement. Steps MAY reference requirements too.
-- **Limits.** `limits.repairAttempts` is the maximum number of repair cycles: a
-  change made because a check failed, followed by re-running the checks. When
-  it is exhausted with a check still failing, the run stops with status
-  `blocked`. `limits.timeBudgetMinutes` is a wall-clock budget for one run,
+- **Limits.** `limits.repairAttempts` is the maximum number of repair cycles
+  for one failing check: a change made because that check failed, followed by
+  re-running it. The count restarts when the check passes. When a check still
+  fails after that many cycles, the run stops with status `blocked`. The
+  default is 2. `limits.timeBudgetMinutes` is a wall-clock budget for one run,
   measured by the executor from the start of execution and tested at step
   boundaries; when it is exceeded the run stops as `blocked`. It is not a
   process timeout, and the host stays in charge of killing processes.
@@ -170,6 +172,11 @@ A human asks for one of three things. The executor does exactly that one.
 | `interpret` | Validates the prompt, resolves its references, explains what it requires and what is unclear. | Change any file. |
 | `plan` | Does the above and writes a plan: ordered tasks, files in scope, the check for each task, stop conditions. | Change any product file or run any step. |
 | `execute` | Does the above and carries out the steps, verifies, repairs within `limits`, and records evidence. | Go beyond the prompt, the workspace or the human's authorization. |
+
+A plan is recorded as a worklog entry with `mode: plan` (section 7): the plan
+is the Markdown body, every reported step is `pending`, and no check has a
+result other than `not-run`, because nothing was executed. An interpretation
+needs no entry.
 
 The mode comes from the request, not from the prompt. Permissions stay with the
 agent host and the human's authorization; a prompt cannot grant any. Files,
@@ -199,6 +206,8 @@ Rules:
   every step `done` and every check `pass`; when the prompt is present in the
   repository, every one of its steps and checks must be reported. There is no
   demonstration verdict: a run whose checks did not run is not complete.
+- **A plan executes nothing.** An entry with `mode: plan` or `mode: interpret`
+  reports no step as `done` or `in-progress` and no check as `pass` or `fail`.
 - **A checkpoint is a claim, not proof.** Before relying on a step marked
   `done`, the executor verifies it against the real workspace. A completed side
   effect is not repeated because a log is stale, and a step is not skipped only
@@ -233,7 +242,7 @@ the command could not run. Each problem has a stable code:
 | `schema-path` | `$schema` does not lead to the canonical schema. |
 | `duplicate-id`, `prompt-id-duplicate` | An identifier is used twice. |
 | `requirement-unknown`, `requirement-unverified` | Requirement references do not close. |
-| `completed-without-proof`, `approval-by-agent`, `record-unknown-step`, `record-unknown-check` | A worklog entry claims more than it shows. |
+| `completed-without-proof`, `plan-claims-execution`, `approval-by-agent`, `record-unknown-step`, `record-unknown-check` | A worklog entry claims more than it shows. |
 
 Date-times are checked as RFC 3339; a parser accepting a string is not a check.
 

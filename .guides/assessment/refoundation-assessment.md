@@ -52,8 +52,8 @@ documented commands (`VALIDATION.md`), run unchanged.
 | D12 | The README states a license (MIT) but the repository has no license file. | repository root at `ca82040` |
 
 The new contract tests encode the expected behavior. Run against the validation
-of the starting commit, 51 of 59 fail; the 8 that pass do not depend on the
-validator under test. Run against the new validator, 59 of 59 pass.
+of the starting commit, 52 of 60 fail; the 8 that pass do not depend on the
+validator under test. Run against the new validator, 60 of 60 pass.
 See [`../testing/contract/`](../testing/contract/).
 
 ## 4. Legacy inputs

@@ -498,6 +498,16 @@ function checkWorklog(data, file, root, opts, result) {
     }
   }
 
+  if (data.mode === 'plan' || data.mode === 'interpret') {
+    const acted = [
+      ...steps.filter((s) => s?.status === 'done' || s?.status === 'in-progress').map((s) => `step ${s.id} is ${s.status}`),
+      ...checks.filter((c) => c?.result === 'pass' || c?.result === 'fail').map((c) => `check ${c.id} is ${c.result}`),
+    ];
+    if (acted.length) {
+      errors.push(err('plan-claims-execution', `an entry with mode \`${data.mode}\` executes nothing, yet it reports: ${acted.join('; ')}`, '/mode'));
+    }
+  }
+
   (Array.isArray(data.approvals) ? data.approvals : []).forEach((a, i) => {
     const by = typeof a?.by === 'string' ? a.by.trim().toLowerCase() : null;
     if (by === null) return;
@@ -581,6 +591,34 @@ export async function validateSchemas() {
     }
     return { file: `.guides/schemas/${SCHEMA_FILES[kind]}`, kind, valid: errors.length === 0, errors };
   });
+}
+
+/**
+ * Requirement map of one valid prompt, as Markdown: every requirement with the
+ * steps that work on it and the checks that prove it. Derived, never edited.
+ */
+export function traceMarkdown(file) {
+  const parsed = parseYaml(readFileSync(file, 'utf8'));
+  const data = parsed.data;
+  if (!data || !Array.isArray(data.requirements)) return null;
+  const cell = (s) => String(s).replace(/\|/g, '\\|').replace(/\s+/g, ' ').trim();
+  const refs = (list, id) => (list ?? []).filter((x) => (x.requirements ?? []).includes(id)).map((x) => `\`${x.id}\``).join(', ');
+  const lines = [
+    `## \`${data.id}\` (version ${data.version})`,
+    '',
+    `${data.requirements.length} requirements, ${data.steps.length} steps, ${data.verification.length} checks.`,
+    '',
+    '| Requirement | Text | Steps | Checks |',
+    '|---|---|---|---|',
+  ];
+  for (const r of data.requirements) {
+    lines.push(`| \`${r.id}\` | ${cell(r.text)} | ${refs(data.steps, r.id) || '—'} | ${refs(data.verification, r.id) || '**none**'} |`);
+  }
+  lines.push('', '| Step | Title | Requirements |', '|---|---|---|');
+  for (const s of data.steps) lines.push(`| \`${s.id}\` | ${cell(s.title)} | ${(s.requirements ?? []).map((x) => `\`${x}\``).join(', ') || '—'} |`);
+  lines.push('', '| Check | Command | Requirements |', '|---|---|---|');
+  for (const c of data.verification) lines.push(`| \`${c.id}\` | ${c.run ? `\`${cell(c.run)}\`` : 'observed'} | ${(c.requirements ?? []).map((x) => `\`${x}\``).join(', ') || '—'} |`);
+  return `${lines.join('\n')}\n`;
 }
 
 const listFiles = (dir, test) => (isDir(dir) ? readdirSync(dir).filter(test).sort().map((n) => join(dir, n)) : []);

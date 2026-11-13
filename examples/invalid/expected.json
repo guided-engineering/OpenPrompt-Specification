@@ -110,6 +110,9 @@
   "worklog.unknown-step.md": [
     "record-unknown-step"
   ],
+  "worklog.plan-claims-execution.md": [
+    "plan-claims-execution"
+  ],
   "worklog.no-front-matter.md": [
     "front-matter-missing"
   ]

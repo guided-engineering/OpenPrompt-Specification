@@ -176,7 +176,7 @@
           "type": "integer",
           "minimum": 0,
           "maximum": 5,
-          "description": "Maximum number of repair cycles (a change made because a check failed, followed by re-running the checks). Default 2. When exhausted with a check still failing, the run stops as blocked."
+          "description": "Maximum number of repair cycles for one failing check: a change made because that check failed, followed by re-running it. The count restarts when the check passes. Default 2. When a check still fails after that many cycles, the run stops as blocked."
         },
         "timeBudgetMinutes": {
           "type": "integer",

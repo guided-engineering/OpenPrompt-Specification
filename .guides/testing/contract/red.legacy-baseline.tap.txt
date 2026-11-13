@@ -197,6 +197,10 @@ TAP version 13
 # unknown format "date-time" ignored in schema at path "\#/properties/date"
 # unknown format "date-time" ignored in schema at path "\#/properties/signOffs/items/properties/at"
 # unknown format "date-time" ignored in schema at path "\#/properties/signOffs/items/properties/at"
+# unknown format "date-time" ignored in schema at path "\#/properties/date"
+# unknown format "date-time" ignored in schema at path "\#/properties/date"
+# unknown format "date-time" ignored in schema at path "\#/properties/signOffs/items/properties/at"
+# unknown format "date-time" ignored in schema at path "\#/properties/signOffs/items/properties/at"
 # unknown format "date" ignored in schema at path "\#/properties/date"
 # unknown format "date" ignored in schema at path "\#/properties/date"
 # unknown format "date-time" ignored in schema at path "\#/properties/executedAt"
@@ -232,13 +236,13 @@ TAP version 13
 # Subtest: every canonical schema is a valid draft-07 schema and compiles in strict mode
 ok 1 - every canonical schema is a valid draft-07 schema and compiles in strict mode
   ---
-  duration_ms: 180.2513
+  duration_ms: 174.269
   type: 'test'
   ...
 # Subtest: valid: examples/valid/prompt.minimal.yaml
 not ok 2 - valid: examples/valid/prompt.minimal.yaml
   ---
-  duration_ms: 67.7906
+  duration_ms: 63.7416
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:46:3'
   failureType: 'testCodeFailure'
@@ -306,7 +310,7 @@ not ok 2 - valid: examples/valid/prompt.minimal.yaml
 # Subtest: valid: examples/valid/worklog.blocked-run.md
 not ok 3 - valid: examples/valid/worklog.blocked-run.md
   ---
-  duration_ms: 52.2739
+  duration_ms: 47.5507
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:46:3'
   failureType: 'testCodeFailure'
@@ -395,7 +399,7 @@ not ok 3 - valid: examples/valid/worklog.blocked-run.md
 # Subtest: valid: examples/valid/worklog.completed-run.md
 not ok 4 - valid: examples/valid/worklog.completed-run.md
   ---
-  duration_ms: 48.067
+  duration_ms: 44.6687
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:46:3'
   failureType: 'testCodeFailure'
@@ -491,7 +495,7 @@ not ok 4 - valid: examples/valid/worklog.completed-run.md
 # Subtest: valid: examples/project/.guides/agents/agents.yaml
 not ok 5 - valid: examples/project/.guides/agents/agents.yaml
   ---
-  duration_ms: 49.4074
+  duration_ms: 43.3814
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:46:3'
   failureType: 'testCodeFailure'
@@ -545,7 +549,7 @@ not ok 5 - valid: examples/project/.guides/agents/agents.yaml
 # Subtest: valid: examples/project/.guides/prompts/prompt.slug.clean-separators.yaml
 not ok 6 - valid: examples/project/.guides/prompts/prompt.slug.clean-separators.yaml
   ---
-  duration_ms: 57.4386
+  duration_ms: 52.2902
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:46:3'
   failureType: 'testCodeFailure'
@@ -669,7 +673,7 @@ not ok 6 - valid: examples/project/.guides/prompts/prompt.slug.clean-separators.
 # Subtest: valid: examples/invalid/.guides/agents/agents.yaml
 not ok 7 - valid: examples/invalid/.guides/agents/agents.yaml
   ---
-  duration_ms: 44.6065
+  duration_ms: 42.89
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:46:3'
   failureType: 'testCodeFailure'
@@ -723,7 +727,7 @@ not ok 7 - valid: examples/invalid/.guides/agents/agents.yaml
 # Subtest: valid: examples/invalid/.guides/prompts/prompt.contract-fixture.yaml
 not ok 8 - valid: examples/invalid/.guides/prompts/prompt.contract-fixture.yaml
   ---
-  duration_ms: 51.2193
+  duration_ms: 46.3559
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:46:3'
   failureType: 'testCodeFailure'
@@ -791,7 +795,7 @@ not ok 8 - valid: examples/invalid/.guides/prompts/prompt.contract-fixture.yaml
 # Subtest: valid: .guides/agents/agents.yaml
 not ok 9 - valid: .guides/agents/agents.yaml
   ---
-  duration_ms: 44.0465
+  duration_ms: 41.0675
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:46:3'
   failureType: 'testCodeFailure'
@@ -845,13 +849,13 @@ not ok 9 - valid: .guides/agents/agents.yaml
 # Subtest: valid: .guides/architecture/adr/0001-choose-spec-format.md
 ok 10 - valid: .guides/architecture/adr/0001-choose-spec-format.md
   ---
-  duration_ms: 44.8571
+  duration_ms: 46.5021
   type: 'test'
   ...
 # Subtest: invalid: prompt.missing-agent.yaml is rejected with agent-missing
 not ok 11 - invalid: prompt.missing-agent.yaml is rejected with agent-missing
   ---
-  duration_ms: 48.0722
+  duration_ms: 44.3283
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:57:3'
   failureType: 'testCodeFailure'
@@ -896,7 +900,7 @@ not ok 11 - invalid: prompt.missing-agent.yaml is rejected with agent-missing
 # Subtest: invalid: prompt.unresolved-agent.yaml is rejected with agent-unresolved
 not ok 12 - invalid: prompt.unresolved-agent.yaml is rejected with agent-unresolved
   ---
-  duration_ms: 48.094
+  duration_ms: 45.2153
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:57:3'
   failureType: 'testCodeFailure'
@@ -946,7 +950,7 @@ not ok 12 - invalid: prompt.unresolved-agent.yaml is rejected with agent-unresol
 # Subtest: invalid: prompt.legacy-persona.yaml is rejected with legacy-persona, legacy-field, agent-missing
 not ok 13 - invalid: prompt.legacy-persona.yaml is rejected with legacy-persona, legacy-field, agent-missing
   ---
-  duration_ms: 45.4386
+  duration_ms: 44.8443
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:57:3'
   failureType: 'testCodeFailure'
@@ -968,7 +972,7 @@ not ok 13 - invalid: prompt.legacy-persona.yaml is rejected with legacy-persona,
 # Subtest: invalid: prompt.actor-conflict.yaml is rejected with actor-conflict
 not ok 14 - invalid: prompt.actor-conflict.yaml is rejected with actor-conflict
   ---
-  duration_ms: 46.5054
+  duration_ms: 44.4818
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:57:3'
   failureType: 'testCodeFailure'
@@ -1013,7 +1017,7 @@ not ok 14 - invalid: prompt.actor-conflict.yaml is rejected with actor-conflict
 # Subtest: invalid: prompt.duplicate-key.yaml is rejected with yaml-duplicate-key
 not ok 15 - invalid: prompt.duplicate-key.yaml is rejected with yaml-duplicate-key
   ---
-  duration_ms: 1.2192
+  duration_ms: 1.1645
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:57:3'
   failureType: 'testCodeFailure'
@@ -1037,7 +1041,7 @@ not ok 15 - invalid: prompt.duplicate-key.yaml is rejected with yaml-duplicate-k
 # Subtest: invalid: prompt.output-shape-string.yaml is rejected with schema
 not ok 16 - invalid: prompt.output-shape-string.yaml is rejected with schema
   ---
-  duration_ms: 44.941
+  duration_ms: 43.5654
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:57:3'
   failureType: 'testCodeFailure'
@@ -1092,7 +1096,7 @@ not ok 16 - invalid: prompt.output-shape-string.yaml is rejected with schema
 # Subtest: invalid: prompt.output-rules-block-string.yaml is rejected with schema
 not ok 17 - invalid: prompt.output-rules-block-string.yaml is rejected with schema
   ---
-  duration_ms: 45.8607
+  duration_ms: 43.6297
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:57:3'
   failureType: 'testCodeFailure'
@@ -1147,7 +1151,7 @@ not ok 17 - invalid: prompt.output-rules-block-string.yaml is rejected with sche
 # Subtest: invalid: prompt.output-path-escape.yaml is rejected with path-invalid
 not ok 18 - invalid: prompt.output-path-escape.yaml is rejected with path-invalid
   ---
-  duration_ms: 49.1261
+  duration_ms: 45.0744
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:57:3'
   failureType: 'testCodeFailure'
@@ -1197,7 +1201,7 @@ not ok 18 - invalid: prompt.output-path-escape.yaml is rejected with path-invali
 # Subtest: invalid: prompt.output-duplicate.yaml is rejected with output-duplicate
 not ok 19 - invalid: prompt.output-duplicate.yaml is rejected with output-duplicate
   ---
-  duration_ms: 47.0416
+  duration_ms: 43.5656
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:57:3'
   failureType: 'testCodeFailure'
@@ -1247,7 +1251,7 @@ not ok 19 - invalid: prompt.output-duplicate.yaml is rejected with output-duplic
 # Subtest: invalid: prompt.workspace-escape.yaml is rejected with path-invalid
 not ok 20 - invalid: prompt.workspace-escape.yaml is rejected with path-invalid
   ---
-  duration_ms: 50.463
+  duration_ms: 48.4997
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:57:3'
   failureType: 'testCodeFailure'
@@ -1297,7 +1301,7 @@ not ok 20 - invalid: prompt.workspace-escape.yaml is rejected with path-invalid
 # Subtest: invalid: prompt.workspace-not-relative.yaml is rejected with path-invalid
 not ok 21 - invalid: prompt.workspace-not-relative.yaml is rejected with path-invalid
   ---
-  duration_ms: 44.9993
+  duration_ms: 48.0359
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:57:3'
   failureType: 'testCodeFailure'
@@ -1352,7 +1356,7 @@ not ok 21 - invalid: prompt.workspace-not-relative.yaml is rejected with path-in
 # Subtest: invalid: prompt.workspace-not-found.yaml is rejected with workspace-not-found
 not ok 22 - invalid: prompt.workspace-not-found.yaml is rejected with workspace-not-found
   ---
-  duration_ms: 43.6593
+  duration_ms: 43.3593
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:57:3'
   failureType: 'testCodeFailure'
@@ -1402,7 +1406,7 @@ not ok 22 - invalid: prompt.workspace-not-found.yaml is rejected with workspace-
 # Subtest: invalid: prompt.input-not-found.yaml is rejected with input-not-found
 not ok 23 - invalid: prompt.input-not-found.yaml is rejected with input-not-found
   ---
-  duration_ms: 45.7628
+  duration_ms: 43.0056
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:57:3'
   failureType: 'testCodeFailure'
@@ -1457,7 +1461,7 @@ not ok 23 - invalid: prompt.input-not-found.yaml is rejected with input-not-foun
 # Subtest: invalid: prompt.missing-verification.yaml is rejected with verification-missing
 not ok 24 - invalid: prompt.missing-verification.yaml is rejected with verification-missing
   ---
-  duration_ms: 44.9997
+  duration_ms: 44.8974
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:57:3'
   failureType: 'testCodeFailure'
@@ -1502,7 +1506,7 @@ not ok 24 - invalid: prompt.missing-verification.yaml is rejected with verificat
 # Subtest: invalid: prompt.empty-verification.yaml is rejected with verification-missing
 not ok 25 - invalid: prompt.empty-verification.yaml is rejected with verification-missing
   ---
-  duration_ms: 44.092
+  duration_ms: 45.4164
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:57:3'
   failureType: 'testCodeFailure'
@@ -1552,7 +1556,7 @@ not ok 25 - invalid: prompt.empty-verification.yaml is rejected with verificatio
 # Subtest: invalid: prompt.unknown-field.yaml is rejected with unknown-field
 not ok 26 - invalid: prompt.unknown-field.yaml is rejected with unknown-field
   ---
-  duration_ms: 47.54
+  duration_ms: 44.8912
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:57:3'
   failureType: 'testCodeFailure'
@@ -1607,7 +1611,7 @@ not ok 26 - invalid: prompt.unknown-field.yaml is rejected with unknown-field
 # Subtest: invalid: prompt.step-legacy-controls.yaml is rejected with legacy-field
 not ok 27 - invalid: prompt.step-legacy-controls.yaml is rejected with legacy-field
   ---
-  duration_ms: 51.6947
+  duration_ms: 43.9436
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:57:3'
   failureType: 'testCodeFailure'
@@ -1657,7 +1661,7 @@ not ok 27 - invalid: prompt.step-legacy-controls.yaml is rejected with legacy-fi
 # Subtest: invalid: prompt.duplicate-step-id.yaml is rejected with duplicate-id
 not ok 28 - invalid: prompt.duplicate-step-id.yaml is rejected with duplicate-id
   ---
-  duration_ms: 48.1103
+  duration_ms: 43.475
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:57:3'
   failureType: 'testCodeFailure'
@@ -1707,7 +1711,7 @@ not ok 28 - invalid: prompt.duplicate-step-id.yaml is rejected with duplicate-id
 # Subtest: invalid: prompt.requirement-unverified.yaml is rejected with requirement-unverified
 not ok 29 - invalid: prompt.requirement-unverified.yaml is rejected with requirement-unverified
   ---
-  duration_ms: 46.9192
+  duration_ms: 42.7952
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:57:3'
   failureType: 'testCodeFailure'
@@ -1762,7 +1766,7 @@ not ok 29 - invalid: prompt.requirement-unverified.yaml is rejected with require
 # Subtest: invalid: prompt.requirement-unknown.yaml is rejected with requirement-unknown
 not ok 30 - invalid: prompt.requirement-unknown.yaml is rejected with requirement-unknown
   ---
-  duration_ms: 45.4793
+  duration_ms: 44.4665
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:57:3'
   failureType: 'testCodeFailure'
@@ -1822,7 +1826,7 @@ not ok 30 - invalid: prompt.requirement-unknown.yaml is rejected with requiremen
 # Subtest: invalid: prompt.schema-path-stale.yaml is rejected with schema-path
 not ok 31 - invalid: prompt.schema-path-stale.yaml is rejected with schema-path
   ---
-  duration_ms: 44.4449
+  duration_ms: 43.1523
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:57:3'
   failureType: 'testCodeFailure'
@@ -1872,7 +1876,7 @@ not ok 31 - invalid: prompt.schema-path-stale.yaml is rejected with schema-path
 # Subtest: invalid: prompt.legacy-api-version.yaml is rejected with legacy-api-version
 not ok 32 - invalid: prompt.legacy-api-version.yaml is rejected with legacy-api-version
   ---
-  duration_ms: 45.4945
+  duration_ms: 47.2203
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:57:3'
   failureType: 'testCodeFailure'
@@ -1927,7 +1931,7 @@ not ok 32 - invalid: prompt.legacy-api-version.yaml is rejected with legacy-api-
 # Subtest: invalid: prompt.limits-out-of-range.yaml is rejected with schema
 not ok 33 - invalid: prompt.limits-out-of-range.yaml is rejected with schema
   ---
-  duration_ms: 44.3464
+  duration_ms: 54.5368
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:57:3'
   failureType: 'testCodeFailure'
@@ -1982,7 +1986,7 @@ not ok 33 - invalid: prompt.limits-out-of-range.yaml is rejected with schema
 # Subtest: invalid: prompt.unquoted-colon.yaml is rejected with schema
 not ok 34 - invalid: prompt.unquoted-colon.yaml is rejected with schema
   ---
-  duration_ms: 43.8842
+  duration_ms: 52.9738
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:57:3'
   failureType: 'testCodeFailure'
@@ -2037,7 +2041,7 @@ not ok 34 - invalid: prompt.unquoted-colon.yaml is rejected with schema
 # Subtest: invalid: prompt.multi-document.yaml is rejected with yaml-multi-document
 not ok 35 - invalid: prompt.multi-document.yaml is rejected with yaml-multi-document
   ---
-  duration_ms: 1.3257
+  duration_ms: 1.5059
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:57:3'
   failureType: 'testCodeFailure'
@@ -2061,7 +2065,7 @@ not ok 35 - invalid: prompt.multi-document.yaml is rejected with yaml-multi-docu
 # Subtest: invalid: prompt.not-yaml.yaml is rejected with yaml-parse
 not ok 36 - invalid: prompt.not-yaml.yaml is rejected with yaml-parse
   ---
-  duration_ms: 0.7584
+  duration_ms: 0.8377
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:57:3'
   failureType: 'testCodeFailure'
@@ -2085,7 +2089,7 @@ not ok 36 - invalid: prompt.not-yaml.yaml is rejected with yaml-parse
 # Subtest: invalid: agents.duplicate-id.yaml is rejected with duplicate-id
 not ok 37 - invalid: agents.duplicate-id.yaml is rejected with duplicate-id
   ---
-  duration_ms: 42.0173
+  duration_ms: 48.7758
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:57:3'
   failureType: 'testCodeFailure'
@@ -2125,7 +2129,7 @@ not ok 37 - invalid: agents.duplicate-id.yaml is rejected with duplicate-id
 # Subtest: invalid: agents.profile-missing.yaml is rejected with agent-profile-missing
 not ok 38 - invalid: agents.profile-missing.yaml is rejected with agent-profile-missing
   ---
-  duration_ms: 40.9824
+  duration_ms: 54.9514
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:57:3'
   failureType: 'testCodeFailure'
@@ -2165,7 +2169,7 @@ not ok 38 - invalid: agents.profile-missing.yaml is rejected with agent-profile-
 # Subtest: invalid: agents.legacy-persona-list.yaml is rejected with legacy-field
 not ok 39 - invalid: agents.legacy-persona-list.yaml is rejected with legacy-field
   ---
-  duration_ms: 42.8493
+  duration_ms: 57.1148
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:57:3'
   failureType: 'testCodeFailure'
@@ -2187,7 +2191,7 @@ not ok 39 - invalid: agents.legacy-persona-list.yaml is rejected with legacy-fie
 # Subtest: invalid: worklog.completed-with-failing-check.md is rejected with completed-without-proof
 not ok 40 - invalid: worklog.completed-with-failing-check.md is rejected with completed-without-proof
   ---
-  duration_ms: 41.9733
+  duration_ms: 47.7082
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:57:3'
   failureType: 'testCodeFailure'
@@ -2242,7 +2246,7 @@ not ok 40 - invalid: worklog.completed-with-failing-check.md is rejected with co
 # Subtest: invalid: worklog.completed-without-checks.md is rejected with completed-without-proof
 not ok 41 - invalid: worklog.completed-without-checks.md is rejected with completed-without-proof
   ---
-  duration_ms: 41.1879
+  duration_ms: 50.6322
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:57:3'
   failureType: 'testCodeFailure'
@@ -2297,7 +2301,7 @@ not ok 41 - invalid: worklog.completed-without-checks.md is rejected with comple
 # Subtest: invalid: worklog.approval-by-agent.md is rejected with approval-by-agent
 not ok 42 - invalid: worklog.approval-by-agent.md is rejected with approval-by-agent
   ---
-  duration_ms: 42.6276
+  duration_ms: 52.1797
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:57:3'
   failureType: 'testCodeFailure'
@@ -2352,7 +2356,7 @@ not ok 42 - invalid: worklog.approval-by-agent.md is rejected with approval-by-a
 # Subtest: invalid: worklog.legacy-persona-signoff.md is rejected with legacy-persona, legacy-field
 not ok 43 - invalid: worklog.legacy-persona-signoff.md is rejected with legacy-persona, legacy-field
   ---
-  duration_ms: 41.962
+  duration_ms: 50.6778
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:57:3'
   failureType: 'testCodeFailure'
@@ -2374,7 +2378,7 @@ not ok 43 - invalid: worklog.legacy-persona-signoff.md is rejected with legacy-p
 # Subtest: invalid: worklog.bad-timestamp.md is rejected with schema
 not ok 44 - invalid: worklog.bad-timestamp.md is rejected with schema
   ---
-  duration_ms: 45.611
+  duration_ms: 55.2092
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:57:3'
   failureType: 'testCodeFailure'
@@ -2424,7 +2428,7 @@ not ok 44 - invalid: worklog.bad-timestamp.md is rejected with schema
 # Subtest: invalid: worklog.agent-mismatch.md is rejected with actor-conflict
 not ok 45 - invalid: worklog.agent-mismatch.md is rejected with actor-conflict
   ---
-  duration_ms: 43.8827
+  duration_ms: 57.1031
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:57:3'
   failureType: 'testCodeFailure'
@@ -2479,7 +2483,7 @@ not ok 45 - invalid: worklog.agent-mismatch.md is rejected with actor-conflict
 # Subtest: invalid: worklog.unknown-step.md is rejected with record-unknown-step
 not ok 46 - invalid: worklog.unknown-step.md is rejected with record-unknown-step
   ---
-  duration_ms: 49.0487
+  duration_ms: 51.4563
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:57:3'
   failureType: 'testCodeFailure'
@@ -2536,10 +2540,75 @@ not ok 46 - invalid: worklog.unknown-step.md is rejected with record-unknown-ste
     async Test.run (node:internal/test_runner/test:1113:7)
     async Test.processPendingSubtests (node:internal/test_runner/test:788:7)
   ...
-# Subtest: invalid: worklog.no-front-matter.md is rejected with front-matter-missing
-not ok 47 - invalid: worklog.no-front-matter.md is rejected with front-matter-missing
+# Subtest: invalid: worklog.plan-claims-execution.md is rejected with plan-claims-execution
+not ok 47 - invalid: worklog.plan-claims-execution.md is rejected with plan-claims-execution
   ---
-  duration_ms: 41.1762
+  duration_ms: 54.8921
+  type: 'test'
+  location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:57:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    missing plan-claims-execution; got [
+      {
+        "code": "legacy-validation",
+        "pointer": "",
+        "message": "must have required property 'persona'"
+      },
+      {
+        "code": "legacy-validation",
+        "pointer": "",
+        "message": "must have required property 'stage'"
+      },
+      {
+        "code": "legacy-validation",
+        "pointer": "",
+        "message": "must NOT have additional properties"
+      },
+      {
+        "code": "legacy-validation",
+        "pointer": "",
+        "message": "must NOT have additional properties"
+      },
+      {
+        "code": "legacy-validation",
+        "pointer": "",
+        "message": "must NOT have additional properties"
+      },
+      {
+        "code": "legacy-validation",
+        "pointer": "",
+        "message": "must NOT have additional properties"
+      },
+      {
+        "code": "legacy-validation",
+        "pointer": "",
+        "message": "must NOT have additional properties"
+      },
+      {
+        "code": "legacy-validation",
+        "pointer": "",
+        "message": "must NOT have additional properties"
+      },
+      {
+        "code": "legacy-validation",
+        "pointer": "",
+        "message": "must NOT have additional properties"
+      }
+    ]
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Workspace/guided.engineering/OpenPrompt-Specification/tools/ops-validate/test/contract.test.mjs:61:14)
+    async Test.run (node:internal/test_runner/test:1113:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:788:7)
+  ...
+# Subtest: invalid: worklog.no-front-matter.md is rejected with front-matter-missing
+not ok 48 - invalid: worklog.no-front-matter.md is rejected with front-matter-missing
+  ---
+  duration_ms: 45.9565
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:57:3'
   failureType: 'testCodeFailure'
@@ -2562,9 +2631,9 @@ not ok 47 - invalid: worklog.no-front-matter.md is rejected with front-matter-mi
     async Test.processPendingSubtests (node:internal/test_runner/test:788:7)
   ...
 # Subtest: conversion example: the legacy prompt is rejected and its conversion is accepted
-not ok 48 - conversion example: the legacy prompt is rejected and its conversion is accepted
+not ok 49 - conversion example: the legacy prompt is rejected and its conversion is accepted
   ---
-  duration_ms: 42.947
+  duration_ms: 46.0202
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:67:1'
   failureType: 'testCodeFailure'
@@ -2667,15 +2736,15 @@ not ok 48 - conversion example: the legacy prompt is rejected and its conversion
     async Test.processPendingSubtests (node:internal/test_runner/test:788:7)
   ...
 # Subtest: every invalid fixture has an expectation
-ok 49 - every invalid fixture has an expectation
+ok 50 - every invalid fixture has an expectation
   ---
-  duration_ms: 0.4928
+  duration_ms: 0.4641
   type: 'test'
   ...
 # Subtest: workspace, inputs, outputs and agent resolve against the repository root
-not ok 50 - workspace, inputs, outputs and agent resolve against the repository root
+not ok 51 - workspace, inputs, outputs and agent resolve against the repository root
   ---
-  duration_ms: 44.185
+  duration_ms: 48.0292
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:88:1'
   failureType: 'testCodeFailure'
@@ -2766,9 +2835,9 @@ not ok 50 - workspace, inputs, outputs and agent resolve against the repository 
     async Test.processPendingSubtests (node:internal/test_runner/test:788:7)
   ...
 # Subtest: without an agent map, the built-in map resolves only `guided-engineer`
-not ok 51 - without an agent map, the built-in map resolves only `guided-engineer`
+not ok 52 - without an agent map, the built-in map resolves only `guided-engineer`
   ---
-  duration_ms: 46.5813
+  duration_ms: 47.1929
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:112:1'
   failureType: 'testCodeFailure'
@@ -2819,9 +2888,9 @@ not ok 51 - without an agent map, the built-in map resolves only `guided-enginee
     async Test.processPendingSubtests (node:internal/test_runner/test:788:7)
   ...
 # Subtest: a declared native profile resolves for its host and to the current executor elsewhere
-not ok 52 - a declared native profile resolves for its host and to the current executor elsewhere
+not ok 53 - a declared native profile resolves for its host and to the current executor elsewhere
   ---
-  duration_ms: 50.2192
+  duration_ms: 48.9681
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:130:1'
   failureType: 'testCodeFailure'
@@ -2872,9 +2941,9 @@ not ok 52 - a declared native profile resolves for its host and to the current e
     async Test.processPendingSubtests (node:internal/test_runner/test:788:7)
   ...
 # Subtest: `$schema` must lead to the canonical prompt schema
-not ok 53 - `$schema` must lead to the canonical prompt schema
+not ok 54 - `$schema` must lead to the canonical prompt schema
   ---
-  duration_ms: 53.87
+  duration_ms: 50.8329
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:157:1'
   failureType: 'testCodeFailure'
@@ -2894,33 +2963,33 @@ not ok 53 - `$schema` must lead to the canonical prompt schema
     async Test.processPendingSubtests (node:internal/test_runner/test:788:7)
   ...
 # Subtest: CLI exits 0 for a valid file, 1 for an invalid file, 2 for a usage error
-ok 54 - CLI exits 0 for a valid file, 1 for an invalid file, 2 for a usage error
+ok 55 - CLI exits 0 for a valid file, 1 for an invalid file, 2 for a usage error
   ---
-  duration_ms: 1124.6945
+  duration_ms: 1079.427
   type: 'test'
   ...
 # Subtest: CLI --json reports machine-readable results
-ok 55 - CLI --json reports machine-readable results
+ok 56 - CLI --json reports machine-readable results
   ---
-  duration_ms: 292.2674
+  duration_ms: 269.8613
   type: 'test'
   ...
 # Subtest: CLI --all validates every active artifact of this repository
-ok 56 - CLI --all validates every active artifact of this repository
+ok 57 - CLI --all validates every active artifact of this repository
   ---
-  duration_ms: 370.4434
+  duration_ms: 413.8815
   type: 'test'
   ...
 # Subtest: the committed bundle is built from the current sources
-ok 57 - the committed bundle is built from the current sources
+ok 58 - the committed bundle is built from the current sources
   ---
-  duration_ms: 137.1212
+  duration_ms: 135.8115
   type: 'test'
   ...
 # Subtest: the bundle reports the same result as the sources for every example
-not ok 58 - the bundle reports the same result as the sources for every example
+not ok 59 - the bundle reports the same result as the sources for every example
   ---
-  duration_ms: 254.0184
+  duration_ms: 276.2192
   type: 'test'
   location: 'C:\\Workspace\\guided.engineering\\OpenPrompt-Specification\\tools\\ops-validate\\test\\contract.test.mjs:218:1'
   failureType: 'testCodeFailure'
@@ -2940,17 +3009,17 @@ not ok 58 - the bundle reports the same result as the sources for every example
     async Test.processPendingSubtests (node:internal/test_runner/test:788:7)
   ...
 # Subtest: the bundle runs from a directory that has no node_modules
-ok 59 - the bundle runs from a directory that has no node_modules
+ok 60 - the bundle runs from a directory that has no node_modules
   ---
-  duration_ms: 140.2574
+  duration_ms: 132.7746
   type: 'test'
   ...
-1..59
-# tests 59
+1..60
+# tests 60
 # suites 0
 # pass 8
-# fail 51
+# fail 52
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 5018.6187
+# duration_ms 5097.7882

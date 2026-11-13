@@ -13,6 +13,9 @@
     "validate": "node tools/ops-validate/cli.mjs --all",
     "build": "node tools/build-validator.mjs",
     "build:check": "node tools/build-validator.mjs --check",
+    "trace": "node tools/trace.mjs",
+    "check:refs": "node tools/check-refs.mjs",
+    "example": "node tools/run-example.mjs",
     "site": "node tools/build-site.mjs"
   },
   "devDependencies": {

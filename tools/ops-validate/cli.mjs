@@ -4,7 +4,7 @@
 import { createHash } from 'node:crypto';
 import { existsSync } from 'node:fs';
 import { relative, resolve } from 'node:path';
-import { KINDS, SCHEMAS, SCHEMA_FILES, validateAll, validateFile } from './lib/validate.mjs';
+import { KINDS, SCHEMAS, SCHEMA_FILES, traceMarkdown, validateAll, validateFile } from './lib/validate.mjs';
 
 const BUILD = typeof __OPS_BUILD__ === 'undefined' ? null : __OPS_BUILD__;
 
@@ -20,6 +20,7 @@ Options:
   --kind <kind>    ${KINDS.join(' | ')} (default: inferred from the file name)
   --host <id>      resolve agents for this agent host, for example claude-code
   --resolve        also print how root, workspace, agent, inputs and outputs resolved
+  --trace          print the requirement map of each valid prompt as Markdown, and nothing else
   --json           print one JSON report instead of text
   --version        print the identity of the contract this validator enforces
   --help           print this text
@@ -56,6 +57,7 @@ for (let i = 0; i < args.length; i += 1) {
   } else if (a === '--all') opts.all = true;
   else if (a === '--json') opts.json = true;
   else if (a === '--resolve') opts.resolve = true;
+  else if (a === '--trace') opts.trace = true;
   else if (a === '--root') opts.root = value();
   else if (a === '--kind') opts.kind = value();
   else if (a === '--host') opts.host = value();
@@ -84,7 +86,16 @@ if (opts.all) {
 
 const invalid = results.filter((r) => !r.valid).length + schemas.filter((s) => !s.valid).length;
 
-if (opts.json) {
+if (opts.trace) {
+  const bad = results.filter((r) => !r.valid || r.kind !== 'prompt');
+  if (bad.length) {
+    for (const r of bad) process.stderr.write(`${show(r.file)}: not a valid prompt; no requirement map\n`);
+    process.exit(1);
+  }
+  const maps = results.map((r) => traceMarkdown(r.file) ?? `## ${show(r.file)}\n\nThis prompt declares no requirements.\n`);
+  process.stdout.write(maps.join('\n'));
+  process.exit(0);
+} else if (opts.json) {
   process.stdout.write(`${JSON.stringify({ contract: contractIdentity(), results, schemas, summary: { checked: results.length + schemas.length, invalid } }, null, 2)}\n`);
 } else {
   const lines = [];

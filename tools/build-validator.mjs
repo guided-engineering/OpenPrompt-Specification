@@ -6,7 +6,7 @@
 // deterministic (no timestamps), which lets `--check` prove that the committed
 // bundle matches the sources.
 import { createHash } from 'node:crypto';
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -42,6 +42,7 @@ const result = await build({
   minify: true,
   legalComments: 'none',
   write: false,
+  metafile: true,
   banner: { js: banner },
   define: { __OPS_BUILD__: JSON.stringify(buildInfo) },
   logLevel: 'warning',
@@ -51,20 +52,40 @@ const result = await build({
 const code = result.outputFiles[0].text.replace(/\r\n/g, '\n').replace(/\n#!\/usr\/bin\/env node\n/, '\n');
 const sha256 = createHash('sha256').update(code).digest('hex');
 
-if (process.argv.includes('--check')) {
-  let committed = '';
+// The bundle redistributes third-party code, so their license texts travel with it.
+const packages = new Set();
+for (const input of Object.keys(result.metafile.inputs)) {
+  const m = /node_modules\/((?:@[^/]+\/)?[^/]+)\//.exec(input.replace(/\\/g, '/'));
+  if (m) packages.add(m[1]);
+}
+const licenseOut = resolve(root, 'dist', 'ops-validate.licenses.txt');
+const notices = [...packages].sort().map((name) => {
+  const dir = dirname(require.resolve(`${name}/package.json`));
+  const pkg = JSON.parse(readFileSync(resolve(dir, 'package.json'), 'utf8'));
+  const file = readdirSync(dir).find((f) => /^licen[cs]e(\.(md|txt))?$/i.test(f));
+  const text = file ? readFileSync(resolve(dir, file), 'utf8').replace(/\r\n/g, '\n').trim() : `(${pkg.license}; the package ships no license file)`;
+  return `${'='.repeat(78)}\n${name} ${pkg.version} - ${pkg.license}\n${'='.repeat(78)}\n\n${text}\n`;
+});
+const licenses = `Third-party software bundled in ops-validate.mjs\n\n${notices.join('\n')}`;
+
+const read = (file) => {
   try {
-    committed = readFileSync(out, 'utf8').replace(/\r\n/g, '\n');
+    return readFileSync(file, 'utf8').replace(/\r\n/g, '\n');
   } catch {
-    // reported below as a mismatch
+    return '';
   }
-  if (committed !== code) {
-    console.error('dist/ops-validate.mjs does not match the sources. Run `npm run build` and commit the result.');
+};
+
+if (process.argv.includes('--check')) {
+  if (read(out) !== code || read(licenseOut) !== licenses) {
+    console.error('dist/ does not match the sources. Run `npm run build` and commit the result.');
     process.exit(1);
   }
   console.log(`dist/ops-validate.mjs matches the sources (sha256 ${sha256})`);
 } else {
   mkdirSync(dirname(out), { recursive: true });
   writeFileSync(out, code);
+  writeFileSync(licenseOut, licenses);
   console.log(`wrote dist/ops-validate.mjs (${code.length} bytes, sha256 ${sha256})`);
+  console.log(`wrote dist/ops-validate.licenses.txt (${[...packages].sort().join(', ')})`);
 }
