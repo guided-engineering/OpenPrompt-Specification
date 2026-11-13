@@ -1,0 +1,19 @@
+# Agent map template. Copy to `.guides/agents/agents.yaml`.
+#
+# A repository without this file uses the built-in map, which is exactly the
+# first entry below. Add the file only when you need another id or want to bind
+# an id to a native profile of your agent host.
+apiVersion: guided-engineering/v1
+
+agents:
+  # Resolves to the current executor of whichever host runs the prompt.
+  - id: guided-engineer
+    description: Default engineering executor for the OPS prompts of this repository.
+
+  # To bind an id to a native profile, add `profiles`, keyed by host id. The
+  # file must exist; the validator rejects a mapping to a missing profile.
+  #
+  # - id: guided-engineer
+  #   description: Default engineering executor for the OPS prompts of this repository.
+  #   profiles:
+  #     claude-code: .claude/agents/guided-engineer.md

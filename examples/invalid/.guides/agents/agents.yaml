@@ -1,0 +1,8 @@
+apiVersion: guided-engineering/v1
+
+# Support file for the invalid fixtures in this directory: it makes
+# `examples/invalid/` a self-contained repository root, so each fixture fails
+# for exactly the reason named in its header comment.
+agents:
+  - id: guided-engineer
+    description: Default engineering executor used by the contract fixtures.

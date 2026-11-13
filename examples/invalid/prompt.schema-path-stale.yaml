@@ -1,0 +1,20 @@
+# INVALID ON PURPOSE - expected: schema-path
+# `$schema` points at a schema file that is not the canonical prompt schema.
+$schema: ../../.guides/schemas/prompt.schema.v2.json
+apiVersion: guided-engineering/v1
+id: invalid.schema-path-stale
+version: 1
+title: Prompt bound to a retired schema file
+agent: guided-engineer
+objective: The report file exists.
+context: Fixture used by the contract tests. It is invalid on purpose.
+steps:
+  - id: write
+    title: Write the report
+    actions:
+      - Write `report.md`.
+output:
+  - file: report.md
+verification:
+  - id: exists
+    expect: The file `report.md` exists.

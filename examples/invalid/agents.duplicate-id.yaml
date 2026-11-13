@@ -1,0 +1,8 @@
+# INVALID ON PURPOSE - expected: duplicate-id
+# Two entries claim the id `guided-engineer` with different definitions.
+apiVersion: guided-engineering/v1
+agents:
+  - id: guided-engineer
+    description: Default engineering executor.
+  - id: guided-engineer
+    description: A reviewer that only reads.

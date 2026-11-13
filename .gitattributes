@@ -1,0 +1,7 @@
+# Normalize every text file to LF in the repository and in the working tree,
+# on every platform. Frozen study inputs and bundled reference material are
+# compared by hash, so byte-identical checkouts matter.
+* text=auto eol=lf
+
+*.png binary
+*.gz binary

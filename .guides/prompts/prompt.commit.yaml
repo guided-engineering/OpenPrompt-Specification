@@ -1,99 +1,81 @@
-$schema: .guides/schemas/prompt.schema.v2.json
+$schema: ../schemas/prompt.schema.json
 apiVersion: guided-engineering/v1
 id: operation.commit-analyze-and-apply
-title: Analyze Pending Changes, Generate and Apply Conventional Commit
-persona: SystemIntegrator
-category: operation
-difficulty: easy
+version: 2
+title: Analyze pending changes and record them as one Conventional Commit
+agent: guided-engineer
+
+objective: |
+  The pending changes of the working tree are recorded in exactly one new commit
+  whose subject line follows the Conventional Commits format and describes what
+  actually changed. Nothing is pushed.
 
 context: |
-  This prompt scans the current Git working directory for uncommitted changes,
-  analyzes the intent based on the files modified, generates a semantic commit
-  message following the Conventional Commits specification, applies the commit,
-  and records the action in a `.guides/operation/worklog`.
+  The repository uses Conventional Commits: `<type>(<scope>): <summary>`.
+    - type: feat | fix | docs | refactor | chore | test | ci | perf
+    - scope: the logical area that changed (for example schemas, prompts, docs, tools)
+    - summary: what changed, in plain language, at most 72 characters for the whole subject line
+  A commit is a visible, shared side effect. It is made only because a human
+  asked for one, and it must contain only the changes that human expects.
 
-  The message format must follow:
-  <type>(scope): short summary
+dependencies:
+  - Git is available and the workspace is a Git working tree.
+  - A human asked for the pending changes to be committed.
 
-  Where:
-  - type = feat | fix | docs | refactor | chore | test | ci | perf
-  - scope = logical area changed (e.g., cli, web, schema, prompts, docs)
-  - summary = what was changed, in plain language (max 72 characters)
-
-  This prompt ensures traceability by creating a worklog, and avoids blind commits
-  by only proceeding if changes are detected and grouped semantically.
-
-dependencies: []
-
-output:
-  - file: .git/COMMIT_EDITMSG
-    language: text
-    rules:
-      - Must follow conventional commit format
-      - Must contain only a single line summary
-  - file: .guides/operation/worklog.commit.md
-    language: markdown
-    rules:
-      - Must describe what files were staged and committed
-      - Must include commit message used
-      - Must list prompt ID (if applicable)
-      - Must justify the type and scope selection based on file changes
+constraints:
+  - Never push, tag, amend, or rewrite existing commits.
+  - Never bypass hooks (`--no-verify`) or signing.
+  - Do not commit files that look like secrets or local-only data; stop and report them instead.
+  - Create one commit. If the changes are unrelated to each other, stop and propose how to split them.
 
 steps:
-  - id: check-for-changes
-    title: Detect pending Git changes
+  - id: inspect-changes
+    title: Inspect what is pending
     actions:
-      - Run `git status --porcelain`
-      - 'If no changes found, abort prompt with message: "No staged or modified files to commit."'
+      - Run `git status --porcelain` and stop with the message "Nothing to commit." when it prints nothing.
+      - Run `git diff` and `git diff --staged` and read the changes, not only the file names.
+      - List untracked files and decide for each whether it belongs to the change; stop when one looks like a secret, a credential, or unrelated work.
 
-  - id: group-files-by-scope
-    title: Group changed files into logical scopes
+  - id: classify
+    title: Choose type and scope from the content of the change
     actions:
-      - Categorize changes by directory (e.g., src/commands → cli, src/web → web, .guides/prompts → prompts)
-      - If multiple scopes found, default to `multi` or dominant folder
+      - Choose the type from what the diff does (new behavior is feat, a corrected defect is fix, documentation only is docs, no behavior change is refactor, tooling or housekeeping is chore).
+      - Choose the scope from the area most of the change touches; omit the scope when no single area fits.
+      - Stop and propose a split when the diff contains changes that need different types and do not depend on each other.
 
-  - id: determine-commit-type
-    title: Infer commit type based on change content
+  - id: commit
+    title: Create the commit
     actions:
-      - |
-        Analyze file types and patterns:
-          - New features → feat
-          - Bug fixes → fix
-          - Markdown/docs → docs
-          - Prompt updates → chore or docs
-          - Refactoring (no behavior change) → refactor
+      - 'Write a subject line `<type>(<scope>): <summary>` of at most 72 characters that states what changed.'
+      - Add a body only when the reason for the change is not obvious from the diff.
+      - Stage the files that belong to the change by name and create one commit.
 
-  - id: generate-message
-    title: Generate conventional commit message
+  - id: verify
+    title: Verify the recorded commit
     actions:
-      - 'Build the message as `<type>(<scope>): <summary>`'
-      - Ensure it's ≤ 72 characters
-      - Save to `.git/COMMIT_EDITMSG`
+      - Run `git log -1 --pretty=%s` and compare the subject with the format.
+      - Run `git show --stat HEAD` and confirm the commit contains exactly the intended files.
+      - Run `git diff --quiet HEAD` and report any tracked change that is still uncommitted.
 
-  - id: apply-commit
-    title: Stage and commit all changes
-    actions:
-      - Run `git add -A`
-      - Run `git commit -F .git/COMMIT_EDITMSG`
+output: []
 
-  - id: write-worklog
-    title: Log commit reasoning and traceability
-    actions:
-      - |
-        Write `.guides/operation/worklog.commit.md` with:
-          - Commit message used
-          - Files affected
-          - Type and scope selected
-          - Why this message format was chosen
-          - Link to prompt ID if applicable
+verification:
+  - id: subject-format
+    expect: 'The subject of `HEAD` matches `<type>(<scope>): <summary>` with an allowed type and is at most 72 characters long.'
+  - id: content-matches
+    expect: '`git show --stat HEAD` lists exactly the files that were pending and intended for this commit.'
+  - id: nothing-left
+    expect: No tracked file has uncommitted changes.
+    run: git diff --quiet HEAD
+
+stopConditions:
+  - There is nothing to commit.
+  - A pending file looks like a secret, a credential, or work unrelated to the request.
+  - The pending changes cannot be described truthfully by one commit.
+  - A hook rejects the commit; report its output instead of bypassing it.
 
 tags:
-  - commit
-  - git
-  - automation
-  - conventional-commits
-  - traceability
   - operation
-
-createdBy: user
-version: 1
+  - git
+  - conventional-commits
+createdBy: guided-engineering

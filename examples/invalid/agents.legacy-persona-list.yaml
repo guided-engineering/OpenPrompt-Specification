@@ -1,0 +1,13 @@
+# INVALID ON PURPOSE - expected: legacy-field
+# The former persona catalogue shape is not an agent map.
+apiVersion: guided-engineering/v1
+type: personaList
+version: 3
+personas:
+  - id: SoftwareDeveloper
+    title: Software Developer
+    description: Implements features.
+    stack: [TypeScript]
+    responsibilities: [Write application logic]
+    role: implementation
+    principles: [Keep code simple]

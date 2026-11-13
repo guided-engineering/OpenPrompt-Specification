@@ -1,169 +1,82 @@
-# Validation Protocol
+# Validation
 
-This document is the manual validation contract for every YAML/JSON artifact in this repository.
-There is no CI yet (see ROADMAP §9); contributors are expected to run the commands below before opening a PR.
+Every artifact in this repository is validated by one tool, `ops-validate`,
+which is tested against valid and deliberately invalid examples.
 
-## TL;DR
+## In this repository
+
+Requires Node.js 20 or newer.
 
 ```bash
-# One-time: install ajv-cli on demand
-npx --yes ajv-cli@5 --version
-
-# Validate every prompt against the canonical v2 schema
-for f in .guides/prompts/*.yaml; do
-  npx --yes ajv-cli@5 validate \
-    -s .guides/schemas/prompt.schema.v2.json \
-    -d "$f" \
-    --strict=false
-done
-
-# Validate the personas file
-npx --yes ajv-cli@5 validate \
-  -s .guides/schemas/persona.schema.json \
-  -d .guides/personas/personas.yaml \
-  --strict=false
-
-# Validate SDD artifacts as they land (Phase 4 onwards)
-# Specs (spec.schema.json $refs requirement + acceptance-criterion):
-for f in .guides/specs/*.yaml; do
-  npx --yes ajv-cli@5 validate \
-    -s .guides/schemas/spec.schema.json \
-    -r .guides/schemas/requirement.schema.json \
-    -r .guides/schemas/acceptance-criterion.schema.json \
-    -d "$f" \
-    --strict=false
-done
-
-# ADRs (Markdown bodies wrap a YAML front-matter block validated against adr.schema.json):
-# Traceability matrices:
-for f in .guides/traceability/*.yaml; do
-  npx --yes ajv-cli@5 validate \
-    -s .guides/schemas/traceability.schema.json \
-    -d "$f" \
-    --strict=false
-done
-
-# Test cases:
-for f in .guides/testing/test-cases.*.yaml; do
-  npx --yes ajv-cli@5 validate \
-    -s .guides/schemas/test-cases.schema.json \
-    -d "$f" \
-    --strict=false
-done
+npm ci
+npm test            # 59 contract tests
+npm run validate    # every active artifact, found by convention
 ```
 
-Every command must report `valid`. A non-zero exit means the file does not conform — fix the file, do not change the schema (unless the schema itself is wrong).
+`npm run validate` checks:
 
-`--strict=false` is required because `ajv-cli` defaults to strict mode and rejects `$schema` references inside data files; the project schema explicitly allows them. The `-r` flag pre-loads sibling schemas so `$ref` resolves locally.
-
-## What gets validated
-
-| File / Glob | Schema | Notes |
+| Artifact | Found at | Schema |
 |---|---|---|
-| `.guides/prompts/*.yaml` | `.guides/schemas/prompt.schema.v2.json` (canonical) | v2 is a strict superset of v1; every v1-valid prompt also validates under v2. |
-| `.guides/prompts/*.yaml` | `.guides/schemas/prompt.schema.json` (v1, deprecated) | Kept for backward compatibility; new prompts should target v2. |
-| `.guides/personas/personas.yaml` | `.guides/schemas/persona.schema.json` | |
-| `.guides/specs/*.yaml` | `.guides/schemas/spec.schema.json` | Refs `requirement.schema.json` and `acceptance-criterion.schema.json` — preload them with `-r`. |
-| `.guides/traceability/*.yaml` | `.guides/schemas/traceability.schema.json` | |
-| `.guides/testing/test-cases.*.yaml` | `.guides/schemas/test-cases.schema.json` | Collection of test cases derived from a spec; emitted by `prompt.test-cases.from-spec.yaml`. |
-| `.guides/operation/worklog.md` (each entry's front-matter block) | `.guides/schemas/worklog.schema.json` | Each entry is a YAML front-matter block fenced by `---` followed by Markdown. Validate by extracting front-matter blocks from the file and validating each separately. |
-| `.guides/architecture/adr/*.{md,yaml}` | `.guides/schemas/adr.schema.json` | ADRs may be authored as YAML directly or as Markdown with a YAML front-matter block. |
-| `templates/template.prompt.yaml` | `.guides/schemas/prompt.schema.v2.json` | Template uses `<placeholder>` values; not expected to validate as-is. Skip until Phase 4 upgrade. |
-| `templates/template.persona.yaml` | `.guides/schemas/persona.schema.json` | Same caveat as above. |
+| The schemas themselves | `.guides/schemas/*.json` | draft-07 meta-schema, compiled in strict mode |
+| Agent map | `.guides/agents/agents.yaml` | `agents.schema.json` |
+| OPS prompts | `.guides/prompts/*.yaml` | `prompt.schema.json` |
+| Worklog entries | `.guides/operation/worklog/*.md` (front matter) | `worklog.schema.json` |
+| ADRs | `.guides/architecture/adr/*.md` (front matter) | `adr.schema.json` |
+| Templates | `templates/template.*` | by kind |
+| Examples | `examples/valid/`, and every example project under `examples/` | by kind |
 
-## Cross-cutting checks (no installer needed)
+Files under `examples/invalid/` are excluded from `npm run validate` and
+covered by `npm test`, which requires each of them to be rejected with the
+error code named in `examples/invalid/expected.json`.
 
-Run from the repo root. Every command should produce **zero hits** (except where noted).
-
-```bash
-# 1. All schemas parse as valid JSON
-for s in .guides/schemas/*.json; do
-  python3 -c "import json; json.load(open('$s'))" || echo "BROKEN: $s"
-done
-
-# 2. No deprecated apiVersion
-grep -rn "apiVersion: ops/v1" .
-
-# 3. No .guided/ (singular) typo
-grep -rn "\.guided/" . --include="*.yaml" --include="*.yml" --include="*.json" --include="*.md" | grep -v "ROADMAP.md\|VALIDATION.md"
-
-# 4. No active DocumentationEngineer usages (historical references in ROADMAP.md allowed)
-grep -rn "persona: DocumentationEngineer\|id: DocumentationEngineer" .
-
-# 5. No forbidden personaDetails field
-grep -rn "^personaDetails:" .
-
-# 6. No `createBy` typo
-grep -rn "^createBy:" .
-```
-
-## Python fallback (if Node/npx is unavailable)
+## One file, anywhere
 
 ```bash
-pip install -q jsonschema pyyaml
-python3 - <<'PY'
-import json, yaml, sys, os, glob
-from jsonschema import Draft7Validator, RefResolver
-
-# 1. Self-validate every schema against draft-07
-for s in sorted(glob.glob('.guides/schemas/*.json')):
-    try:
-        schema = json.load(open(s))
-        Draft7Validator.check_schema(schema)
-        print(f'SCHEMA OK    {s}')
-    except Exception as e:
-        print(f'SCHEMA FAIL  {s}: {e}')
-        sys.exit(1)
-
-# 2. Validate every prompt against the canonical v2 schema
-v2 = json.load(open('.guides/schemas/prompt.schema.v2.json'))
-v = Draft7Validator(v2)
-failed = False
-for f in sorted(glob.glob('.guides/prompts/*.yaml')):
-    try:
-        data = yaml.safe_load(open(f))
-    except yaml.YAMLError as e:
-        print(f'YAMLERR {f}: {e}'); failed = True; continue
-    errors = sorted(v.iter_errors(data), key=lambda e: list(e.path))
-    if errors:
-        failed = True
-        print(f'INVALID {f}')
-        for e in errors[:5]:
-            print(f'  at {list(e.path)}: {e.message}')
-    else:
-        print(f'VALID   {f}')
-
-# 3. Validate specs (with $ref resolver pointing at schemas folder)
-spec_schema = json.load(open('.guides/schemas/spec.schema.json'))
-base_uri = 'file://' + os.path.abspath('.guides/schemas') + '/'
-resolver = RefResolver(base_uri=base_uri, referrer=spec_schema)
-sv = Draft7Validator(spec_schema, resolver=resolver)
-for f in sorted(glob.glob('.guides/specs/*.yaml')):
-    data = yaml.safe_load(open(f))
-    errors = list(sv.iter_errors(data))
-    if errors:
-        failed = True; print(f'INVALID {f}: {errors[0].message}')
-    else:
-        print(f'VALID   {f}')
-
-# 4. Validate test cases
-tc_schema = json.load(open('.guides/schemas/test-cases.schema.json'))
-tv = Draft7Validator(tc_schema)
-for f in sorted(glob.glob('.guides/testing/test-cases.*.yaml')):
-    data = yaml.safe_load(open(f))
-    errors = list(tv.iter_errors(data))
-    if errors:
-        failed = True; print(f'INVALID {f}: {errors[0].message}')
-    else:
-        print(f'VALID   {f}')
-
-sys.exit(1 if failed else 0)
-PY
+node tools/ops-validate/cli.mjs path/to/prompt.x.yaml          # here, from source
+node dist/ops-validate.mjs path/to/prompt.x.yaml               # anywhere, no install
+node dist/ops-validate.mjs --resolve path/to/prompt.x.yaml     # also show how references resolved
+node dist/ops-validate.mjs --json path/to/prompt.x.yaml        # machine-readable
+node dist/ops-validate.mjs --version                           # contract identity: schema hashes
 ```
 
-## When the schema is wrong
+`dist/ops-validate.mjs` is a single file with no dependencies. Copy it into
+another project, or use the copy that ships inside the Skills. Exit code 0
+means valid, 1 invalid, 2 the command could not run.
 
-If the schema rejects a field that should be allowed, the fix belongs to the schema, not the data.
-Add the field to the appropriate schema under `.guides/schemas/`, bump the schema's `description` to note the change, and commit separately from the data changes.
+The artifact kind is inferred from the file name (`prompt.*.yaml`,
+`agents.yaml`, `*/worklog/*.md`, `*/adr/*.md`); pass `--kind` otherwise.
 
-The canonical prompt schema is now `prompt.schema.v2.json`. The v1 file is retained for backward compatibility during the v0.x window but is deprecated; do not extend it.
+## What is checked beyond the schema
+
+- YAML: exactly one document, unique mapping keys, YAML 1.2.
+- Formats: `date-time` and `date` are asserted, not assumed.
+- `agent` resolves in the agent map; a declared native profile file exists.
+- `workspace`, `inputs` and outputs resolve inside the repository; inputs exist.
+- `$schema`, when present, leads to the canonical schema.
+- Step, check, requirement and agent ids are unique; requirement references close.
+- A worklog entry is `completed` only with every step done and every check
+  passed; an approval is never attributed to the agent.
+- Fields of the earlier contract are named, with what replaced them.
+
+The rules and the list of error codes are in
+[`.guides/ops-contract.md`](./.guides/ops-contract.md), section 8.
+
+## When a check fails
+
+Fix the document. If the document is right and the rule is wrong, change the
+schema or the validator, add or adjust an example under `examples/` that pins
+the behavior, and rebuild the bundle with `npm run build`. Do not weaken a rule
+to make a document pass.
+
+## Before and after
+
+The same tests were run against the validation that was canonical at commit
+`ca82040` and against this validator. The outputs are kept:
+
+| Run | Result | File |
+|---|---|---|
+| Validation of `ca82040` (`OPS_VALIDATOR_IMPL=./legacy-baseline.mjs`) | 51 of 59 fail | [`.guides/testing/contract/red.legacy-baseline.tap.txt`](./.guides/testing/contract/red.legacy-baseline.tap.txt) |
+| This validator | 59 of 59 pass | [`.guides/testing/contract/green.canonical.tap.txt`](./.guides/testing/contract/green.canonical.tap.txt) |
+
+The defects of the earlier validation procedure are listed in
+[`.guides/assessment/refoundation-assessment.md`](./.guides/assessment/refoundation-assessment.md).

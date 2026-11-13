@@ -1,0 +1,18 @@
+# The smallest valid OPS prompt: only the required fields.
+apiVersion: guided-engineering/v1
+id: example.minimal
+version: 1
+title: Record the Node.js version used by this repository
+agent: guided-engineer
+objective: A file `NODE_VERSION.txt` at the repository root contains the output of `node --version`.
+context: The repository documents its toolchain in plain text files at the root.
+steps:
+  - id: write-version
+    title: Write the version file
+    actions:
+      - Run `node --version` and write its output, followed by a newline, to `NODE_VERSION.txt`.
+output:
+  - file: NODE_VERSION.txt
+verification:
+  - id: file-matches
+    expect: The content of `NODE_VERSION.txt` equals the current output of `node --version`.
