@@ -150,7 +150,7 @@ show that the translation lost nothing. That question was answered by reading:
 ## Recorded results
 
 What the run record shows for each check, and from there for each requirement.
-Record: `2026-11-13.refoundation`, prompt version 2, status `blocked`, last updated 2026-11-13T19:40:17Z.
+Record: `2026-11-13.refoundation`, prompt version 2, status `blocked`, last updated 2026-11-13T19:40:38Z.
 This table repeats the record. A check without a command was observed by the
 executor, and the record's body says how.
 
