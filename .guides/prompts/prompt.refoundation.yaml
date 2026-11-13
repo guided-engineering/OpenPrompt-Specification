@@ -1,7 +1,7 @@
 $schema: ../schemas/prompt.schema.json
 apiVersion: guided-engineering/v1
 id: guided-engineering.refoundation
-version: 1
+version: 2
 title: Refound Guided Engineering and OPS on native agents, portable Skills, task contracts and an evidence-driven loop
 agent: guided-engineer
 workspace: ./
@@ -34,8 +34,18 @@ context: |
 
   Progress is recorded in `.guides/operation/worklog/`, not in this file.
 
+  Version 2 changes no work that was already done. It records the human's
+  instruction on resuming, kept verbatim in
+  `.guides/product/refoundation-resume.md`, which settles how the baseline of
+  the study, its fifth case and its budget are treated. It also repairs what
+  an independent clause-by-clause audit of this translation found
+  (`.guides/traceability/refoundation.coverage-audit.md`): clauses that had
+  been lost, checks whose command could not fail, and fallbacks that had been
+  written as stop conditions although the request says to continue locally.
+
 inputs:
   - .guides/product/refoundation-request.md
+  - .guides/product/refoundation-resume.md
 
 dependencies:
   - Node.js 20 or newer, Git and the GitHub CLI authenticated as a member who may create repositories in the organization.
@@ -52,11 +62,12 @@ constraints:
   - Never invent a score, a reference, an approval, an execution or a gain.
   - Write prompts, Skills, schemas and technical documentation in English. Keep the Portuguese README aligned.
   - Ask a human only about a material unresolved decision, missing access, or an action outside the given authorization.
+  - Translate the request once. On a later run, verify the existing prompts and resume from the first step the run record does not show as done, without executing or regenerating the translation again.
 
 requirements:
   # ---- execution contract, outcomes, boundaries
   - id: X1
-    text: Treat the work as a redesign of the current project, reusing useful knowledge, replacing obsolete active concepts and preserving Git history (Execution contract).
+    text: Treat the work as a redesign of the current project, reusing useful knowledge, replacing obsolete active concepts and preserving Git history. Design no parallel v3 product, no permanent legacy runtime and no new orchestration framework (Execution contract).
   - id: X2
     text: Write prompts, Skills, schemas and technical documentation in English and keep the Portuguese README aligned (Execution contract).
   - id: X3
@@ -100,7 +111,7 @@ requirements:
   - id: I5
     text: Run the current validation procedures with their actual commands, record pre-existing failures separately from new ones, and inspect warnings instead of hiding them (1.5).
   - id: I6
-    text: Inventory downstream consumers only where evidence is available and report unknown consumers as unknown (1.6).
+    text: Inventory downstream consumers only where evidence is available, report unknown consumers as unknown and claim no universal compatibility (1.6).
   - id: I7
     text: Inspect the official references, recording access date, relevant rule, source URL and version, and separating required format rules, vendor extensions and project design choices (1.7).
   - id: I8
@@ -140,7 +151,7 @@ requirements:
   - id: D15
     text: Examples, instructions, templates and validation commands all refer to the same canonical contract, and no new artifact is validated against an old schema (2 Verification).
   - id: D16
-    text: Convert the bootstrap into canonical OPS YAML under `.guides/prompts/` with an explicit requirement-to-step map, link completed phases to existing evidence, resume from the first incomplete phase, and keep checkpoints separate from the reusable definition (2 Verification).
+    text: Convert the bootstrap into canonical OPS YAML under `.guides/prompts/` with an explicit requirement-to-step map, link completed phases to existing evidence, resume from the first incomplete phase without recursively executing or regenerating the bootstrap, and keep checkpoints separate from the reusable definition (2 Verification).
   - id: D17
     text: Freeze the contract, reference documents, agent mapping, fixtures and validation commands before any scored run, so that every condition uses the same bytes (2 Verification).
 
@@ -164,13 +175,13 @@ requirements:
   - id: S9
     text: Never turn a missing measurement into a zero. Use NOT_SCORED for infrastructure failures, observed outcomes for unsuccessful attempts and NOT_RUN for missing runs, and do not call the study complete with missing required pairs (3 Score).
   - id: S10
-    text: Run WITHOUT_SKILLS, INITIAL_SKILLS and REFINED_SKILLS with the same client, model, reasoning settings, permissions, tools, task packets and initial files, recording exposed values exactly and UNKNOWN otherwise, with unrelated Skills constant, fresh sessions, clean fixture copies and no leaked outputs or answers (3 Conditions).
+    text: Run WITHOUT_SKILLS, INITIAL_SKILLS and REFINED_SKILLS with the same client, model, reasoning settings, permissions, tools, task packets and initial files, recording exposed values exactly and UNKNOWN otherwise, with unrelated Skills constant, fresh sessions, clean fixture copies and no leaked outputs or answers. The agent mapping is identical across scored conditions, no Skill procedure is preloaded into the baseline and no task text is altered to compensate (3 Conditions, 5 Packaging 9).
   - id: S11
     text: Control Skill loading through supported configuration or isolated installation locations, separate the task workspace from scorer files, record whether isolation is enforced or procedural, and prove invocation from traces rather than from a good-looking answer (3 Conditions).
   - id: S12
     text: Run each case once per condition, development cases WITHOUT_SKILLS first and INITIAL_SKILLS next, rerun all four if refined, freeze the final candidate before C5, keep the first baseline results and never rerun a bad answer until it passes (3 Conditions).
   - id: S13
-    text: Stay within 24 evaluation attempts and two hours of evaluated runs, about five minutes per scored task, one per activation probe and two per smoke check, counting evaluator and nested agent calls, with at most two correction cycles inside an execution task, one Skill refinement and one recorded infrastructure retry (3 Conditions).
+    text: Stay within 19 evaluation attempts without a refinement and 24 with one, and within two hours of evaluated runs, about five minutes per scored task, one per activation probe and two per smoke check, counting evaluator and nested agent calls, with at most two correction cycles inside an execution task, one Skill refinement and one recorded infrastructure retry (3 Conditions).
 
   # ---- section 4, baseline
   - id: BL1
@@ -182,7 +193,7 @@ requirements:
   - id: BL4
     text: Identify the observed gaps a Skill could address, distinguishing missing instructions from an incorrect schema, an ambiguous requirement, a tool failure or an unavailable capability (4.4).
   - id: BL5
-    text: If independent sessions, real Skill isolation or an executable client are unavailable, finish structural validation, prepare the exact commands and mark comparisons NOT_RUN instead of role-playing conditions or inventing scores (4.5).
+    text: If independent sessions, real Skill isolation or an executable client are unavailable, finish structural validation, prepare the exact commands and mark comparisons NOT_RUN instead of role-playing conditions or inventing scores. Continue producing local artifacts and keep effectiveness and publication claims explicitly unverified (4.5).
   - id: BL6
     text: Preserve the baseline evidence before any proposed Skill is created or enabled, and ensure assisted runs can reproduce the same initial state and reference documents (4 Verification).
 
@@ -200,7 +211,7 @@ requirements:
   - id: M6
     text: Perform at most two smoke checks on a second client only if one is already available, reported as compatibility checks, and install no platform to inflate coverage (6.6).
   - id: M7
-    text: Treat final activation or smoke failures as readiness gaps that do not authorize a second refinement (6.7).
+    text: Treat final activation or smoke failures as readiness gaps that do not authorize a second refinement, and preserve them for follow-up work in the report and the roadmap (6.7).
   - id: M8
     text: Record for every attempt the case, split, condition, status, task, fixture, contract, agent and Skill identities, actual invocation, assertion results, raw and effective scores, hard failure, commands and exit codes, artifact references, elapsed time, tool calls and available tokens, stating missing telemetry and separating charges from estimates (6 Reporting).
   - id: M9
@@ -224,7 +235,7 @@ requirements:
   - id: K8
     text: Update the roadmap to describe the completed reformulation and concrete remaining gaps, claiming no deferred work as delivered (7.8).
   - id: K9
-    text: Run the applicable schema, parser, example, script, formatting and link checks, check referential integrity among agent identifiers, Skill names, schemas, prompts, outputs and documentation, classify remaining persona occurrences, record failures, and review the complete diff against the objectives (7 Verification).
+    text: Run the applicable schema, parser, example, script, formatting and link checks, check referential integrity among agent identifiers, Skill names, schemas, prompts, outputs and documentation, classify remaining persona occurrences, record failures, and review the complete diff against the objectives, without broadening verification beyond a remaining risk or a required repository gate (7 Verification).
 
   # ---- section 9, website
   - id: W1
@@ -242,9 +253,11 @@ requirements:
   - id: R1
     text: Deliver every item of the deliverables table at a path that follows project conventions, record actual locations, create no empty scaffolding, keep fixtures and evaluation logic in the repository and bulky raw output out of installable Skill folders, and commit no secrets or unrelated local data (10).
   - id: R2
-    text: Close only after checking the final artifacts and report contract, local Skills, study, OPS reformulation, Skills repository and website independently with their real states, listing assumptions, changed files, commands and exit results, warnings, failures and next actions (11).
+    text: Close only after checking the final artifacts and report contract, local Skills, study, OPS reformulation, Skills repository and website independently with their real states, listing assumptions, changed files, commands and exit results, warnings, failures and next actions, and naming each requirement that remains unresolved instead of calling a partial result complete. The run record under `.guides/operation/worklog/` carries the final report (10, 11).
   - id: R3
     text: If access or a decision blocks publication, finish all independent local work and leave a concrete reviewable handoff. If the study fails, retain and explain the result (11).
+  - id: R4
+    text: The changes to this repository are coherent commits on a reviewable branch, proposed by pull request under the existing protections and contribution rules and never merged automatically because tests pass. An open pull request, a merged change and a published site are told apart (8.5, 8.6, 8 Verification).
 
 steps:
   - id: inspect
@@ -272,7 +285,7 @@ steps:
       - Replace the operational persona in active prompts, templates, instructions and documentation, review nested actor references in approvals and worklogs, and keep human approval human.
       - Establish the agent mapping (`guided-engineer` to the current executor) and document how each installed client would bind a native profile.
       - Write the contract, practice and conversion documents, with the replacement map for retired files and the references to historical evidence by commit.
-      - Translate the bootstrap into this prompt and the Skills repository prompt, generate the requirement-to-step map, and record completed phases in a worklog entry with links to their evidence.
+      - Translate the bootstrap into this prompt once, hand sections 5 and 8 to the prompt of the Skills repository, generate the requirement-to-step map, and record completed phases in a worklog entry with links to their evidence.
       - Freeze the contract kit (schemas, contract and conversion documents, agent map, validator bundle) with hashes before any scored run.
 
   - id: predefine-study
@@ -294,6 +307,8 @@ steps:
       - Run C1 to C4 under WITHOUT_SKILLS in fresh sessions and capture inputs, outputs, diffs, commands, exit codes, time, tokens and assertion results.
       - Record human intervention, unsupported capabilities and environmental problems, and repair no fixture.
       - List the observed gaps and classify each as missing instruction, schema, requirement, tool or capability.
+      - Only when independent sessions, real Skill isolation or an executable client are unavailable, finish structural validation, prepare the exact commands, record the comparisons as NOT_RUN with the reason, and go on with the local steps while effectiveness and publication claims stay marked unverified.
+      - Only when a frozen evaluated input of a case is repaired after its run, keep the earlier attempt, run the case again under the repaired input within the budget, and record which observation is admissible.
       - Commit the baseline evidence before any Skill content is created.
 
   - id: coordinate-skills
@@ -305,20 +320,22 @@ steps:
 
   - id: measure
     title: Measure, refine at most once, and run the held-out case
-    requirements: [O4, O5, B7, M1, M2, M3, M4, M5, M6, M7, M8, M9]
+    requirements: [O4, O5, B7, S4, S9, S10, S12, S13, M1, M2, M3, M4, M5, M6, M7, M8, M9]
     actions:
       - Run C1 to C4 under INITIAL_SKILLS and apply the frozen oracles.
       - Compare with the baseline per track and decide, from a consequential observed failure only, whether one refinement is justified.
       - When a refinement is made, preserve both candidates and run C1 to C4 under REFINED_SKILLS.
       - Freeze the final candidate, then unseal and run C5 under every retained condition.
       - Run the six activation probes against the final candidate and read activation from the traces.
-      - Run smoke checks on a second client only when one is already installed.
+      - Run smoke checks on a second client only when one is already installed and attempts remain after the required comparisons and probes.
+      - Only when 19 evaluation attempts without a refinement, 24 with one, or two hours of evaluated runs are reached, run nothing further, record the remaining runs as NOT_RUN, report the study as incomplete, and go on with the next step.
       - Write one record per attempt and the report with deltas, means, medians, regressions, the held-out result, the verdict on each hypothesis and the limitations.
 
   - id: consolidate
     title: Consolidate the complete OPS reformulation
-    requirements: [X2, K1, K2, K3, K4, K5, K6, K7, K8, K9]
+    requirements: [X2, X3, D16, K1, K2, K3, K4, K5, K6, K7, K8, K9]
     actions:
+      - Have a reviewer who took no part in the translation compare both prompts with the request clause by clause, repair each demonstrated omission in the smallest existing artifact, and list what stays open.
       - Classify every issue found by the study and the assessment as a Skill, contract, documentation, fixture or host problem and correct it where it belongs.
       - When a correction changes a frozen evaluated input, mark the affected comparisons invalid and rerun them only within the budget.
       - Rewrite `README.md` around the practice, a working example, adoption, the loop and links, and align `README.pt-br.md` with it.
@@ -328,10 +345,11 @@ steps:
 
   - id: coordinate-publication
     title: Coordinate the publication of the Skills repository
-    requirements: [O6, B1, B6]
+    requirements: [O6, B1, B2, B6, R4]
     actions:
       - Confirm that the Skills repository prompt completed its local checks before any remote was created.
       - Open a pull request for this repository through the existing workflow, without merging it automatically.
+      - Only when remote access is unavailable, keep the complete local repositories and the exact publication steps and report READY_LOCALLY.
       - Record the real URLs of repository, branches, commits and pull requests, or the exact blocker.
 
   - id: publish-site
@@ -342,14 +360,16 @@ steps:
       - Check navigation, copyable examples, relative links, base paths, keyboard access and narrow-screen layout.
       - Publish through GitHub Pages and inspect the deployment result.
       - Open the real public URL and verify the rendered content and assets.
+      - Verify the documented installation and the example on the primary client, and say what was not replayed.
 
   - id: report
     title: Deliver and report
-    requirements: [R1, R2, R3]
+    requirements: [X1, B2, B3, R1, R2, R3, R4]
     actions:
       - Check every deliverable at its actual location.
       - Update the worklog entry with the final state of every step and check.
       - Report contract, local Skills, study, OPS reformulation, Skills repository and website independently, with assumptions, commands, failures and next actions.
+      - Name each requirement that remains unresolved, and confirm that history was preserved and that nothing excluded by the boundaries was introduced.
 
 output:
   - file: .guides/assessment/refoundation-assessment.md
@@ -365,7 +385,13 @@ output:
   - file: dist/ops-validate.mjs
   - file: .guides/traceability/refoundation.requirements.md
     rules:
-      - Generated from the prompts. Lists every requirement with the steps and checks that cover it.
+      - Generated from this prompt and its run record. Lists every requirement with the steps and checks that cover it and the recorded result and evidence of each check.
+  - file: .guides/traceability/refoundation.coverage-audit.md
+    rules:
+      - Written by a reviewer who took no part in the translation. Compares the request with both prompts clause by clause.
+  - file: .guides/operation/worklog/2026-11-13.refoundation.md
+    rules:
+      - The run record. Its body carries the final report.
   - file: .guides/testing/skills-study/protocol.md
     rules:
       - Committed before the first scored run.
@@ -400,56 +426,60 @@ verification:
   - id: references-clean
     expect: No active file links to a missing file, names a retired schema, or uses persona as an executor. Remaining occurrences are historical or product-research uses and are listed.
     run: npm run check:refs
-    requirements: [X2, B5, D3, D11, D15, K5, K6, K9]
+    requirements: [B5, D3, D11, D15, K5, K6, K9]
   - id: plan-translated
-    expect: This prompt and the Skills repository prompt are valid, the generated requirement map lists every outcome and boundary with at least one step and one check, and a worklog entry links completed phases to their evidence.
-    run: npm run trace
+    expect: This prompt is valid, the committed requirement map equals what this prompt and its run record generate, it lists every outcome and boundary with at least one step and one check, and the run record links completed phases to their evidence.
+    run: npm run trace -- --check
+    requirements: [X3, D16]
+  - id: translation-audited
+    expect: '`.guides/traceability/refoundation.coverage-audit.md` holds a clause-by-clause comparison of the request with this prompt and the Skills repository prompt, written by a reviewer who took no part in the translation. Every row it left open is repaired in a prompt or another existing artifact, or is listed as an open gap in the roadmap, and the run record says which.'
     requirements: [X3, D16]
   - id: contract-frozen
     expect: A manifest with the hashes of the contract kit was committed before the first scored run, and every recorded run names that same manifest.
     requirements: [D17, S10]
   - id: study-preregistered
-    expect: Protocol, cases, oracles and harness were committed before the first scored run. The protocol states hypotheses, conditions, isolation, run order, budget, score formula, hard failures and thresholds, and C5 was created by an independent evaluator and stayed sealed until the final candidate was frozen, or the limitation is disclosed.
-    requirements: [O4, S1, S2, S3, S4, S5, S6, S7, S8, S11, S12, S13]
+    expect: The protocol, the harness and the cases C1 to C4 with their oracles were committed before the first scored run. The protocol states hypotheses, conditions, isolation, run order, budget, score formula, hard failures and thresholds. Every later change to a frozen input is recorded in `amendments.md` with its reason, its classification and the comparisons it invalidated. C5 was created by an independent evaluator and frozen by hash before any Skill existed and before it was run. Because that freeze came after the development baseline and its blinding cannot be shown, it is disclosed as a reserved regression case, as the human instructed on resuming.
+    requirements: [O4, S1, S2, S3, S4, S5, S6, S7, S8, S11, S13]
   - id: oracles-self-check
     expect: Without any agent, every seeded failure reproduces, every reference solution reaches the designed score and every untouched fixture fails its core check.
     run: npm run study:selfcheck
     requirements: [BL1, S3]
   - id: baseline-recorded
-    expect: The four WITHOUT_SKILLS records with traces, diffs, timings and assertion results were committed before any Skill content existed, together with the classified gap list and any environmental problem.
+    expect: The admissible WITHOUT_SKILLS records of C1 to C4, with traces, diffs, timings and assertion results, were committed before any Skill content existed, together with every earlier attempt, the classified gap list and any environmental problem. Or the comparisons are recorded NOT_RUN with the reason and the exact commands.
     requirements: [BL2, BL3, BL4, BL5, BL6]
+  - id: study-inputs-frozen
+    expect: Every frozen input of the study (protocol, configuration, harness, contract kit, cases and oracles) matches the hashes recorded in `frozen.json`, so nothing was changed outside a recorded amendment.
+    run: npm run study:frozen
+    requirements: [B7, D17, K2]
   - id: measurement-recorded
-    expect: Every attempt has a record. The report gives per-case scores and deltas per track, means, medians of paired efficiency, activation counts, the held-out result, the verdict on H1, H2 and H3 and the limitations, and it claims nothing the records do not show.
-    run: npm run study:report
-    requirements: [O4, O5, B7, S9, M1, M2, M3, M4, M5, M6, M7, M8, M9, K2]
+    expect: Every attempt has a record that names the same client version, model, effort, permissions and tools, or UNKNOWN, and the ledger accounts for every attempt against the ceiling. Each case has one admissible observation per retained condition, in the pre-registered order, with earlier attempts kept and no score chosen for being higher. A required pair that is missing is NOT_RUN, and the study is then not called complete. C5 stayed sealed until the final candidate was frozen. The report gives per-case scores and deltas per track, means, medians of paired efficiency, activation counts read from traces, the result of the reserved case, the verdict on H1, H2 and H3 and the limitations. It states missing telemetry, and it claims no statistical significance, reliability percentage, generality or anything else the records do not show.
+    requirements: [O4, O5, S4, S9, S10, S12, M1, M2, M3, M4, M5, M6, M7, M8, M9]
   - id: skills-usable
     expect: Both Skills pass the checks of the Skills repository prompt and their candidate identities are recorded in the study.
     requirements: [O3, K4]
   - id: consolidated
-    expect: README, Portuguese README and roadmap describe the reformulated practice and its real remaining gaps, every study finding is classified and addressed where it belongs, and the diff was reviewed against the objective.
-    requirements: [K1, K3, K8]
+    expect: README, Portuguese README and roadmap describe the reformulated practice and its real remaining gaps, every study finding is classified and addressed where it belongs, and the complete diff was reviewed against the objective. Prompts, Skills, schemas and technical documentation are in English and the Portuguese README says the same as the English one. No frozen evaluated input changed after the measurement, or the affected comparisons are marked invalid or unverified.
+    requirements: [X2, K1, K2, K3, K8, K9]
   - id: example-runs
     expect: The end-to-end example validates and its checks pass on the committed state.
     run: npm run example
     requirements: [K7]
   - id: site-built
-    expect: The site builds from the canonical documents and the study data and contains the six required sections with an accessible results table.
-    run: npm run site
+    expect: The committed site equals what the generator builds from the canonical documents and the study data, and it contains the six required sections with an accessible results table.
+    run: npm run site -- --check
     requirements: [W1, W2, W3, W4]
   - id: site-public
-    expect: The real public URL was opened after deployment and showed the rendered pages and assets. Build, deployment and public accessibility are reported separately.
+    expect: The real public URL was opened after deployment and showed the rendered pages and assets. Build, deployment and public accessibility are reported separately. The documented installation and the example were verified on the primary client, and what was not replayed is stated.
     requirements: [O6, W5]
   - id: final-report
-    expect: The final report states the six outcomes independently with real commits, pull requests and URLs or exact blockers, lists every deliverable at its actual location, and the worklog entry agrees with it.
-    requirements: [O6, B1, B6, R1, R2, R3]
+    expect: The final report in the run record states the six outcomes independently with real commits, pull requests and URLs or exact blockers, lists every deliverable at its actual location, and names each requirement that remains unresolved. The branch descends from ca82040 with no rewritten or force-pushed history, and no unrelated file, credential or user edit was changed. Nothing the boundaries exclude was introduced, namely a hosted backend, database, MCP server, daemon, general agent runtime, package manager, benchmark platform, parallel v3 product, legacy runtime or orchestration framework. An open pull request, a merged change and a published site are told apart.
+    requirements: [O6, X1, B1, B2, B3, B6, R1, R2, R3, R4]
 
 stopConditions:
   - A directory that conflicts with the planned Skills checkout already exists.
   - The organization repository name is taken by unrelated work, or the account cannot create the repository.
   - A merge or a public-setting change is needed and has not been approved by a human. Present the diff, test results, target, visibility and consequences as the decision.
-  - Independent sessions, real Skill isolation or an executable client are unavailable. Finish structural validation and mark the comparisons NOT_RUN.
-  - The evaluation budget of 24 attempts or two hours of evaluated runs is reached.
-  - Remote access is unavailable. Keep the complete local repositories and the exact publication steps, and report READY_LOCALLY.
+  - Remote access is unavailable when the publication steps are reached. Keep the complete local repositories and the exact publication steps, and report READY_LOCALLY.
 
 limits:
   repairAttempts: 2

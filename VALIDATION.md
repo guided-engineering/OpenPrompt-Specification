@@ -68,7 +68,7 @@ schema or the validator, add or adjust an example under `examples/` that pins
 the behavior, and rebuild the bundle with `npm run build`. Do not weaken a rule
 to make a document pass.
 
-## Before and after
+## How the contract changed
 
 The same tests were run against the validation that was canonical at commit
 `ca82040` and against this validator. The outputs are kept:
@@ -78,5 +78,12 @@ The same tests were run against the validation that was canonical at commit
 | Validation of `ca82040` (`OPS_VALIDATOR_IMPL=./legacy-baseline.mjs`) | 52 of 60 fail | [`.guides/testing/contract/red.legacy-baseline.tap.txt`](./.guides/testing/contract/red.legacy-baseline.tap.txt) |
 | This validator | 60 of 60 pass | [`.guides/testing/contract/green.canonical.tap.txt`](./.guides/testing/contract/green.canonical.tap.txt) |
 
-The defects of the earlier validation procedure are listed in
+This comparison **characterizes the change of contract** and nothing else. The
+earlier validation implemented the earlier contract, so it accepts documents
+that name a role label and rejects documents that name an `agent`; the tests
+were written for the new contract, so most of them fail there by design. That
+is not evidence that the earlier implementation was defective for its own
+contract, and it measures nothing about the Skills. What was actually wrong
+with the earlier validation *procedure* (commands that fail, formats never
+checked) is a separate list, each item reproduced by itself, in
 [`.guides/assessment/refoundation-assessment.md`](./.guides/assessment/refoundation-assessment.md).

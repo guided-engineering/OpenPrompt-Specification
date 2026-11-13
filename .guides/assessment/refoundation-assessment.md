@@ -51,10 +51,14 @@ documented commands (`VALIDATION.md`), run unchanged.
 | D11 | Two prompts target other repositories (`./cli` kanban, a Next.js scaffold); one writes instruction files for four tools in formats that are no longer current. | prompts at `ca82040` |
 | D12 | The README states a license (MIT) but the repository has no license file. | repository root at `ca82040` |
 
-The new contract tests encode the expected behavior. Run against the validation
-of the starting commit, 52 of 60 fail; the 8 that pass do not depend on the
-validator under test. Run against the new validator, 60 of 60 pass.
-See [`../testing/contract/`](../testing/contract/).
+Separately from these defects, the tests written for the new contract were run
+against the validation of the starting commit: 52 of 60 fail there (the 8 that
+pass do not depend on the validator under test), and 60 of 60 pass with the new
+validator. This **characterizes the change of contract**: the earlier validation
+implements the earlier contract, so it rejects new-format documents and accepts
+legacy ones by design. It is not a count of defects in the earlier
+implementation and it measures nothing about the Skills. See
+[`../testing/contract/`](../testing/contract/).
 
 ## 4. Legacy inputs
 

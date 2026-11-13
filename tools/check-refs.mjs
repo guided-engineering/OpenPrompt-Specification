@@ -20,10 +20,10 @@ const EXCLUDED = [
   /^dist\//, /^package-lock\.json$/, /^node_modules\//,
   /^examples\/invalid\//,                       // invalid on purpose
   /^examples\/conversion\/[^/]+\/legacy\.yaml$/, // historical input, verbatim
-  /^\.guides\/product\/refoundation-request\.md$/, // the request, verbatim
+  /^\.guides\/product\/refoundation-(request|resume)\.md$/, // the human's instructions, verbatim
   /^\.guides\/assessment\/(baseline|references)\//, // captured evidence and research notes
   /^\.guides\/testing\/contract\//,              // captured test output
-  /^\.guides\/testing\/skills-study\/(results|cases\/[^/]+\/fixture)\//, // captured runs; fixtures are test data
+  /^\.guides\/testing\/skills-study\/(results|kit\/files|cases\/[^/]+\/fixture)\//, // captured runs; the frozen kit and the fixtures are test data
   /^\.guides\/architecture\/adr\/0001-/,          // accepted ADR, not rewritten
 ];
 // Files that describe the earlier contract on purpose.
@@ -59,7 +59,9 @@ for (const file of active) {
         if (/^([a-z][a-z0-9+.-]*:|#|<)/i.test(target)) continue;
         links += 1;
         const path = decodeURIComponent(target.split('#')[0]);
-        if (path && !existsSync(resolve(root, dirname(file), path))) problems.push(`${file}:${i + 1}: link to missing file ${target}`);
+        // A page source under site/ is published as docs/<name>.html, so its links resolve from docs/.
+        const base = file.startsWith('site/') ? 'docs' : dirname(file);
+        if (path && !existsSync(resolve(root, base, path))) problems.push(`${file}:${i + 1}: link to missing file ${target}${base === 'docs' ? ' (resolved from docs/; run `npm run site` first)' : ''}`);
       }
     }
   }
@@ -72,7 +74,8 @@ for (const file of active) {
       (isHistory(file) ? allowed : problems).push(`${file}:${i + 1}: retired file name: ${line.trim().slice(0, 120)}`);
     }
     if (/\.ya?ml$/.test(file) && RETIRED_KEYS.test(line)) problems.push(`${file}:${i + 1}: retired key in an active YAML file: ${line.trim()}`);
-    if (/persona/i.test(line) && !RETIRED_NAMES.test(line)) {
+    // "personal" and "personally" are ordinary words, not the retired concept.
+    if (/persona(?!l)/i.test(line) && !RETIRED_NAMES.test(line)) {
       const productResearch = /user persona/i.test(line);
       if (isHistory(file) || productResearch) allowed.push(`${file}:${i + 1}: persona (${productResearch ? 'product research' : 'history'}): ${line.trim().slice(0, 100)}`);
       else problems.push(`${file}:${i + 1}: \`persona\` outside the documents that describe history: ${line.trim().slice(0, 120)}`);

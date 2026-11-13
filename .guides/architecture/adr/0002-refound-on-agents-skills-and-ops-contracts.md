@@ -122,12 +122,44 @@ variable.
 | `guided-engineering/OpenPrompt-Specification` | Contract, practice, schemas, validator, examples, conversion guide, study evidence, website. |
 | `guided-engineering/skills` | `ops-author`, `ops-execute`, installation, their tests, host integration. Carries a mechanically synchronized copy of the schemas and validator. |
 
+### What replaced the retired layer
+
+The specification, requirement, acceptance-criterion, test-case and
+traceability-matrix schemas, the role catalogue and the prompts written for
+them were retired. A reviewer who took no part in the redesign compared what
+that layer did with what does it now
+([`refoundation.coverage-audit.md`](../../traceability/refoundation.coverage-audit.md),
+section 6).
+
+| Function | Where it lives now | Enforced by |
+|---|---|---|
+| Explicit intent | `objective`, required | validator |
+| Constraints | `constraints`, `stopConditions`, `limits`, and the workspace as the write boundary | validator for shape and paths; the executor for the rest |
+| Expected outcomes | `objective`, `output`, `verification[].expect` | validator |
+| Verification of outcomes | `verification` checks and worklog `checks`; a run is `completed` only with every check passed | validator |
+| Resolvable executor and workspace | `agent` through the agent map; `workspace` and `inputs` | validator |
+| Human decisions | Worklog `approvals`, which an agent cannot sign; ADR `status` | validator |
+| From a requirement to the evidence that it was completed | `requirements` referenced by checks; the requirement map joined with the run record by `npm run trace` | validator for coverage; the join is generated |
+
+The audit found four things that the retired layer did, or should have done,
+and that the contract does not enforce today:
+
+- A check recorded as `pass` validates without a time, a command or evidence.
+- Nothing requires a check to be able to fail.
+- No field names the accountable human; `createdBy` records authorship.
+- A request that spans repositories becomes several prompts with no shared map.
+
+They are written as conventions in [`practice.md`](../../practice.md) and
+listed as open in the [roadmap](../../../ROADMAP.md). They are not repaired in
+the contract or the validator here, because both are frozen inputs of the local
+study: changing them would detach the study's results from the published bytes.
+
 ## Acceptance criteria
 
 | Id | Criterion | Checked by |
 |---|---|---|
 | AC1 | A prompt with a resolvable `agent`, an `objective` and one check is accepted; a missing or unresolved agent, a legacy `persona`, conflicting actors, duplicate keys, invalid output shapes, an unresolvable workspace and missing verification are each rejected with a stable code. | `npm test` |
-| AC2 | The same expectations fail against the validation of commit ca82040. | `.guides/testing/contract/red.legacy-baseline.tap.txt` |
+| AC2 | The change of contract is characterized: the same examples are run against the validation of commit ca82040, which accepts legacy documents and rejects new ones by design. This shows what changed, not that the earlier implementation was defective. | `.guides/testing/contract/red.legacy-baseline.tap.txt` |
 | AC3 | Every active artifact of the repository validates, and no active file refers to a retired schema or to an operational persona. | `npm run validate`, `npm run check:refs` |
 | AC4 | The bundled validator runs without `node_modules` and agrees with the sources on every example. | `npm test` |
 | AC5 | Each Skill is valid by the Agent Skills format, installs alone, and works in a project that has neither this repository nor the other Skill. | Skills repository checks |
