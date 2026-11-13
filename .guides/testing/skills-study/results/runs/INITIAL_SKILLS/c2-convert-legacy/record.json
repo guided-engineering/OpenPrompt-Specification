@@ -1,0 +1,340 @@
+{
+  "attemptId": "INITIAL_SKILLS.c2-convert-legacy.a1",
+  "attempt": 1,
+  "retryOfInfrastructureFailure": null,
+  "correctiveRerun": null,
+  "admissibleForFinalComparison": true,
+  "case": "C2",
+  "caseDir": "c2-convert-legacy",
+  "title": "Improve and convert a legacy, deficient prompt into the OPS contract",
+  "split": "development",
+  "track": "authoring",
+  "complexity": "intermediate",
+  "requestedMode": "author",
+  "condition": "INITIAL_SKILLS",
+  "status": "COMPLETED",
+  "statusReason": null,
+  "startedAt": "2026-11-13T19:10:19.500Z",
+  "endedAt": "2026-11-13T19:11:56.355Z",
+  "identities": {
+    "task": {
+      "file": "cases/c2-convert-legacy/task.md",
+      "sha256": "7a9d5d3ff83c36ac4e1f73e37b76f22e596e20d7bf498f43a65362d75723de6b"
+    },
+    "fixture": {
+      "dir": "cases/c2-convert-legacy/fixture",
+      "treeHash": "d36dd83d1a03aea81acec078f337c9e42d16232cef0a561cfbfc9221b4d3ce07"
+    },
+    "oracle": {
+      "oracleSha256": "8a20eb680f44b1fb38d7a18de58190b04ee949dfbd8591704a4298d3046a0b62",
+      "scorerSha256": "81976561e6caf326f711f8a30b38d3e908214fb7163063049eb6462cb6b4e843"
+    },
+    "contractKit": {
+      "treeHash": "1a16a632b2c793bc20b91ee2abdd060d8d891b7a1fb4a44c1f6583a87696a6f5",
+      "promptSchemaSha256": "a59f70ff0633f2e0f9c0df145736dd9e641333680322957a22c86528f5869f0d",
+      "validatorSha256": "b3585074396d651fe183ec59d15153df4f7f2f193be09cfbc8546dee6d52fd4a"
+    },
+    "initialWorkspace": {
+      "treeHash": "778d60bdd4a42b026395fe00a792571b9ba8fa6e54148e736b7fea71b95b9261"
+    },
+    "agent": {
+      "id": "guided-engineer",
+      "resolvesTo": "current executor",
+      "nativeProfile": null
+    },
+    "skills": [
+      {
+        "name": "ops-author",
+        "commit": "146c4b51fee8f1a6609b424fe6381c28c27c60e4",
+        "files": 7,
+        "treeHash": "19e4feba3c48eb57f341076fc8640049d67dcd919fb260ce763448fd73b076aa"
+      },
+      {
+        "name": "ops-execute",
+        "commit": "146c4b51fee8f1a6609b424fe6381c28c27c60e4",
+        "files": 6,
+        "treeHash": "5ef91499adc296ebdadacf160eef4cd5db1587fba2333442a869a5a80ba4df60"
+      }
+    ]
+  },
+  "client": {
+    "command": "claude",
+    "version": "2.1.322 (Claude Code)",
+    "versionReportedInTrace": "2.1.322",
+    "modelRequested": "claude-opus-5-5",
+    "modelReportedInTrace": "claude-opus-5-5",
+    "effortRequested": "medium",
+    "permissionMode": "acceptEdits",
+    "arguments": [
+      "-p",
+      "--output-format",
+      "stream-json",
+      "--verbose",
+      "--model",
+      "claude-opus-5-5",
+      "--effort",
+      "medium",
+      "--setting-sources",
+      "project,local",
+      "--strict-mcp-config",
+      "--permission-mode",
+      "acceptEdits",
+      "--no-session-persistence",
+      "--allowedTools",
+      "Bash",
+      "PowerShell",
+      "Read",
+      "Edit",
+      "Write",
+      "Glob",
+      "Grep",
+      "Skill"
+    ],
+    "tools": [
+      "Task",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "DesignSync",
+      "Edit",
+      "EnterWorktree",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "ListAgents",
+      "NotebookEdit",
+      "PowerShell",
+      "PushNotification",
+      "Read",
+      "RemoteTrigger",
+      "ReportFindings",
+      "ScheduleWakeup",
+      "SendMessage",
+      "Skill",
+      "TaskStop",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Workflow",
+      "Write"
+    ],
+    "plugins": [
+      "cc-plugin-agents-md",
+      "cc-plugin-telemetry",
+      "cc-plugin-privacy",
+      "cc-plugin-plugin-authoring"
+    ],
+    "mcpServers": [],
+    "environment": "variables named CLAUDE*, ANTHROPIC* and MCP_* removed"
+  },
+  "skillsAvailable": {
+    "candidates": [
+      "ops-author",
+      "ops-execute"
+    ],
+    "allListedByClient": [
+      "ops-author",
+      "ops-execute",
+      "deep-research",
+      "design",
+      "design-sync",
+      "dataviz",
+      "update-config",
+      "verify",
+      "debug",
+      "code-review",
+      "simplify",
+      "batch",
+      "fewer-permission-prompts",
+      "doctor",
+      "loop",
+      "schedule",
+      "claude-api",
+      "workflow-authoring",
+      "run",
+      "run-skill-generator",
+      "plugin-authoring"
+    ],
+    "isolation": "enforced: settings sources exclude the user level; the workspace is its own Git repository outside both project repositories; verified from the client listing"
+  },
+  "skillsInvoked": [
+    "ops-author"
+  ],
+  "exit": {
+    "code": 0,
+    "timedOut": false
+  },
+  "score": {
+    "assertions": [
+      {
+        "id": "C2-01",
+        "dimension": "intent",
+        "points": 10,
+        "pass": true,
+        "kind": "mechanical",
+        "evidence": "validator accepts the converted prompt"
+      },
+      {
+        "id": "C2-02",
+        "dimension": "intent",
+        "points": 10,
+        "pass": true,
+        "kind": "anchor",
+        "evidence": "intent kept: {\"jitter\":true,\"functionName\":true,\"randomSource\":true,\"bound\":true}"
+      },
+      {
+        "id": "C2-03",
+        "dimension": "result",
+        "points": 10,
+        "pass": true,
+        "kind": "mechanical",
+        "evidence": "agent: guided-engineer; the report names the legacy persona: true"
+      },
+      {
+        "id": "C2-04",
+        "dimension": "result",
+        "points": 10,
+        "pass": true,
+        "kind": "anchor",
+        "evidence": "vague steps made concrete: {\"noVagueAction\":true,\"namesBound\":true,\"namesTarget\":true,\"deterministicTests\":true}"
+      },
+      {
+        "id": "C2-05",
+        "dimension": "result",
+        "points": 10,
+        "pass": true,
+        "kind": "anchor",
+        "evidence": "the report names the unresolved step condition: true; legacy items named: retries, onFailure, difficulty, category, language, createBy, 1.2.0, ops/v1, .guided"
+      },
+      {
+        "id": "C2-06",
+        "dimension": "verification",
+        "points": 10,
+        "pass": true,
+        "kind": "mechanical",
+        "evidence": "verification commands: npm test | node --input-type=module -e \"import { backoffDelays as b } from './src/retry.mjs'; const s = (r) => JSON.stringify(b(3, 100, r)); if (s(() => 0) !== '[50,100,200]' || s(() => 0.5) !== '[75,150,300]' || b(0, 100, () => 0).length !== 0) process.exit(1);\" | node --input-type=module -e \"import { backoffDelays as b } from './src/retry.mjs'; for (let n = 0; n < 200; n++) { const d = b(8, 100); if (d.length !== 8) process.exit(1); d.forEach((x, i) => { const e = 100 * 2 ** i; if (!(x >= e / 2 && x <= e)) process.exit(1); }); }\" | (observed) | git diff --quiet HEAD -- . ':!src/retry.mjs' ':!test/retry.test.mjs' ':!.guides/operation/worklog'"
+      },
+      {
+        "id": "C2-07",
+        "dimension": "verification",
+        "points": 10,
+        "pass": true,
+        "kind": "mechanical",
+        "evidence": "validator runs seen in the trace: 2"
+      },
+      {
+        "id": "C2-08",
+        "dimension": "scope",
+        "points": 10,
+        "pass": true,
+        "kind": "mechanical",
+        "evidence": "legacy file, product code and tests are unchanged"
+      },
+      {
+        "id": "C2-09",
+        "dimension": "scope",
+        "points": 10,
+        "pass": true,
+        "kind": "mechanical",
+        "evidence": "prompt written: true; report written: true"
+      },
+      {
+        "id": "C2-10",
+        "dimension": "traceability",
+        "points": 10,
+        "pass": true,
+        "kind": "mechanical",
+        "evidence": "names artifacts: true; states validity: true; validator run seen with a valid result: true; artifact valid now: true"
+      }
+    ],
+    "hardFailures": [],
+    "rawScore": 100,
+    "effectiveScore": 100,
+    "passed": true
+  },
+  "metrics": {
+    "wallMs": 96855,
+    "durationMs": 94809,
+    "durationApiMs": 89542,
+    "turns": 13,
+    "toolCalls": 11,
+    "tokens": {
+      "input": 20,
+      "output": 9948,
+      "cacheCreation": 28985,
+      "cacheRead": 277623,
+      "total": 316576
+    },
+    "modelUsage": {
+      "claude-opus-5-5": {
+        "inputTokens": 20,
+        "outputTokens": 9948,
+        "cacheReadInputTokens": 277623,
+        "cacheCreationInputTokens": 28985,
+        "webSearchRequests": 0,
+        "costUSD": 0.4864446,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1997,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 28985,
+        "canonicalModel": "claude-opus-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "costUsdReportedByClient": 0.4864446,
+    "permissionDenials": 0
+  },
+  "commands": [
+    {
+      "index": 1,
+      "tool": "PowerShell",
+      "command": "Get-ChildItem -Recurse -File -Force | Where-Object { $_.FullName -notmatch '\\\\.git\\\\' } | Select-Object -ExpandProperty FullName; cat .guides/README.md; cat legacy/prompt.retry.yaml",
+      "isError": false,
+      "resultHead": "C:\\Workspace\\guided.engineering\\study-runs\\INITIAL_SKILLS.c2-convert-legacy.a1\\workspace\\package.json\r\nC:\\Workspace\\guided.engineering\\study-runs\\INITIAL_SKILLS.c2-convert-legacy.a1\\workspace\\README.m"
+    },
+    {
+      "index": 2,
+      "tool": "PowerShell",
+      "command": "cat .guides/conversion.md; cat package.json; cat README.md; cat src/retry.mjs; cat test/retry.test.mjs; ls .guides/agents -ErrorAction SilentlyContinue; node .guides/tools/ops-validate.mjs legacy/prompt.retry.yaml",
+      "isError": true,
+      "resultHead": "Exit code 1\n# Converting from the Earlier Contract\r\n\r\nThe contract in [`ops-contract.md`](./ops-contract.md) replaced an earlier one.\r\nDocuments written for the earlier contract are not valid and are "
+    },
+    {
+      "index": 3,
+      "tool": "PowerShell",
+      "command": "$c = Get-Content .guides/conversion.md -Raw; $i = $c.IndexOf('## Persona catalogue'); $c.Substring($i, 3600); cat .claude/skills/ops-author/assets/prompt.template.yaml; Select-String -Path .guides/ops-contract.md -Pattern 'agent map|guided-engineer|limits|repairAttempts|tags' | Select-Object -First 30",
+      "isError": false,
+      "resultHead": "## Persona catalogue to agent map\n\nThe ten personas (`SystemIntegrator`, `SoftwareDeveloper`, `CodeAuditor`,\n`ProductStrategist`, `QAEngineer`, `DevOpsOrchestrator`, `AIEngineer`,\n`DocumentationCurato"
+    },
+    {
+      "index": 5,
+      "tool": "PowerShell",
+      "command": "node .guides/tools/ops-validate.mjs --resolve .guides/prompts/prompt.notify.retry-jitter.yaml; \"exit=$LASTEXITCODE\"\nnode --input-type=module -e \"import { backoffDelays as b } from './src/retry.mjs'; const s = (r) => JSON.stringify(b(3, 100, r)); if (s(() => 0) !== '[50,100,200]' || s(() => 0.5) !== '[75,150,300]' || b(0, 100, () => 0).length !== 0) process.exit(1);\"; \"deterministic-on-current=$LASTEXITCODE\"\nnode --input-type=module -e \"import { backoffDelays as b } from './src/retry.mjs'; for (let n = 0; n < 200; n++) { const d = b(8, 100); if (d.length !== 8) process.exit(1); d.forEach((x, i) => { const e = 100 * 2 ** i; if (!(x >= e / 2 && x <= e)) process.exit(1); }); }\"; \"bounds-on-current=$LASTEXITCODE\"\ngit diff --quiet HEAD -- . ':!src/retry.mjs' ':!test/retry.test.mjs' ':!.guides/operation/worklog'; \"scope=$LASTEXITCODE\"",
+      "isError": false,
+      "resultHead": ".guides/prompts/prompt.notify.retry-jitter.yaml: INVALID (prompt)\n  schema: missing required property `expect` [at /verification/0]\n  schema: missing required property `expect` [at /verification/1]\n  "
+    },
+    {
+      "index": 9,
+      "tool": "PowerShell",
+      "command": "node .guides/tools/ops-validate.mjs --resolve .guides/prompts/prompt.notify.retry-jitter.yaml; \"exit=$LASTEXITCODE\"; git status --short",
+      "isError": false,
+      "resultHead": ".guides/prompts/prompt.notify.retry-jitter.yaml: valid (prompt)\n  root: .\n  workspace: .\n  agent: guided-engineer -> current-executor [map: built-in]\n  input: src/retry.mjs\n  input: test/retry.test.mj"
+    }
+  ],
+  "changes": {
+    "added": [
+      ".guides/prompts/prompt.notify.retry-jitter.report.md",
+      ".guides/prompts/prompt.notify.retry-jitter.yaml"
+    ],
+    "modified": [],
+    "deleted": []
+  },
+  "evidence": {
+    "trace": "trace.jsonl.gz",
+    "finalReport": "final-report.md",
+    "artifacts": "artifacts/",
+    "workspaceDuringRun": "C:\\Workspace\\guided.engineering\\study-runs\\INITIAL_SKILLS.c2-convert-legacy.a1\\workspace"
+  }
+}

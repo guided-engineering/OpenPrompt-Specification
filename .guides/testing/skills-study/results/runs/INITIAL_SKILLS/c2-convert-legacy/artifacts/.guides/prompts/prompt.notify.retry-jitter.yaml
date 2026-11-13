@@ -1,0 +1,131 @@
+apiVersion: guided-engineering/v1
+id: notify.retry-jitter
+version: 1
+title: Add equal jitter to retry delays in backoffDelays()
+agent: guided-engineer
+
+objective: |
+  `backoffDelays(attempts, baseMs, random)` in `src/retry.mjs` returns, for each
+  retry i (0-based), a delay of `e/2 + random() * e/2` where `e = baseMs * 2 ** i`
+  ("equal jitter"), so every delay lies in [0.5 * e, 1.0 * e]. The third argument
+  is optional and defaults to `Math.random`. With `random = () => 0`,
+  `backoffDelays(3, 100, random)` returns `[50, 100, 200]`. `test/retry.test.mjs`
+  covers this behavior deterministically and `npm test` passes.
+
+context: |
+  notify-service sends notifications and retries failed deliveries. The sender
+  computes its retry waits with `backoffDelays(attempts, baseMs)`, exported from
+  `src/retry.mjs`. Today it returns pure exponential delays
+  (`baseMs, 2 * baseMs, 4 * baseMs, ...`) with no randomness, so all clients
+  retry at the same instants and deliveries arrive in bursts.
+  Tests use the built-in Node.js runner: `npm test` runs `node --test`, which
+  picks up `test/retry.test.mjs`. That file currently asserts the exact
+  un-jittered delays `[100, 200, 400]`, so it must change with the behavior.
+  The package is an ES module (`"type": "module"`) and requires Node.js 20.
+  Assumption: jitter is always applied. The earlier prompt gated the change on
+  `jitterEnabled == true`, but no such flag exists in the project and none was
+  defined; this prompt does not introduce one.
+  Assumption: delays are not rounded; they may be fractional milliseconds, as
+  the earlier rules did not ask for integers.
+
+workspace: ./
+
+inputs:
+  - src/retry.mjs
+  - test/retry.test.mjs
+  - package.json
+
+dependencies:
+  - Node.js 20 or later.
+
+constraints:
+  - Change only `src/retry.mjs` and `test/retry.test.mjs`.
+  - Keep the exported function name `backoffDelays` and its first two parameters `attempts` and `baseMs` with their current meaning.
+  - Add no runtime or development dependencies.
+  - Do not add a jitter on/off flag or any other parameter beyond the optional `random` function.
+
+requirements:
+  - id: R1
+    text: '`backoffDelays` stays exported from `src/retry.mjs` under that name and accepts an optional third argument `random`, a function returning a number in [0, 1), defaulting to `Math.random`.'
+  - id: R2
+    text: 'For every index i, the returned delay equals `e/2 + random() * e/2` with `e = baseMs * 2 ** i`, so it lies within [0.5 * e, 1.0 * e] ("equal jitter").'
+  - id: R3
+    text: The result has exactly `attempts` entries; `attempts = 0` returns an empty array.
+  - id: R4
+    text: '`test/retry.test.mjs` tests the jittered behavior deterministically by injecting `random`, and checks the bounds of R2 with the default `random`.'
+
+steps:
+  - id: read
+    title: Read the current code and tests
+    actions:
+      - Read `src/retry.mjs` and `test/retry.test.mjs` and note every assertion that depends on un-jittered delays.
+  - id: implement
+    title: Implement equal jitter
+    requirements: [R1, R2, R3]
+    actions:
+      - Change the signature in `src/retry.mjs` to `backoffDelays(attempts, baseMs, random = Math.random)`.
+      - Compute each delay in `src/retry.mjs` as `e / 2 + random() * (e / 2)` with `e = baseMs * 2 ** i`, calling `random` once per delay.
+      - Update the JSDoc of `backoffDelays` in `src/retry.mjs` to describe the `random` parameter and the [0.5x, 1.0x] range.
+  - id: tests
+    title: Update the tests
+    requirements: [R2, R3, R4]
+    actions:
+      - Replace the exact-delay assertion in `test/retry.test.mjs` with a test that injects `() => 0` and expects `[50, 100, 200]` for `backoffDelays(3, 100, random)`.
+      - Add a test in `test/retry.test.mjs` that injects `() => 0.5` and expects `[75, 150, 300]` for `backoffDelays(3, 100, random)`.
+      - Add a test in `test/retry.test.mjs` that calls `backoffDelays(10, 100)` without `random` and asserts each delay i is at least `0.5 * 100 * 2 ** i` and at most `100 * 2 ** i`.
+      - Keep the test in `test/retry.test.mjs` that `backoffDelays(0, 100)` returns `[]`.
+  - id: verify
+    title: Run the checks
+    requirements: [R1, R2, R3, R4]
+    actions:
+      - Run every check under `verification` and repair failures within `limits`.
+
+output:
+  - file: src/retry.mjs
+    rules:
+      - Exports `backoffDelays(attempts, baseMs, random = Math.random)`.
+      - Each delay i equals `e / 2 + random() * (e / 2)` with `e = baseMs * 2 ** i`.
+  - file: test/retry.test.mjs
+    rules:
+      - Injects `random` for deterministic assertions.
+      - Contains a bounds test that uses the default `random`.
+
+verification:
+  - id: tests-pass
+    run: npm test
+    expect: All tests in `test/` pass (exit code 0).
+    requirements: [R3, R4]
+  - id: jitter-deterministic
+    run: >-
+      node --input-type=module -e "import { backoffDelays as b } from './src/retry.mjs';
+      const s = (r) => JSON.stringify(b(3, 100, r));
+      if (s(() => 0) !== '[50,100,200]' || s(() => 0.5) !== '[75,150,300]' || b(0, 100, () => 0).length !== 0) process.exit(1);"
+    expect: 'With an injected `random`, `backoffDelays(3, 100, ...)` returns `[50, 100, 200]` for `() => 0` and `[75, 150, 300]` for `() => 0.5`, and `attempts = 0` returns `[]` (exit code 0).'
+    requirements: [R1, R2, R3]
+  - id: jitter-bounds-default
+    run: >-
+      node --input-type=module -e "import { backoffDelays as b } from './src/retry.mjs';
+      for (let n = 0; n < 200; n++) { const d = b(8, 100);
+      if (d.length !== 8) process.exit(1);
+      d.forEach((x, i) => { const e = 100 * 2 ** i; if (!(x >= e / 2 && x <= e)) process.exit(1); }); }"
+    expect: 'Over 200 calls with the default `random`, every delay i of `backoffDelays(8, 100)` lies within [0.5 * 100 * 2^i, 100 * 2^i] (exit code 0). This guards the range; `jitter-deterministic` is the check that proves jitter is applied.'
+    requirements: [R1, R2]
+  - id: tests-use-injected-random
+    expect: '`test/retry.test.mjs` contains tests that pass a `random` function to `backoffDelays` and a bounds test that calls it without one, as listed in the `tests` step.'
+    requirements: [R4]
+  - id: scope
+    run: >-
+      git diff --quiet HEAD -- . ':!src/retry.mjs' ':!test/retry.test.mjs' ':!.guides/operation/worklog'
+    expect: No tracked file other than `src/retry.mjs`, `test/retry.test.mjs` and worklog entries has changed.
+
+stopConditions:
+  - The sender or another caller depends on `backoffDelays` returning exact, un-jittered delays.
+  - The change appears to require a jitter on/off flag or configuration that this prompt does not define.
+  - Meeting the objective would require changing a file other than `src/retry.mjs` or `test/retry.test.mjs`.
+
+limits:
+  repairAttempts: 3
+
+tags:
+  - implementation
+  - reliability

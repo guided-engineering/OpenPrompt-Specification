@@ -1,0 +1,106 @@
+apiVersion: guided-engineering/v1
+id: pricing.round-half-up
+version: 1
+title: Round discounted prices to cents, half up
+agent: guided-engineer
+
+objective: |
+  `applyDiscount(price, percent)` in `src/discount.mjs` returns the discounted
+  price rounded to 2 decimal places, rounding half up:
+  `applyDiscount(19.99, 15)` returns `16.99`, `applyDiscount(2.01, 50)` returns
+  `1.01`, and `applyDiscount(100, 10)` returns `90`. `test/discount.test.mjs`
+  contains tests for these three examples, and `npm test` passes.
+
+context: |
+  Source of the request: `requests/round-half-up.md`.
+  The project is an ES module package (`pricing-lib`). `npm test` runs
+  `node --test`; the tests live in `test/discount.test.mjs` and import
+  `applyDiscount` from `../src/discount.mjs`.
+  Today the returned price is not rounded, so checkout shows long decimal
+  tails such as `16.9915`.
+  `test/discount.test.mjs` has three tests today: a 10% discount on 100 gives
+  90, a zero discount leaves 80 unchanged, and a negative price throws a
+  RangeError.
+  The exact value of `applyDiscount(2.01, 50)` is 1.005, which binary floating
+  point stores as 1.00499999...; a naive `Math.round(x * 100) / 100` therefore
+  yields 1.00, which is wrong here because half must round up.
+
+workspace: ./
+
+inputs:
+  - src/discount.mjs
+  - test/discount.test.mjs
+  - package.json
+
+constraints:
+  - Keep the signature `applyDiscount(price, percent)`.
+  - Keep the existing argument checks of `applyDiscount`.
+  - Add no new dependencies.
+  - Change only `src/discount.mjs` and `test/discount.test.mjs`.
+  - The three existing tests in `test/discount.test.mjs` keep passing.
+
+requirements:
+  - id: R1
+    text: '`applyDiscount` returns the discounted price rounded to 2 decimal places, rounding half up.'
+  - id: R2
+    text: '`applyDiscount(19.99, 15)` returns `16.99`.'
+  - id: R3
+    text: '`applyDiscount(2.01, 50)` returns `1.01` (half rounds up despite the floating-point representation of 1.005).'
+  - id: R4
+    text: '`applyDiscount(100, 10)` still returns `90`.'
+  - id: R5
+    text: '`test/discount.test.mjs` contains tests for the three examples in R2, R3 and R4.'
+
+steps:
+  - id: round-result
+    title: Round the returned price half up to cents
+    requirements: [R1, R2, R3, R4]
+    actions:
+      - Change `applyDiscount` in `src/discount.mjs` so that the price it returns is rounded to 2 decimal places, rounding half up, in a way that returns `1.01` for `applyDiscount(2.01, 50)`.
+      - Leave the signature and the existing argument checks of `applyDiscount` in `src/discount.mjs` unchanged.
+  - id: add-tests
+    title: Add tests for the examples
+    requirements: [R5]
+    actions:
+      - Add tests to `test/discount.test.mjs` asserting that `applyDiscount(19.99, 15)` equals `16.99`, `applyDiscount(2.01, 50)` equals `1.01` and `applyDiscount(100, 10)` equals `90`, keeping the three existing tests unchanged.
+  - id: run-tests
+    title: Run the test suite
+    requirements: [R1, R2, R3, R4, R5]
+    actions:
+      - Run `npm test` and confirm that all tests, old and new, pass.
+
+output:
+  - file: src/discount.mjs
+    rules:
+      - '`applyDiscount(price, percent)` keeps its signature and existing argument checks.'
+      - The returned price is rounded to 2 decimal places, half up.
+  - file: test/discount.test.mjs
+    rules:
+      - The three existing tests are kept.
+      - Contains tests for `applyDiscount(19.99, 15) === 16.99`, `applyDiscount(2.01, 50) === 1.01` and `applyDiscount(100, 10) === 90`.
+
+verification:
+  - id: npm-test
+    run: npm test
+    expect: All tests pass, the three existing ones and the new example tests.
+    requirements: [R1, R2, R3, R4, R5]
+  - id: examples-direct
+    run: >-
+      node -e "import('./src/discount.mjs').then(({ applyDiscount: d }) => { if (d(19.99, 15) !== 16.99 || d(2.01, 50) !== 1.01 || d(100, 10) !== 90) process.exit(1); })"
+    expect: Exits with code 0, because all three examples return exactly the expected values.
+    requirements: [R1, R2, R3, R4]
+  - id: example-tests-present
+    expect: '`test/discount.test.mjs` contains assertions for `applyDiscount(19.99, 15)` = `16.99`, `applyDiscount(2.01, 50)` = `1.01` and `applyDiscount(100, 10)` = `90`, and still contains the three original tests.'
+    requirements: [R5]
+  - id: scope-and-signature
+    expect: '`git status --porcelain` lists only `src/discount.mjs` and `test/discount.test.mjs` as changed; `package.json` is unchanged (no new dependencies); `applyDiscount(price, percent)` keeps its signature and its existing argument checks.'
+
+stopConditions:
+  - Half-up rounding that yields `1.01` for `applyDiscount(2.01, 50)` cannot be achieved without a new dependency.
+  - Meeting the examples would require changing the signature or the existing argument checks of `applyDiscount`.
+  - Meeting the objective would require changing any file other than `src/discount.mjs` and `test/discount.test.mjs`.
+  - One of the three existing tests fails for a reason unrelated to rounding.
+
+tags:
+  - pricing
+  - rounding

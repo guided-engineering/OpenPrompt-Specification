@@ -16,5 +16,27 @@
       "skills-ref 0.1.0 validate: both valid"
     ],
     "note": "The baseline evidence was committed (afbe491) before any Skill content existed. No assisted run had been made when this file was written."
+  },
+  "decision": {
+    "finalCandidate": "INITIAL_SKILLS",
+    "refinement": "none",
+    "decidedAt": "2026-11-13T19:16:05.069Z",
+    "decidedBeforeAnyC5Run": true,
+    "observed": {
+      "WITHOUT_SKILLS": {
+        "C1": 100,
+        "C2": 100,
+        "C3": 90,
+        "C4": 90
+      },
+      "INITIAL_SKILLS": {
+        "C1": 100,
+        "C2": 100,
+        "C3": 100,
+        "C4": 90
+      }
+    },
+    "basis": "The one optional refinement is for a consequential observed Skill defect. None was observed. The only assertion failed with the Skills is C4-06, which the baseline fails too: in both traces the tests pass after the only real edit of src/csv.mjs, and a later read-only command that names the file and contains a \">\" character is counted as an edit by the shared detector. The Skills were invoked in all four runs (ops-author in C1 and C2, ops-execute in C3 and C4). Elapsed time and output tokens were lower in all four pairs; tokens processed were higher in C1 (+72%) and lower in the other three.",
+    "consequence": "skills 146c4b5 is the final candidate. It was frozen before any C5 result existed, and nothing under skills/ changes after this point without a new, unmeasured candidate identity."
   }
 }

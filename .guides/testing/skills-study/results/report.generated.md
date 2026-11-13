@@ -10,10 +10,10 @@ Effective score out of 100 (raw score in brackets when a hard failure set the ef
 
 | Case | Track | Kind | WITHOUT_SKILLS | INITIAL_SKILLS | Δ final − baseline |
 |---|---|---|---:|---:|---:|
-| C1 Convert a fully specified prose request into an OPS prompt | authoring | development | 100 ↻ | not run | n/a |
-| C2 Improve and convert a legacy, deficient prompt into the OPS contract | authoring | development | 100 | not run | n/a |
-| C3 Plan a frozen OPS prompt for a nested workspace, plan only | execution | development | 90 ↻ | not run | n/a |
-| C4 Execute a frozen OPS prompt against a deterministic bug | execution | development | 90 ↻ | not run | n/a |
+| C1 Convert a fully specified prose request into an OPS prompt | authoring | development | 100 ↻ | 100 | 0 |
+| C2 Improve and convert a legacy, deficient prompt into the OPS contract | authoring | development | 100 | 100 | 0 |
+| C3 Plan a frozen OPS prompt for a nested workspace, plan only | execution | development | 90 ↻ | 100 | +10 |
+| C4 Execute a frozen OPS prompt against a deterministic bug | execution | development | 90 ↻ | 90 | 0 |
 | C5 Resume a frozen OPS prompt from a recorded checkpoint | execution | reserved regression | not run | not run | n/a |
 
 Final candidate: `INITIAL_SKILLS`. No refinement was made.
@@ -34,6 +34,8 @@ These attempts are kept and are not part of the comparison. "Original grade" is 
   - C3-04 (result, anchor): dependencies stated: {"node":false,"ordering":true}
 - **C4 WITHOUT_SKILLS** (`WITHOUT_SKILLS.c4-execute-bugfix.a2`)
   - C4-06 (verification, mechanical): a passing test run after the last product edit: false
+- **C4 INITIAL_SKILLS** (`INITIAL_SKILLS.c4-execute-bugfix.a1`)
+  - C4-06 (verification, mechanical): a passing test run after the last product edit: false
 
 ## Quality by track
 
@@ -41,9 +43,9 @@ These attempts are kept and are not part of the comparison. "Original grade" is 
 
 | Set | Cases | Baseline mean | With Skills mean | Mean Δ | Largest loss | Improvement threshold (≥ +10, no loss > 10) |
 |---|---|---:|---:|---:|---:|---|
-| authoring | C1, C2 | n/a | n/a | n/a | n/a | inconclusive: missing or unscored pairs: C1 (SCORED/NOT_RUN), C2 (SCORED/NOT_RUN) |
-| execution | C3, C4, C5 | n/a | n/a | n/a | n/a | inconclusive: missing or unscored pairs: C3 (SCORED/NOT_RUN), C4 (SCORED/NOT_RUN), C5 (NOT_RUN/NOT_RUN) |
-| executionDevelopmentOnly | C3, C4 | n/a | n/a | n/a | n/a | inconclusive: missing or unscored pairs: C3 (SCORED/NOT_RUN), C4 (SCORED/NOT_RUN) |
+| authoring | C1, C2 | 100 | 100 | 0 | 0 | not met: the baseline mean is 100, so a gain of 10 points was not possible on these cases; observed change 0 |
+| execution | C3, C4, C5 | n/a | n/a | n/a | n/a | inconclusive: missing or unscored pairs: C5 (NOT_RUN/NOT_RUN) |
+| executionDevelopmentOnly | C3, C4 | 90 | 95 | 5 | 0 | not met: mean gain below 10 points (observed 5) |
 | reservedRegression | C5 | n/a | n/a | n/a | n/a | inconclusive: missing or unscored pairs: C5 (NOT_RUN/NOT_RUN) |
 
 ## Cost
@@ -54,9 +56,9 @@ Relative change of the Skills condition against the baseline, per matched admiss
 
 | Measure | Eligible pairs | Median change | Per case |
 |---|---:|---:|---|
-| elapsedTime | 0 | n/a | — |
-| tokensProcessed | 0 | n/a | — |
-| outputTokens | 0 | n/a | — |
+| elapsedTime | 4 | -7% | C1 -3%, C2 -4%, C3 -20%, C4 -10% |
+| tokensProcessed | 4 | -2% | C1 +72%, C2 -15%, C3 -1%, C4 -3% |
+| outputTokens | 4 | -13% | C1 -13%, C2 -1%, C3 -21%, C4 -13% |
 
 ## Hypotheses
 
@@ -64,9 +66,9 @@ Judged on `INITIAL_SKILLS`, on admissible matched pairs, within this sample only
 
 | | Hypothesis | Verdict | Basis |
 |---|---|---|---|
-| H1 | ops-author improves intent preservation, contract validity and actionable verification in authored prompts | **inconclusive** | missing or unscored pairs: C1 (SCORED/NOT_RUN), C2 (SCORED/NOT_RUN) |
-| H2 | ops-execute improves correct planning, scoped implementation and closure of the verify-repair loop | **inconclusive** | missing or unscored pairs: C3 (SCORED/NOT_RUN), C4 (SCORED/NOT_RUN), C5 (NOT_RUN/NOT_RUN) |
-| H3 | any observed quality gain has an acceptable cost in time, tokens, tool calls and human intervention | **inconclusive** | fewer than three matched pairs have both time and token measurements |
+| H1 | ops-author improves intent preservation, contract validity and actionable verification in authored prompts | **unsupported** | the baseline mean is 100, so a gain of 10 points was not possible on these cases; observed change 0 |
+| H2 | ops-execute improves correct planning, scoped implementation and closure of the verify-repair loop | **inconclusive** | missing or unscored pairs: C5 (NOT_RUN/NOT_RUN) |
+| H3 | any observed quality gain has an acceptable cost in time, tokens, tool calls and human intervention | **inconclusive** | no quality gain reached the improvement threshold, so there is no gain whose cost could be judged; the measured overhead is reported as it is |
 
 ## Readiness
 
@@ -78,7 +80,7 @@ All five cases pass: false. Mean: n/a (threshold 85). Hard failures: 0. **Not de
 
 ## Ledger
 
-Evaluation attempts: **7 of 19** (ceiling applies because no refinement was made). Evaluated run time: 8.4 of 120 minutes. Preparation agent sessions, recorded and counted apart: 5; if they were counted as well, the total would be 12.
+Evaluation attempts: **11 of 19** (ceiling applies because no refinement was made). Evaluated run time: 12.6 of 120 minutes. Preparation agent sessions, recorded and counted apart: 7; if they were counted as well, the total would be 18.
 
 | # | Kind | What | Condition | Status | Seconds | Counts against the ceiling |
 |---:|---|---|---|---|---:|---|
@@ -97,3 +99,9 @@ Evaluation attempts: **7 of 19** (ceiling applies because no refinement was made
 | 13 | corrective-rerun | WITHOUT_SKILLS.c1-author-basic.a2 | WITHOUT_SKILLS | COMPLETED | 60 | yes |
 | 14 | corrective-rerun | WITHOUT_SKILLS.c3-plan-nested.a2 | WITHOUT_SKILLS | COMPLETED | 59 | yes |
 | 15 | corrective-rerun | WITHOUT_SKILLS.c4-execute-bugfix.a2 | WITHOUT_SKILLS | COMPLETED | 57 | yes |
+| 16 | installation-check | client listing after installing ops-author alone into a clean project with skills@1.8.1 (skills 146c4b5) — verification of installation, not an evaluation; prompt "Reply with the single word OK."; the Skill was listed and not invoked | (one Skill installed) | OBSERVED | 4 | no (preparation) |
+| 17 | installation-check | client listing after installing ops-execute alone into a clean project with skills@1.8.1 (skills 146c4b5) — verification of installation, not an evaluation; prompt "Reply with the single word OK."; the Skill was listed and not invoked | (one Skill installed) | OBSERVED | 4 | no (preparation) |
+| 18 | scored-task | INITIAL_SKILLS.c1-author-basic.a1 | INITIAL_SKILLS | COMPLETED | 58 | yes |
+| 19 | scored-task | INITIAL_SKILLS.c2-convert-legacy.a1 | INITIAL_SKILLS | COMPLETED | 97 | yes |
+| 20 | scored-task | INITIAL_SKILLS.c3-plan-nested.a1 | INITIAL_SKILLS | COMPLETED | 48 | yes |
+| 21 | scored-task | INITIAL_SKILLS.c4-execute-bugfix.a1 | INITIAL_SKILLS | COMPLETED | 52 | yes |
