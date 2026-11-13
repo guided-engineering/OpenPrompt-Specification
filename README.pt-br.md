@@ -184,8 +184,10 @@ os dois a um projeto que não tem nenhum.
 
 Também está registrado: a pontuação de três tarefas foi corrigida depois da
 primeira execução, e essas execuções foram repetidas; a ocultação da quinta
-tarefa não pôde ser verificada; e uma frase da `ops-author` induz a erro sobre
-um campo obrigatório até que o validador corrija. Cada execução e cada limite
+tarefa não pôde ser verificada; e uma frase da `ops-author` induzia a erro
+sobre um campo obrigatório até que o validador corrigisse o rascunho. Essa
+frase foi corrigida depois, em uma versão que o estudo não mediu. Cada execução
+e cada limite
 estão [no relatório](./.guides/testing/skills-study/results/report.md) e
 [na página de resultados](https://guided-engineering.github.io/OpenPrompt-Specification/results.html)
 (em inglês).

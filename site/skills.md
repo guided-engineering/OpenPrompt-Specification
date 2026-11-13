@@ -85,14 +85,23 @@ Skill loaded every time, nothing got worse, and nothing measurably got better:
 the agent was already at or near the top of the scale without them. The
 [results page](results.html) has every number and every limit.
 
-## A known issue in `ops-author`
+## A correction made after the study
 
-The field guide of `ops-author` says that a check without a command uses
-`expect` to say what to observe. That can be read as if `expect` were needed
-only then. It is required for every check. In both authoring runs of the study
-the first draft left it out of the checks that had a command; the validator
-rejected the draft and named the field, and the agent corrected it.
+The field guide of `ops-author`, as measured, said that a check without a
+command uses `expect` to say what to observe. That could be read as if `expect`
+were needed only then, and it is required for every check. In both authoring
+runs of the study the first draft left it out of the checks that had a command;
+the validator rejected the draft and named the field, and the agent corrected
+it.
 
-The Skills are published exactly as they were measured, so the sentence is
-still there. Correcting it makes a new version that the study did not measure.
-It is listed in the [roadmap](../ROADMAP.md).
+The sentence was corrected afterwards, in commit `c8418f5` of the Skills
+repository: every check has an `id` and an `expect`, and `run` is added when a
+command decides the check. **The corrected version has not been measured.**
+Everything on the [results page](results.html) is about the earlier revision,
+`146c4b5`, which the pinned command in the [quick start](quick-start.html)
+still installs. `ops-execute` is unchanged.
+
+One known issue remains: the prompt template bundled in `ops-author` carries a
+header comment that names the specification repository's validator command.
+Use the command given in the Skill. It is listed in the
+[roadmap](../ROADMAP.md).

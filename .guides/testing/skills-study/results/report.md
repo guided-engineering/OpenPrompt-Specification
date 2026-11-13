@@ -268,3 +268,15 @@ one, so no smoke check was run.
 4. Replace the shell-write heuristic of the harness with the file changes the
    harness already records.
 5. Run two cases and the probes on a second host.
+
+## Addendum, after the study
+
+Added on 2026-11-13, after this report was written. Nothing above was changed.
+
+The sentence named in follow-up item 1 was corrected in commit `c8418f5` of the
+Skills repository, on the owner's instruction: the field guide of `ops-author`
+now says that every check has an `id` and an `expect`, and that `run` is added
+when a command decides the check. No run of this study used the corrected
+text. Every result in this report is about commit `146c4b5`, and none is
+transferred to the corrected version. Whether the new wording avoids the
+rejected first draft is not known.

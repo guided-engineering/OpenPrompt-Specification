@@ -43,7 +43,8 @@ npx skills add guided-engineering/skills -a claude-code -y
 
 This copies `ops-author` and `ops-execute` into `.claude/skills/`. To install a
 fixed revision, name its commit. This one is the revision the local study
-measured:
+measured; the current one differs from it by a single corrected sentence in
+`ops-author`:
 
 ```bash
 npx skills add guided-engineering/skills#146c4b51fee8f1a6609b424fe6381c28c27c60e4 -a claude-code -y
@@ -129,7 +130,7 @@ the default agent adds `.guides/agents/agents.yaml`; see
 
 The commands of steps 2, 3, 4 and 6 were replayed as written from the two
 public repositories on 2026-11-13, on Windows: the clone and the checkout, the
-copy, the installer (both Skills, with files identical to the measured
+copy, the installer (both Skills, the current version and then the measured
 revision), the starting commit, the two failing tests of the starting state,
 and the validator from the installed Skill.
 
