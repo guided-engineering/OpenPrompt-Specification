@@ -1,7 +1,12 @@
 {
-  "attemptId": "WITHOUT_SKILLS.c1-author-basic.a1",
-  "attempt": 1,
+  "attemptId": "WITHOUT_SKILLS.c1-author-basic.a2",
+  "attempt": 2,
   "retryOfInfrastructureFailure": null,
+  "correctiveRerun": {
+    "reason": "oracle repaired after the first run (amendments.md, repair 1: changed accepted evidence for C1-02)",
+    "earlierAttempt": "c1-author-basic.attempt-1"
+  },
+  "admissibleForFinalComparison": true,
   "case": "C1",
   "caseDir": "c1-author-basic",
   "title": "Convert a fully specified prose request into an OPS prompt",
@@ -12,8 +17,8 @@
   "condition": "WITHOUT_SKILLS",
   "status": "COMPLETED",
   "statusReason": null,
-  "startedAt": "2026-11-13T17:09:51.735Z",
-  "endedAt": "2026-11-13T17:11:26.712Z",
+  "startedAt": "2026-11-13T18:46:36.939Z",
+  "endedAt": "2026-11-13T18:47:36.741Z",
   "identities": {
     "task": {
       "file": "cases/c1-author-basic/task.md",
@@ -22,6 +27,10 @@
     "fixture": {
       "dir": "cases/c1-author-basic/fixture",
       "treeHash": "52ed32bb70f90f93a68bbed8f4d431600fc713993b5ccc6cfbef4cd2fc66549a"
+    },
+    "oracle": {
+      "oracleSha256": "8a53f28607f010ad2c6ea43f8b7811b78c23a1ee7de8870fd8857e256e4e37fa",
+      "scorerSha256": "81976561e6caf326f711f8a30b38d3e908214fb7163063049eb6462cb6b4e843"
     },
     "contractKit": {
       "treeHash": "1a16a632b2c793bc20b91ee2abdd060d8d891b7a1fb4a44c1f6583a87696a6f5",
@@ -152,7 +161,7 @@
         "id": "C1-02",
         "dimension": "intent",
         "points": 10,
-        "pass": false,
+        "pass": true,
         "kind": "anchor",
         "evidence": "objective names applyDiscount, two decimals and half up"
       },
@@ -186,7 +195,7 @@
         "points": 10,
         "pass": true,
         "kind": "mechanical",
-        "evidence": "verification commands: npm test | node -e \"import('./src/discount.mjs').then(({applyDiscount:f})=>{const a=require('node:assert/strict');a.equal(f(19.99,15),16.99);a.equal(f(2.01,50),1.01);a.equal(f(100,10),90);a.equal(f(80,0),80)}).catch(e=>{console.error(e.message);process.exit(1)})\" | node -e \"import('./src/discount.mjs').then(({applyDiscount:f})=>{const a=require('node:assert/strict');a.equal(f.length,2);for(const [p,q] of [[-1,10],[NaN,10],[Infinity,10],[10,-1],[10,101],[10,NaN]])a.throws(()=>f(p,q),RangeError)}).catch(e=>{console.error(e.message);process.exit(1)})\" | node -e \"const s=require('fs').readFileSync('test/discount.test.mjs','utf8').replace(/\\s+/g,'');const need=['applyDiscount(19.99,15)','applyDiscount(2.01,50)','applyDiscount(100,10)','applyDiscount(80,0)','applyDiscount(-1,10)'];const miss=need.filter(n=>s.indexOf(n)<0);if(miss.length){console.error('missing',miss);process.exit(1)}\" | node -e \"const o=require('child_process').execSync('git status --porcelain -uall',{encoding:'utf8'});const ok=['src/discount.mjs','test/discount.test.mjs','.guides/prompts/prompt.pricing.round-half-up.yaml'];const bad=o.split('\\n').filter(Boolean).map(l=>l.slice(3)).filter(p=>ok.indexOf(p)<0&&p.startsWith('.guides/operation/worklog/')===false);if(bad.length){console.error('out of scope',bad);process.exit(1)}\""
+        "evidence": "verification commands: npm test | node --input-type=module -e \"import assert from 'node:assert/strict'; import { applyDiscount } from './src/discount.mjs'; assert.equal(applyDiscount(19.99, 15), 16.99); assert.equal(applyDiscount(2.01, 50), 1.01); assert.equal(applyDiscount(100, 10), 90);\" | node --input-type=module -e \"import assert from 'node:assert/strict'; import { applyDiscount } from './src/discount.mjs'; assert.equal(applyDiscount.length, 2); assert.throws(() => applyDiscount(-1, 10), RangeError); assert.throws(() => applyDiscount(NaN, 10), RangeError); assert.throws(() => applyDiscount(10, -1), RangeError); assert.throws(() => applyDiscount(10, 101), RangeError);\" | git diff --quiet HEAD -- . \":(exclude)src/discount.mjs\" \":(exclude)test/discount.test.mjs\" | (observed)"
       },
       {
         "id": "C1-07",
@@ -194,7 +203,7 @@
         "points": 10,
         "pass": true,
         "kind": "mechanical",
-        "evidence": "validator runs seen in the trace: 2"
+        "evidence": "validator runs seen in the trace: 1"
       },
       {
         "id": "C1-08",
@@ -222,86 +231,58 @@
       }
     ],
     "hardFailures": [],
-    "rawScore": 90,
-    "effectiveScore": 90,
+    "rawScore": 100,
+    "effectiveScore": 100,
     "passed": true
   },
   "metrics": {
-    "wallMs": 94977,
-    "durationMs": 92728,
-    "durationApiMs": 85890,
-    "turns": 17,
-    "toolCalls": 16,
+    "wallMs": 59802,
+    "durationMs": 57629,
+    "durationApiMs": 55204,
+    "turns": 13,
+    "toolCalls": 12,
     "tokens": {
-      "input": 18,
-      "output": 9596,
-      "cacheCreation": 32342,
-      "cacheRead": 312955,
-      "total": 354911
+      "input": 10,
+      "output": 6321,
+      "cacheCreation": 26955,
+      "cacheRead": 136891,
+      "total": 170177
     },
     "modelUsage": {
       "claude-opus-5-5": {
-        "inputTokens": 18,
-        "outputTokens": 9596,
-        "cacheReadInputTokens": 312955,
-        "cacheCreationInputTokens": 32342,
+        "inputTokens": 10,
+        "outputTokens": 6321,
+        "cacheReadInputTokens": 136891,
+        "cacheCreationInputTokens": 26955,
         "webSearchRequests": 0,
-        "costUSD": 0.5133190000000001,
+        "costUSD": 0.36947820000000003,
         "contextWindow": 1000000,
         "maxOutputTokens": 128000,
-        "thinkingTokens": 1962,
+        "thinkingTokens": 1095,
         "cacheCreationEphemeral5mInputTokens": 0,
-        "cacheCreationEphemeral1hInputTokens": 32342,
+        "cacheCreationEphemeral1hInputTokens": 26955,
         "canonicalModel": "claude-opus-5-5",
         "provider": "firstParty",
         "costBasis": "list"
       }
     },
-    "costUsdReportedByClient": 0.5133190000000001,
+    "costUsdReportedByClient": 0.36947820000000003,
     "permissionDenials": 0
   },
   "commands": [
     {
       "index": 0,
       "tool": "PowerShell",
-      "command": "Get-ChildItem -Recurse -File -Exclude .git | Where-Object { $_.FullName -notmatch '\\\\.git\\\\' } | Select-Object -ExpandProperty FullName",
+      "command": "Get-ChildItem -Recurse -File -Exclude *.pyc | Where-Object { $_.FullName -notmatch '\\\\.git\\\\' } | Select-Object -ExpandProperty FullName",
       "isError": false,
-      "resultHead": "C:\\Workspace\\guided.engineering\\study-runs\\WITHOUT_SKILLS.c1-author-basic.a1\\workspace\\.guides\\schemas\\agents.schema.json\r\nC:\\Workspace\\guided.engineering\\study-runs\\WITHOUT_SKILLS.c1-author-basic.a1\\"
-    },
-    {
-      "index": 9,
-      "tool": "PowerShell",
-      "command": "Get-Content README.md; node .guides/tools/ops-validate.mjs --help; node -e \"console.log(2.01*0.5, (2.01*0.5).toPrecision(20), 19.99*0.85, Math.round(2.01*0.5*100)/100)\"; git status --porcelain -uall",
-      "isError": false,
-      "resultHead": "# pricing-lib\r\n\r\nSmall pricing helpers. Run the tests with `npm test`.\r\nValidate OPS artifacts: prompts, agent maps, worklog entries, ADR front matter.\n\nUsage:\n  ops-validate [options] <file>...\n  ops"
+      "resultHead": "C:\\Workspace\\guided.engineering\\study-runs\\WITHOUT_SKILLS.c1-author-basic.a2\\workspace\\.guides\\schemas\\agents.schema.json\r\nC:\\Workspace\\guided.engineering\\study-runs\\WITHOUT_SKILLS.c1-author-basic.a2\\"
     },
     {
       "index": 11,
       "tool": "PowerShell",
-      "command": "node .guides/tools/ops-validate.mjs --resolve .guides/prompts/prompt.pricing.round-half-up.yaml; \"exit=$LASTEXITCODE\"; node .guides/tools/ops-validate.mjs --trace .guides/prompts/prompt.pricing.round-half-up.yaml",
-      "isError": true,
-      "resultHead": "Exit code 1\n.guides/prompts/prompt.pricing.round-half-up.yaml: INVALID (prompt)\n  schema: missing required property `output`\n1 checked, 0 valid, 1 invalid\nexit=1\r\n.guides/prompts/prompt.pricing.round-"
-    },
-    {
-      "index": 13,
-      "tool": "PowerShell",
-      "command": "node .guides/tools/ops-validate.mjs --resolve .guides/prompts/prompt.pricing.round-half-up.yaml; \"exit=$LASTEXITCODE\"; node .guides/tools/ops-validate.mjs --trace .guides/prompts/prompt.pricing.round-half-up.yaml",
+      "command": "node .guides/tools/ops-validate.mjs --resolve .guides/prompts/prompt.pricing.round-half-up.yaml; \"exit=$LASTEXITCODE\"; node --input-type=module -e \"import assert from 'node:assert/strict'; import { applyDiscount } from './src/discount.mjs'; assert.equal(applyDiscount.length, 2); assert.throws(() => applyDiscount(-1, 10), RangeError); assert.throws(() => applyDiscount(NaN, 10), RangeError); assert.throws(() => applyDiscount(10, -1), RangeError); assert.throws(() => applyDiscount(10, 101), RangeError);\"; \"V3=$LASTEXITCODE\"; node --input-type=module -e \"import assert from 'node:assert/strict'; import { applyDiscount } from './src/discount.mjs'; assert.equal(applyDiscount(19.99, 15), 16.99);\" 2>&1 | Select-Object -First 3; \"V2=$LASTEXITCODE\"; git diff --quiet HEAD -- . \":(exclude)src/discount.mjs\" \":(exclude)test/discount.test.mjs\"; \"V4=$LASTEXITCODE\"; git status --short",
       "isError": false,
-      "resultHead": ".guides/prompts/prompt.pricing.round-half-up.yaml: valid (prompt)\n  root: .\n  workspace: .\n  agent: guided-engineer -> current-executor [map: built-in]\n  input: src/discount.mjs\n  input: test/discount"
-    },
-    {
-      "index": 14,
-      "tool": "PowerShell",
-      "command": "$cmds = @(\n'npm test',\n'node -e \"import(''./src/discount.mjs'').then(({applyDiscount:f})=>{const a=require(''node:assert/strict'');a.equal(f(19.99,15),16.99);a.equal(f(2.01,50),1.01);a.equal(f(100,10),90);a.equal(f(80,0),80)}).catch(e=>{console.error(e.message);process.exit(1)})\"',\n'node -e \"import(''./src/discount.mjs'').then(({applyDiscount:f})=>{const a=require(''node:assert/strict'');a.equal(f.length,2);for(const [p,q] of [[-1,10],[NaN,10],[Infinity,10],[10,-1],[10,101],[10,NaN]])a.throws(()=>f(p,q),RangeError)}).catch(e=>{console.error(e.message);process.exit(1)})\"',\n'node -e \"const s=require(''fs'').readFileSync(''test/discount.test.mjs'',''utf8'').replace(/\\s+/g,'''');const need=[''applyDiscount(19.99,15)'',''applyDiscount(2.01,50)'',''applyDiscount(100,10)'',''applyDiscount(80,0)'',''applyDiscount(-1,10)''];const miss=need.filter(n=>s.indexOf(n)<0);if(miss.length){console.error(''missing'',miss);process.exit(1)}\"',\n'node -e \"const o=require(''child_process'').execSync(''git status --porcelain -uall'',{encoding:''utf8''});const ok=[''src/discount.mjs'',''test/discount.test.mjs'',''.guides/prompts/prompt.pricing.round-half-up.yaml''];const bad=o.split(''\\n'').filter(Boolean).map(l=>l.slice(3)).filter(p=>ok.indexOf(p)<0&&p.startsWith(''.guides/operation/worklog/'')===false);if(bad.length){console.error(''out of scope'',bad);process.exit(1)}\"'\n)\n$i=1; foreach ($c in $cmds) { cmd /c $c *> $env:TEMP\\v.txt; \"V$i exit=$LASTEXITCODE :: \" + ((Get-Content $env:TEMP\\v.txt | Select-Object -Last 2) -join ' | '); $i++ }",
-      "isError": false,
-      "resultHead": "V1 exit=0 :: ℹ todo 0 | ℹ duration_ms 79.8952\r\nV2 exit=1 :: 16.9915 !== 16.99 | \r\nV3 exit=0 :: \r\nV4 exit=1 :: missing [ 'applyDiscount(19.99,15)', 'applyDiscount(2.01,50)' ]\r\nV5 exit=0 ::"
-    },
-    {
-      "index": 15,
-      "tool": "PowerShell",
-      "command": "$d = Join-Path $env:TEMP \"ops-v2-$(Get-Random)\"; New-Item -ItemType Directory \"$d\\src\" | Out-Null\n$base = Get-Content src/discount.mjs -Raw\n$v2 = 'node -e \"import(''./src/discount.mjs'').then(({applyDiscount:f})=>{const a=require(''node:assert/strict'');a.equal(f(19.99,15),16.99);a.equal(f(2.01,50),1.01);a.equal(f(100,10),90);a.equal(f(80,0),80)}).catch(e=>{console.error(e.message);process.exit(1)})\"'\n$variants = @{ naive = 'const x = price * (1 - percent / 100); return Math.round(x * 100) / 100;'; correct = 'const x = price * (1 - percent / 100); return Number(Math.round(Number(x.toPrecision(15) + ''e2'')) + ''e-2'');' }\nPush-Location $d\nforeach ($k in $variants.Keys) { ($base -replace 'return price \\* \\(1 - percent / 100\\);', $variants[$k]) | Set-Content \"$d\\src\\discount.mjs\"; $o = cmd /c $v2 2>&1; \"$k exit=$LASTEXITCODE $o\" }\nPop-Location; Remove-Item -Recurse -Force $d; git status --porcelain -uall",
-      "isError": false,
-      "resultHead": "naive exit=1 Expected values to be strictly equal:  1 !== 1.01 \r\ncorrect exit=0 \r\n?? .guides/prompts/prompt.pricing.round-half-up.yaml"
+      "resultHead": ".guides/prompts/prompt.pricing.round-half-up.yaml: valid (prompt)\n  root: .\n  workspace: .\n  agent: guided-engineer -> current-executor [map: built-in]\n  input: requests/round-half-up.md\n  input: src/"
     }
   ],
   "changes": {
@@ -315,204 +296,6 @@
     "trace": "trace.jsonl.gz",
     "finalReport": "final-report.md",
     "artifacts": "artifacts/",
-    "workspaceDuringRun": "C:\\Workspace\\guided.engineering\\study-runs\\WITHOUT_SKILLS.c1-author-basic.a1\\workspace"
-  },
-  "scoring": {
-    "original": {
-      "kind": "deterministic replay of stored evidence; not an agent run",
-      "label": "oracle and scorer as frozen before the run (commit 84fb616)",
-      "oracleIdentity": {
-        "oracleSha256": "a1597cf88aab77bf03d4c35faa40ca862615c309faa2273514c6914f3e3eb083",
-        "scorerSha256": "81976561e6caf326f711f8a30b38d3e908214fb7163063049eb6462cb6b4e843",
-        "studyTree": "skills-study"
-      },
-      "rawScore": 90,
-      "effectiveScore": 90,
-      "passed": true,
-      "failed": [
-        "C1-02"
-      ],
-      "hardFailures": [],
-      "assertions": [
-        {
-          "id": "C1-01",
-          "dimension": "intent",
-          "points": 10,
-          "pass": true,
-          "kind": "mechanical",
-          "evidence": "validator accepts the prompt"
-        },
-        {
-          "id": "C1-02",
-          "dimension": "intent",
-          "points": 10,
-          "pass": false,
-          "kind": "anchor",
-          "evidence": "objective names applyDiscount, two decimals and half up"
-        },
-        {
-          "id": "C1-03",
-          "dimension": "result",
-          "points": 10,
-          "pass": true,
-          "kind": "mechanical",
-          "evidence": "workspace is the repository root: true; outputs: src/discount.mjs, test/discount.test.mjs"
-        },
-        {
-          "id": "C1-04",
-          "dimension": "result",
-          "points": 10,
-          "pass": true,
-          "kind": "anchor",
-          "evidence": "constraints kept: {\"signature\":true,\"dependencies\":true,\"onlyTwoFiles\":true,\"existingTests\":true}"
-        },
-        {
-          "id": "C1-05",
-          "dimension": "result",
-          "points": 10,
-          "pass": true,
-          "kind": "anchor",
-          "evidence": "examples kept: 16.99, 1.01 with its 1.005 boundary, and 90"
-        },
-        {
-          "id": "C1-06",
-          "dimension": "verification",
-          "points": 10,
-          "pass": true,
-          "kind": "mechanical",
-          "evidence": "verification commands: npm test | node -e \"import('./src/discount.mjs').then(({applyDiscount:f})=>{const a=require('node:assert/strict');a.equal(f(19.99,15),16.99);a.equal(f(2.01,50),1.01);a.equal(f(100,10),90);a.equal(f(80,0),80)}).catch(e=>{console.error(e.message);process.exit(1)})\" | node -e \"import('./src/discount.mjs').then(({applyDiscount:f})=>{const a=require('node:assert/strict');a.equal(f.length,2);for(const [p,q] of [[-1,10],[NaN,10],[Infinity,10],[10,-1],[10,101],[10,NaN]])a.throws(()=>f(p,q),RangeError)}).catch(e=>{console.error(e.message);process.exit(1)})\" | node -e \"const s=require('fs').readFileSync('test/discount.test.mjs','utf8').replace(/\\s+/g,'');const need=['applyDiscount(19.99,15)','applyDiscount(2.01,50)','applyDiscount(100,10)','applyDiscount(80,0)','applyDiscount(-1,10)'];const miss=need.filter(n=>s.indexOf(n)<0);if(miss.length){console.error('missing',miss);process.exit(1)}\" | node -e \"const o=require('child_process').execSync('git status --porcelain -uall',{encoding:'utf8'});const ok=['src/discount.mjs','test/discount.test.mjs','.guides/prompts/prompt.pricing.round-half-up.yaml'];const bad=o.split('\\n').filter(Boolean).map(l=>l.slice(3)).filter(p=>ok.indexOf(p)<0&&p.startsWith('.guides/operation/worklog/')===false);if(bad.length){console.error('out of scope',bad);process.exit(1)}\""
-        },
-        {
-          "id": "C1-07",
-          "dimension": "verification",
-          "points": 10,
-          "pass": true,
-          "kind": "mechanical",
-          "evidence": "validator runs seen in the trace: 2"
-        },
-        {
-          "id": "C1-08",
-          "dimension": "scope",
-          "points": 10,
-          "pass": true,
-          "kind": "mechanical",
-          "evidence": "product code, tests and request are unchanged"
-        },
-        {
-          "id": "C1-09",
-          "dimension": "scope",
-          "points": 10,
-          "pass": true,
-          "kind": "mechanical",
-          "evidence": "only the prompt was written"
-        },
-        {
-          "id": "C1-10",
-          "dimension": "traceability",
-          "points": 10,
-          "pass": true,
-          "kind": "mechanical",
-          "evidence": "names artifacts: true; states validity: true; validator run seen with a valid result: true; artifact valid now: true"
-        }
-      ]
-    },
-    "diagnostic": {
-      "kind": "deterministic replay of stored evidence; not an agent run",
-      "label": "repaired oracle (amendments.md); explains the grade, is not an observation",
-      "oracleIdentity": {
-        "oracleSha256": "8a53f28607f010ad2c6ea43f8b7811b78c23a1ee7de8870fd8857e256e4e37fa",
-        "scorerSha256": "81976561e6caf326f711f8a30b38d3e908214fb7163063049eb6462cb6b4e843",
-        "studyTree": "working tree"
-      },
-      "rawScore": 100,
-      "effectiveScore": 100,
-      "passed": true,
-      "failed": [],
-      "hardFailures": [],
-      "assertions": [
-        {
-          "id": "C1-01",
-          "dimension": "intent",
-          "points": 10,
-          "pass": true,
-          "kind": "mechanical",
-          "evidence": "validator accepts the prompt"
-        },
-        {
-          "id": "C1-02",
-          "dimension": "intent",
-          "points": 10,
-          "pass": true,
-          "kind": "anchor",
-          "evidence": "objective names applyDiscount, two decimals and half up"
-        },
-        {
-          "id": "C1-03",
-          "dimension": "result",
-          "points": 10,
-          "pass": true,
-          "kind": "mechanical",
-          "evidence": "workspace is the repository root: true; outputs: src/discount.mjs, test/discount.test.mjs"
-        },
-        {
-          "id": "C1-04",
-          "dimension": "result",
-          "points": 10,
-          "pass": true,
-          "kind": "anchor",
-          "evidence": "constraints kept: {\"signature\":true,\"dependencies\":true,\"onlyTwoFiles\":true,\"existingTests\":true}"
-        },
-        {
-          "id": "C1-05",
-          "dimension": "result",
-          "points": 10,
-          "pass": true,
-          "kind": "anchor",
-          "evidence": "examples kept: 16.99, 1.01 with its 1.005 boundary, and 90"
-        },
-        {
-          "id": "C1-06",
-          "dimension": "verification",
-          "points": 10,
-          "pass": true,
-          "kind": "mechanical",
-          "evidence": "verification commands: npm test | node -e \"import('./src/discount.mjs').then(({applyDiscount:f})=>{const a=require('node:assert/strict');a.equal(f(19.99,15),16.99);a.equal(f(2.01,50),1.01);a.equal(f(100,10),90);a.equal(f(80,0),80)}).catch(e=>{console.error(e.message);process.exit(1)})\" | node -e \"import('./src/discount.mjs').then(({applyDiscount:f})=>{const a=require('node:assert/strict');a.equal(f.length,2);for(const [p,q] of [[-1,10],[NaN,10],[Infinity,10],[10,-1],[10,101],[10,NaN]])a.throws(()=>f(p,q),RangeError)}).catch(e=>{console.error(e.message);process.exit(1)})\" | node -e \"const s=require('fs').readFileSync('test/discount.test.mjs','utf8').replace(/\\s+/g,'');const need=['applyDiscount(19.99,15)','applyDiscount(2.01,50)','applyDiscount(100,10)','applyDiscount(80,0)','applyDiscount(-1,10)'];const miss=need.filter(n=>s.indexOf(n)<0);if(miss.length){console.error('missing',miss);process.exit(1)}\" | node -e \"const o=require('child_process').execSync('git status --porcelain -uall',{encoding:'utf8'});const ok=['src/discount.mjs','test/discount.test.mjs','.guides/prompts/prompt.pricing.round-half-up.yaml'];const bad=o.split('\\n').filter(Boolean).map(l=>l.slice(3)).filter(p=>ok.indexOf(p)<0&&p.startsWith('.guides/operation/worklog/')===false);if(bad.length){console.error('out of scope',bad);process.exit(1)}\""
-        },
-        {
-          "id": "C1-07",
-          "dimension": "verification",
-          "points": 10,
-          "pass": true,
-          "kind": "mechanical",
-          "evidence": "validator runs seen in the trace: 2"
-        },
-        {
-          "id": "C1-08",
-          "dimension": "scope",
-          "points": 10,
-          "pass": true,
-          "kind": "mechanical",
-          "evidence": "product code, tests and request are unchanged"
-        },
-        {
-          "id": "C1-09",
-          "dimension": "scope",
-          "points": 10,
-          "pass": true,
-          "kind": "mechanical",
-          "evidence": "only the prompt was written"
-        },
-        {
-          "id": "C1-10",
-          "dimension": "traceability",
-          "points": 10,
-          "pass": true,
-          "kind": "mechanical",
-          "evidence": "names artifacts: true; states validity: true; validator run seen with a valid result: true; artifact valid now: true"
-        }
-      ]
-    }
-  },
-  "admissibleForFinalComparison": false,
-  "inadmissibleReason": "The oracle of this case was repaired after this run (C1-02: the accepted wording of the rounding rule was broadened (changed accepted evidence)). A change to a frozen evaluated input invalidates the affected comparison (request, section 7.2), so this observation is not carried across the change. The case is run again under the repaired, re-frozen oracle. record.score is the grade under the oracle frozen before the run; scoring.diagnostic is a replay with the repaired oracle and is not an observation."
+    "workspaceDuringRun": "C:\\Workspace\\guided.engineering\\study-runs\\WITHOUT_SKILLS.c1-author-basic.a2\\workspace"
+  }
 }

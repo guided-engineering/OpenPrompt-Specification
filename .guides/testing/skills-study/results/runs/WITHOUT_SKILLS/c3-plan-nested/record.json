@@ -1,7 +1,12 @@
 {
-  "attemptId": "WITHOUT_SKILLS.c3-plan-nested.a1",
-  "attempt": 1,
+  "attemptId": "WITHOUT_SKILLS.c3-plan-nested.a2",
+  "attempt": 2,
   "retryOfInfrastructureFailure": null,
+  "correctiveRerun": {
+    "reason": "oracle repaired after the first run (amendments.md, repairs 2a and 2b)",
+    "earlierAttempt": "c3-plan-nested.attempt-1"
+  },
+  "admissibleForFinalComparison": true,
   "case": "C3",
   "caseDir": "c3-plan-nested",
   "title": "Plan a frozen OPS prompt for a nested workspace, plan only",
@@ -12,8 +17,8 @@
   "condition": "WITHOUT_SKILLS",
   "status": "COMPLETED",
   "statusReason": null,
-  "startedAt": "2026-11-13T17:13:59.224Z",
-  "endedAt": "2026-11-13T17:15:01.528Z",
+  "startedAt": "2026-11-13T18:48:44.673Z",
+  "endedAt": "2026-11-13T18:49:43.476Z",
   "identities": {
     "task": {
       "file": "cases/c3-plan-nested/task.md",
@@ -22,6 +27,10 @@
     "fixture": {
       "dir": "cases/c3-plan-nested/fixture",
       "treeHash": "27733b942e2583b593934ce481daed249065b6d8ba8c0f382c222642e637484b"
+    },
+    "oracle": {
+      "oracleSha256": "498d138583a9cb561f17bc9a4c49a79b4e3d470343fecd24c06dca4e873aa631",
+      "scorerSha256": "81976561e6caf326f711f8a30b38d3e908214fb7163063049eb6462cb6b4e843"
     },
     "contractKit": {
       "treeHash": "1a16a632b2c793bc20b91ee2abdd060d8d891b7a1fb4a44c1f6583a87696a6f5",
@@ -152,9 +161,9 @@
         "id": "C3-02",
         "dimension": "intent",
         "points": 10,
-        "pass": false,
+        "pass": true,
         "kind": "anchor",
-        "evidence": "workspace resolution in the plan: {\"workspace\":true,\"source\":true,\"tests\":true,\"notOtherPackage\":false}"
+        "evidence": "workspace resolution in the plan: {\"workspace\":true,\"source\":true,\"tests\":true,\"notOtherPackage\":true}"
       },
       {
         "id": "C3-03",
@@ -162,15 +171,15 @@
         "points": 10,
         "pass": true,
         "kind": "anchor",
-        "evidence": "positions of the four steps in the plan: 2087, 2311, 3506, 4073"
+        "evidence": "positions of the four steps in the plan: 1967, 2197, 3081, 3829"
       },
       {
         "id": "C3-04",
         "dimension": "result",
         "points": 10,
-        "pass": true,
+        "pass": false,
         "kind": "anchor",
-        "evidence": "dependencies stated: {\"node\":true,\"ordering\":true}"
+        "evidence": "dependencies stated: {\"node\":false,\"ordering\":true}"
       },
       {
         "id": "C3-05",
@@ -184,9 +193,9 @@
         "id": "C3-06",
         "dimension": "verification",
         "points": 10,
-        "pass": false,
+        "pass": true,
         "kind": "anchor",
-        "evidence": "stop conditions and limits: {\"failingBaseline\":true,\"wouldChangeTest\":false,\"repairLimit\":true,\"timeBudget\":true}"
+        "evidence": "stop conditions and limits: {\"failingBaseline\":true,\"wouldChangeTest\":true,\"repairLimit\":true,\"timeBudget\":true}"
       },
       {
         "id": "C3-07",
@@ -222,72 +231,65 @@
       }
     ],
     "hardFailures": [],
-    "rawScore": 80,
-    "effectiveScore": 80,
+    "rawScore": 90,
+    "effectiveScore": 90,
     "passed": true
   },
   "metrics": {
-    "wallMs": 62304,
-    "durationMs": 60158,
-    "durationApiMs": 55906,
-    "turns": 14,
-    "toolCalls": 13,
+    "wallMs": 58803,
+    "durationMs": 56730,
+    "durationApiMs": 53252,
+    "turns": 13,
+    "toolCalls": 12,
     "tokens": {
-      "input": 16,
-      "output": 6249,
-      "cacheCreation": 23947,
-      "cacheRead": 244139,
-      "total": 274351
+      "input": 14,
+      "output": 5855,
+      "cacheCreation": 23538,
+      "cacheRead": 203519,
+      "total": 232926
     },
     "modelUsage": {
       "claude-opus-5-5": {
-        "inputTokens": 16,
-        "outputTokens": 6249,
-        "cacheReadInputTokens": 244139,
-        "cacheCreationInputTokens": 23947,
+        "inputTokens": 14,
+        "outputTokens": 5855,
+        "cacheReadInputTokens": 203519,
+        "cacheCreationInputTokens": 23538,
         "webSearchRequests": 0,
-        "costUSD": 0.3654478,
+        "costUSD": 0.3461638000000001,
         "contextWindow": 1000000,
         "maxOutputTokens": 128000,
-        "thinkingTokens": 690,
+        "thinkingTokens": 696,
         "cacheCreationEphemeral5mInputTokens": 0,
-        "cacheCreationEphemeral1hInputTokens": 23947,
+        "cacheCreationEphemeral1hInputTokens": 23538,
         "canonicalModel": "claude-opus-5-5",
         "provider": "firstParty",
         "costBasis": "list"
       }
     },
-    "costUsdReportedByClient": 0.3654478,
+    "costUsdReportedByClient": 0.3461638000000001,
     "permissionDenials": 0
   },
   "commands": [
     {
-      "index": 7,
+      "index": 8,
       "tool": "PowerShell",
-      "command": "node .guides/tools/ops-validate.mjs --resolve .guides/prompts/prompt.cart.quantity-discount.yaml; \"exit=$LASTEXITCODE\"; Get-Content packages/cart/package.json; node --version; node -e \"console.log(4*10*0.9, 4*10*0.9+5*2, 3*9, 4*10*0.9 === 36)\"; (Get-FileHash .guides/prompts/prompt.cart.quantity-discount.yaml -Algorithm SHA256).Hash.ToLower()",
+      "command": "node .guides/tools/ops-validate.mjs --resolve .guides/prompts/prompt.cart.quantity-discount.yaml; \"exit=$LASTEXITCODE\"; node --version; Get-FileHash .guides/prompts/prompt.cart.quantity-discount.yaml -Algorithm SHA256 | % Hash; Test-Path .guides/agents/agents.yaml; Test-Path .guides/operation/worklog",
       "isError": false,
       "resultHead": ".guides/prompts/prompt.cart.quantity-discount.yaml: valid (prompt)\n  root: .\n  workspace: packages/cart\n  agent: guided-engineer -> current-executor [map: built-in]\n  input: packages/cart/src/totals.m"
     },
     {
       "index": 9,
       "tool": "PowerShell",
+      "command": "node -e \"console.log(4*10*0.9, 0.9*4*10, 4*0.9*10, 4*10*0.9+5*2, 3*9)\"; git config core.autocrlf; git ls-files --eol .guides/prompts/prompt.cart.quantity-discount.yaml",
+      "isError": false,
+      "resultHead": "36 36 36 46 27\nfalse\ni/lf    w/lf    attr/                 \t.guides/prompts/prompt.cart.quantity-discount.yaml"
+    },
+    {
+      "index": 11,
+      "tool": "PowerShell",
       "command": "node .guides/tools/ops-validate.mjs .guides/operation/worklog/2026-11-13.cart-quantity-discount-plan.md; \"exit=$LASTEXITCODE\"; git status --short",
       "isError": false,
       "resultHead": ".guides/operation/worklog/2026-11-13.cart-quantity-discount-plan.md: valid (worklog)\n1 checked, 1 valid, 0 invalid\nexit=0\r\n?? .guides/operation/"
-    },
-    {
-      "index": 10,
-      "tool": "PowerShell",
-      "command": "(Get-Date).ToUniversalTime().ToString(\"yyyy-MM-ddTHH:mm:ssZ\")",
-      "isError": false,
-      "resultHead": "2026-11-13T17:14:47Z"
-    },
-    {
-      "index": 12,
-      "tool": "PowerShell",
-      "command": "node .guides/tools/ops-validate.mjs .guides/operation/worklog/2026-11-13.cart-quantity-discount-plan.md; \"exit=$LASTEXITCODE\"",
-      "isError": false,
-      "resultHead": ".guides/operation/worklog/2026-11-13.cart-quantity-discount-plan.md: valid (worklog)\n1 checked, 1 valid, 0 invalid\nexit=0"
     }
   ],
   "changes": {
@@ -301,205 +303,6 @@
     "trace": "trace.jsonl.gz",
     "finalReport": "final-report.md",
     "artifacts": "artifacts/",
-    "workspaceDuringRun": "C:\\Workspace\\guided.engineering\\study-runs\\WITHOUT_SKILLS.c3-plan-nested.a1\\workspace"
-  },
-  "scoring": {
-    "original": {
-      "kind": "deterministic replay of stored evidence; not an agent run",
-      "label": "oracle and scorer as frozen before the run (commit 84fb616)",
-      "oracleIdentity": {
-        "oracleSha256": "2016dec943ea23289eefd95def18781b8f68d282da043a9099703a199a2dd531",
-        "scorerSha256": "81976561e6caf326f711f8a30b38d3e908214fb7163063049eb6462cb6b4e843",
-        "studyTree": "skills-study"
-      },
-      "rawScore": 80,
-      "effectiveScore": 80,
-      "passed": true,
-      "failed": [
-        "C3-02",
-        "C3-06"
-      ],
-      "hardFailures": [],
-      "assertions": [
-        {
-          "id": "C3-01",
-          "dimension": "intent",
-          "points": 10,
-          "pass": true,
-          "kind": "mechanical",
-          "evidence": "mode plan, prompt cart.quantity-discount, agent guided-engineer"
-        },
-        {
-          "id": "C3-02",
-          "dimension": "intent",
-          "points": 10,
-          "pass": false,
-          "kind": "anchor",
-          "evidence": "workspace resolution in the plan: {\"workspace\":true,\"source\":true,\"tests\":true,\"notOtherPackage\":false}"
-        },
-        {
-          "id": "C3-03",
-          "dimension": "result",
-          "points": 10,
-          "pass": true,
-          "kind": "anchor",
-          "evidence": "positions of the four steps in the plan: 2087, 2311, 3506, 4073"
-        },
-        {
-          "id": "C3-04",
-          "dimension": "result",
-          "points": 10,
-          "pass": true,
-          "kind": "anchor",
-          "evidence": "dependencies stated: {\"node\":true,\"ordering\":true}"
-        },
-        {
-          "id": "C3-05",
-          "dimension": "result",
-          "points": 10,
-          "pass": true,
-          "kind": "anchor",
-          "evidence": "checks per task, with the boundary: {\"testCommand\":true,\"scopeCommand\":true,\"expectedTotal\":true,\"belowThreshold\":true}"
-        },
-        {
-          "id": "C3-06",
-          "dimension": "verification",
-          "points": 10,
-          "pass": false,
-          "kind": "anchor",
-          "evidence": "stop conditions and limits: {\"failingBaseline\":true,\"wouldChangeTest\":false,\"repairLimit\":true,\"timeBudget\":true}"
-        },
-        {
-          "id": "C3-07",
-          "dimension": "verification",
-          "points": 10,
-          "pass": true,
-          "kind": "mechanical",
-          "evidence": "validator runs on the prompt before the plan was written: 1"
-        },
-        {
-          "id": "C3-08",
-          "dimension": "scope",
-          "points": 10,
-          "pass": true,
-          "kind": "mechanical",
-          "evidence": "product code, tests and the prompt are unchanged"
-        },
-        {
-          "id": "C3-09",
-          "dimension": "scope",
-          "points": 10,
-          "pass": true,
-          "kind": "mechanical",
-          "evidence": "outside the allowed paths: none; test commands run during a plan-only request: 0"
-        },
-        {
-          "id": "C3-10",
-          "dimension": "traceability",
-          "points": 10,
-          "pass": true,
-          "kind": "mechanical",
-          "evidence": "entry claims no execution: true; the report names the entry: true"
-        }
-      ]
-    },
-    "diagnostic": {
-      "kind": "deterministic replay of stored evidence; not an agent run",
-      "label": "repaired oracle (amendments.md); explains the grade, is not an observation",
-      "oracleIdentity": {
-        "oracleSha256": "498d138583a9cb561f17bc9a4c49a79b4e3d470343fecd24c06dca4e873aa631",
-        "scorerSha256": "81976561e6caf326f711f8a30b38d3e908214fb7163063049eb6462cb6b4e843",
-        "studyTree": "working tree"
-      },
-      "rawScore": 100,
-      "effectiveScore": 100,
-      "passed": true,
-      "failed": [],
-      "hardFailures": [],
-      "assertions": [
-        {
-          "id": "C3-01",
-          "dimension": "intent",
-          "points": 10,
-          "pass": true,
-          "kind": "mechanical",
-          "evidence": "mode plan, prompt cart.quantity-discount, agent guided-engineer"
-        },
-        {
-          "id": "C3-02",
-          "dimension": "intent",
-          "points": 10,
-          "pass": true,
-          "kind": "anchor",
-          "evidence": "workspace resolution in the plan: {\"workspace\":true,\"source\":true,\"tests\":true,\"notOtherPackage\":true}"
-        },
-        {
-          "id": "C3-03",
-          "dimension": "result",
-          "points": 10,
-          "pass": true,
-          "kind": "anchor",
-          "evidence": "positions of the four steps in the plan: 2061, 2281, 3456, 4005"
-        },
-        {
-          "id": "C3-04",
-          "dimension": "result",
-          "points": 10,
-          "pass": true,
-          "kind": "anchor",
-          "evidence": "dependencies stated: {\"node\":true,\"ordering\":true}"
-        },
-        {
-          "id": "C3-05",
-          "dimension": "result",
-          "points": 10,
-          "pass": true,
-          "kind": "anchor",
-          "evidence": "checks per task, with the boundary: {\"testCommand\":true,\"scopeCommand\":true,\"expectedTotal\":true,\"belowThreshold\":true}"
-        },
-        {
-          "id": "C3-06",
-          "dimension": "verification",
-          "points": 10,
-          "pass": true,
-          "kind": "anchor",
-          "evidence": "stop conditions and limits: {\"failingBaseline\":true,\"wouldChangeTest\":true,\"repairLimit\":true,\"timeBudget\":true}"
-        },
-        {
-          "id": "C3-07",
-          "dimension": "verification",
-          "points": 10,
-          "pass": true,
-          "kind": "mechanical",
-          "evidence": "validator runs on the prompt before the plan was written: 1"
-        },
-        {
-          "id": "C3-08",
-          "dimension": "scope",
-          "points": 10,
-          "pass": true,
-          "kind": "mechanical",
-          "evidence": "product code, tests and the prompt are unchanged"
-        },
-        {
-          "id": "C3-09",
-          "dimension": "scope",
-          "points": 10,
-          "pass": true,
-          "kind": "mechanical",
-          "evidence": "outside the allowed paths: none; test commands run during a plan-only request: 0"
-        },
-        {
-          "id": "C3-10",
-          "dimension": "traceability",
-          "points": 10,
-          "pass": true,
-          "kind": "mechanical",
-          "evidence": "entry claims no execution: true; the report names the entry: true"
-        }
-      ]
-    }
-  },
-  "admissibleForFinalComparison": false,
-  "inadmissibleReason": "The oracle of this case was repaired after this run (C3-06: phrases are now matched across line breaks (grader implementation error); C3-02: a mention of the other package inside an out-of-scope statement is now accepted (changed accepted evidence)). A change to a frozen evaluated input invalidates the affected comparison (request, section 7.2), so this observation is not carried across the change. The case is run again under the repaired, re-frozen oracle. record.score is the grade under the oracle frozen before the run; scoring.diagnostic is a replay with the repaired oracle and is not an observation."
+    "workspaceDuringRun": "C:\\Workspace\\guided.engineering\\study-runs\\WITHOUT_SKILLS.c3-plan-nested.a2\\workspace"
+  }
 }

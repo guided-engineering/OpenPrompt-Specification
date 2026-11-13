@@ -10,10 +10,10 @@ Effective score out of 100 (raw score in brackets when a hard failure set the ef
 
 | Case | Track | Kind | WITHOUT_SKILLS | INITIAL_SKILLS | Δ final − baseline |
 |---|---|---|---:|---:|---:|
-| C1 Convert a fully specified prose request into an OPS prompt | authoring | development | rerun pending | not run | n/a |
+| C1 Convert a fully specified prose request into an OPS prompt | authoring | development | 100 ↻ | not run | n/a |
 | C2 Improve and convert a legacy, deficient prompt into the OPS contract | authoring | development | 100 | not run | n/a |
-| C3 Plan a frozen OPS prompt for a nested workspace, plan only | execution | development | rerun pending | not run | n/a |
-| C4 Execute a frozen OPS prompt against a deterministic bug | execution | development | rerun pending | not run | n/a |
+| C3 Plan a frozen OPS prompt for a nested workspace, plan only | execution | development | 90 ↻ | not run | n/a |
+| C4 Execute a frozen OPS prompt against a deterministic bug | execution | development | 90 ↻ | not run | n/a |
 | C5 Resume a frozen OPS prompt from a recorded checkpoint | execution | reserved regression | not run | not run | n/a |
 
 Final candidate: `INITIAL_SKILLS`. No refinement was made.
@@ -30,7 +30,10 @@ These attempts are kept and are not part of the comparison. "Original grade" is 
 
 ## Failed assertions and hard failures in admissible observations
 
-None.
+- **C3 WITHOUT_SKILLS** (`WITHOUT_SKILLS.c3-plan-nested.a2`)
+  - C3-04 (result, anchor): dependencies stated: {"node":false,"ordering":true}
+- **C4 WITHOUT_SKILLS** (`WITHOUT_SKILLS.c4-execute-bugfix.a2`)
+  - C4-06 (verification, mechanical): a passing test run after the last product edit: false
 
 ## Quality by track
 
@@ -38,9 +41,9 @@ None.
 
 | Set | Cases | Baseline mean | With Skills mean | Mean Δ | Largest loss | Improvement threshold (≥ +10, no loss > 10) |
 |---|---|---:|---:|---:|---:|---|
-| authoring | C1, C2 | n/a | n/a | n/a | n/a | inconclusive: missing or unscored pairs: C1 (RERUN_PENDING/NOT_RUN), C2 (SCORED/NOT_RUN) |
-| execution | C3, C4, C5 | n/a | n/a | n/a | n/a | inconclusive: missing or unscored pairs: C3 (RERUN_PENDING/NOT_RUN), C4 (RERUN_PENDING/NOT_RUN), C5 (NOT_RUN/NOT_RUN) |
-| executionDevelopmentOnly | C3, C4 | n/a | n/a | n/a | n/a | inconclusive: missing or unscored pairs: C3 (RERUN_PENDING/NOT_RUN), C4 (RERUN_PENDING/NOT_RUN) |
+| authoring | C1, C2 | n/a | n/a | n/a | n/a | inconclusive: missing or unscored pairs: C1 (SCORED/NOT_RUN), C2 (SCORED/NOT_RUN) |
+| execution | C3, C4, C5 | n/a | n/a | n/a | n/a | inconclusive: missing or unscored pairs: C3 (SCORED/NOT_RUN), C4 (SCORED/NOT_RUN), C5 (NOT_RUN/NOT_RUN) |
+| executionDevelopmentOnly | C3, C4 | n/a | n/a | n/a | n/a | inconclusive: missing or unscored pairs: C3 (SCORED/NOT_RUN), C4 (SCORED/NOT_RUN) |
 | reservedRegression | C5 | n/a | n/a | n/a | n/a | inconclusive: missing or unscored pairs: C5 (NOT_RUN/NOT_RUN) |
 
 ## Cost
@@ -61,8 +64,8 @@ Judged on `INITIAL_SKILLS`, on admissible matched pairs, within this sample only
 
 | | Hypothesis | Verdict | Basis |
 |---|---|---|---|
-| H1 | ops-author improves intent preservation, contract validity and actionable verification in authored prompts | **inconclusive** | missing or unscored pairs: C1 (RERUN_PENDING/NOT_RUN), C2 (SCORED/NOT_RUN) |
-| H2 | ops-execute improves correct planning, scoped implementation and closure of the verify-repair loop | **inconclusive** | missing or unscored pairs: C3 (RERUN_PENDING/NOT_RUN), C4 (RERUN_PENDING/NOT_RUN), C5 (NOT_RUN/NOT_RUN) |
+| H1 | ops-author improves intent preservation, contract validity and actionable verification in authored prompts | **inconclusive** | missing or unscored pairs: C1 (SCORED/NOT_RUN), C2 (SCORED/NOT_RUN) |
+| H2 | ops-execute improves correct planning, scoped implementation and closure of the verify-repair loop | **inconclusive** | missing or unscored pairs: C3 (SCORED/NOT_RUN), C4 (SCORED/NOT_RUN), C5 (NOT_RUN/NOT_RUN) |
 | H3 | any observed quality gain has an acceptable cost in time, tokens, tool calls and human intervention | **inconclusive** | fewer than three matched pairs have both time and token measurements |
 
 ## Readiness
@@ -75,7 +78,7 @@ All five cases pass: false. Mean: n/a (threshold 85). Hard failures: 0. **Not de
 
 ## Ledger
 
-Evaluation attempts: **4 of 19** (ceiling applies because no refinement was made). Evaluated run time: 5.5 of 120 minutes. Preparation agent sessions, recorded and counted apart: 4; if they were counted as well, the total would be 8.
+Evaluation attempts: **7 of 19** (ceiling applies because no refinement was made). Evaluated run time: 8.4 of 120 minutes. Preparation agent sessions, recorded and counted apart: 5; if they were counted as well, the total would be 12.
 
 | # | Kind | What | Condition | Status | Seconds | Counts against the ceiling |
 |---:|---|---|---|---|---:|---|
@@ -90,3 +93,7 @@ Evaluation attempts: **4 of 19** (ceiling applies because no refinement was made
 | 9 | deterministic-replay | re-scoring of stored C1, C3 and C1-C4 attempts after amendments 1, 2 and 3 — no agent run; superseded by the replays below | WITHOUT_SKILLS | DONE | unknown | no (not an agent run) |
 | 10 | deterministic-replay | replay of the four stored baseline attempts with the oracle and scorer frozen before the runs (84fb616) — reconstructs the original grades 90, 100, 80, 90 | WITHOUT_SKILLS | DONE | unknown | no (not an agent run) |
 | 11 | deterministic-replay | replay of the stored C1, C3 and C4 baseline attempts with the repaired oracles — diagnostic grades 100, 100, 100; not observations | WITHOUT_SKILLS | DONE | unknown | no (not an agent run) |
+| 12 | case-custody | C5 revalidated against the settled harness, frozen by hash and committed by its author session (a5dfe71) — preparation; no content of the case was reported back | — | COMPLETED | 127 | no (preparation) |
+| 13 | corrective-rerun | WITHOUT_SKILLS.c1-author-basic.a2 | WITHOUT_SKILLS | COMPLETED | 60 | yes |
+| 14 | corrective-rerun | WITHOUT_SKILLS.c3-plan-nested.a2 | WITHOUT_SKILLS | COMPLETED | 59 | yes |
+| 15 | corrective-rerun | WITHOUT_SKILLS.c4-execute-bugfix.a2 | WITHOUT_SKILLS | COMPLETED | 57 | yes |

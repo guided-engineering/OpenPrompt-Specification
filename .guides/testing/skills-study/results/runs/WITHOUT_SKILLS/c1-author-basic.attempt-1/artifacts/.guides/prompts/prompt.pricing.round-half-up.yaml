@@ -1,0 +1,121 @@
+apiVersion: guided-engineering/v1
+id: pricing.round-half-up
+version: 1
+title: Round discounted prices to cents, half up
+agent: guided-engineer
+objective: >-
+  applyDiscount(price, percent) in src/discount.mjs returns the discounted
+  price rounded to 2 decimal places with halves rounded up, so that
+  applyDiscount(19.99, 15) is 16.99, applyDiscount(2.01, 50) is 1.01 and
+  applyDiscount(100, 10) is 90; test/discount.test.mjs covers these three
+  examples; and npm test passes with the three existing tests unchanged.
+context: >-
+  pricing-lib is a small ES-module Node.js library with no dependencies.
+  Tests use the built-in node:test runner and run with `npm test`
+  (`node --test`). src/discount.mjs exports applyDiscount(price, percent),
+  which validates its arguments (a non-negative finite price, a finite percent
+  from 0 to 100, otherwise RangeError) and currently returns
+  price * (1 - percent / 100) unrounded. Checkout therefore shows long decimal
+  tails such as 16.9915 for applyDiscount(19.99, 15).
+  test/discount.test.mjs holds three tests: a 10% discount on 100 gives 90, a
+  0% discount on 80 gives 80, and a negative price throws RangeError.
+  The trap: the exact result of applyDiscount(2.01, 50) is 1.005, but in binary
+  floating point 2.01 * 0.5 evaluates to 1.0049999999999998934, so the naive
+  Math.round(x * 100) / 100 returns 1.00. The request requires 1.01 because
+  half rounds up. The rounding must therefore compensate for binary
+  representation error (for example by rounding the decimal value rather than
+  the raw binary product); a plain Math.round on x * 100 is not sufficient.
+  Source of this task is the change request requests/round-half-up.md.
+inputs:
+  - src/discount.mjs
+  - test/discount.test.mjs
+  - package.json
+  - requests/round-half-up.md
+constraints:
+  - Change only src/discount.mjs and test/discount.test.mjs. The run's own worklog entry under .guides/operation/worklog/ is the only other file that may be written.
+  - Keep the exported signature applyDiscount(price, percent).
+  - Keep the existing argument checks and their RangeError behaviour unchanged.
+  - Add no dependencies; package.json and any lockfile stay untouched.
+  - Do not modify or delete the three existing tests.
+requirements:
+  - id: R1
+    text: applyDiscount returns its result rounded to 2 decimal places, with halves rounded up.
+  - id: R2
+    text: applyDiscount(19.99, 15) returns 16.99.
+  - id: R3
+    text: applyDiscount(2.01, 50) returns 1.01, not 1.00, despite the binary representation of 1.005.
+  - id: R4
+    text: applyDiscount(100, 10) still returns 90.
+  - id: R5
+    text: test/discount.test.mjs contains tests for the three examples in R2, R3 and R4.
+  - id: R6
+    text: The signature applyDiscount(price, percent) and the existing argument checks are unchanged.
+  - id: R7
+    text: No new dependencies, and no file other than src/discount.mjs and test/discount.test.mjs is changed.
+  - id: R8
+    text: The three existing tests keep passing, and npm test passes including the new tests.
+steps:
+  - id: S1
+    title: Add tests for the examples
+    requirements: [R2, R3, R4, R5]
+    actions:
+      - Add a test to test/discount.test.mjs asserting that applyDiscount(19.99, 15) equals 16.99.
+      - Add a test asserting that applyDiscount(2.01, 50) equals 1.01, naming the half-up case in the test title.
+      - Add a test asserting that applyDiscount(100, 10) equals 90 after rounding.
+      - Leave the three existing tests as they are.
+      - Run npm test and confirm that at least the 19.99 and 2.01 tests fail against the current code.
+  - id: S2
+    title: Round the result half up to cents
+    requirements: [R1, R3, R6, R7]
+    actions:
+      - In src/discount.mjs, round the value returned by applyDiscount to 2 decimal places with halves rounded up, using only built-in JavaScript.
+      - Make the rounding correct for values whose decimal form ends in 5 at the third decimal but whose binary form lies just below, such as 1.005.
+      - Keep the signature and the two argument checks exactly as they are.
+      - Update the JSDoc to state that the result is rounded to cents, half up.
+  - id: S3
+    title: Verify
+    requirements: [R8]
+    actions:
+      - Run every verification check against the final state of the workspace and repair within limits.
+output:
+  - file: src/discount.mjs
+    rules:
+      - applyDiscount returns the discounted price rounded to 2 decimal places, halves rounded up.
+      - Signature and argument checks are unchanged; no imports added.
+  - file: test/discount.test.mjs
+    rules:
+      - Contains one test per example from the request (19.99 at 15%, 2.01 at 50%, 100 at 10%).
+      - The three existing tests are unchanged.
+verification:
+  - id: V1
+    expect: npm test exits with code 0, running the three existing tests and the new tests.
+    run: npm test
+    requirements: [R2, R3, R4, R8]
+  - id: V2
+    expect: "Importing src/discount.mjs directly gives applyDiscount(19.99, 15) === 16.99, applyDiscount(2.01, 50) === 1.01, applyDiscount(100, 10) === 90 and applyDiscount(80, 0) === 80."
+    run: node -e "import('./src/discount.mjs').then(({applyDiscount:f})=>{const a=require('node:assert/strict');a.equal(f(19.99,15),16.99);a.equal(f(2.01,50),1.01);a.equal(f(100,10),90);a.equal(f(80,0),80)}).catch(e=>{console.error(e.message);process.exit(1)})"
+    requirements: [R1, R2, R3, R4]
+  - id: V3
+    expect: "applyDiscount still takes (price, percent) and still throws RangeError for a negative price, a non-finite price, a negative percent, a percent above 100 and a non-finite percent."
+    run: node -e "import('./src/discount.mjs').then(({applyDiscount:f})=>{const a=require('node:assert/strict');a.equal(f.length,2);for(const [p,q] of [[-1,10],[NaN,10],[Infinity,10],[10,-1],[10,101],[10,NaN]])a.throws(()=>f(p,q),RangeError)}).catch(e=>{console.error(e.message);process.exit(1)})"
+    requirements: [R6]
+  - id: V4
+    expect: "test/discount.test.mjs contains tests calling applyDiscount(19.99, 15), applyDiscount(2.01, 50) and applyDiscount(100, 10), and the three original tests are still present."
+    run: node -e "const s=require('fs').readFileSync('test/discount.test.mjs','utf8').replace(/\s+/g,'');const need=['applyDiscount(19.99,15)','applyDiscount(2.01,50)','applyDiscount(100,10)','applyDiscount(80,0)','applyDiscount(-1,10)'];const miss=need.filter(n=>s.indexOf(n)<0);if(miss.length){console.error('missing',miss);process.exit(1)}"
+    requirements: [R5, R8]
+  - id: V5
+    expect: "git status lists changes only to src/discount.mjs and test/discount.test.mjs, apart from the run's worklog entry under .guides/operation/worklog/ and this prompt file if it is not yet committed; package.json is unchanged and no lockfile or node_modules exists."
+    run: node -e "const o=require('child_process').execSync('git status --porcelain -uall',{encoding:'utf8'});const ok=['src/discount.mjs','test/discount.test.mjs','.guides/prompts/prompt.pricing.round-half-up.yaml'];const bad=o.split('\n').filter(Boolean).map(l=>l.slice(3)).filter(p=>ok.indexOf(p)<0&&p.startsWith('.guides/operation/worklog/')===false);if(bad.length){console.error('out of scope',bad);process.exit(1)}"
+    requirements: [R7]
+stopConditions:
+  - Half-up rounding to cents cannot satisfy all three examples at once without changing the signature or the argument checks.
+  - An existing test would have to be changed or removed to make npm test pass.
+  - Meeting the objective would require a new dependency or a change to a file outside src/discount.mjs and test/discount.test.mjs.
+limits:
+  repairAttempts: 2
+  timeBudgetMinutes: 30
+tags:
+  - pricing
+  - rounding
+  - bugfix
+createdBy: requests/round-half-up.md

@@ -1,11 +1,11 @@
 /**
  * Split one line of a CSV file into its fields.
  *
- * Unquoted fields are trimmed. A field whose first non-whitespace character is
- * a double quote is a quoted field: commas and whitespace inside the quotes are
+ * Unquoted fields are trimmed. A field whose first non-blank character is a
+ * double quote is a quoted field: commas and whitespace inside the quotes are
  * kept, and a doubled quote (`""`) is read as one quote character. Whitespace
- * around the quotes is dropped. An unterminated quoted field runs to the end of
- * the line.
+ * between the closing quote and the next comma is ignored. An unterminated
+ * quoted field runs to the end of the line.
  *
  * @param {string} line
  * @returns {string[]}
@@ -14,42 +14,43 @@ export function parseCsvLine(line) {
   const fields = [];
   let i = 0;
 
-  for (;;) {
-    const start = i;
-    while (i < line.length && /\s/.test(line[i])) i++;
+  while (true) {
+    let end = line.indexOf(',', i);
+    if (end === -1) end = line.length;
+    const raw = line.slice(i, end);
+    const lead = raw.length - raw.trimStart().length;
 
-    if (line[i] === '"') {
-      i++;
+    if (raw.trimStart().startsWith('"')) {
+      // Quoted field: scan from just after the opening quote.
+      let pos = i + lead + 1;
       let value = '';
-      while (i < line.length) {
-        if (line[i] === '"') {
-          if (line[i + 1] === '"') {
+      while (pos < line.length) {
+        const ch = line[pos];
+        if (ch === '"') {
+          if (line[pos + 1] === '"') {
             value += '"';
-            i += 2;
-          } else {
-            i++;
-            break;
+            pos += 2;
+            continue;
           }
-        } else {
-          value += line[i];
-          i++;
+          pos += 1;
+          break;
         }
+        value += ch;
+        pos += 1;
       }
-      // Anything between the closing quote and the next comma is kept as
-      // written, apart from surrounding whitespace.
-      let end = line.indexOf(',', i);
-      if (end === -1) end = line.length;
-      value += line.slice(i, end).trim();
+      // Anything between the closing quote and the next comma.
+      let next = line.indexOf(',', pos);
+      if (next === -1) next = line.length;
+      value += line.slice(pos, next).trim();
       fields.push(value);
-      i = end;
+      end = next;
     } else {
-      let end = line.indexOf(',', start);
-      if (end === -1) end = line.length;
-      fields.push(line.slice(start, end).trim());
-      i = end;
+      fields.push(raw.trim());
     }
 
-    if (i >= line.length) return fields;
-    i++; // skip the comma
+    if (end >= line.length) break;
+    i = end + 1;
   }
+
+  return fields;
 }

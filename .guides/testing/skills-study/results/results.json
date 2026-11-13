@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-13T18:41:28.970Z",
+  "generatedAt": "2026-11-13T18:52:27.756Z",
   "finalCondition": "INITIAL_SKILLS",
   "refined": false,
   "retainedConditions": [
@@ -57,8 +57,22 @@
   "scores": {
     "C1": {
       "WITHOUT_SKILLS": {
-        "state": "RERUN_PENDING",
-        "reason": "The oracle of this case was repaired after this run (C1-02: the accepted wording of the rounding rule was broadened (changed accepted evidence)). A change to a frozen evaluated input invalidates the affected comparison (request, section 7.2), so this observation is not carried across the change. The case is run again under the repaired, re-frozen oracle. record.score is the grade under the oracle frozen before the run; scoring.diagnostic is a replay with the repaired oracle and is not an observation."
+        "state": "SCORED",
+        "status": "COMPLETED",
+        "attemptId": "WITHOUT_SKILLS.c1-author-basic.a2",
+        "raw": 100,
+        "effective": 100,
+        "passed": true,
+        "hardFailures": [],
+        "failedAssertions": [],
+        "elapsedSeconds": 57.6,
+        "tokensProcessed": 170177,
+        "outputTokens": 6321,
+        "toolCalls": 12,
+        "skillsInvoked": [],
+        "oracleSha256": "8a53f28607f010ad2c6ea43f8b7811b78c23a1ee7de8870fd8857e256e4e37fa",
+        "correctiveRerun": true,
+        "record": "runs/WITHOUT_SKILLS/c1-author-basic/record.json"
       },
       "INITIAL_SKILLS": {
         "state": "NOT_RUN",
@@ -99,8 +113,24 @@
     },
     "C3": {
       "WITHOUT_SKILLS": {
-        "state": "RERUN_PENDING",
-        "reason": "The oracle of this case was repaired after this run (C3-06: phrases are now matched across line breaks (grader implementation error); C3-02: a mention of the other package inside an out-of-scope statement is now accepted (changed accepted evidence)). A change to a frozen evaluated input invalidates the affected comparison (request, section 7.2), so this observation is not carried across the change. The case is run again under the repaired, re-frozen oracle. record.score is the grade under the oracle frozen before the run; scoring.diagnostic is a replay with the repaired oracle and is not an observation."
+        "state": "SCORED",
+        "status": "COMPLETED",
+        "attemptId": "WITHOUT_SKILLS.c3-plan-nested.a2",
+        "raw": 90,
+        "effective": 90,
+        "passed": true,
+        "hardFailures": [],
+        "failedAssertions": [
+          "C3-04"
+        ],
+        "elapsedSeconds": 56.7,
+        "tokensProcessed": 232926,
+        "outputTokens": 5855,
+        "toolCalls": 12,
+        "skillsInvoked": [],
+        "oracleSha256": "498d138583a9cb561f17bc9a4c49a79b4e3d470343fecd24c06dca4e873aa631",
+        "correctiveRerun": true,
+        "record": "runs/WITHOUT_SKILLS/c3-plan-nested/record.json"
       },
       "INITIAL_SKILLS": {
         "state": "NOT_RUN",
@@ -113,8 +143,24 @@
     },
     "C4": {
       "WITHOUT_SKILLS": {
-        "state": "RERUN_PENDING",
-        "reason": "The oracle of this case was repaired after this run (C4-01: the validator verdict is now read from its own output line instead of the exit status of the tool call (grader implementation error)). A change to a frozen evaluated input invalidates the affected comparison (request, section 7.2), so this observation is not carried across the change. The case is run again under the repaired, re-frozen oracle. record.score is the grade under the oracle frozen before the run; scoring.diagnostic is a replay with the repaired oracle and is not an observation."
+        "state": "SCORED",
+        "status": "COMPLETED",
+        "attemptId": "WITHOUT_SKILLS.c4-execute-bugfix.a2",
+        "raw": 90,
+        "effective": 90,
+        "passed": true,
+        "hardFailures": [],
+        "failedAssertions": [
+          "C4-06"
+        ],
+        "elapsedSeconds": 55.2,
+        "tokensProcessed": 340935,
+        "outputTokens": 5469,
+        "toolCalls": 14,
+        "skillsInvoked": [],
+        "oracleSha256": "527f6846b46e70f48aa8cbe7d57594a144bcccd3e70697d89ffbf890db7c5f9d",
+        "correctiveRerun": true,
+        "record": "runs/WITHOUT_SKILLS/c4-execute-bugfix/record.json"
       },
       "INITIAL_SKILLS": {
         "state": "NOT_RUN",
@@ -145,7 +191,7 @@
       "case": "C1",
       "condition": "WITHOUT_SKILLS",
       "attemptId": "WITHOUT_SKILLS.c1-author-basic.a1",
-      "location": "runs/WITHOUT_SKILLS/c1-author-basic",
+      "location": "runs/WITHOUT_SKILLS/c1-author-basic.attempt-1",
       "status": "COMPLETED",
       "reason": "The oracle of this case was repaired after this run (C1-02: the accepted wording of the rounding rule was broadened (changed accepted evidence)). A change to a frozen evaluated input invalidates the affected comparison (request, section 7.2), so this observation is not carried across the change. The case is run again under the repaired, re-frozen oracle. record.score is the grade under the oracle frozen before the run; scoring.diagnostic is a replay with the repaired oracle and is not an observation.",
       "originalGrade": {
@@ -167,7 +213,7 @@
       "case": "C3",
       "condition": "WITHOUT_SKILLS",
       "attemptId": "WITHOUT_SKILLS.c3-plan-nested.a1",
-      "location": "runs/WITHOUT_SKILLS/c3-plan-nested",
+      "location": "runs/WITHOUT_SKILLS/c3-plan-nested.attempt-1",
       "status": "COMPLETED",
       "reason": "The oracle of this case was repaired after this run (C3-06: phrases are now matched across line breaks (grader implementation error); C3-02: a mention of the other package inside an out-of-scope statement is now accepted (changed accepted evidence)). A change to a frozen evaluated input invalidates the affected comparison (request, section 7.2), so this observation is not carried across the change. The case is run again under the repaired, re-frozen oracle. record.score is the grade under the oracle frozen before the run; scoring.diagnostic is a replay with the repaired oracle and is not an observation.",
       "originalGrade": {
@@ -190,7 +236,7 @@
       "case": "C4",
       "condition": "WITHOUT_SKILLS",
       "attemptId": "WITHOUT_SKILLS.c4-execute-bugfix.a1",
-      "location": "runs/WITHOUT_SKILLS/c4-execute-bugfix",
+      "location": "runs/WITHOUT_SKILLS/c4-execute-bugfix.attempt-1",
       "status": "COMPLETED",
       "reason": "The oracle of this case was repaired after this run (C4-01: the validator verdict is now read from its own output line instead of the exit status of the tool call (grader implementation error)). A change to a frozen evaluated input invalidates the affected comparison (request, section 7.2), so this observation is not carried across the change. The case is run again under the repaired, re-frozen oracle. record.score is the grade under the oracle frozen before the run; scoring.diagnostic is a replay with the repaired oracle and is not an observation.",
       "originalGrade": {
@@ -218,7 +264,7 @@
         ],
         "complete": false,
         "verdict": "inconclusive",
-        "why": "missing or unscored pairs: C1 (RERUN_PENDING/NOT_RUN), C2 (SCORED/NOT_RUN)"
+        "why": "missing or unscored pairs: C1 (SCORED/NOT_RUN), C2 (SCORED/NOT_RUN)"
       },
       "execution": {
         "cases": [
@@ -228,7 +274,7 @@
         ],
         "complete": false,
         "verdict": "inconclusive",
-        "why": "missing or unscored pairs: C3 (RERUN_PENDING/NOT_RUN), C4 (RERUN_PENDING/NOT_RUN), C5 (NOT_RUN/NOT_RUN)"
+        "why": "missing or unscored pairs: C3 (SCORED/NOT_RUN), C4 (SCORED/NOT_RUN), C5 (NOT_RUN/NOT_RUN)"
       },
       "executionDevelopmentOnly": {
         "cases": [
@@ -237,7 +283,7 @@
         ],
         "complete": false,
         "verdict": "inconclusive",
-        "why": "missing or unscored pairs: C3 (RERUN_PENDING/NOT_RUN), C4 (RERUN_PENDING/NOT_RUN)"
+        "why": "missing or unscored pairs: C3 (SCORED/NOT_RUN), C4 (SCORED/NOT_RUN)"
       },
       "reservedRegression": {
         "cases": [
@@ -277,7 +323,7 @@
       ],
       "complete": false,
       "verdict": "inconclusive",
-      "why": "missing or unscored pairs: C1 (RERUN_PENDING/NOT_RUN), C2 (SCORED/NOT_RUN)"
+      "why": "missing or unscored pairs: C1 (SCORED/NOT_RUN), C2 (SCORED/NOT_RUN)"
     },
     "H2": {
       "statement": "ops-execute improves correct planning, scoped implementation and closure of the verify-repair loop",
@@ -288,7 +334,7 @@
       ],
       "complete": false,
       "verdict": "inconclusive",
-      "why": "missing or unscored pairs: C3 (RERUN_PENDING/NOT_RUN), C4 (RERUN_PENDING/NOT_RUN), C5 (NOT_RUN/NOT_RUN)"
+      "why": "missing or unscored pairs: C3 (SCORED/NOT_RUN), C4 (SCORED/NOT_RUN), C5 (NOT_RUN/NOT_RUN)"
     },
     "H3": {
       "statement": "any observed quality gain has an acceptable cost in time, tokens, tool calls and human intervention",
@@ -308,17 +354,19 @@
   "budget": {
     "ceiling": 19,
     "ceilingBasis": "no refinement was made",
-    "evaluationAttempts": 4,
-    "evaluatedMinutes": 5.5,
+    "evaluationAttempts": 7,
+    "evaluatedMinutes": 8.4,
     "minuteLimit": 120,
-    "preparationAgentSessions": 4,
-    "ifPreparationWereCounted": 8,
+    "preparationAgentSessions": 5,
+    "ifPreparationWereCounted": 12,
     "byKind": {
       "environment-probe": 2,
       "infrastructure-check": 1,
       "case-authoring": 1,
       "scored-task": 4,
-      "deterministic-replay": 3
+      "deterministic-replay": 3,
+      "case-custody": 1,
+      "corrective-rerun": 3
     }
   },
   "candidates": {},
@@ -459,6 +507,50 @@
       "wallMs": null,
       "agentSession": false,
       "note": "diagnostic grades 100, 100, 100; not observations"
+    },
+    {
+      "kind": "case-custody",
+      "what": "C5 revalidated against the settled harness, frozen by hash and committed by its author session (a5dfe71)",
+      "condition": "—",
+      "status": "COMPLETED",
+      "startedAt": "2026-11-13T18:44:00Z",
+      "wallMs": 126694,
+      "agentSession": true,
+      "toolCalls": 11,
+      "note": "preparation; no content of the case was reported back"
+    },
+    {
+      "attemptId": "WITHOUT_SKILLS.c1-author-basic.a2",
+      "kind": "corrective-rerun",
+      "case": "C1",
+      "condition": "WITHOUT_SKILLS",
+      "status": "COMPLETED",
+      "startedAt": "2026-11-13T18:46:36.939Z",
+      "wallMs": 59802,
+      "retryReason": null,
+      "correctiveReason": "oracle repaired after the first run (amendments.md, repair 1: changed accepted evidence for C1-02)"
+    },
+    {
+      "attemptId": "WITHOUT_SKILLS.c3-plan-nested.a2",
+      "kind": "corrective-rerun",
+      "case": "C3",
+      "condition": "WITHOUT_SKILLS",
+      "status": "COMPLETED",
+      "startedAt": "2026-11-13T18:48:44.673Z",
+      "wallMs": 58803,
+      "retryReason": null,
+      "correctiveReason": "oracle repaired after the first run (amendments.md, repairs 2a and 2b)"
+    },
+    {
+      "attemptId": "WITHOUT_SKILLS.c4-execute-bugfix.a2",
+      "kind": "corrective-rerun",
+      "case": "C4",
+      "condition": "WITHOUT_SKILLS",
+      "status": "COMPLETED",
+      "startedAt": "2026-11-13T18:50:17.044Z",
+      "wallMs": 57381,
+      "retryReason": null,
+      "correctiveReason": "oracle repaired after the first run (amendments.md, repair 3: grader implementation error in C4-01)"
     }
   ]
 }

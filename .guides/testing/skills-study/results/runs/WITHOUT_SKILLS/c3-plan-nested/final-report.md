@@ -1,28 +1,23 @@
-I wrote the plan to `.guides/operation/worklog/2026-11-13.cart-quantity-discount-plan.md`. It is the only file I changed. I did not edit any code or run any of the prompt's steps.
+I wrote the plan to `.guides/operation/worklog/2026-11-13.cart-quantity-discount-plan.md`. It passes the project's validator, and it is the only file I created or changed. No product file was touched and none of the prompt's steps were run.
 
-**What's in it**
-- **Front matter:** it names the prompt (`cart.quantity-discount` v1, with a hash of the prompt file), the agent `guided-engineer`, the host `claude-code` and model `claude-opus-5-5`, and `mode: plan`. All four steps are `pending` and both checks are `not-run`, because nothing was carried out. `status: completed` means only that the planning is finished.
-- **Plan body:**
-  - **Scope:** the two files the work may change in `packages/cart`, and a warning not to touch the files with the same name at the repository root or in `packages/catalog`.
-  - **Starting state:** what the code and tests look like now, from reading them.
-  - **The four steps in order**, each with its check:
-    - Run the existing tests and confirm both pass.
-    - Add two tests:
-      - the prompt's example cart, which should total 46;
-      - a line of quantity 9 (3 × 9 = 27), which should be charged in full.
-    - Run the tests and expect the 46 test to fail, getting 50 instead.
-    - Change the code so a line with quantity 10 or more costs 90 percent, then run the tests and `git status --short` again at the end.
-  - **A table** linking each requirement to the tests and checks that prove it.
-  - **Stop conditions and limits:** when to stop and report, plus the prompt's limits (2 repair attempts, 20 minutes).
-- **Two notes for whoever runs it:**
-  - `git status --short` lists the whole repository, so the worklog file will show up as an extra untracked path. The rules allow that file, so it doesn't count as going out of scope.
-  - Test values must give exact decimal results, so a strict equality test can't fail on rounding.
+**What the entry contains**
+- **Header:** marks it as a plan for prompt `cart.quantity-discount` version 1, including a SHA-256 hash of the prompt file. All four steps (`confirm-baseline`, `extend-tests`, `add-tier`, `verify`) are `pending`, and both checks (`unit-tests`, `scope`) are `not-run`. I gave the entry `status: completed`, meaning the plan is finished, not the work.
+- **The plan itself covers:**
+  - **Files in scope:** only `packages/cart/src/totals.mjs` and `packages/cart/test/totals.test.mjs` may change. The other two `totals.mjs` files (at the repository root and in `packages/catalog`) are explicitly off limits.
+  - **Tasks in order:** one per prompt step, each with its command and what a pass looks like:
+    - After the two new tests are added, exactly one test should fail: the discount test, getting 50 instead of 46. The quantity-9 test already passes before the change.
+    - The discount applies at quantity 10 or more, not above 10.
+    - After the change, all 4 tests should pass.
+  - **Stop conditions and limits:** as the prompt sets them.
+  - **Open points:**
+    - The prompt's `scope` check runs `git status --short` over the whole repository. It will also list the worklog entries under `.guides/operation/worklog/`, which the rules allow. Whoever runs it has to recognise those as permitted and not as a scope violation.
+    - The prompt doesn't say what to do with negative or fractional quantities.
 
 **How I checked it**
-- I ran the project's validator, `node .guides/tools/ops-validate.mjs --resolve`, on the prompt. It was valid, and the workspace, inputs and agent all resolved.
-- I ran the validator on the worklog entry twice, before and after replacing a placeholder timestamp with the real time. It was valid both times (exit 0), which covers the rule that a plan must not claim any step or check was done.
-- `git status --short` shows only the new `.guides/operation/` entry as untracked, so no other files changed.
-- With `node -e`, I confirmed that 4 × 10 × 0.9 comes out as exactly 36, so the 46 test is safe. Node here is v24.12.0, which meets the prompt's "Node.js 20 or newer" requirement.
-- I did **not** run `node --test`, because that is the first step of the work itself. The plan's statement that both existing tests currently pass comes from reading them, not running them.
+- **The prompt:** the project validator (`ops-validate.mjs --resolve`) accepted it. It found the `packages/cart` workspace and both input files, and resolved `guided-engineer` to this session because the repository has no agent map.
+- **Node:** version v24.12.0 is installed, which meets the "Node 20 or newer" requirement.
+- **The arithmetic:** I ran one-off calculations without touching any file. `4*10*0.9 + 5*2` comes out to exactly `46`, so the exact-match assertion in the new test needs no rounding.
+- **The worklog entry:** the validator reports it valid (exit 0).
+- **Scope:** `git status --short` shows only the new, uncommitted `.guides/operation/` directory.
 
-One choice was mine: the prompt doesn't give values for the quantity-9 test, so I picked 3 × 9 = 27 and noted that in the plan.
+I did not run `node --test`, because that is the first step of the prompt.
