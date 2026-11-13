@@ -28,11 +28,10 @@ cp -r OpenPrompt-Specification/examples/project ops-demo
 ```
 
 ```bash
-cd ops-demo && git init -q && git add -A && git commit -q -m "start"
+cd ops-demo
 ```
 
-That commit is the state of the example before it was solved. On PowerShell,
-use `Copy-Item -Recurse` instead of `cp -r`.
+The commit checked out above is the state of the example before it was solved.
 
 ## 3. Install the Skills
 
@@ -54,6 +53,15 @@ No installer? Copy the two folders under `skills/` of the
 [Skills repository](https://github.com/guided-engineering/skills) into
 `.claude/skills/` by hand. The `skills` CLI sends anonymous install telemetry
 unless `DISABLE_TELEMETRY=1` is set.
+
+Now record the starting state, with the Skills in it, so that `git status`
+later shows only what the agent changed:
+
+```bash
+git init -q && git add -A && git commit -q -m "start"
+```
+
+The installer also writes a `skills-lock.json`; it is part of that commit.
 
 ## 4. Read the contract
 
@@ -90,8 +98,10 @@ writes a worklog entry under `.guides/operation/worklog/`.
 
 ## 6. Check the evidence yourself
 
+Still in `ops-demo`:
+
 ```bash
-cd packages/slug && node --test
+node --test packages/slug/test/slug.test.mjs
 ```
 
 ```bash
@@ -117,8 +127,12 @@ the default agent adds `.guides/agents/agents.yaml`; see
 
 ## What was verified on this page
 
-The installer command, the validator commands and the example's checks were
-run as written, on Windows with Claude Code. The two requests of step 5 were
-not replayed in a fresh session for this page: the example in the repository
-was executed by the session that built it, and the same Skill files were
-exercised in the [local study](results.html).
+The commands of steps 2, 3, 4 and 6 were replayed as written from the two
+public repositories on 2026-11-13, on Windows: the clone and the checkout, the
+copy, the installer (both Skills, with files identical to the measured
+revision), the starting commit, the two failing tests of the starting state,
+and the validator from the installed Skill.
+
+The two requests of step 5 were not replayed in a fresh session for this page.
+The example in the repository was executed by the session that built it, and
+the same Skill files were exercised in the [local study](results.html).

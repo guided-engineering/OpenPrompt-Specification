@@ -43,9 +43,8 @@ it out of the specification repository so that it is a project of its own:</p>
 <pre data-lang="bash"><code>git clone https://github.com/guided-engineering/OpenPrompt-Specification</code></pre>
 <pre data-lang="bash"><code>git -C OpenPrompt-Specification checkout 9ed6800e5c7f32ce61073c8746fcedd4e23dde08</code></pre>
 <pre data-lang="bash"><code>cp -r OpenPrompt-Specification/examples/project ops-demo</code></pre>
-<pre data-lang="bash"><code>cd ops-demo &amp;&amp; git init -q &amp;&amp; git add -A &amp;&amp; git commit -q -m &quot;start&quot;</code></pre>
-<p>That commit is the state of the example before it was solved. On PowerShell,
-use <code>Copy-Item -Recurse</code> instead of <code>cp -r</code>.</p>
+<pre data-lang="bash"><code>cd ops-demo</code></pre>
+<p>The commit checked out above is the state of the example before it was solved.</p>
 <h2 id="3-install-the-skills">3. Install the Skills</h2>
 <p>In <code>ops-demo</code>:</p>
 <pre data-lang="bash"><code>npx skills add guided-engineering/skills -a claude-code -y</code></pre>
@@ -57,6 +56,10 @@ measured:</p>
 <a href="https://github.com/guided-engineering/skills" rel="noopener">Skills repository</a> into
 <code>.claude/skills/</code> by hand. The <code>skills</code> CLI sends anonymous install telemetry
 unless <code>DISABLE_TELEMETRY=1</code> is set.</p>
+<p>Now record the starting state, with the Skills in it, so that <code>git status</code>
+later shows only what the agent changed:</p>
+<pre data-lang="bash"><code>git init -q &amp;&amp; git add -A &amp;&amp; git commit -q -m &quot;start&quot;</code></pre>
+<p>The installer also writes a <code>skills-lock.json</code>; it is part of that commit.</p>
 <h2 id="4-read-the-contract">4. Read the contract</h2>
 <p>The example ships with its request and with the OPS prompt written from it:</p>
 <pre data-lang="bash"><code>cat request.md</code></pre>
@@ -80,7 +83,8 @@ you what it assumed. Compare it with the one that ships.</p>
 <code>packages/slug/src/slug.mjs</code>, runs the tests again after the last edit, and
 writes a worklog entry under <code>.guides/operation/worklog/</code>.</p>
 <h2 id="6-check-the-evidence-yourself">6. Check the evidence yourself</h2>
-<pre data-lang="bash"><code>cd packages/slug &amp;&amp; node --test</code></pre>
+<p>Still in <code>ops-demo</code>:</p>
+<pre data-lang="bash"><code>node --test packages/slug/test/slug.test.mjs</code></pre>
 <pre data-lang="bash"><code>git status --short</code></pre>
 <p>The worklog entry is a claim. The validator checks that it does not claim more
 than it shows:</p>
@@ -93,11 +97,14 @@ execution; read the worklog entry with the diff. A project that wants more than
 the default agent adds <code>.guides/agents/agents.yaml</code>; see
 <a href="contract.html#4-4-agent">the contract</a>.</p>
 <h2 id="what-was-verified-on-this-page">What was verified on this page</h2>
-<p>The installer command, the validator commands and the example&#39;s checks were
-run as written, on Windows with Claude Code. The two requests of step 5 were
-not replayed in a fresh session for this page: the example in the repository
-was executed by the session that built it, and the same Skill files were
-exercised in the <a href="results.html">local study</a>.</p>
+<p>The commands of steps 2, 3, 4 and 6 were replayed as written from the two
+public repositories on 2026-11-13, on Windows: the clone and the checkout, the
+copy, the installer (both Skills, with files identical to the measured
+revision), the starting commit, the two failing tests of the starting state,
+and the validator from the installed Skill.</p>
+<p>The two requests of step 5 were not replayed in a fresh session for this page.
+The example in the repository was executed by the session that built it, and
+the same Skill files were exercised in the <a href="results.html">local study</a>.</p>
 
   </main>
   <footer>
